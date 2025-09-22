@@ -1,0 +1,151 @@
+import React from 'react';
+
+export type OnlineManager = {
+  id: string;
+  name: string;
+  team: string;
+  rating: number;
+  status: 'online' | 'in-match';
+  avatar: string;
+  teamInfo: {
+    formation: string;
+    avgRating: number;
+    topPlayers: string[];
+    recentForm: string[];
+    style: string;
+    strengths: string[];
+    weaknesses: string[];
+  };
+};
+
+export type MatchMessage = {
+  id: string;
+  sender: string;
+  message: string;
+  timestamp: string;
+};
+
+export type MatchDetail = {
+  id: string;
+  opponent: string;
+  opponentTeam: string;
+  result: string; // 'win', 'loss', 'draw'
+  score: string;
+  date: string;
+  details: {
+    possession: { home: number; away: number };
+    shots: { home: number; away: number };
+    shotsOnTarget: { home: number; away: number };
+    corners: { home: number; away: number };
+    fouls: { home: number; away: number };
+    scorers: {
+      home: string[];
+      away: string[];
+    };
+    cards: { home: string[]; away: string[] };
+    rating: { home: number; away: number };
+  };
+};
+
+type MatchOutcome = 'win' | 'loss' | 'draw';
+type TeamType = 'home' | 'away';
+
+interface Score {
+  home: number;
+  away: number;
+}
+
+interface XG {
+  home: number;
+  away: number;
+}
+
+interface StatByTeam {
+  home: number;
+  away: number;
+}
+
+interface PlayerRating {
+  id: number;
+  name: string;
+  position: string;
+  rating: number;
+  motm?: boolean; // optional: Man of the Match
+}
+
+interface Goal {
+  minute: number;
+  player: string;
+  assist: string;
+  team: TeamType;
+}
+
+export interface MatchResult {
+  score: Score;
+  result: MatchOutcome;
+  venue: string;
+  competition: string;
+  matchday: number;
+  xg: XG;
+  possession: StatByTeam;
+  shots: StatByTeam;
+  shotsOnTarget: StatByTeam;
+  corners: StatByTeam;
+  fouls: StatByTeam;
+  yellowCards: StatByTeam;
+  redCards: StatByTeam;
+  playerRatings: PlayerRating[];
+  goals: Goal[];
+}
+
+export type MatchStats = {
+  possession: { home: number; away: number };
+  shots: { home: number; away: number };
+  shotsOnTarget: { home: number; away: number };
+  corners: { home: number; away: number };
+  fouls: { home: number; away: number };
+};
+
+export type MatchEvent = {
+  minute: number;
+  type: string;
+  text: string;
+  team: string;
+};
+
+export type MatchScore = { home: number; away: number };
+type HeatmapGrid = number[][];
+
+interface TeamStats {
+  possession: number;
+  shots: number;
+  shotsOnTarget: number;
+  corners: number;
+  fouls: number;
+  yellowCards: number;
+  passes: number;
+  passAccuracy: number;
+  tackles: number;
+  interceptions: number;
+  heatmap: HeatmapGrid;
+}
+
+export interface MatchStatics {
+  home: TeamStats;
+  away: TeamStats;
+}
+
+export type RewardItem = {
+  id: number;
+  name: string;
+  description: string;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  type: 'player';
+  playerDetails: {
+    position: string;
+    rating: number;
+    nationality: string;
+    age: number;
+  };
+  icon: React.ReactNode;
+};
