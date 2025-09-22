@@ -14,7 +14,6 @@ import StadiumCard from "@/components/stadium-card";
 import StaffManagementCard from "@/components/staff-management-card";
 import TeamPerformanceCard from "@/components/team-performance-card";
 import { Button } from "@/components/ui/button";
-import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 export default function Home() {
   return (
@@ -24,13 +23,13 @@ export default function Home() {
         subTitle="Welcome back to your football manager dashboard"
       >
         <Button asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/match/prepare`}>
+          <Link href="/match/prepare">
             <Trophy className="mr-2 h-4 w-4" />
             Prepare Match
           </Link>
         </Button>
         <Button variant="outline" asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/training`}>
+          <Link href="/training">
             <Users className="mr-2 h-4 w-4" />
             Training
           </Link>
