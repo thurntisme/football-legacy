@@ -11,6 +11,9 @@ export const metadata = {
   title: "Football Manager Game",
   description: "Manage your football team to glory",
   keywords: "football, manager, game, team, players, transfers, schedule, news",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
