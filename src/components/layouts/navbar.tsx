@@ -1,24 +1,13 @@
 "use client";
 
 import {
-  Building,
-  Calendar,
   CreditCard,
-  Dumbbell,
   HelpCircle,
-  Home,
-  Landmark,
   LogOut,
   Menu,
   MessageSquare,
-  Newspaper,
-  Package,
-  Search,
   Settings,
-  ShoppingCart,
   Trophy,
-  Users,
-  Wifi,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -37,93 +26,23 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { guestUser } from "@/constants/guest-user";
 import { FOOTBALL_PATH, FOOTBALL_STATS_URL } from "@/constants/site";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { internalApi } from "@/lib/api/internal";
-import { getGuestData, removeGuestData } from "@/lib/user";
 
-import { OnlineStatus } from "../online-status";
+import { OnlineStatus } from "@/components/online-status";
 import { ThemeToggle } from "../theme-toggle";
+import { navItems } from "@/constants/nav-items";
 
 export default function Navbar() {
   const pathname = usePathname();
   const isMobile = useIsMobile();
   const router = useRouter();
-  const userData = getGuestData();
 
   // Hide navbar on auth pages
   if (pathname === "/" || pathname?.startsWith("/auth/")) {
     return null;
   }
 
-  // Update the navItems array to include Development and Youth Academy
-  const navItems = [
-    {
-      href: "dashboard",
-      label: "Dashboard",
-      icon: <Home className="h-4 w-4 mr-2" />,
-    },
-    { href: "team", label: "Team", icon: <Users className="h-4 w-4 mr-2" /> },
-    {
-      href: "club",
-      label: "Club",
-      icon: <Building className="h-4 w-4 mr-2" />,
-    },
-    {
-      href: "stadium",
-      label: "Stadium",
-      icon: <Landmark className="h-4 w-4 mr-2" />,
-    },
-    {
-      href: "schedule",
-      label: "Schedule",
-      icon: <Calendar className="h-4 w-4 mr-2" />,
-    },
-    {
-      href: "market",
-      label: "Market",
-      icon: <ShoppingCart className="h-4 w-4 mr-2" />,
-    },
-    {
-      href: "scouting",
-      label: "Scouting",
-      icon: <Search className="h-4 w-4 mr-2" />,
-    },
-    {
-      href: "training",
-      label: "Training",
-      icon: <Dumbbell className="h-4 w-4 mr-2" />,
-    },
-    {
-      href: "youth-academy",
-      label: "Youth Academy",
-      icon: <Users className="h-4 w-4 mr-2" />,
-    },
-    {
-      href: "online-match",
-      label: "Online",
-      icon: <Wifi className="h-4 w-4 mr-2" />,
-    },
-    {
-      href: "news",
-      label: "News",
-      icon: <Newspaper className="h-4 w-4 mr-2" />,
-    },
-    {
-      href: "items",
-      label: "Items",
-      icon: <Package className="h-4 w-4 mr-2" />,
-    },
-  ];
-
   const handleLogout = async () => {
-    const res = await internalApi.post("/football/auth/logout", {
-      email: userData.email,
-    });
-    if (res.data.success) {
-      removeGuestData();
-
-      // Redirect to dashboard
-      router.push(`${FOOTBALL_STATS_URL}/auth/signin`);
-    }
+    router.push(`${FOOTBALL_STATS_URL}/auth/signin`);
   };
 
   return (
