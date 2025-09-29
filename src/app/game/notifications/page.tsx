@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Bell, ChevronDown, Filter, MailOpen } from "lucide-react";
 
-import NotificationsList from "@/components/notifications-list";
+import NotificationsList from "@/components/pages/notifications/list";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,8 +21,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { notifications } from "@/mock/football";
-import { INotification } from "@/types/football/common";
+import { notifications } from "@/mock/notifications";
+import { INotification } from "@/types/common";
 
 export default function NotificationsPage() {
   const [notificationsList, setNotificationsList] =
@@ -32,14 +32,17 @@ export default function NotificationsPage() {
   const markAsRead = (id: string) => {
     setNotificationsList(
       notificationsList.map((notification) =>
-        notification.id === id ? { ...notification, read: true } : notification
-      )
+        notification.id === id ? { ...notification, read: true } : notification,
+      ),
     );
   };
 
   const markAllAsRead = () => {
     setNotificationsList(
-      notificationsList.map((notification) => ({ ...notification, read: true }))
+      notificationsList.map((notification) => ({
+        ...notification,
+        read: true,
+      })),
     );
   };
 

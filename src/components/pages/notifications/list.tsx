@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import { Check } from 'lucide-react';
+import { Check } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { INotification } from '@/types/football/common';
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { INotification } from "@/types/common";
 
 type Props = {
   list: INotification[];
@@ -18,7 +18,7 @@ const NotificationsList = ({ list, markAsRead }: Props) => {
         <div key={notification.id} className="relative">
           <div
             className={`flex items-start gap-4 p-4 rounded-lg transition-colors ${
-              !notification.read ? 'bg-muted/50' : ''
+              !notification.read ? "bg-muted/50" : ""
             }`}
           >
             <div className="flex-1 space-y-1">

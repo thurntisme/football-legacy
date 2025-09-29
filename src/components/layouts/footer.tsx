@@ -173,7 +173,7 @@ export default function Footer() {
                 className="w-full justify-start"
               >
                 <Link
-                  href={`${FOOTBALL_STATS_URL}/notifications`}
+                  href={`${FOOTBALL_STATS_URL}/game/notifications`}
                   className="flex items-center w-full"
                 >
                   <Bell className="h-4 w-4 mr-4" />
