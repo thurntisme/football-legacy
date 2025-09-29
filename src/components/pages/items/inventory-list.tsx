@@ -2,39 +2,21 @@
 
 import React, { useState } from "react";
 
-import { Building, Check, ShoppingCart, User, Users, Zap } from "lucide-react";
+import { Building, ShoppingCart, User, Users } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { inventoryItems } from "@/mock/football";
-import { InventoryItem } from "@/types/football/item";
+import { InventoryItem } from "@/types/item";
 
-import InventoryCard from "../../inventory-card";
+import InventoryCard from "./inventory-card";
 
 type Props = {
   setTabsValue: React.Dispatch<React.SetStateAction<string>>;
@@ -45,14 +27,6 @@ export default function InventoryList({ setTabsValue }: Props) {
 
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [selectedPlayer, setSelectedPlayer] = useState<string>("");
-
-  const players = [
-    { id: "p1", name: "Mark Williams (ST, 86)" },
-    { id: "p2", name: "Chris Johnson (LW, 85)" },
-    { id: "p3", name: "Steven Taylor (CDM, 84)" },
-    { id: "p4", name: "Paul Davis (RW, 84)" },
-    { id: "p5", name: "Daniel Martinez (CM, 83)" },
-  ];
 
   const handleUseItem = (item: InventoryItem) => {
     if (item.category === "player" && !selectedPlayer) {
@@ -127,19 +101,6 @@ export default function InventoryList({ setTabsValue }: Props) {
     setSelectedPlayer("");
   };
 
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case "player":
-        return <User className="h-4 w-4" />;
-      case "team":
-        return <Users className="h-4 w-4" />;
-      case "club":
-        return <Building className="h-4 w-4" />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <Card>
       <CardHeader>
@@ -153,6 +114,7 @@ export default function InventoryList({ setTabsValue }: Props) {
               {inventory.map((item) => (
                 <InventoryCard
                   item={item}
+                  key={item.id}
                   selectedItem={selectedItem}
                   setSelectedItem={setSelectedItem}
                   selectedPlayer={selectedPlayer}

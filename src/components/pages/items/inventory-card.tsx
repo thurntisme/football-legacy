@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { players } from "@/constants/player";
-import { InventoryItem } from "@/types/football/item";
+import { InventoryItem } from "@/types/item";
 
 type Props = {
   item: InventoryItem;
