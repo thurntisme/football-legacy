@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { IScoutingRequest } from '@/types/football/common';
+} from "@/components/ui/card";
+import { IScoutingRequest } from "@/types/common";
 
-import { ScoutPlayerDialog } from './scout-player-dialog';
+import { ScoutPlayerDialog } from "./scout-player-dialog";
 
 type Props = {
   outgoingRequests: IScoutingRequest[];
@@ -56,13 +56,13 @@ const OutgoingScoutingRequests = ({
                   <div>
                     <div className="font-medium">{request.teamName}</div>
                     <div className="text-sm text-muted-foreground">
-                      Your offer for{' '}
-                      <span className="font-medium">{request.playerName}</span>{' '}
+                      Your offer for{" "}
+                      <span className="font-medium">{request.playerName}</span>{" "}
                       ({request.playerPosition})
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       {getStatusBadge(request.status)}
-                      {request.status === 'pending' && (
+                      {request.status === "pending" && (
                         <span className="text-xs text-muted-foreground">
                           Expires in {request.expiresIn}
                         </span>

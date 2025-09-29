@@ -29,7 +29,7 @@ import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { players } from "@/constants/player";
 import { toast } from "@/hooks/use-toast";
-import { Player } from "@/types/football/player";
+import { Player } from "@/types/player";
 
 export function ScoutPlayerDialog() {
   const [open, setOpen] = useState(false);
@@ -150,7 +150,7 @@ export function ScoutPlayerDialog() {
                           onClick={() => {
                             if (selectedPositions.includes(pos)) {
                               setSelectedPositions(
-                                selectedPositions.filter((p) => p !== pos)
+                                selectedPositions.filter((p) => p !== pos),
                               );
                             } else {
                               setSelectedPositions([...selectedPositions, pos]);
@@ -183,7 +183,9 @@ export function ScoutPlayerDialog() {
                           onClick={() => {
                             if (selectedDetailPositions.includes(pos)) {
                               setSelectedDetailPositions(
-                                selectedDetailPositions.filter((p) => p !== pos)
+                                selectedDetailPositions.filter(
+                                  (p) => p !== pos,
+                                ),
                               );
                             } else {
                               setSelectedDetailPositions([
@@ -409,7 +411,7 @@ export function ScoutPlayerDialog() {
                                   </div>
                                 </div>
                               </div>
-                            )
+                            ),
                           )}
                         </div>
                       </div>
@@ -471,7 +473,7 @@ export function ScoutPlayerDialog() {
                               {formatCurrency(
                                 offerAmount * 1000000 +
                                   offerAmount * 1000000 * 0.05 +
-                                  500000
+                                  500000,
                               )}
                             </span>
                           </div>

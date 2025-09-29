@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { IScoutingRequest } from '@/types/football/common';
+} from "@/components/ui/card";
+import { IScoutingRequest } from "@/types/common";
 
 type Props = {
   incomingRequests: IScoutingRequest[];
@@ -53,13 +53,13 @@ const IncomingScoutingRequests = ({
                   <div>
                     <div className="font-medium">{request.teamName}</div>
                     <div className="text-sm text-muted-foreground">
-                      Wants to sign{' '}
-                      <span className="font-medium">{request.playerName}</span>{' '}
+                      Wants to sign{" "}
+                      <span className="font-medium">{request.playerName}</span>{" "}
                       ({request.playerPosition})
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       {getStatusBadge(request.status)}
-                      {request.status === 'pending' && (
+                      {request.status === "pending" && (
                         <span className="text-xs text-muted-foreground">
                           Expires in {request.expiresIn}
                         </span>
@@ -71,7 +71,7 @@ const IncomingScoutingRequests = ({
                   <div className="font-bold text-lg">
                     £{(request.offerAmount / 1000000).toFixed(1)}M
                   </div>
-                  {request.status === 'pending' && (
+                  {request.status === "pending" && (
                     <div className="flex gap-2 mt-2">
                       <Button
                         variant="outline"

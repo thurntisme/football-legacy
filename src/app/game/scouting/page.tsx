@@ -13,73 +13,24 @@ import {
 import Link from "next/link";
 
 import PageTitle from "@/components/common/page-title";
-import IncomingScoutingRequests from "@/components/incoming-scouting-requests";
-import OutgoingScoutingRequests from "@/components/outgoing-scouting-requests";
+import IncomingScoutingRequests from "@/components/pages/scouting/incoming-requests";
+import OutgoingScoutingRequests from "@/components/pages/scouting/outgoing-requests";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
-import { IScoutingRequest } from "@/types/football/common";
+import { IScoutingRequest } from "@/types/common";
+import { incomingLists, outgoingLists } from "@/mock/scouting";
 
 export default function ScoutingPage() {
   // Mock data for incoming transfer requests
-  const [incomingRequests, setIncomingRequests] = useState<IScoutingRequest[]>([
-    {
-      id: 1,
-      teamName: "Manchester City",
-      teamLogo: "/placeholder.svg?height=40&width=40",
-      playerName: "Chris Johnson",
-      playerPosition: "LW",
-      offerAmount: 28000000,
-      status: "pending",
-      expiresIn: "2 days",
-    },
-    {
-      id: 2,
-      teamName: "Liverpool FC",
-      teamLogo: "/placeholder.svg?height=40&width=40",
-      playerName: "Mark Williams",
-      playerPosition: "ST",
-      offerAmount: 35000000,
-      status: "negotiating",
-      expiresIn: "1 day",
-    },
-    {
-      id: 3,
-      teamName: "Arsenal",
-      teamLogo: "/placeholder.svg?height=40&width=40",
-      playerName: "Daniel Martinez",
-      playerPosition: "CM",
-      offerAmount: 22000000,
-      status: "rejected",
-      expiresIn: "Expired",
-    },
-  ]);
+  const [incomingRequests, setIncomingRequests] =
+    useState<IScoutingRequest[]>(incomingLists);
 
   // Mock data for outgoing transfer requests
-  const [outgoingRequests, setOutgoingRequests] = useState<IScoutingRequest[]>([
-    {
-      id: 101,
-      teamName: "Bayern Munich",
-      teamLogo: "/placeholder.svg?height=40&width=40",
-      playerName: "Thomas Müller",
-      playerPosition: "CAM",
-      offerAmount: 40000000,
-      status: "pending",
-      expiresIn: "3 days",
-    },
-    {
-      id: 102,
-      teamName: "Real Madrid",
-      teamLogo: "/placeholder.svg?height=40&width=40",
-      playerName: "Carlos Vega",
-      playerPosition: "RW",
-      offerAmount: 32000000,
-      status: "negotiating",
-      expiresIn: "2 days",
-    },
-  ]);
+  const [outgoingRequests, setOutgoingRequests] =
+    useState<IScoutingRequest[]>(outgoingLists);
 
   // Function to handle accepting a transfer request
   const handleAcceptRequest = (requestId: number) => {
@@ -94,8 +45,8 @@ export default function ScoutingPage() {
       prevRequests.map((req) =>
         req.id === requestId
           ? { ...req, status: "accepted", expiresIn: "Completed" }
-          : req
-      )
+          : req,
+      ),
     );
   };
 
@@ -112,8 +63,8 @@ export default function ScoutingPage() {
       prevRequests.map((req) =>
         req.id === requestId
           ? { ...req, status: "rejected", expiresIn: "Expired" }
-          : req
-      )
+          : req,
+      ),
     );
   };
 

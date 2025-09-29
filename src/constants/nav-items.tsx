@@ -54,7 +54,7 @@ export const navItems = [
     icon: <ShoppingCart className="h-4 w-4 mr-2" />,
   },
   {
-    href: "scouting",
+    href: "game/scouting",
     label: "Scouting",
     icon: <Search className="h-4 w-4 mr-2" />,
   },
