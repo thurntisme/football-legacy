@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import type React from 'react';
-import { useEffect, useState } from 'react';
+import type React from "react";
+import { useEffect, useState } from "react";
 
-import { Star } from 'lucide-react';
+import { Star } from "lucide-react";
 
 import {
   Card,
@@ -11,14 +11,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -26,9 +26,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { toast } from '@/hooks/use-toast';
-import { Player } from '@/types/football/player';
+} from "@/components/ui/table";
+import { toast } from "@/hooks/use-toast";
+import { Player } from "@/types/player";
 
 interface ShirtNumberManagerProps {
   players: Player[];
@@ -51,7 +51,7 @@ const ShirtNumberManager: React.FC<ShirtNumberManagerProps> = ({ players }) => {
     // Initialize available numbers (1-99)
     const usedNumbers = new Set(Object.values(initialNumbers));
     const available = Array.from({ length: 99 }, (_, i) => i + 1).filter(
-      (num) => !usedNumbers.has(num)
+      (num) => !usedNumbers.has(num),
     );
     setAvailableNumbers(available);
   }, [players]);
@@ -59,14 +59,14 @@ const ShirtNumberManager: React.FC<ShirtNumberManagerProps> = ({ players }) => {
   const handleShirtNumberChange = (playerId: string, newNumber: number) => {
     // Check if the new number is already taken by another player
     const isNumberTaken = Object.entries(shirtNumbers).some(
-      ([id, number]) => id !== playerId && number === newNumber
+      ([id, number]) => id !== playerId && number === newNumber,
     );
 
     if (isNumberTaken) {
       toast({
-        title: 'Number Taken',
-        description: 'This shirt number is already assigned to another player.',
-        variant: 'destructive',
+        title: "Number Taken",
+        description: "This shirt number is already assigned to another player.",
+        variant: "destructive",
       });
       return;
     }
@@ -82,15 +82,15 @@ const ShirtNumberManager: React.FC<ShirtNumberManagerProps> = ({ players }) => {
       Object.values({
         ...shirtNumbers,
         [playerId]: newNumber,
-      })
+      }),
     );
     const available = Array.from({ length: 99 }, (_, i) => i + 1).filter(
-      (num) => !usedNumbers.has(num)
+      (num) => !usedNumbers.has(num),
     );
     setAvailableNumbers(available);
 
     toast({
-      title: 'Shirt Number Updated',
+      title: "Shirt Number Updated",
       description: `Updated shirt number for player ID ${playerId} to ${newNumber}.`,
     });
   };
@@ -154,11 +154,11 @@ const ShirtNumberManager: React.FC<ShirtNumberManagerProps> = ({ players }) => {
                   </TableCell>
                   <TableCell className="flex justify-center">
                     <Select
-                      value={shirtNumbers[player.id]?.toString() || ''}
+                      value={shirtNumbers[player.id]?.toString() || ""}
                       onValueChange={(value) =>
                         handleShirtNumberChange(
                           player.id,
-                          Number.parseInt(value)
+                          Number.parseInt(value),
                         )
                       }
                     >

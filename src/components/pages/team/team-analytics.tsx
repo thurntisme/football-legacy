@@ -1,107 +1,107 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import { Bar, Cell, Line, Pie } from 'recharts';
+import { Bar, Cell, Line, Pie } from "recharts";
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { BarChart, LineChart, PieChart } from '@/components/ui/chart';
+} from "@/components/ui/card";
+import { BarChart, LineChart, PieChart } from "@/components/ui/chart";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/components/ui/chart';
+} from "@/components/ui/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function TeamAnalytics() {
-  const [compareTeam, setCompareTeam] = useState<string>('none');
-  const [timeRange, setTimeRange] = useState<string>('season');
+  const [compareTeam, setCompareTeam] = useState<string>("none");
+  const [timeRange, setTimeRange] = useState<string>("season");
   // Team performance data
   const performanceData = [
-    { name: 'Match 1', points: 3, goalsFor: 2, goalsAgainst: 0 },
-    { name: 'Match 2', points: 1, goalsFor: 1, goalsAgainst: 1 },
-    { name: 'Match 3', points: 3, goalsFor: 3, goalsAgainst: 1 },
-    { name: 'Match 4', points: 0, goalsFor: 0, goalsAgainst: 2 },
-    { name: 'Match 5', points: 3, goalsFor: 2, goalsAgainst: 0 },
-    { name: 'Match 6', points: 3, goalsFor: 1, goalsAgainst: 0 },
-    { name: 'Match 7', points: 1, goalsFor: 2, goalsAgainst: 2 },
-    { name: 'Match 8', points: 3, goalsFor: 3, goalsAgainst: 1 },
+    { name: "Match 1", points: 3, goalsFor: 2, goalsAgainst: 0 },
+    { name: "Match 2", points: 1, goalsFor: 1, goalsAgainst: 1 },
+    { name: "Match 3", points: 3, goalsFor: 3, goalsAgainst: 1 },
+    { name: "Match 4", points: 0, goalsFor: 0, goalsAgainst: 2 },
+    { name: "Match 5", points: 3, goalsFor: 2, goalsAgainst: 0 },
+    { name: "Match 6", points: 3, goalsFor: 1, goalsAgainst: 0 },
+    { name: "Match 7", points: 1, goalsFor: 2, goalsAgainst: 2 },
+    { name: "Match 8", points: 3, goalsFor: 3, goalsAgainst: 1 },
   ];
   // Team stats by position
   const positionData = [
-    { name: 'Goalkeepers', rating: 82, potential: 85 },
-    { name: 'Defenders', rating: 79, potential: 83 },
-    { name: 'Midfielders', rating: 83, potential: 86 },
-    { name: 'Forwards', rating: 85, potential: 88 },
+    { name: "Goalkeepers", rating: 82, potential: 85 },
+    { name: "Defenders", rating: 79, potential: 83 },
+    { name: "Midfielders", rating: 83, potential: 86 },
+    { name: "Forwards", rating: 85, potential: 88 },
   ];
   // Team attributes
   const attributeData = [
-    { name: 'Pace', value: 78 },
-    { name: 'Shooting', value: 82 },
-    { name: 'Passing', value: 85 },
-    { name: 'Dribbling', value: 80 },
-    { name: 'Defending', value: 76 },
-    { name: 'Physical', value: 79 },
+    { name: "Pace", value: 78 },
+    { name: "Shooting", value: 82 },
+    { name: "Passing", value: 85 },
+    { name: "Dribbling", value: 80 },
+    { name: "Defending", value: 76 },
+    { name: "Physical", value: 79 },
   ];
   // Team composition data
   const compositionData = [
-    { name: 'Under 23', value: 30 },
-    { name: '23-27', value: 40 },
-    { name: '28-32', value: 25 },
-    { name: 'Over 32', value: 5 },
+    { name: "Under 23", value: 30 },
+    { name: "23-27", value: 40 },
+    { name: "28-32", value: 25 },
+    { name: "Over 32", value: 5 },
   ];
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   // Comparison team data (if selected)
   const comparisonData = {
-    'city fc': {
-      name: 'City FC',
+    "city fc": {
+      name: "City FC",
       attributes: [
-        { name: 'Pace', value: 85 },
-        { name: 'Shooting', value: 84 },
-        { name: 'Passing', value: 88 },
-        { name: 'Dribbling', value: 86 },
-        { name: 'Defending', value: 80 },
-        { name: 'Physical', value: 82 },
+        { name: "Pace", value: 85 },
+        { name: "Shooting", value: 84 },
+        { name: "Passing", value: 88 },
+        { name: "Dribbling", value: 86 },
+        { name: "Defending", value: 80 },
+        { name: "Physical", value: 82 },
       ],
     },
-    'united fc': {
-      name: 'United FC',
+    "united fc": {
+      name: "United FC",
       attributes: [
-        { name: 'Pace', value: 82 },
-        { name: 'Shooting', value: 86 },
-        { name: 'Passing', value: 83 },
-        { name: 'Dribbling', value: 84 },
-        { name: 'Defending', value: 78 },
-        { name: 'Physical', value: 81 },
+        { name: "Pace", value: 82 },
+        { name: "Shooting", value: 86 },
+        { name: "Passing", value: 83 },
+        { name: "Dribbling", value: 84 },
+        { name: "Defending", value: 78 },
+        { name: "Physical", value: 81 },
       ],
     },
   };
   // Combined data for comparison
   const getComparisonData = () => {
-    if (compareTeam === 'none') {
+    if (compareTeam === "none") {
       return attributeData.map((attr) => ({
         name: attr.name,
-        'Your Team': attr.value,
+        "Your Team": attr.value,
       }));
     }
     const opponent = comparisonData[compareTeam as keyof typeof comparisonData];
     return attributeData.map((attr, index) => ({
       name: attr.name,
-      'Your Team': attr.value,
+      "Your Team": attr.value,
       [opponent.name]: opponent.attributes[index].value,
     }));
   };
@@ -233,18 +233,18 @@ export default function TeamAnalytics() {
                     <div className="h-[250px] w-[250px]">
                       <ChartContainer
                         data={[
-                          { name: 'Wins', value: 5 },
-                          { name: 'Draws', value: 2 },
-                          { name: 'Losses', value: 1 },
+                          { name: "Wins", value: 5 },
+                          { name: "Draws", value: 2 },
+                          { name: "Losses", value: 1 },
                         ]}
                         margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
                       >
                         <PieChart>
                           <Pie
                             data={[
-                              { name: 'Wins', value: 5 },
-                              { name: 'Draws', value: 2 },
-                              { name: 'Losses', value: 1 },
+                              { name: "Wins", value: 5 },
+                              { name: "Draws", value: 2 },
+                              { name: "Losses", value: 1 },
                             ]}
                             cx="50%"
                             cy="50%"
@@ -256,14 +256,14 @@ export default function TeamAnalytics() {
                             label
                           >
                             {[
-                              { name: 'Wins', value: 5 },
-                              { name: 'Draws', value: 2 },
-                              { name: 'Losses', value: 1 },
+                              { name: "Wins", value: 5 },
+                              { name: "Draws", value: 2 },
+                              { name: "Losses", value: 1 },
                             ].map((entry, index) => (
                               <Cell
                                 key={`cell-${index}`}
                                 fill={
-                                  ['#4ade80', '#facc15', '#f87171'][index % 3]
+                                  ["#4ade80", "#facc15", "#f87171"][index % 3]
                                 }
                               />
                             ))}
@@ -326,9 +326,9 @@ export default function TeamAnalytics() {
                   <CardContent>
                     <div className="space-y-2">
                       {[
-                        { name: 'Mark Williams', position: 'ST', rating: 86 },
-                        { name: 'Chris Johnson', position: 'LW', rating: 85 },
-                        { name: 'Steven Taylor', position: 'CDM', rating: 84 },
+                        { name: "Mark Williams", position: "ST", rating: 86 },
+                        { name: "Chris Johnson", position: "LW", rating: 85 },
+                        { name: "Steven Taylor", position: "CDM", rating: 84 },
                       ].map((player, index) => (
                         <div
                           key={index}
@@ -358,19 +358,19 @@ export default function TeamAnalytics() {
                     <div className="space-y-2">
                       {[
                         {
-                          name: 'Chris Johnson',
-                          position: 'LW',
-                          form: 'Excellent',
+                          name: "Chris Johnson",
+                          position: "LW",
+                          form: "Excellent",
                         },
                         {
-                          name: 'Thomas Lee',
-                          position: 'RB',
-                          form: 'Excellent',
+                          name: "Thomas Lee",
+                          position: "RB",
+                          form: "Excellent",
                         },
                         {
-                          name: 'Eric Thompson',
-                          position: 'LW',
-                          form: 'Excellent',
+                          name: "Eric Thompson",
+                          position: "LW",
+                          form: "Excellent",
                         },
                       ].map((player, index) => (
                         <div
@@ -400,8 +400,8 @@ export default function TeamAnalytics() {
                   <CardContent>
                     <div className="space-y-2">
                       {[
-                        { name: 'John Smith', position: 'ST', fitness: 45 },
-                        { name: 'Mike Johnson', position: 'CM', fitness: 65 },
+                        { name: "John Smith", position: "ST", fitness: 45 },
+                        { name: "Mike Johnson", position: "CM", fitness: 65 },
                       ].map((player, index) => (
                         <div
                           key={index}
@@ -429,9 +429,9 @@ export default function TeamAnalytics() {
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base">Team Attributes</CardTitle>
                   <CardDescription>
-                    {compareTeam !== 'none'
+                    {compareTeam !== "none"
                       ? `Comparing with ${comparisonData[compareTeam as keyof typeof comparisonData].name}`
-                      : 'Overall team attributes'}
+                      : "Overall team attributes"}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -442,7 +442,7 @@ export default function TeamAnalytics() {
                     >
                       <BarChart>
                         <Bar dataKey="Your Team" fill="#3b82f6" />
-                        {compareTeam !== 'none' && (
+                        {compareTeam !== "none" && (
                           <Bar
                             dataKey={
                               comparisonData[
@@ -547,8 +547,8 @@ export default function TeamAnalytics() {
                       <div className="p-3 rounded-md bg-muted/50">
                         <h4 className="font-medium mb-1">Recommended Style</h4>
                         <p className="text-sm text-muted-foreground">
-                          Based on your team's attributes, a{' '}
-                          <span className="font-medium">Possession-based</span>{' '}
+                          Based on your team's attributes, a{" "}
+                          <span className="font-medium">Possession-based</span>{" "}
                           style would be most effective, utilizing your strong
                           passing and technical abilities.
                         </p>
@@ -644,10 +644,10 @@ export default function TeamAnalytics() {
                     <div className="h-[300px]">
                       <ChartContainer
                         data={[
-                          { name: 'Goalkeepers', value: 2 },
-                          { name: 'Defenders', value: 6 },
-                          { name: 'Midfielders', value: 7 },
-                          { name: 'Forwards', value: 5 },
+                          { name: "Goalkeepers", value: 2 },
+                          { name: "Defenders", value: 6 },
+                          { name: "Midfielders", value: 7 },
+                          { name: "Forwards", value: 5 },
                         ]}
                         margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
                       >
@@ -677,18 +677,18 @@ export default function TeamAnalytics() {
                 <CardContent>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     {[
-                      { country: 'England', count: 7, percentage: 35 },
-                      { country: 'Spain', count: 2, percentage: 10 },
-                      { country: 'France', count: 2, percentage: 10 },
-                      { country: 'Brazil', count: 1, percentage: 5 },
-                      { country: 'Argentina', count: 1, percentage: 5 },
-                      { country: 'Germany', count: 1, percentage: 5 },
-                      { country: 'Italy', count: 1, percentage: 5 },
-                      { country: 'Wales', count: 2, percentage: 10 },
-                      { country: 'Scotland', count: 1, percentage: 5 },
-                      { country: 'USA', count: 1, percentage: 5 },
-                      { country: 'Denmark', count: 1, percentage: 5 },
-                      { country: 'South Korea', count: 1, percentage: 5 },
+                      { country: "England", count: 7, percentage: 35 },
+                      { country: "Spain", count: 2, percentage: 10 },
+                      { country: "France", count: 2, percentage: 10 },
+                      { country: "Brazil", count: 1, percentage: 5 },
+                      { country: "Argentina", count: 1, percentage: 5 },
+                      { country: "Germany", count: 1, percentage: 5 },
+                      { country: "Italy", count: 1, percentage: 5 },
+                      { country: "Wales", count: 2, percentage: 10 },
+                      { country: "Scotland", count: 1, percentage: 5 },
+                      { country: "USA", count: 1, percentage: 5 },
+                      { country: "Denmark", count: 1, percentage: 5 },
+                      { country: "South Korea", count: 1, percentage: 5 },
                     ].map((item, index) => (
                       <div
                         key={index}

@@ -20,7 +20,11 @@ export const navItems = [
     label: "Dashboard",
     icon: <Home className="h-4 w-4 mr-2" />,
   },
-  { href: "team", label: "Team", icon: <Users className="h-4 w-4 mr-2" /> },
+  {
+    href: "game/team",
+    label: "Team",
+    icon: <Users className="h-4 w-4 mr-2" />,
+  },
   {
     href: "game/club",
     label: "Club",

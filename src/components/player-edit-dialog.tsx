@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Player } from "@/types/football/player";
+import { Player } from "@/types/player";
 
 type Props = {
   editingPlayer: Player | null;
@@ -61,7 +61,7 @@ const PlayerEditDialog = ({
                     onChange={(e) =>
                       handleAttributeChange(
                         attribute,
-                        Number.parseInt(e.target.value) || 0
+                        Number.parseInt(e.target.value) || 0,
                       )
                     }
                     className="w-20"

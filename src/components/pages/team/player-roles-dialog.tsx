@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import type React from 'react';
-import { useState } from 'react';
+import type React from "react";
+import { useState } from "react";
 
 import {
   Award,
@@ -12,19 +12,19 @@ import {
   Megaphone,
   RotateCcw,
   Target,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { toast } from '@/hooks/use-toast';
-import { Player } from '@/types/football/player';
+} from "@/components/ui/dialog";
+import { toast } from "@/hooks/use-toast";
+import { Player } from "@/types/football/player";
 
 type PlayerRole = {
   id: string;
@@ -46,47 +46,47 @@ export default function PlayerRolesDialog({
   // Define available roles
   const [roles, setRoles] = useState<PlayerRole[]>([
     {
-      id: 'captain',
-      name: 'Captain',
+      id: "captain",
+      name: "Captain",
       description:
-        'Team leader who communicates with the referee and boosts team morale',
+        "Team leader who communicates with the referee and boosts team morale",
       icon: <Megaphone className="h-5 w-5" />,
-      assignedPlayerId: '3', // Default to Robert Garcia (CB)
+      assignedPlayerId: "3", // Default to Robert Garcia (CB)
     },
     {
-      id: 'vice-captain',
-      name: 'Vice-Captain',
-      description: 'Takes over captain duties when the captain is unavailable',
+      id: "vice-captain",
+      name: "Vice-Captain",
+      description: "Takes over captain duties when the captain is unavailable",
       icon: <Flag className="h-5 w-5" />,
-      assignedPlayerId: '7', // Default to Steven Taylor (CDM)
+      assignedPlayerId: "7", // Default to Steven Taylor (CDM)
     },
     {
-      id: 'penalty-taker',
-      name: 'Penalty Taker',
-      description: 'Primary player to take penalty kicks',
+      id: "penalty-taker",
+      name: "Penalty Taker",
+      description: "Primary player to take penalty kicks",
       icon: <Target className="h-5 w-5" />,
-      assignedPlayerId: '10', // Default to Mark Williams (ST)
+      assignedPlayerId: "10", // Default to Mark Williams (ST)
     },
     {
-      id: 'free-kick-taker',
-      name: 'Free Kick Taker',
-      description: 'Primary player to take direct free kicks',
+      id: "free-kick-taker",
+      name: "Free Kick Taker",
+      description: "Primary player to take direct free kicks",
       icon: <Footprints className="h-5 w-5" />,
-      assignedPlayerId: '6', // Default to Daniel Martinez (CM)
+      assignedPlayerId: "6", // Default to Daniel Martinez (CM)
     },
     {
-      id: 'corner-taker-right',
-      name: 'Corner Taker (Right)',
-      description: 'Takes corner kicks from the right side',
+      id: "corner-taker-right",
+      name: "Corner Taker (Right)",
+      description: "Takes corner kicks from the right side",
       icon: <CornerUpRight className="h-5 w-5" />,
-      assignedPlayerId: '9', // Default to Chris Johnson (LW)
+      assignedPlayerId: "9", // Default to Chris Johnson (LW)
     },
     {
-      id: 'corner-taker-left',
-      name: 'Corner Taker (Left)',
-      description: 'Takes corner kicks from the left side',
+      id: "corner-taker-left",
+      name: "Corner Taker (Left)",
+      description: "Takes corner kicks from the left side",
       icon: <RotateCcw className="h-5 w-5" />,
-      assignedPlayerId: '11', // Default to Paul Davis (RW)
+      assignedPlayerId: "11", // Default to Paul Davis (RW)
     },
   ]);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
@@ -94,8 +94,8 @@ export default function PlayerRolesDialog({
   const assignPlayerToRole = (roleId: string, playerId: string) => {
     setRoles((prevRoles) =>
       prevRoles.map((role) =>
-        role.id === roleId ? { ...role, assignedPlayerId: playerId } : role
-      )
+        role.id === roleId ? { ...role, assignedPlayerId: playerId } : role,
+      ),
     );
     const role = roles.find((r) => r.id === roleId);
     const player = players.find((p) => p.id === playerId);
@@ -114,16 +114,16 @@ export default function PlayerRolesDialog({
   // Get form color
   const getFormColor = (form: string | undefined) => {
     switch (form) {
-      case 'excellent':
-        return 'bg-green-500';
-      case 'good':
-        return 'bg-emerald-400';
-      case 'average':
-        return 'bg-amber-400';
-      case 'poor':
-        return 'bg-red-400';
+      case "excellent":
+        return "bg-green-500";
+      case "good":
+        return "bg-emerald-400";
+      case "average":
+        return "bg-amber-400";
+      case "poor":
+        return "bg-red-400";
       default:
-        return 'bg-gray-400';
+        return "bg-gray-400";
     }
   };
 
@@ -147,8 +147,8 @@ export default function PlayerRolesDialog({
                     key={role.id}
                     className={`p-3 border rounded-md cursor-pointer transition-all ${
                       selectedRole === role.id
-                        ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
-                        : 'hover:border-primary/50'
+                        ? "border-primary bg-primary/5 ring-2 ring-primary/20"
+                        : "hover:border-primary/50"
                     }`}
                     onClick={() => setSelectedRole(role.id)}
                   >

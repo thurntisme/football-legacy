@@ -4,11 +4,9 @@ import { useEffect, useState } from "react";
 
 import {
   ArrowRight,
-  Check,
   ChevronDown,
   ChevronUp,
   Info,
-  RemoveFormatting,
   Trash,
   Wand2,
 } from "lucide-react";
@@ -35,7 +33,7 @@ import {
   lineupFormations,
   positionCompatibility,
 } from "@/constants/formations";
-import { Player } from "@/types/football/player";
+import { Player } from "@/types/player";
 
 type Formation = {
   name: string;
@@ -65,7 +63,7 @@ export default function BestLineupDialog({
   const [processingProgress, setProcessingProgress] = useState(0);
   const [formation, setFormation] = useState<Formation>(currentFormation);
   const [positionNeeds, setPositionNeeds] = useState<Record<string, number>>(
-    {}
+    {},
   );
   const [positionsFilled, setPositionsFilled] = useState<
     Record<string, number>
@@ -172,7 +170,7 @@ export default function BestLineupDialog({
 
           // Filter players by compatible positions
           let eligiblePlayers = availablePlayers.filter((p) =>
-            compatiblePositions.includes(p.position)
+            compatiblePositions.includes(p.position),
           );
 
           // If no eligible players, try to find players from other positions
@@ -204,7 +202,7 @@ export default function BestLineupDialog({
 
             // Remove the selected player from available players
             availablePlayers = availablePlayers.filter(
-              (p) => p.id !== selectedPlayer.id
+              (p) => p.id !== selectedPlayer.id,
             );
           }
         });
@@ -431,8 +429,8 @@ export default function BestLineupDialog({
                               getFormationBalanceScore() > 80
                                 ? "text-green-600"
                                 : getFormationBalanceScore() > 60
-                                ? "text-amber-600"
-                                : "text-red-600"
+                                  ? "text-amber-600"
+                                  : "text-red-600"
                             }`}
                           >
                             {getFormationBalanceScore()}%
@@ -472,7 +470,7 @@ export default function BestLineupDialog({
                 <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
                   {sortedPlayers.map((player) => {
                     const isSelected = selectedPlayers.some(
-                      (p) => p.id === player.id
+                      (p) => p.id === player.id,
                     );
                     return (
                       <div

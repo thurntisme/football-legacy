@@ -22,14 +22,14 @@ import {
 } from "@/components/ui/dialog";
 import { formations } from "@/constants/formations";
 import { toast } from "@/hooks/use-toast";
-import { Position } from "@/types/football/formation";
-import { Player } from "@/types/football/player";
+import { Position } from "@/types/formation";
+import { Player } from "@/types/player";
 
-import MySubstitutes from "./my-substitutes";
-import MyTeamFormationField from "./my-team-formation-field";
-import MyTeamFormationSelector from "./my-team-formation-selector";
-import MyTeamRating from "./my-team-rating";
-import MyTeamTactics from "./my-team-tactics";
+import MySubstitutes from "../../my-substitutes";
+import MyTeamFormationField from "../../my-team-formation-field";
+import MyTeamFormationSelector from "../../my-team-formation-selector";
+import MyTeamRating from "../../my-team-rating";
+import MyTeamTactics from "../../my-team-tactics";
 
 type TeamFormationProps = {
   allPlayers: Player[];
@@ -48,10 +48,10 @@ export default function TeamFormation({ allPlayers }: TeamFormationProps) {
     useState<string>(defaultFormation);
   const [positions, setPositions] = useState<Position[]>([]);
   const [selectedPosition, setSelectedPosition] = useState<Position | null>(
-    null
+    null,
   );
   const [availablePlayers, setAvailablePlayers] = useState<Player[]>(
-    allPlayers.slice(11)
+    allPlayers.slice(11),
   );
   const [tactics, setTactics] = useState<string>("balanced");
 
@@ -60,7 +60,7 @@ export default function TeamFormation({ allPlayers }: TeamFormationProps) {
 
   // State for substitute swap functionality
   const [selectedSubstitute, setSelectedSubstitute] = useState<Player | null>(
-    null
+    null,
   );
   const [swappablePositions, setSwappablePositions] = useState<string[]>([]);
 
@@ -196,11 +196,11 @@ export default function TeamFormation({ allPlayers }: TeamFormationProps) {
     const usedPlayerIds = new Set(
       currentPositions
         .filter((pos) => pos.player !== null)
-        .map((pos) => pos.player!.id)
+        .map((pos) => pos.player!.id),
     );
 
     const available = allPlayers.filter(
-      (player) => !usedPlayerIds.has(player.id)
+      (player) => !usedPlayerIds.has(player.id),
     );
     setAvailablePlayers(available);
 
@@ -363,7 +363,7 @@ export default function TeamFormation({ allPlayers }: TeamFormationProps) {
 
     // Update available players (add the swapped out player, remove the substitute)
     const updatedAvailablePlayers = availablePlayers.filter(
-      (p) => p.id !== selectedSubstitute.id
+      (p) => p.id !== selectedSubstitute.id,
     );
     updatedAvailablePlayers.push(position.player);
 

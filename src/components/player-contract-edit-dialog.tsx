@@ -2,7 +2,7 @@ import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
 
 import React from "react";
 
-import { DollarSign, Shirt } from "lucide-react";
+import { DollarSign } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,14 +13,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Player } from "@/types/football/player";
+import { Player } from "@/types/player";
 
 type Props = {
   contractEditDialogOpen: boolean;
   setContractEditDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedPlayerForContract: Player | null;
-  editedShirtNumber: number;
-  setEditedShirtNumber: React.Dispatch<React.SetStateAction<number>>;
   editedSalary: number;
   setEditedSalary: React.Dispatch<React.SetStateAction<number>>;
   saveContractChanges: () => void;
@@ -30,8 +28,6 @@ const PlayerContractEditDialog = ({
   contractEditDialogOpen,
   setContractEditDialogOpen,
   selectedPlayerForContract,
-  editedShirtNumber,
-  setEditedShirtNumber,
   editedSalary,
   setEditedSalary,
   saveContractChanges,
@@ -45,31 +41,20 @@ const PlayerContractEditDialog = ({
         <DialogHeader>
           <DialogTitle>Edit Contract Details</DialogTitle>
           <DialogDescription>
-            {selectedPlayerForContract &&
-              `Update ${selectedPlayerForContract.name}'s contract details`}
+            {selectedPlayerForContract && (
+              <>
+                Update{" "}
+                <span className="font-semibold">
+                  ${selectedPlayerForContract.name}
+                </span>
+                's contract details
+              </>
+            )}
           </DialogDescription>
         </DialogHeader>
-        <div className="py-4 space-y-4">
+        <div className="space-y-4">
           {selectedPlayerForContract && (
             <>
-              <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="shirtNumber" className="text-right">
-                  <Shirt className="h-4 w-4 inline mr-2" />
-                  Shirt Number
-                </Label>
-                <div className="col-span-2">
-                  <Input
-                    id="shirtNumber"
-                    type="number"
-                    min="1"
-                    max="99"
-                    value={editedShirtNumber}
-                    onChange={(e) =>
-                      setEditedShirtNumber(Number.parseInt(e.target.value) || 0)
-                    }
-                  />
-                </div>
-              </div>
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="salary" className="text-right">
                   <DollarSign className="h-4 w-4 inline mr-2" />
@@ -89,12 +74,8 @@ const PlayerContractEditDialog = ({
                 </div>
               </div>
               <div className="p-4 border rounded-md bg-muted/50">
-                <h4 className="font-medium mb-2">Contract Information</h4>
+                <h4 className="font-medium mb-3">Contract Information</h4>
                 <div className="grid grid-cols-2 gap-2 text-sm">
-                  <div>Current Shirt Number:</div>
-                  <div className="font-medium">
-                    {selectedPlayerForContract.shirtNumber}
-                  </div>
                   <div>Current Salary:</div>
                   <div className="font-medium">
                     £{selectedPlayerForContract.salary.toLocaleString()}/week

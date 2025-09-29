@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import {
   ArrowRight,
@@ -8,13 +8,13 @@ import {
   DollarSign,
   ShoppingCart,
   TrendingUp,
-} from 'lucide-react';
+} from "lucide-react";
 // Add Link component import
-import Link from 'next/link';
+import Link from "next/link";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -22,11 +22,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { toast } from '@/components/ui/use-toast';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
+} from "@/components/ui/dialog";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/components/ui/use-toast";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 type Player = {
   id: number;
@@ -61,12 +61,12 @@ export default function TransferRecommendationsDialog({
   isLoading,
   error,
 }: TransferRecommendationsDialogProps) {
-  const [selectedTab, setSelectedTab] = useState('similar');
+  const [selectedTab, setSelectedTab] = useState("similar");
 
   const handleViewInMarket = (player: Player) => {
     // In a real app, this would navigate to the transfer market with this player pre-selected
     console.log({
-      title: 'Viewing Player in Market',
+      title: "Viewing Player in Market",
       description: `Navigating to ${player.name} in the transfer market.`,
     });
     onOpenChange(false);
@@ -78,7 +78,7 @@ export default function TransferRecommendationsDialog({
         <div className="p-4">
           <div className="flex items-center gap-3 mb-3">
             <img
-              src={player.image || '/placeholder.svg'}
+              src={player.image || "/placeholder.svg"}
               alt={player.name}
               className="w-12 h-12 rounded-full border-2 border-primary/20"
             />
@@ -98,7 +98,7 @@ export default function TransferRecommendationsDialog({
               <span className="text-muted-foreground">Club:</span> {player.club}
             </div>
             <div className="text-sm">
-              <span className="text-muted-foreground">Nation:</span>{' '}
+              <span className="text-muted-foreground">Nation:</span>{" "}
               {player.nationality}
             </div>
           </div>
@@ -112,11 +112,11 @@ export default function TransferRecommendationsDialog({
               className={`h-2 ${
                 player.comparisonScore
                   ? player.comparisonScore > 100
-                    ? 'bg-green-500'
+                    ? "bg-green-500"
                     : player.comparisonScore > 80
-                      ? 'bg-blue-500'
-                      : 'bg-amber-500'
-                  : ''
+                      ? "bg-blue-500"
+                      : "bg-amber-500"
+                  : ""
               }`}
             />
           </div>

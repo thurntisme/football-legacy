@@ -1,21 +1,21 @@
 "use client";
 
-import QuickAction from "@/components/quick-action";
+import QuickAction from "@/components/pages/team/quick-action";
 
 import { useState } from "react";
 
 import { ArrowLeft, BarChart, Hash, Rocket, Shirt, Users } from "lucide-react";
 import Link from "next/link";
 
-import BestLineupDialog from "@/components/best-lineup-dialog";
+import BestLineupDialog from "@/components/pages/team/best-lineup-dialog";
 import ContentWrapper from "@/components/common/content-wrapper";
 import PageTitle from "@/components/common/page-title";
-import PlayerRolesDialog from "@/components/player-roles-dialog";
-import ShirtNumberManager from "@/components/shirt-number-manager";
-import TeamAnalytics from "@/components/team-analytics";
-import TeamFormation from "@/components/team-formation";
-import TeamPlayers from "@/components/team-players";
-import TransferRecommendationsDialog from "@/components/transfer-recommendations-dialog";
+import PlayerRolesDialog from "@/components/pages/team/player-roles-dialog";
+import ShirtNumberManager from "@/components/pages/team/shirt-number-manager";
+import TeamAnalytics from "@/components/pages/team/team-analytics";
+import TeamFormation from "@/components/pages/team/team-formation";
+import TeamPlayers from "@/components/pages/team/team-players";
+import TransferRecommendationsDialog from "@/components/pages/team/transfer-recommendations-dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
@@ -76,13 +76,13 @@ export default function TeamPage() {
     <>
       <PageTitle title="Team Management">
         <Button variant="outline" asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/match/start`}>
+          <Link href={`${FOOTBALL_STATS_URL}/game/match/start`}>
             <Rocket className="h-4 w-4 mr-2" />
             Start Match
           </Link>
         </Button>
         <Button asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/dashboard`}>
+          <Link href={`${FOOTBALL_STATS_URL}/game/dashboard`}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Dashboard
           </Link>

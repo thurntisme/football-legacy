@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
-import { Player } from "@/types/football/player";
+import { Player } from "@/types/player";
 
 type Props = {
   players: Player[];

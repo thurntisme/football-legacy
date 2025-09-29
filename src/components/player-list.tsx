@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/components/ui/use-toast";
-import { Player } from "@/types/football/player";
+import { Player } from "@/types/player";
 
 import NationalTeamIncomeSummary from "./national-team-income-summary";
 import PlayerContractEditDialog from "./player-contract-edit-dialog";
@@ -91,7 +91,7 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
     const updatedPlayers = players.map((p) =>
       p.id === selectedPlayerForContract.id
         ? { ...p, shirtNumber: editedShirtNumber, salary: editedSalary }
-        : p
+        : p,
     );
     setPlayers(updatedPlayers);
     setContractEditDialogOpen(false);
@@ -124,7 +124,7 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
                 level: (p.attributes.level || 1) + 1,
               },
             }
-          : p
+          : p,
       );
       setPlayers(updatedPlayers);
       toast({
@@ -185,8 +185,8 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
       players.map((player) =>
         player.id === playerId
           ? { ...player, inLineup: !player.inLineup }
-          : player
-      )
+          : player,
+      ),
     );
   };
   const getFormBadge = (form: string) => {
@@ -303,7 +303,7 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
             National Team (
             {players.filter((p) => p.nationalTeam?.callUp).length})
           </TabsTrigger>
-          <TabsTrigger value="contracts">Contracts & Shirt</TabsTrigger>
+          <TabsTrigger value="contracts">Contracts</TabsTrigger>
         </TabsList>
         <TabsContent value="all">
           <PlayerTable
@@ -342,10 +342,8 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
         <TabsContent value="contracts">
           <Card>
             <CardHeader>
-              <CardTitle>Player Contracts & Shirt Numbers</CardTitle>
-              <CardDescription>
-                Manage player salaries and shirt numbers
-              </CardDescription>
+              <CardTitle>Player Contract</CardTitle>
+              <CardDescription>Manage player salaries</CardDescription>
             </CardHeader>
             <CardContent>
               <PlayerContractShirtTable
@@ -385,8 +383,6 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
         contractEditDialogOpen={contractEditDialogOpen}
         setContractEditDialogOpen={setContractEditDialogOpen}
         selectedPlayerForContract={selectedPlayerForContract}
-        editedShirtNumber={editedShirtNumber}
-        setEditedShirtNumber={setEditedShirtNumber}
         editedSalary={editedSalary}
         setEditedSalary={setEditedSalary}
         saveContractChanges={saveContractChanges}
