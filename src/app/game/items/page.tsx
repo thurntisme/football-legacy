@@ -3,9 +3,9 @@
 import { useState } from "react";
 
 import PageTitle from "@/components/common/page-title";
-import InventoryList from "@/components/inventory-list";
-import ItemsOverview from "@/components/items-overview";
-import ShopItemList from "@/components/shop-item-list";
+import InventoryList from "@/components/pages/items/inventory-list";
+import ItemsOverview from "@/components/pages/items/items-overview";
+import ShopItemList from "@/components/pages/items/shop-item-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ItemsPage() {

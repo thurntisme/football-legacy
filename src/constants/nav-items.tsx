@@ -65,7 +65,7 @@ export const navItems = [
     icon: <Newspaper className="h-4 w-4 mr-2" />,
   },
   {
-    href: "items",
+    href: "game/items",
     label: "Items",
     icon: <Package className="h-4 w-4 mr-2" />,
   },

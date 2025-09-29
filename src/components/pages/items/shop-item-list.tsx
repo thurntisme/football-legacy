@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import { Building, User, Users } from 'lucide-react';
+import { Building, User, Users } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { toast } from '@/hooks/use-toast';
-import { ShopItems } from '@/mock/football';
-import { ShopItem } from '@/types/football/item';
+} from "@/components/ui/card";
+import { toast } from "@/hooks/use-toast";
+import { ShopItems } from "@/mock/football";
+import { ShopItem } from "@/types/item";
 
-import ShopItemCard from './shop-item-card';
+import ShopItemCard from "./shop-item-card";
 
 export default function ShopItemList() {
   const [shopItems, setShopItems] = useState<ShopItem[]>(ShopItems);
@@ -30,22 +30,22 @@ export default function ShopItemList() {
       setCoins(coins - item.price);
 
       // Special handling for stadium name change
-      if (item.name === 'Stadium Name Change') {
-        const newName = prompt('Enter new stadium name:', '');
-        if (newName && newName.trim() !== '') {
+      if (item.name === "Stadium Name Change") {
+        const newName = prompt("Enter new stadium name:", "");
+        if (newName && newName.trim() !== "") {
           toast({
-            title: 'Stadium Renamed',
+            title: "Stadium Renamed",
             description: `Your stadium has been renamed to "${newName}"`,
           });
         } else {
           toast({
-            title: 'Rename Cancelled',
-            description: 'Stadium name was not changed',
+            title: "Rename Cancelled",
+            description: "Stadium name was not changed",
           });
         }
       } else {
         toast({
-          title: 'Item Purchased!',
+          title: "Item Purchased!",
           description: `You have successfully purchased ${item.name}`,
         });
       }
@@ -53,9 +53,9 @@ export default function ShopItemList() {
       setItemToBuy(null);
     } else {
       toast({
-        title: 'Insufficient Coins',
+        title: "Insufficient Coins",
         description: "You don't have enough coins to purchase this item",
-        variant: 'destructive',
+        variant: "destructive",
       });
     }
   };
@@ -93,6 +93,7 @@ export default function ShopItemList() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {shopItems.map((item) => (
             <ShopItemCard
+              key={item.id}
               item={item}
               selectedItem={selectedItem}
               setSelectedItem={setSelectedItem}
