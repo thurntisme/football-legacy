@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   Card,
@@ -6,8 +6,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Progress } from '@radix-ui/react-progress';
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 
 type Props = {
   totalCapacity: number;

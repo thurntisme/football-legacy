@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   AlertDialog,
@@ -9,8 +9,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { IStadiumFacility } from '@/types/football/common';
+} from "@/components/ui/alert-dialog";
+import { IStadiumFacility } from "@/types/common";
 
 type Props = {
   confirmUpgradeDialogOpen: boolean;
@@ -19,7 +19,7 @@ type Props = {
   confirmUpgrade: () => void;
 };
 
-const StadiumUpgradeConfirmationDialog = ({
+const ConfirmUpgradeDialog = ({
   confirmUpgradeDialogOpen,
   setConfirmUpgradeDialogOpen,
   selectedFacility,
@@ -88,4 +88,4 @@ const StadiumUpgradeConfirmationDialog = ({
   );
 };
 
-export default StadiumUpgradeConfirmationDialog;
+export default ConfirmUpgradeDialog;

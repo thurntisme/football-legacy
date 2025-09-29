@@ -27,7 +27,7 @@ export const navItems = [
     icon: <Building className="h-4 w-4 mr-2" />,
   },
   {
-    href: "stadium",
+    href: "game/stadium",
     label: "Stadium",
     icon: <Landmark className="h-4 w-4 mr-2" />,
   },

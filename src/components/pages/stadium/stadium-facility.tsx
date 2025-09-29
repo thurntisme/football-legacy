@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import { ChevronDown, ChevronUp, Power } from 'lucide-react';
+import { ChevronDown, ChevronUp, Power } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
-import { Switch } from '@/components/ui/switch';
-import { IStadiumFacility } from '@/types/football/common';
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { Switch } from "@/components/ui/switch";
+import { IStadiumFacility } from "@/types/common";
 
 type Props = {
   facilities: IStadiumFacility[];
@@ -69,7 +69,7 @@ const StadiumFacility = ({
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-1">
                       <span>
-                        Current Level: {facility.currentLevel} /{' '}
+                        Current Level: {facility.currentLevel} /{" "}
                         {facility.maxLevel}
                       </span>
                       <div className="flex gap-2">
@@ -151,7 +151,7 @@ const StadiumFacility = ({
                                 <span>
                                   {facility.levels[
                                     facility.currentLevel - 1
-                                  ].capacity?.toLocaleString()}{' '}
+                                  ].capacity?.toLocaleString()}{" "}
                                   seats
                                 </span>
                               </div>

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 import {
   AlertDialogFooter,
   AlertDialogHeader,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,8 +11,8 @@ import {
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { IStadiumFacility } from '@/types/football/common';
+} from "@/components/ui/alert-dialog";
+import { IStadiumFacility } from "@/types/common";
 
 type Props = {
   confirmDowngradeDialogOpen: boolean;
@@ -21,7 +21,7 @@ type Props = {
   confirmDowngrade: () => void;
 };
 
-const StadiumDowngradeConfirmationDialog = ({
+const ConfirmDowngradeDialog = ({
   confirmDowngradeDialogOpen,
   setConfirmDowngradeDialogOpen,
   selectedFacility,
@@ -86,4 +86,4 @@ const StadiumDowngradeConfirmationDialog = ({
   );
 };
 
-export default StadiumDowngradeConfirmationDialog;
+export default ConfirmDowngradeDialog;

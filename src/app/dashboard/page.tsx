@@ -10,7 +10,7 @@ import LatestNewsCard from "@/components/latest-news-card";
 import LeaguePositionCard from "@/components/league-position-card";
 import NextMatchCard from "@/components/next-match-card";
 import OnlineMatchWidget from "@/components/online-match-widget";
-import StadiumCard from "@/components/stadium-card";
+import StadiumCard from "@/components/pages/stadium/stadium-card";
 import StaffManagementCard from "@/components/staff-management-card";
 import TeamPerformanceCard from "@/components/team-performance-card";
 import { Button } from "@/components/ui/button";
