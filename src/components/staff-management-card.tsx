@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Users } from 'lucide-react';
-import Link from 'next/link';
+import { Users } from "lucide-react";
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,8 +11,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
+} from "@/components/ui/card";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 export default function StaffManagementCard() {
   return (
@@ -35,7 +35,7 @@ export default function StaffManagementCard() {
       </CardContent>
       <CardFooter>
         <Button asChild className="w-full">
-          <Link href={`${FOOTBALL_STATS_URL}/staff`}>Manage Staff</Link>
+          <Link href={`${FOOTBALL_STATS_URL}/game/staff`}>Manage Staff</Link>
         </Button>
       </CardFooter>
     </Card>
