@@ -74,7 +74,7 @@ export const navItems = [
     icon: <Wifi className="h-4 w-4 mr-2" />,
   },
   {
-    href: "news",
+    href: "game/news",
     label: "News",
     icon: <Newspaper className="h-4 w-4 mr-2" />,
   },

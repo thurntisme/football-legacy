@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import { Calendar, MessageSquare, Star } from 'lucide-react';
+import { Calendar, MessageSquare, Star } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { NewsArticle } from '@/types/football/news';
+} from "@/components/ui/dialog";
+import { NewsArticle } from "@/types/news";
 
 type Props = {
   selectedArticle: NewsArticle | null;
@@ -28,35 +28,37 @@ const NewsDetailDialog = ({ selectedArticle, setSelectedArticle }: Props) => {
         {selectedArticle && (
           <>
             <DialogHeader>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-2">
                 <DialogTitle className="text-2xl">
                   {selectedArticle.title}
                 </DialogTitle>
-                {selectedArticle.tag && (
-                  <Badge
-                    variant={
-                      selectedArticle.tag === 'Confirmed'
-                        ? 'default'
-                        : selectedArticle.tag === 'Rumor'
-                          ? 'secondary'
-                          : 'outline'
-                    }
-                  >
-                    {selectedArticle.tag}
-                  </Badge>
-                )}
-              </div>
-              <DialogDescription>
-                <div className="flex items-center text-muted-foreground mt-2">
+                <div className="flex space-x-1">
+                  {selectedArticle.tag && (
+                    <Badge
+                      variant={
+                        selectedArticle.tag === "Confirmed"
+                          ? "default"
+                          : selectedArticle.tag === "Rumor"
+                            ? "secondary"
+                            : "outline"
+                      }
+                    >
+                      {selectedArticle.tag}
+                    </Badge>
+                  )}
                   <Badge variant="outline" className="mr-2">
                     {selectedArticle.category}
                   </Badge>
+                </div>
+              </div>
+              <DialogDescription>
+                <span className="flex items-center text-muted-foreground mt-2">
                   <Calendar className="h-4 w-4 mr-1" />
                   <span>{selectedArticle.time}</span>
                   <span className="mx-2">•</span>
                   <MessageSquare className="h-4 w-4 mr-1" />
                   <span>{selectedArticle.comments} comments</span>
-                </div>
+                </span>
               </DialogDescription>
             </DialogHeader>
 
@@ -64,7 +66,7 @@ const NewsDetailDialog = ({ selectedArticle, setSelectedArticle }: Props) => {
               <img
                 src={
                   selectedArticle.image ||
-                  '/placeholder.svg?height=300&width=800'
+                  "/placeholder.svg?height=300&width=800"
                 }
                 alt={selectedArticle.title}
                 className="w-full h-[200px] md:h-[300px] object-cover rounded-md"

@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import { Calendar, MessageSquare } from 'lucide-react';
+import { Calendar, MessageSquare } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { NewsArticle } from '@/types/football/news';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { NewsArticle } from "@/types/news";
 
 type Props = {
   allNews: NewsArticle[];
@@ -58,13 +58,13 @@ const NewsGrid = ({ allNews, setSelectedArticle }: Props) => {
             <div className="flex justify-between items-start">
               <Badge
                 variant={
-                  news.badge === 'team'
-                    ? 'default'
-                    : news.badge === 'transfers'
-                      ? 'secondary'
-                      : news.badge === 'league'
-                        ? 'outline'
-                        : 'destructive'
+                  news.badge === "team"
+                    ? "default"
+                    : news.badge === "transfers"
+                      ? "secondary"
+                      : news.badge === "league"
+                        ? "outline"
+                        : "destructive"
                 }
               >
                 {news.category}

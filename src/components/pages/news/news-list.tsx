@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 
-import { Calendar, MessageSquare } from 'lucide-react';
+import { Calendar, MessageSquare } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { NewsArticle } from '@/types/football/news';
+} from "@/components/ui/card";
+import { NewsArticle } from "@/types/news";
 
 type Props = {
   allNews: NewsArticle[];
@@ -29,7 +29,7 @@ const NewsList = ({ allNews, setSelectedArticle }: Props) => {
           {allNews.map((news, index) => (
             <div key={index} className="flex gap-4 pb-6 border-b last:border-0">
               <img
-                src={news.image || '/placeholder.svg'}
+                src={news.image || "/placeholder.svg"}
                 alt={news.title}
                 className="w-24 h-24 object-cover rounded-md hidden md:block"
               />

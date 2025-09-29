@@ -1,19 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import { Search } from 'lucide-react';
+import { Search } from "lucide-react";
 
-import { Input } from '@/components/ui/input';
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
-type Props = {};
-
-const NewsFilter = (props: Props) => {
+const NewsFilter = () => {
   return (
     <div className="flex flex-col md:flex-row gap-4 mb-6">
       <div className="relative flex-1">

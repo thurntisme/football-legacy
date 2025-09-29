@@ -4,17 +4,17 @@ import type React from "react";
 import { useState } from "react";
 
 import PageTitle from "@/components/common/page-title";
-import NewsDetailDialog from "@/components/news-detail-dialog";
-import NewsFilter from "@/components/news-filter";
-import NewsGrid from "@/components/news-grid";
-import NewsList from "@/components/news-list";
+import NewsDetailDialog from "@/components/pages/news/news-detail-dialog";
+import NewsFilter from "@/components/pages/news/news-filter";
+import NewsGrid from "@/components/pages/news/news-grid";
+import NewsList from "@/components/pages/news/news-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { allNews } from "@/mock/football";
-import { NewsArticle } from "@/types/football/news";
+import { allNews } from "@/mock/news";
+import { NewsArticle } from "@/types/news";
 
 export default function NewsPage() {
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(
-    null
+    null,
   );
 
   return (
