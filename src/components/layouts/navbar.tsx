@@ -109,13 +109,50 @@ export default function Navbar() {
                 className="text-xs md:text-sm"
                 asChild
               >
-                <Link
-                  href={`${FOOTBALL_STATS_URL}/${item.href}`}
-                  className="flex items-center"
-                >
-                  {item.icon}
-                  <span className="hidden sm:inline">{item.label}</span>
-                </Link>
+                {item.children ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-xs md:text-sm"
+                      >
+                        {item.icon}
+                        <span className="hidden sm:inline">{item.label}</span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      {item.children.map((child) => (
+                        <DropdownMenuItem
+                          key={child.href}
+                          asChild
+                          className={
+                            pathname ===
+                            `${FOOTBALL_PATH}/game/${item.href}/${child.href}`
+                              ? "bg-primary/10 font-medium"
+                              : ""
+                          }
+                        >
+                          <Link
+                            href={`${FOOTBALL_STATS_URL}/game/${item.href}/${child.href}`}
+                            className="flex items-center cursor-pointer"
+                          >
+                            {child.icon}
+                            {child.label}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Link
+                    href={`${FOOTBALL_STATS_URL}/${item.href}`}
+                    className="flex items-center"
+                  >
+                    {item.icon}
+                    <span className="hidden sm:inline">{item.label}</span>
+                  </Link>
+                )}
               </Button>
             ))}
 

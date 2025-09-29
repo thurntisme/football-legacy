@@ -1,20 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import { Calendar, Clock, MapPin } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
+import { upcomingMatches } from "@/mock/schedule";
 
-type Props = {};
-
-const UpcomingFixtures = (props: Props) => {
+const UpcomingFixtures = () => {
   return (
     <Card>
       <CardHeader>
@@ -23,53 +22,7 @@ const UpcomingFixtures = (props: Props) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {[
-            {
-              date: 'Saturday, 22 Mar',
-              time: '15:00',
-              competition: 'Premier League',
-              opponent: 'City FC',
-              venue: 'Home',
-              location: 'United Arena',
-              badge: 'league',
-            },
-            {
-              date: 'Tuesday, 25 Mar',
-              time: '19:45',
-              competition: 'Champions League',
-              opponent: 'Bayern FC',
-              venue: 'Away',
-              location: 'Bayern Stadium',
-              badge: 'champions',
-            },
-            {
-              date: 'Saturday, 29 Mar',
-              time: '15:00',
-              competition: 'Premier League',
-              opponent: 'Rovers SC',
-              venue: 'Away',
-              location: 'Rovers Stadium',
-              badge: 'league',
-            },
-            {
-              date: 'Wednesday, 2 Apr',
-              time: '19:45',
-              competition: 'FA Cup',
-              opponent: 'Athletic FC',
-              venue: 'Home',
-              location: 'United Arena',
-              badge: 'cup',
-            },
-            {
-              date: 'Saturday, 5 Apr',
-              time: '15:00',
-              competition: 'Premier League',
-              opponent: 'United FC',
-              venue: 'Home',
-              location: 'United Arena',
-              badge: 'league',
-            },
-          ].map((match, index) => (
+          {upcomingMatches.map((match, index) => (
             <div
               key={index}
               className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 border rounded-lg"
@@ -118,11 +71,11 @@ const UpcomingFixtures = (props: Props) => {
               <div className="flex flex-col items-end w-1/3">
                 <Badge
                   variant={
-                    match.badge === 'league'
-                      ? 'default'
-                      : match.badge === 'champions'
-                        ? 'secondary'
-                        : 'outline'
+                    match.badge === "league"
+                      ? "default"
+                      : match.badge === "champions"
+                        ? "secondary"
+                        : "outline"
                   }
                 >
                   {match.competition}

@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
 
-import { Calendar } from 'lucide-react';
+import { Calendar } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { ICalendarEvent } from '@/types/football/common';
-import { Checkbox } from '@radix-ui/react-checkbox';
+} from "@/components/ui/card";
+import { ICalendarEvent } from "@/types/common";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type Props = {
   eventFilters: {
@@ -22,9 +22,9 @@ type Props = {
     loan: boolean;
     other: boolean;
   };
-  toggleEventFilter: (filter: keyof Props['eventFilters']) => void;
+  toggleEventFilter: (filter: keyof Props["eventFilters"]) => void;
   groupedEvents: Record<string, ICalendarEvent[]>;
-  setEventFilters: (filters: Props['eventFilters']) => void;
+  setEventFilters: (filters: Props["eventFilters"]) => void;
 };
 
 const SeasonCalendar = ({
@@ -36,7 +36,7 @@ const SeasonCalendar = ({
   return (
     <Card>
       <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
-        <div>
+        <div className="space-y-1">
           <CardTitle>Season Calendar</CardTitle>
           <CardDescription>
             Full season schedule and important events
@@ -48,7 +48,7 @@ const SeasonCalendar = ({
               <Checkbox
                 id="filter-match"
                 checked={eventFilters.match}
-                onCheckedChange={() => toggleEventFilter('match')}
+                onCheckedChange={() => toggleEventFilter("match")}
                 className="mr-2 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
               />
               <label htmlFor="filter-match" className="text-sm cursor-pointer">
@@ -59,7 +59,7 @@ const SeasonCalendar = ({
               <Checkbox
                 id="filter-contract"
                 checked={eventFilters.contract}
-                onCheckedChange={() => toggleEventFilter('contract')}
+                onCheckedChange={() => toggleEventFilter("contract")}
                 className="mr-2 data-[state=checked]:bg-amber-500"
               />
               <label
@@ -73,7 +73,7 @@ const SeasonCalendar = ({
               <Checkbox
                 id="filter-transfer"
                 checked={eventFilters.transfer}
-                onCheckedChange={() => toggleEventFilter('transfer')}
+                onCheckedChange={() => toggleEventFilter("transfer")}
                 className="mr-2 data-[state=checked]:bg-green-500"
               />
               <label
@@ -87,7 +87,7 @@ const SeasonCalendar = ({
               <Checkbox
                 id="filter-loan"
                 checked={eventFilters.loan}
-                onCheckedChange={() => toggleEventFilter('loan')}
+                onCheckedChange={() => toggleEventFilter("loan")}
                 className="mr-2 data-[state=checked]:bg-blue-500"
               />
               <label htmlFor="filter-loan" className="text-sm cursor-pointer">
@@ -98,7 +98,7 @@ const SeasonCalendar = ({
               <Checkbox
                 id="filter-other"
                 checked={eventFilters.other}
-                onCheckedChange={() => toggleEventFilter('other')}
+                onCheckedChange={() => toggleEventFilter("other")}
                 className="mr-2 data-[state=checked]:bg-purple-500"
               />
               <label htmlFor="filter-other" className="text-sm cursor-pointer">
@@ -121,7 +121,7 @@ const SeasonCalendar = ({
                   >
                     <div className="flex items-center">
                       <div className="w-10 text-center font-bold">
-                        {event.date.split(' ')[1].replace(',', '')}
+                        {event.date.split(" ")[1].replace(",", "")}
                       </div>
                       <div className="ml-4 flex items-start">
                         <div className="mr-2 mt-1">{event.icon}</div>
@@ -136,13 +136,13 @@ const SeasonCalendar = ({
                     <div className="flex items-center">
                       {event.badge && (
                         <Badge
-                          variant={event.badgeVariant || 'default'}
+                          variant={event.badgeVariant || "default"}
                           className="mr-2"
                         >
                           {event.badge}
                         </Badge>
                       )}
-                      {event.type === 'match' && (
+                      {event.type === "match" && (
                         <Button variant="outline" size="sm">
                           Details
                         </Button>

@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 export type OnlineManager = {
   id: string;
   name: string;
   team: string;
   rating: number;
-  status: 'online' | 'in-match';
+  status: "online" | "in-match";
   avatar: string;
   teamInfo: {
     formation: string;
@@ -47,8 +47,8 @@ export type MatchDetail = {
   };
 };
 
-type MatchOutcome = 'win' | 'loss' | 'draw';
-type TeamType = 'home' | 'away';
+type MatchOutcome = "win" | "loss" | "draw";
+type TeamType = "home" | "away";
 
 interface Score {
   home: number;
@@ -106,13 +106,6 @@ export type MatchStats = {
   fouls: { home: number; away: number };
 };
 
-export type MatchEvent = {
-  minute: number;
-  type: string;
-  text: string;
-  team: string;
-};
-
 export type MatchScore = { home: number; away: number };
 type HeatmapGrid = number[][];
 
@@ -139,8 +132,8 @@ export type RewardItem = {
   id: number;
   name: string;
   description: string;
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
-  type: 'player';
+  rarity: "common" | "rare" | "epic" | "legendary";
+  type: "player";
   playerDetails: {
     position: string;
     rating: number;
@@ -149,3 +142,20 @@ export type RewardItem = {
   };
   icon: React.ReactNode;
 };
+
+export interface MatchEvent {
+  type:
+    | "kickoff"
+    | "goal"
+    | "yellow-card"
+    | "half-time"
+    | "second-half"
+    | "substitution"
+    | "full-time";
+  title: string;
+  description: string;
+  assist?: string;
+  team?: "home" | "away";
+  player?: string;
+  minute: number;
+}

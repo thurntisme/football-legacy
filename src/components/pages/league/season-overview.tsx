@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import { Calendar, Clock, Trophy } from 'lucide-react';
+import { Calendar, Clock, Trophy } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 
 type Props = {};
 

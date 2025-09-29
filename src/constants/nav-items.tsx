@@ -3,13 +3,15 @@ import {
   Users,
   Building,
   Landmark,
-  Calendar,
   ShoppingCart,
   Search,
   Dumbbell,
   Wifi,
   Newspaper,
   Package,
+  Trophy,
+  CalendarDays,
+  ListOrdered,
 } from "lucide-react";
 
 export const navItems = [
@@ -30,9 +32,21 @@ export const navItems = [
     icon: <Landmark className="h-4 w-4 mr-2" />,
   },
   {
-    href: "schedule",
-    label: "Schedule",
-    icon: <Calendar className="h-4 w-4 mr-2" />,
+    href: "league",
+    label: "League",
+    icon: <Trophy className="h-4 w-4 mr-2" />,
+    children: [
+      {
+        href: "schedule",
+        label: "Schedule",
+        icon: <CalendarDays className="h-4 w-4 mr-2" />,
+      },
+      {
+        href: "standing",
+        label: "Standing",
+        icon: <ListOrdered className="h-4 w-4 mr-2" />,
+      },
+    ],
   },
   {
     href: "market",

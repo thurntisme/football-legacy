@@ -1,15 +1,15 @@
-import { ArrowLeft, BarChart, TrendingUp, Trophy } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowLeft, BarChart, TrendingUp, Trophy } from "lucide-react";
+import Link from "next/link";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -17,9 +17,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
-import { leagueStanding } from '@/mock/football';
+} from "@/components/ui/table";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
+import { leagueStanding } from "@/mock/football";
 
 export default function LeagueStandingsPage() {
   return (
@@ -105,30 +105,30 @@ export default function LeagueStandingsPage() {
               {leagueStanding.map((team) => (
                 <TableRow
                   key={team.position}
-                  className={team.highlight ? 'bg-accent/30' : ''}
+                  className={team.highlight ? "bg-accent/30" : ""}
                 >
                   <TableCell className="font-medium">
                     <div className="flex items-center">
                       {team.position}
-                      {team.zone === 'champions' && (
+                      {team.zone === "champions" && (
                         <div
                           className="ml-2 w-2 h-2 rounded-full bg-blue-500"
                           title="Champions League"
                         ></div>
                       )}
-                      {team.zone === 'europa' && (
+                      {team.zone === "europa" && (
                         <div
                           className="ml-2 w-2 h-2 rounded-full bg-orange-500"
                           title="Europa League"
                         ></div>
                       )}
-                      {team.zone === 'conference' && (
+                      {team.zone === "conference" && (
                         <div
                           className="ml-2 w-2 h-2 rounded-full bg-green-500"
                           title="Conference League"
                         ></div>
                       )}
-                      {team.zone === 'relegation' && (
+                      {team.zone === "relegation" && (
                         <div
                           className="ml-2 w-2 h-2 rounded-full bg-red-500"
                           title="Relegation"
@@ -157,11 +157,11 @@ export default function LeagueStandingsPage() {
                         <Badge
                           key={i}
                           className={
-                            result === 'W'
-                              ? 'bg-green-500'
-                              : result === 'D'
-                                ? 'bg-amber-500'
-                                : 'bg-red-500'
+                            result === "W"
+                              ? "bg-green-500"
+                              : result === "D"
+                                ? "bg-amber-500"
+                                : "bg-red-500"
                           }
                         >
                           {result}
