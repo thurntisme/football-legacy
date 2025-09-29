@@ -31,7 +31,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { guestUser } from "@/constants/guest-user";
+import { GUEST_USER } from "@/constants/guest-user";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { getGuestData } from "@/lib/user";
 import { cn, convertNumberWithSeparator } from "@/lib/utils";
@@ -79,7 +79,7 @@ export default function Footer() {
                     <AvatarFallback>JD</AvatarFallback>
                   </Avatar>
                   <span className="hidden sm:inline-block">
-                    {guestUser.fullname ?? ""}
+                    {GUEST_USER.fullname ?? ""}
                   </span>
                 </Button>
               </DropdownMenuTrigger>
@@ -117,7 +117,7 @@ export default function Footer() {
         <div
           className={cn(
             "grid grid-cols-1 md:grid-cols-4 gap-4 py-4 transition-all duration-300 overflow-hidden",
-            expanded ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0 py-0"
+            expanded ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0 py-0",
           )}
         >
           <div>
@@ -125,11 +125,11 @@ export default function Footer() {
             <div className="space-y-1.5 text-sm">
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4 text-muted-foreground" />
-                <span>{guestUser.fullname ?? ""}</span>
+                <span>{GUEST_USER.fullname ?? ""}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-muted-foreground" />
-                <span>{guestUser.email ?? ""}</span>
+                <span>{GUEST_USER.email ?? ""}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Shield className="h-4 w-4 text-muted-foreground" />
@@ -137,11 +137,13 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <CircleDollarSign className="h-4 w-4 text-muted-foreground" />
-                <span>{convertNumberWithSeparator(guestUser.budget ?? 0)}</span>
+                <span>
+                  {convertNumberWithSeparator(GUEST_USER.budget ?? 0)}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <Coins className="h-4 w-4 text-muted-foreground" />
-                <span>{convertNumberWithSeparator(guestUser.coin ?? 0)}</span>
+                <span>{convertNumberWithSeparator(GUEST_USER.coin ?? 0)}</span>
               </div>
             </div>
           </div>

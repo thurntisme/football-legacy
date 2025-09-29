@@ -32,7 +32,7 @@ export default function TeamPage() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["my-team-players"],
     queryFn: async () => {
-      const { data } = await internalApi.get("/football/team");
+      const { data } = await internalApi.get("/team");
       return data;
     },
   });
@@ -45,7 +45,7 @@ export default function TeamPage() {
   } = useQuery({
     queryKey: ["market-recommend-players"],
     queryFn: async () => {
-      const { data } = await internalApi.get("/football/market/recommend");
+      const { data } = await internalApi.get("/market/recommend");
       return data;
     },
     enabled: false,
@@ -62,7 +62,7 @@ export default function TeamPage() {
       title: "Best Lineup Selected",
       description: `Your lineup has been updated with the selected players: ${selectedLineup.substring(
         0,
-        100
+        100,
       )}...`,
     });
   };

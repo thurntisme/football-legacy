@@ -23,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { guestUser } from "@/constants/guest-user";
+import { GUEST_USER } from "@/constants/guest-user";
 import { FOOTBALL_PATH, FOOTBALL_STATS_URL } from "@/constants/site";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -176,10 +176,10 @@ export default function Navbar() {
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">
-                    {guestUser.fullname ?? ""}
+                    {GUEST_USER.fullname ?? ""}
                   </p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    {guestUser.email ?? ""}
+                    {GUEST_USER.email ?? ""}
                   </p>
                 </div>
               </DropdownMenuLabel>
