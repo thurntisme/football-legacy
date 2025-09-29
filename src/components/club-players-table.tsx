@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import React, { JSX } from 'react';
+import React, { JSX } from "react";
 
-import { ShoppingCart, Trash2, UserPlus } from 'lucide-react';
+import { ShoppingCart, Trash2, UserPlus, UserX } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
   TableBody,
@@ -14,8 +14,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Player } from '@/types/football/player';
+} from "@/components/ui/table";
+import { Player } from "@/types/player";
 
 interface PlayerTableProps {
   players: Player[];
@@ -23,8 +23,9 @@ interface PlayerTableProps {
   handleRemovePlayer: (playerId: string) => void;
   handlePlaceOnMarket: (playerId: string) => void;
   handleJoinTeam: (playerId: string) => void;
+  handleReleasePlayer: (playerId: string) => void;
   getPlayerTypeBadge: (type?: string) => JSX.Element | null;
-  getStatusBadge: (status: Player['status']) => JSX.Element | null;
+  getStatusBadge: (status: Player["status"]) => JSX.Element | null;
 }
 
 export default function ClubPlayersTable({
@@ -33,6 +34,7 @@ export default function ClubPlayersTable({
   handleRemovePlayer,
   handlePlaceOnMarket,
   handleJoinTeam,
+  handleReleasePlayer,
   getPlayerTypeBadge,
   getStatusBadge,
 }: PlayerTableProps) {
@@ -40,7 +42,7 @@ export default function ClubPlayersTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[40px] text-center"></TableHead>
+          <TableHead className="w-[40px] text-center">#</TableHead>
           <TableHead>Name</TableHead>
           <TableHead className="text-center">Position</TableHead>
           <TableHead className="text-center">Type</TableHead>
@@ -50,7 +52,7 @@ export default function ClubPlayersTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {players.map((player) => (
+        {players.map((player, index) => (
           <TableRow key={player.id}>
             <TableCell className="w-[40px] px-0 text-center">
               <Checkbox
@@ -73,30 +75,43 @@ export default function ClubPlayersTable({
             </TableCell>
             <TableCell className="text-right">
               <div className="flex justify-end gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleRemovePlayer(player.id)}
-                >
-                  <Trash2 className="h-4 w-4 mr-1" />
-                  Remove
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePlaceOnMarket(player.id)}
-                >
-                  <ShoppingCart className="h-4 w-4 mr-1" />
-                  Market
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleJoinTeam(player.id)}
-                >
-                  <UserPlus className="h-4 w-4 mr-1" />
-                  Join
-                </Button>
+                {index < 11 ? (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleReleasePlayer(player.id)}
+                  >
+                    <UserX className="h-4 w-4 mr-1" />
+                    Release
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleJoinTeam(player.id)}
+                    >
+                      <UserPlus className="h-4 w-4 mr-1" />
+                      Join
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handlePlaceOnMarket(player.id)}
+                    >
+                      <ShoppingCart className="h-4 w-4 mr-1" />
+                      Market
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleRemovePlayer(player.id)}
+                    >
+                      <Trash2 className="h-4 w-4 mr-1" />
+                      Remove
+                    </Button>
+                  </>
+                )}
               </div>
             </TableCell>
           </TableRow>

@@ -24,7 +24,7 @@ import {
 import { players as initPlayers } from "@/constants/player";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
-import { Player } from "@/types/football/player";
+import { Player } from "@/types/player";
 
 import ClubPlayersTable from "./club-players-table";
 
@@ -32,7 +32,7 @@ export default function PlayerManagement() {
   const [players, setPlayers] = useState<Player[]>(() =>
     initPlayers.map((p) => {
       return { ...p, selected: false };
-    })
+    }),
   );
   const [isGeneratingCombinedPlayer, setIsGeneratingCombinedPlayer] =
     useState(false);
@@ -52,20 +52,26 @@ export default function PlayerManagement() {
       description: "The player has been placed on the transfer market.",
     });
   };
-  const handleJoinTeam = () => {
+  const handleJoinTeam = (playerId: string) => {
     toast({
       title: "Player Added to Team",
       description: "The player has joined your team.",
     });
   };
+  const handleReleasePlayer = (playerId: string) => {
+    toast({
+      title: "Player Released",
+      description: "The player has been released from your club.",
+    });
+  };
   const togglePlayerSelection = (playerId: string) => {
     setPlayers(
       players.map((p) =>
-        p.id === playerId ? { ...p, selected: !p.selected } : p
-      )
+        p.id === playerId ? { ...p, selected: !p.selected } : p,
+      ),
     );
     const updatedPlayers = players.map((p) =>
-      p.id === playerId ? { ...p, selected: !p.selected } : p
+      p.id === playerId ? { ...p, selected: !p.selected } : p,
     );
     const selectedCount = updatedPlayers.filter((p) => p.selected).length;
     setShowGenerateCombinedButton(selectedCount >= 2);
@@ -151,7 +157,7 @@ export default function PlayerManagement() {
     <Card>
       <CardHeader>
         <div className="flex justify-between items-center">
-          <div>
+          <div className="space-y-1">
             <CardTitle>Player Management</CardTitle>
             <CardDescription>
               Adjust player details and contracts
@@ -192,6 +198,7 @@ export default function PlayerManagement() {
           handleRemovePlayer={handleRemovePlayer}
           handlePlaceOnMarket={handlePlaceOnMarket}
           handleJoinTeam={handleJoinTeam}
+          handleReleasePlayer={handleReleasePlayer}
           getPlayerTypeBadge={getPlayerTypeBadge}
           getStatusBadge={getStatusBadge}
         />
