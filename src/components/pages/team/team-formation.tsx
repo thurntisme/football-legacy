@@ -380,31 +380,31 @@ export default function TeamFormation({
 
   // Handle swapping a substitute with a player in the lineup
   const handleSwapPlayers = (position: Position) => {
-    if (!selectedSubstitute || !position.player) return;
+    if (!selectedPlayer || !position.player) return;
 
     // Create updated positions with the swap
-    const updatedPositions = positions.map((pos) => {
-      if (pos.id === position.id) {
-        return { ...pos, player: selectedSubstitute };
-      }
-      return pos;
-    });
+    // const updatedPositions = positions.map((pos) => {
+    //   if (pos.id === position.id) {
+    //     return { ...pos, player: selectedPlayer };
+    //   }
+    //   return pos;
+    // });
 
-    // Update available players (add the swapped out player, remove the substitute)
-    const updatedAvailablePlayers = availablePlayers.filter(
-      (p) => p.id !== selectedSubstitute.id,
-    );
-    updatedAvailablePlayers.push(position.player);
+    // // Update available players (add the swapped out player, remove the substitute)
+    // const updatedAvailablePlayers = availablePlayers.filter(
+    //   (p) => p.id !== selectedPlayer.id,
+    // );
+    // updatedAvailablePlayers.push(position.player);
 
-    // Update state
-    setPositions(updatedPositions);
-    setAvailablePlayers(updatedAvailablePlayers);
-    setSelectedSubstitute(null);
-    setSwappablePositions([]);
+    // // Update state
+    // setPositions(updatedPositions);
+    // setAvailablePlayers(updatedAvailablePlayers);
+    // setSelectedPlayer(null);
+    // setSwappablePositions([]);
 
     toast({
       title: "Players Swapped",
-      description: `${selectedSubstitute.name} has been swapped with ${position.player.name}.`,
+      description: `${selectedPlayer.name} has been swapped with ${position.player.name}.`,
     });
   };
 
@@ -510,139 +510,6 @@ export default function TeamFormation({
     setSelectedDetailPlayer(player);
   };
 
-  // Update the player selection dialog to show position match quality
-  const renderPlayerSelectionDialog = (pos: Position) => {
-    return (
-      <DialogContent
-        className="max-w-4xl max-h-[90vh] overflow-y-auto"
-        style={{ zIndex: 100 }}
-      >
-        <DialogHeader>
-          <DialogTitle>
-            Select Player for {pos.id.toUpperCase()} Position
-          </DialogTitle>
-          <DialogDescription>
-            Choose a player to assign to this position
-          </DialogDescription>
-        </DialogHeader>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 py-4">
-          {/* Option to remove player */}
-          {pos.player && (
-            <Button
-              variant="outline"
-              className="justify-start h-auto py-2 border-red-200 hover:bg-red-50 hover:text-red-600"
-              onClick={() => setPlayerToAssign(null)}
-            >
-              <div className="flex items-center">
-                <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-2 text-red-500">
-                  X
-                </div>
-                <div className="text-left">
-                  <div className="font-medium">Remove Player</div>
-                  <div className="text-xs text-muted-foreground">
-                    Clear this position
-                  </div>
-                </div>
-              </div>
-            </Button>
-          )}
-
-          {/* Current player (if any) */}
-          {pos.player && (
-            <Button
-              variant="outline"
-              className="justify-start h-auto py-2 border-green-200 bg-green-50"
-              disabled
-            >
-              <div className="flex items-center">
-                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center mr-2 font-bold">
-                  {pos.player.rating}
-                </div>
-                <div className="text-left">
-                  <div className="font-medium">{pos.player.name}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {pos.player.position} • Rating: {pos.player.rating} • Form:{" "}
-                    {pos.player.form}
-                  </div>
-                </div>
-              </div>
-            </Button>
-          )}
-
-          {/* Available players */}
-          {availablePlayers.map((player) => {
-            const matchQuality = getPositionMatchQuality(player, pos.id);
-            return (
-              <Button
-                key={player.id}
-                variant={
-                  playerToAssign?.id === player.id ? "default" : "outline"
-                }
-                className={`justify-start h-auto py-2 ${
-                  matchQuality.quality === "excellent" ? "border-green-200" : ""
-                }`}
-                onClick={() => setPlayerToAssign(player)}
-              >
-                <div className="flex items-center w-full">
-                  <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center mr-2 font-bold">
-                    {player.rating}
-                  </div>
-                  <div className="text-left flex-1">
-                    <div className="font-medium flex items-center justify-between">
-                      <span>{player.name}</span>
-                      <Badge
-                        className={`${matchQuality.color} ml-2 text-[10px] leading-[12px]`}
-                      >
-                        {matchQuality.label}
-                      </Badge>
-                    </div>
-                    <div className="text-xs text-muted-foreground flex items-center justify-between">
-                      <span>
-                        {player.position} • Rating: {player.rating} • Form:{" "}
-                        {player.form}
-                      </span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-5 w-5 ml-2"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedDetailPlayer(player);
-                          setDetailDialogOpen(true);
-                        }}
-                      >
-                        <Info className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </Button>
-            );
-          })}
-        </div>
-
-        <div className="flex justify-end gap-2 mt-4">
-          <Button
-            variant="outline"
-            onClick={() => {
-              setPlayerToAssign(null);
-              setSelectedPosition(null);
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => handleSelectPlayer(pos, playerToAssign)}
-            disabled={playerToAssign === null}
-          >
-            Confirm Selection
-          </Button>
-        </div>
-      </DialogContent>
-    );
-  };
-
   return (
     <Card>
       <CardHeader>
@@ -656,18 +523,10 @@ export default function TeamFormation({
           <div className="flex-1">
             <MyTeamFormationField
               positions={positions}
-              swappablePositions={swappablePositions}
-              handleSwapPlayers={handleSwapPlayers}
-              setSelectedPosition={setSelectedPosition}
-              setPlayerToAssign={setPlayerToAssign}
-              selectedSubstitute={selectedSubstitute}
               currentFormation={currentFormation}
-              tactics={tactics}
-              renderPlayerSelectionDialog={renderPlayerSelectionDialog}
               selectedPlayer={selectedPlayer}
+              handleSwapPlayers={handleSwapPlayers}
               setSelectedPlayer={setSelectedPlayer}
-              setDetailDialogOpen={setDetailDialogOpen}
-              setSelectedDetailPlayer={setSelectedDetailPlayer}
             />
 
             {/* <MySubstitutes
