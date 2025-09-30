@@ -84,98 +84,71 @@ const MyTeamFormationField = ({
           <Dialog key={pos.id}>
             <DialogTrigger asChild>
               <div
-                className={`absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform ${
-                  swappablePositions.includes(pos.id) ||
-                  (selectedPlayer &&
-                    pos.player &&
-                    selectedPlayer.id === pos.player.id)
-                    ? "ring-4 ring-yellow-400 ring-opacity-70"
-                    : ""
-                }`}
+                className={`absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform `}
                 style={{
                   left: `${pos.x}%`,
                   top: `${pos.y}%`,
                 }}
               >
                 {pos.player ? (
-                  <div className="flex flex-col items-center relative pos-item">
-                    <Tooltip>
-                      <TooltipTrigger>
+                  <div className="flex flex-col items-center relative pos-item w-[76px]">
+                    <div
+                      className="flex flex-col items-center"
+                      onClick={() => {
+                        handleClickPlayer(pos.player);
+                      }}
+                    >
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center bg-white text-black font-bold text-sm relative ${
+                          pos.player.fitness < 80 ? "opacity-70" : ""
+                        } ${
+                          swappablePositions.includes(pos.id) ||
+                          (selectedPlayer &&
+                            pos.player &&
+                            selectedPlayer.id === pos.player.id)
+                            ? "ring-4 ring-yellow-400 ring-opacity-70"
+                            : ""
+                        }`}
+                      >
+                        {pos.player.rating}
                         <div
-                          className="flex flex-col items-center"
-                          onClick={() => {
-                            handleClickPlayer(pos.player);
-                          }}
-                        >
-                          <div
-                            className={`w-10 h-10 rounded-full flex items-center justify-center bg-white text-black font-bold text-sm relative ${
-                              pos.player.fitness < 80 ? "opacity-70" : ""
-                            }`}
-                          >
-                            {pos.player.rating}
-                            <div
-                              className={`absolute -top-1 -right-1 w-3 h-3 rounded-full ${getFormColor(
-                                pos.player.form,
-                              )}`}
-                            ></div>
+                          className={`absolute -top-1 -right-1 w-3 h-3 rounded-full ${getFormColor(
+                            pos.player.form,
+                          )}`}
+                        ></div>
 
-                            {tactics === "attacking" && (
-                              <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-white flex items-center justify-center">
-                                <ArrowUp className="h-2 w-2 text-green-600" />
-                              </div>
-                            )}
-                            {tactics === "defensive" && (
-                              <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-white flex items-center justify-center">
-                                <ArrowDown className="h-2 w-2 text-amber-600" />
-                              </div>
-                            )}
-                            {tactics === "counter" && (
-                              <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-white flex items-center justify-center">
-                                <div className="flex items-center">
-                                  <ArrowDown className="h-2 w-2 text-amber-600" />
-                                  <ArrowUp className="h-2 w-2 -ml-1 text-green-600" />
-                                </div>
-                              </div>
-                            )}
+                        {tactics === "attacking" && (
+                          <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-white flex items-center justify-center">
+                            <ArrowUp className="h-2 w-2 text-green-600" />
                           </div>
-                          <div className="mt-1 px-2 py-0.5 bg-black/70 rounded text-white text-xs whitespace-nowrap">
-                            {pos.player.name.split(" ")[1]}
+                        )}
+                        {tactics === "defensive" && (
+                          <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-white flex items-center justify-center">
+                            <ArrowDown className="h-2 w-2 text-amber-600" />
                           </div>
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <div className="space-y-1 p-1">
-                          <div className="flex justify-between items-center gap-2">
-                            <p className="font-medium">{pos.player.name}</p>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="text-xs w-3 h-3 p-0 flex items-center justify-center"
-                              onClick={() => handleViewDetailPlayer(pos.player)}
-                            >
-                              <InfoIcon />
-                            </Button>
+                        )}
+                        {tactics === "counter" && (
+                          <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-white flex items-center justify-center">
+                            <div className="flex items-center">
+                              <ArrowDown className="h-2 w-2 text-amber-600" />
+                              <ArrowUp className="h-2 w-2 -ml-1 text-green-600" />
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2 text-xs">
-                            <Badge variant="outline">
-                              {pos.player.position}
-                            </Badge>
-                            <span>Rating: {pos.player.rating}</span>
-                            <span>Fitness: {pos.player.fitness}%</span>
-                          </div>
-                        </div>
-                      </TooltipContent>
-                    </Tooltip>
+                        )}
+                      </div>
+                      <div className="mt-1.5 px-2 py-0.5 bg-black/70 rounded text-white text-xs whitespace-nowrap">
+                        {pos.player.name.split(" ")[1]}
+                      </div>
+                    </div>
 
                     {selectedPlayer && selectedPlayer.id !== pos.player.id && (
                       <Button
                         size="sm"
                         variant="secondary"
-                        className="px-2 py-0.5 h-7 bg-yellow-500 hover:bg-yellow-500 opacity-0 text-white text-xs absolute bottom-[-32px] btn-swap"
+                        className="w-5 h-5 p-0 bg-yellow-500 hover:bg-yellow-500 opacity-0 text-white text-xs absolute bottom-[16px] btn-swap"
                         onClick={() => handleSwapPlayer(pos)}
                       >
-                        <ArrowLeftRight className="h-1 w-1" />
-                        Swap
+                        <ArrowLeftRight className="h-0.5 w-0.5" />
                       </Button>
                     )}
                   </div>

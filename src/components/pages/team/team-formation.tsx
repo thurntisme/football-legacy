@@ -1,15 +1,15 @@
 "use client";
 
 import MySubstitutes from "../../my-substitutes";
-import MyTeamFormationSelector from "../../my-team-formation-selector";
 import MyTeamRating from "../../my-team-rating";
 import MyTeamTactics from "../../my-team-tactics";
 
 import { useCallback, useEffect, useState } from "react";
 
-import { Info, Save } from "lucide-react";
+import { Info, InfoIcon, Save } from "lucide-react";
 
 import PlayerDetailDialog from "@/components/player-detail-dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,6 +32,8 @@ import { Formation, Position } from "@/types/formation";
 import { Player } from "@/types/player";
 
 import MyTeamFormationField from "./my-team-formation-field";
+import MyTeamFormationSelector from "./my-team-formation-selector";
+import SelectedPlayerSummary from "./selected-player-summary";
 
 type TeamFormationProps = {
   allPlayers: Player[];
@@ -502,6 +504,12 @@ export default function TeamFormation({
     return { quality: "poor", label: "Poor", color: "bg-red-400" };
   };
 
+  const handleViewDetailPlayer = (player: Player | null) => {
+    if (!player) return;
+    setDetailDialogOpen(true);
+    setSelectedDetailPlayer(player);
+  };
+
   // Update the player selection dialog to show position match quality
   const renderPlayerSelectionDialog = (pos: Position) => {
     return (
@@ -680,6 +688,11 @@ export default function TeamFormation({
           </div>
 
           <div className="w-full md:w-64 space-y-4">
+            <SelectedPlayerSummary
+              selectedPlayer={selectedPlayer}
+              handleViewDetailPlayer={handleViewDetailPlayer}
+            />
+
             <MyTeamFormationSelector
               currentFormation={currentFormation}
               handleFormationChange={handleFormationChange}
