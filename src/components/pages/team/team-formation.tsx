@@ -1,6 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import MySubstitutes from "../../my-substitutes";
+import MyTeamFormationSelector from "../../my-team-formation-selector";
+import MyTeamRating from "../../my-team-rating";
+import MyTeamTactics from "../../my-team-tactics";
+
+import { useCallback, useEffect, useState } from "react";
 
 import { Info, Save } from "lucide-react";
 
@@ -22,30 +27,30 @@ import {
 } from "@/components/ui/dialog";
 import { formations } from "@/constants/formations";
 import { toast } from "@/hooks/use-toast";
-import { Position } from "@/types/formation";
+import { getFormationPositions } from "@/lib/formation";
+import { Formation, Position } from "@/types/formation";
 import { Player } from "@/types/player";
 
-import MySubstitutes from "../../my-substitutes";
-import MyTeamFormationField from "../../my-team-formation-field";
-import MyTeamFormationSelector from "../../my-team-formation-selector";
-import MyTeamRating from "../../my-team-rating";
-import MyTeamTactics from "../../my-team-tactics";
+import MyTeamFormationField from "./my-team-formation-field";
 
 type TeamFormationProps = {
   allPlayers: Player[];
+  players: Player[];
+  formation: string;
 };
 
-const defaultFormation = "4-2-3-1";
-
-export default function TeamFormation({ allPlayers }: TeamFormationProps) {
+export default function TeamFormation({
+  allPlayers,
+  players,
+  formation,
+}: TeamFormationProps) {
   // Add state for the player detail dialog
   const [selectedDetailPlayer, setSelectedDetailPlayer] =
     useState<Player | null>(null);
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
 
   // State for current formation and positions
-  const [currentFormation, setCurrentFormation] =
-    useState<string>(defaultFormation);
+  const [currentFormation, setCurrentFormation] = useState<string>();
   const [positions, setPositions] = useState<Position[]>([]);
   const [selectedPosition, setSelectedPosition] = useState<Position | null>(
     null,
@@ -69,127 +74,147 @@ export default function TeamFormation({ allPlayers }: TeamFormationProps) {
   const subsPerPage = 5;
   const totalSubPages = Math.ceil(availablePlayers.length / subsPerPage);
 
-  // Initialize formation with players
+  const loadPlayerInFormation = useCallback(
+    (formation: string) => {
+      setCurrentFormation(formation);
+      if (players) {
+        const formationPositions = getFormationPositions(formation);
+        const basePositions = formationPositions.map((pos, index) => {
+          return { ...pos, player: players[index] || null };
+        });
+        setPositions(basePositions);
+      }
+    },
+    [players],
+  );
+
   useEffect(() => {
-    const initialFormation = formations[currentFormation];
+    if (formation) {
+      loadPlayerInFormation(formation);
+    }
+  }, [formation, loadPlayerInFormation]);
 
-    // Deep clone the positions to avoid reference issues
-    const newPositions = JSON.parse(JSON.stringify(initialFormation.positions));
+  // Initialize formation with players
+  // useEffect(() => {
+  //   const initialFormation = formations[currentFormation];
 
-    // Assign players to positions based on best fit
-    // const usedPlayerIds = new Set<string>();
+  //   // Deep clone the positions to avoid reference issues
+  //   const newPositions = JSON.parse(JSON.stringify(initialFormation.positions));
 
-    newPositions.forEach((position: Position, index: number) => {
-      // Find suitable players for this position
-      // const suitablePlayers = allPlayers.filter((player) => {
-      //   // Don't use already assigned players
-      //   if (usedPlayerIds.has(player.id)) return false;
+  //   // Assign players to positions based on best fit
+  //   // const usedPlayerIds = new Set<string>();
 
-      //   // Check if the position is in the player's playable positions
-      //   const posId = position.id.toUpperCase();
+  //   newPositions.forEach((position: Position, index: number) => {
+  //     // Find suitable players for this position
+  //     // const suitablePlayers = allPlayers.filter((player) => {
+  //     //   // Don't use already assigned players
+  //     //   if (usedPlayerIds.has(player.id)) return false;
 
-      //   // Direct position match (best position)
-      //   if (player.position === posId) return true;
+  //     //   // Check if the position is in the player's playable positions
+  //     //   const posId = position.id.toUpperCase();
 
-      //   // Check playable positions
-      //   if (player.playablePositions.includes(posId)) return true;
+  //     //   // Direct position match (best position)
+  //     //   if (player.position === posId) return true;
 
-      //   // Match position groups
-      //   if (
-      //     (posId === 'CB1' || posId === 'CB2' || posId === 'CB3') &&
-      //     player.playablePositions.includes('CB')
-      //   )
-      //     return true;
-      //   if (
-      //     (posId === 'LB' || posId === 'LWB') &&
-      //     (player.playablePositions.includes('LB') ||
-      //       player.playablePositions.includes('LWB'))
-      //   )
-      //     return true;
-      //   if (
-      //     (posId === 'RB' || posId === 'RWB') &&
-      //     (player.playablePositions.includes('RB') ||
-      //       player.playablePositions.includes('RWB'))
-      //   )
-      //     return true;
-      //   if (
-      //     (posId === 'CDM' || posId === 'CDM1' || posId === 'CDM2') &&
-      //     (player.playablePositions.includes('CDM') ||
-      //       player.playablePositions.includes('CM'))
-      //   )
-      //     return true;
-      //   if (
-      //     (posId === 'CM1' || posId === 'CM2') &&
-      //     player.playablePositions.includes('CM')
-      //   )
-      //     return true;
-      //   if (
-      //     (posId === 'LM' || posId === 'LW' || posId === 'LAM') &&
-      //     (player.playablePositions.includes('LM') ||
-      //       player.playablePositions.includes('LW'))
-      //   )
-      //     return true;
-      //   if (
-      //     (posId === 'RM' || posId === 'RW' || posId === 'RAM') &&
-      //     (player.playablePositions.includes('RM') ||
-      //       player.playablePositions.includes('RW'))
-      //   )
-      //     return true;
-      //   if (
-      //     posId === 'CAM' &&
-      //     (player.playablePositions.includes('CAM') ||
-      //       player.playablePositions.includes('CM'))
-      //   )
-      //     return true;
-      //   if (
-      //     (posId === 'ST' || posId === 'ST1' || posId === 'ST2') &&
-      //     player.playablePositions.includes('ST')
-      //   )
-      //     return true;
+  //     //   // Check playable positions
+  //     //   if (player.playablePositions.includes(posId)) return true;
 
-      //   return false;
-      // });
+  //     //   // Match position groups
+  //     //   if (
+  //     //     (posId === 'CB1' || posId === 'CB2' || posId === 'CB3') &&
+  //     //     player.playablePositions.includes('CB')
+  //     //   )
+  //     //     return true;
+  //     //   if (
+  //     //     (posId === 'LB' || posId === 'LWB') &&
+  //     //     (player.playablePositions.includes('LB') ||
+  //     //       player.playablePositions.includes('LWB'))
+  //     //   )
+  //     //     return true;
+  //     //   if (
+  //     //     (posId === 'RB' || posId === 'RWB') &&
+  //     //     (player.playablePositions.includes('RB') ||
+  //     //       player.playablePositions.includes('RWB'))
+  //     //   )
+  //     //     return true;
+  //     //   if (
+  //     //     (posId === 'CDM' || posId === 'CDM1' || posId === 'CDM2') &&
+  //     //     (player.playablePositions.includes('CDM') ||
+  //     //       player.playablePositions.includes('CM'))
+  //     //   )
+  //     //     return true;
+  //     //   if (
+  //     //     (posId === 'CM1' || posId === 'CM2') &&
+  //     //     player.playablePositions.includes('CM')
+  //     //   )
+  //     //     return true;
+  //     //   if (
+  //     //     (posId === 'LM' || posId === 'LW' || posId === 'LAM') &&
+  //     //     (player.playablePositions.includes('LM') ||
+  //     //       player.playablePositions.includes('LW'))
+  //     //   )
+  //     //     return true;
+  //     //   if (
+  //     //     (posId === 'RM' || posId === 'RW' || posId === 'RAM') &&
+  //     //     (player.playablePositions.includes('RM') ||
+  //     //       player.playablePositions.includes('RW'))
+  //     //   )
+  //     //     return true;
+  //     //   if (
+  //     //     posId === 'CAM' &&
+  //     //     (player.playablePositions.includes('CAM') ||
+  //     //       player.playablePositions.includes('CM'))
+  //     //   )
+  //     //     return true;
+  //     //   if (
+  //     //     (posId === 'ST' || posId === 'ST1' || posId === 'ST2') &&
+  //     //     player.playablePositions.includes('ST')
+  //     //   )
+  //     //     return true;
 
-      // // Sort suitable players by position match quality and rating
-      // const sortedPlayers = suitablePlayers.sort((a, b) => {
-      //   // Primary sort: exact position match
-      //   const aExactMatch = a.position === position.id.toUpperCase() ? 1 : 0;
-      //   const bExactMatch = b.position === position.id.toUpperCase() ? 1 : 0;
-      //   if (aExactMatch !== bExactMatch) return bExactMatch - aExactMatch;
+  //     //   return false;
+  //     // });
 
-      //   // Secondary sort: playable position match
-      //   const aPlayableMatch = a.playablePositions.includes(
-      //     position.id.toUpperCase()
-      //   )
-      //     ? 1
-      //     : 0;
-      //   const bPlayableMatch = b.playablePositions.includes(
-      //     position.id.toUpperCase()
-      //   )
-      //     ? 1
-      //     : 0;
-      //   if (aPlayableMatch !== bPlayableMatch)
-      //     return bPlayableMatch - aPlayableMatch;
+  //     // // Sort suitable players by position match quality and rating
+  //     // const sortedPlayers = suitablePlayers.sort((a, b) => {
+  //     //   // Primary sort: exact position match
+  //     //   const aExactMatch = a.position === position.id.toUpperCase() ? 1 : 0;
+  //     //   const bExactMatch = b.position === position.id.toUpperCase() ? 1 : 0;
+  //     //   if (aExactMatch !== bExactMatch) return bExactMatch - aExactMatch;
 
-      //   // Tertiary sort: rating
-      //   return b.rating - a.rating;
-      // });
+  //     //   // Secondary sort: playable position match
+  //     //   const aPlayableMatch = a.playablePositions.includes(
+  //     //     position.id.toUpperCase()
+  //     //   )
+  //     //     ? 1
+  //     //     : 0;
+  //     //   const bPlayableMatch = b.playablePositions.includes(
+  //     //     position.id.toUpperCase()
+  //     //   )
+  //     //     ? 1
+  //     //     : 0;
+  //     //   if (aPlayableMatch !== bPlayableMatch)
+  //     //     return bPlayableMatch - aPlayableMatch;
 
-      // Assign the best player to this position
-      // if (sortedPlayers.length > 0) {
-      //   const bestPlayer = sortedPlayers[0];
-      //   position.player = bestPlayer;
-      //   usedPlayerIds.add(bestPlayer.id);
-      // }
-      position.player =
-        allPlayers.find((player) => player.playerIndex === index) || null;
-    });
+  //     //   // Tertiary sort: rating
+  //     //   return b.rating - a.rating;
+  //     // });
 
-    setPositions(newPositions);
+  //     // Assign the best player to this position
+  //     // if (sortedPlayers.length > 0) {
+  //     //   const bestPlayer = sortedPlayers[0];
+  //     //   position.player = bestPlayer;
+  //     //   usedPlayerIds.add(bestPlayer.id);
+  //     // }
+  //     position.player =
+  //       allPlayers.find((player) => player.playerIndex === index) || null;
+  //   });
 
-    // Update available players (those not in the formation)
-    updateAvailablePlayers(newPositions);
-  }, [allPlayers, currentFormation]);
+  //   setPositions(newPositions);
+
+  //   // Update available players (those not in the formation)
+  //   updateAvailablePlayers(newPositions);
+  // }, [allPlayers, currentFormation]);
 
   // Update available players list
   const updateAvailablePlayers = (currentPositions: Position[]) => {
@@ -211,6 +236,7 @@ export default function TeamFormation({ allPlayers }: TeamFormationProps) {
   // Handle formation change
   const handleFormationChange = (formation: string) => {
     setCurrentFormation(formation);
+    loadPlayerInFormation(formation);
     // Reset substitute selection when formation changes
     setSelectedSubstitute(null);
     setSwappablePositions([]);
@@ -631,7 +657,7 @@ export default function TeamFormation({ allPlayers }: TeamFormationProps) {
               renderPlayerSelectionDialog={renderPlayerSelectionDialog}
             />
 
-            <MySubstitutes
+            {/* <MySubstitutes
               subsPerPage={subsPerPage}
               selectedSubstitute={selectedSubstitute}
               setSelectedSubstitute={setSelectedSubstitute}
@@ -645,7 +671,7 @@ export default function TeamFormation({ allPlayers }: TeamFormationProps) {
               nextSubPage={nextSubPage}
               currentSubPage={currentSubPage}
               totalSubPages={totalSubPages}
-            />
+            /> */}
           </div>
 
           <div className="w-full md:w-64 space-y-4">
@@ -654,12 +680,12 @@ export default function TeamFormation({ allPlayers }: TeamFormationProps) {
               handleFormationChange={handleFormationChange}
             />
 
-            <MyTeamTactics
+            {/* <MyTeamTactics
               tactics={tactics}
               handleTacticsChange={handleTacticsChange}
             />
 
-            <MyTeamRating positions={positions} />
+            <MyTeamRating positions={positions} /> */}
 
             <Button className="w-full" onClick={handleSaveFormation}>
               <Save className="mr-2 h-4 w-4" />
@@ -667,11 +693,11 @@ export default function TeamFormation({ allPlayers }: TeamFormationProps) {
             </Button>
           </div>
 
-          <PlayerDetailDialog
+          {/* <PlayerDetailDialog
             player={selectedDetailPlayer}
             open={detailDialogOpen}
             onOpenChange={setDetailDialogOpen}
-          />
+          /> */}
         </div>
       </CardContent>
     </Card>

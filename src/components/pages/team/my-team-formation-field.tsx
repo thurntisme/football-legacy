@@ -12,8 +12,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getFormColor } from "@/lib/player";
-import { Position } from "@/types/football/formation";
-import { Player } from "@/types/football/player";
+import { Position } from "@/types/formation";
+import { Player } from "@/types/player";
 
 type Props = {
   positions: Position[];
@@ -22,7 +22,7 @@ type Props = {
   setSelectedPosition: (position: Position) => void;
   setPlayerToAssign: (player: Player | null) => void;
   selectedSubstitute: Player | null;
-  currentFormation: string;
+  currentFormation: string | undefined;
   tactics: string;
   renderPlayerSelectionDialog: (position: Position) => React.ReactNode;
 };
@@ -91,7 +91,7 @@ const MyTeamFormationField = ({
                           {pos.player.rating}
                           <div
                             className={`absolute -top-1 -right-1 w-3 h-3 rounded-full ${getFormColor(
-                              pos.player.form
+                              pos.player.form,
                             )}`}
                           ></div>
 

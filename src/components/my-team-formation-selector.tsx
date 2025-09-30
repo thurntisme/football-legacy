@@ -10,10 +10,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { formations } from "@/constants/formations";
+import { FORMATIONS, formations } from "@/constants/formations";
 
 type Props = {
-  currentFormation: string;
+  currentFormation: string | undefined;
   handleFormationChange: (formation: string) => void;
 };
 
@@ -21,6 +21,8 @@ const MyTeamFormationSelector = ({
   currentFormation,
   handleFormationChange,
 }: Props) => {
+  const formationList = FORMATIONS.map((f) => f.name);
+
   return (
     <Card>
       <CardContent className="p-4">
@@ -33,7 +35,7 @@ const MyTeamFormationSelector = ({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            {Object.keys(formations).map((formation) => (
+            {formationList.map((formation) => (
               <DropdownMenuItem
                 key={formation}
                 className={currentFormation === formation ? "bg-accent" : ""}

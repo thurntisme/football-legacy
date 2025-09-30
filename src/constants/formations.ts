@@ -49,7 +49,9 @@ export enum PlayerPosition {
   RW = "RW",
 
   // 🎯 Forwards
+  LT = "LT",
   ST = "ST",
+  RT = "RT",
   CF = "CF",
   SS = "SS",
 }
@@ -89,7 +91,9 @@ export const PlayerPositionLabel: Record<PlayerPosition, string> = {
   [PlayerPosition.RW]: "Right Winger",
 
   // 🎯 Forwards
+  [PlayerPosition.LT]: "Left Tackle",
   [PlayerPosition.ST]: "Striker",
+  [PlayerPosition.RT]: "Right Tackle",
   [PlayerPosition.CF]: "Center Forward",
   [PlayerPosition.SS]: "Second Striker",
 };
@@ -280,6 +284,54 @@ export const FORMATIONS = [
       { id: PlayerPosition.CAM, x: 50, y: 35 },
       { id: PlayerPosition.RCAM, x: 75, y: 40 },
       { id: PlayerPosition.ST, x: 50, y: 20 },
+    ],
+  },
+  {
+    name: "4-3-3",
+    positions: [
+      { id: PlayerPosition.GK, x: 50, y: 90 },
+      { id: PlayerPosition.LB, x: 20, y: 70 },
+      { id: PlayerPosition.LCB, x: 35, y: 70 },
+      { id: PlayerPosition.RCB, x: 65, y: 70 },
+      { id: PlayerPosition.RB, x: 80, y: 70 },
+      { id: PlayerPosition.LCM, x: 30, y: 50 },
+      { id: PlayerPosition.CDM, x: 50, y: 55 },
+      { id: PlayerPosition.RCM, x: 70, y: 50 },
+      { id: PlayerPosition.LW, x: 20, y: 30 },
+      { id: PlayerPosition.ST, x: 50, y: 25 },
+      { id: PlayerPosition.RW, x: 80, y: 30 },
+    ],
+  },
+  {
+    name: "4-4-2",
+    positions: [
+      { id: PlayerPosition.GK, x: 50, y: 90 },
+      { id: PlayerPosition.LB, x: 20, y: 70 },
+      { id: PlayerPosition.LCB, x: 35, y: 70 },
+      { id: PlayerPosition.RCB, x: 65, y: 70 },
+      { id: PlayerPosition.RB, x: 80, y: 70 },
+      { id: PlayerPosition.LM, x: 20, y: 50 },
+      { id: PlayerPosition.LCM, x: 35, y: 50 },
+      { id: PlayerPosition.RCM, x: 65, y: 50 },
+      { id: PlayerPosition.RM, x: 80, y: 50 },
+      { id: PlayerPosition.LT, x: 35, y: 30 },
+      { id: PlayerPosition.RT, x: 65, y: 30 },
+    ],
+  },
+  {
+    name: "3-5-2",
+    positions: [
+      { id: PlayerPosition.GK, x: 50, y: 90 },
+      { id: PlayerPosition.LCB, x: 30, y: 70 },
+      { id: PlayerPosition.CB, x: 50, y: 70 },
+      { id: PlayerPosition.RCB, x: 70, y: 70 },
+      { id: PlayerPosition.LWB, x: 15, y: 55 },
+      { id: PlayerPosition.LCM, x: 30, y: 50 },
+      { id: PlayerPosition.CDM, x: 50, y: 50 },
+      { id: PlayerPosition.RCM, x: 70, y: 50 },
+      { id: PlayerPosition.RWB, x: 85, y: 55 },
+      { id: PlayerPosition.LT, x: 35, y: 30 },
+      { id: PlayerPosition.RT, x: 65, y: 30 },
     ],
   },
 ];
