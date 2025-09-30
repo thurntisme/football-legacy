@@ -2,8 +2,9 @@ import type React from "react";
 
 import { Inter } from "next/font/google";
 
-import Layout from "@/components/layouts/dashboard";
+import "@/app/custom.css";
 import "@/app/globals.css";
+import Layout from "@/components/layouts/dashboard";
 
 const inter = Inter({ subsets: ["latin"] });
 

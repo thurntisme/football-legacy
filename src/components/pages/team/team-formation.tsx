@@ -44,6 +44,7 @@ export default function TeamFormation({
   players,
   formation,
 }: TeamFormationProps) {
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   // Add state for the player detail dialog
   const [selectedDetailPlayer, setSelectedDetailPlayer] =
     useState<Player | null>(null);
@@ -655,6 +656,10 @@ export default function TeamFormation({
               currentFormation={currentFormation}
               tactics={tactics}
               renderPlayerSelectionDialog={renderPlayerSelectionDialog}
+              selectedPlayer={selectedPlayer}
+              setSelectedPlayer={setSelectedPlayer}
+              setDetailDialogOpen={setDetailDialogOpen}
+              setSelectedDetailPlayer={setSelectedDetailPlayer}
             />
 
             {/* <MySubstitutes
@@ -693,11 +698,11 @@ export default function TeamFormation({
             </Button>
           </div>
 
-          {/* <PlayerDetailDialog
+          <PlayerDetailDialog
             player={selectedDetailPlayer}
             open={detailDialogOpen}
             onOpenChange={setDetailDialogOpen}
-          /> */}
+          />
         </div>
       </CardContent>
     </Card>
