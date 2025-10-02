@@ -1,6 +1,5 @@
 "use client";
 
-import MySubstitutes from "../../my-substitutes";
 import MyTeamRating from "../../my-team-rating";
 import MyTeamTactics from "../../my-team-tactics";
 
@@ -31,6 +30,7 @@ import { getFormationPositions } from "@/lib/formation";
 import { Formation, Position } from "@/types/formation";
 import { Player } from "@/types/player";
 
+import MySubstitutes from "./my-substitutes";
 import MyTeamFormationField from "./my-team-formation-field";
 import MyTeamFormationSelector from "./my-team-formation-selector";
 import SelectedPlayerSummary from "./selected-player-summary";
@@ -408,6 +408,15 @@ export default function TeamFormation({
     });
   };
 
+  const handleSwapSubPlayers = (player: Player) => {
+    if (!selectedPlayer || !player) return;
+
+    toast({
+      title: "Players Swapped",
+      description: `${selectedPlayer.name} has been swapped with ${player.name}.`,
+    });
+  };
+
   // Handle pagination for substitutes
   const nextSubPage = () => {
     if (currentSubPage < totalSubPages - 1) {
@@ -530,21 +539,11 @@ export default function TeamFormation({
             />
 
             <MySubstitutes
-              subsPerPage={subsPerPage}
+              players={players}
               selectedPlayer={selectedPlayer}
               setSelectedPlayer={setSelectedPlayer}
-              selectedSubstitute={selectedSubstitute}
-              setSelectedSubstitute={setSelectedSubstitute}
-              setSwappablePositions={setSwappablePositions}
-              setSelectedDetailPlayer={setSelectedDetailPlayer}
-              setDetailDialogOpen={setDetailDialogOpen}
-              handleSubstituteSelect={handleSubstituteSelect}
-              tactics={tactics}
-              availablePlayers={availablePlayers}
-              prevSubPage={prevSubPage}
-              nextSubPage={nextSubPage}
-              currentSubPage={currentSubPage}
-              totalSubPages={totalSubPages}
+              viewDetailPlayer={handleViewDetailPlayer}
+              swapSubPlayers={handleSwapSubPlayers}
             />
           </div>
 

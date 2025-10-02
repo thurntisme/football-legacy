@@ -1,13 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
-import {
-  ArrowDown,
-  ArrowUp,
-  ChevronLeft,
-  ChevronRight,
-  Delete,
-  Info,
-} from "lucide-react";
+import { ArrowLeftRight, ChevronLeft, ChevronRight, Info } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,40 +8,25 @@ import { getFormColor } from "@/lib/player";
 import { Player } from "@/types/player";
 
 type Props = {
-  availablePlayers: any[];
-  prevSubPage: () => void;
-  nextSubPage: () => void;
-  currentSubPage: number;
-  totalSubPages: number;
-  subsPerPage: number;
-  selectedSubstitute: any | null;
-  setSelectedSubstitute: (player: any | null) => void;
-  setSwappablePositions: (positions: string[]) => void;
-  setSelectedDetailPlayer: (player: any) => void;
-  setDetailDialogOpen: (open: boolean) => void;
-  handleSubstituteSelect: (player: any) => void;
-  tactics: string;
+  players: Player[];
   selectedPlayer: Player | null;
   setSelectedPlayer: (player: Player | null) => void;
+  viewDetailPlayer: (player: Player) => void;
+  swapSubPlayers: (player: Player) => void;
 };
 
 const MySubstitutes = ({
-  availablePlayers,
-  prevSubPage,
-  nextSubPage,
-  currentSubPage,
-  totalSubPages,
-  subsPerPage,
-  selectedSubstitute,
-  setSelectedSubstitute,
-  setSwappablePositions,
-  setSelectedDetailPlayer,
-  setDetailDialogOpen,
-  handleSubstituteSelect,
-  tactics,
+  players,
   selectedPlayer,
   setSelectedPlayer,
+  viewDetailPlayer,
+  swapSubPlayers,
 }: Props) => {
+  const [currentSubPage, setCurrentSubPage] = useState(0);
+  const substitutes = players.slice(11);
+  const subsPerPage = 5;
+  const totalSubPages = Math.ceil(substitutes.length / subsPerPage);
+
   const handleClickPlayer = (player: Player | null) => {
     if (player) {
       if (selectedPlayer && selectedPlayer.id === player.id) {
@@ -59,11 +37,23 @@ const MySubstitutes = ({
     }
   };
 
+  const nextSubPage = () => {
+    if (currentSubPage < totalSubPages - 1) {
+      setCurrentSubPage(currentSubPage + 1);
+    }
+  };
+
+  const prevSubPage = () => {
+    if (currentSubPage > 0) {
+      setCurrentSubPage(currentSubPage - 1);
+    }
+  };
+
   return (
     <div className="mt-6">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-lg font-medium">
-          Substitutes ({availablePlayers.length})
+          Substitutes ({substitutes.length})
         </h3>
         <div className="flex items-center gap-2">
           <Button
@@ -83,7 +73,7 @@ const MySubstitutes = ({
             onClick={nextSubPage}
             disabled={
               currentSubPage >= totalSubPages - 1 ||
-              availablePlayers.length <= subsPerPage
+              substitutes.length <= subsPerPage
             }
           >
             <ChevronRight className="h-4 w-4" />
@@ -92,7 +82,7 @@ const MySubstitutes = ({
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        {availablePlayers
+        {substitutes
           .slice(
             currentSubPage * subsPerPage,
             (currentSubPage + 1) * subsPerPage,
@@ -114,26 +104,6 @@ const MySubstitutes = ({
                     player.form,
                   )}`}
                 ></div>
-
-                {/* Tactical indicators for substitutes */}
-                {tactics === "attacking" && (
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-white flex items-center justify-center">
-                    <ArrowUp className="h-2 w-2 text-green-600" />
-                  </div>
-                )}
-                {tactics === "defensive" && (
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-white flex items-center justify-center">
-                    <ArrowDown className="h-2 w-2 text-amber-600" />
-                  </div>
-                )}
-                {tactics === "counter" && (
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-white flex items-center justify-center">
-                    <div className="flex items-center">
-                      <ArrowDown className="h-2 w-2 text-amber-600" />
-                      <ArrowUp className="h-2 w-2 -ml-1 text-green-600" />
-                    </div>
-                  </div>
-                )}
               </div>
               <div className="text-sm font-medium text-center truncate max-w-full">
                 <span className="truncate max-w-full">{player.name}</span>
@@ -152,40 +122,29 @@ const MySubstitutes = ({
                   className="h-6 w-6"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedDetailPlayer(player);
-                    setDetailDialogOpen(true);
+                    viewDetailPlayer(player);
                   }}
                 >
                   <Info className="h-3 w-3" />
                 </Button>
 
-                {selectedSubstitute?.id === player.id && (
+                {selectedPlayer && selectedPlayer.id !== player.id && (
                   <Button
                     variant="ghost"
                     size="icon"
+                    className="h-6 w-6"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setSelectedSubstitute(null);
-                      setSwappablePositions([]);
+                      swapSubPlayers(player);
                     }}
                   >
-                    <Delete className="h-4 w-4" />
+                    <ArrowLeftRight className="h-3 w-3" />
                   </Button>
                 )}
               </div>
             </div>
           ))}
       </div>
-
-      {selectedSubstitute && (
-        <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-md">
-          <p className="text-sm">
-            <span className="font-medium">{selectedSubstitute.name}</span>{" "}
-            selected. Click on a highlighted position in the formation to swap
-            players.
-          </p>
-        </div>
-      )}
     </div>
   );
 };
