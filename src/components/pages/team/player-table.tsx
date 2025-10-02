@@ -1,9 +1,18 @@
-import React from 'react';
+import React from "react";
 
-import { Flag, Info, Pencil, Star, TrendingUp } from 'lucide-react';
+import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
+  Flag,
+  Info,
+  Pencil,
+  Star,
+  TrendingUp,
+} from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -11,9 +20,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { cn } from '@/lib/utils';
-import { Player } from '@/types/football/player';
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { Player } from "@/types/football/player";
 
 interface PlayerTableProps {
   players: Player[];
@@ -29,6 +38,8 @@ interface PlayerTableProps {
   selectedForSwap: Player | null;
   handlePlayerUpgrade: (player: Player) => void;
   handleNationalTeamDetails: (player: Player) => void;
+  toggleSortOrder: () => void;
+  sortOrder: "asc" | "desc";
 }
 // Update the PlayerTable component to include the detail button
 function PlayerTable({
@@ -45,20 +56,33 @@ function PlayerTable({
   selectedForSwap,
   handlePlayerUpgrade,
   handleNationalTeamDetails,
+  toggleSortOrder,
+  sortOrder,
 }: PlayerTableProps) {
   return (
     <div className="border rounded-md">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[50px] text-center">Rating</TableHead>
+            <TableHead className="w-[50px] text-center">
+              <span
+                className="cursor-pointer flex items-center justify-center"
+                onClick={toggleSortOrder}
+              >
+                Rating
+                {sortOrder === "desc" ? (
+                  <ArrowDown className="ml-1 h-4 w-4" />
+                ) : (
+                  <ArrowUp className="ml-1 h-4 w-4" />
+                )}
+              </span>
+            </TableHead>
             <TableHead>Name</TableHead>
             <TableHead className="text-center">Position</TableHead>
             <TableHead className="text-center">Age</TableHead>
             <TableHead className="text-center">Nationality</TableHead>
             <TableHead className="text-center">Form</TableHead>
             <TableHead className="text-center">Fitness</TableHead>
-            <TableHead className="text-center">National</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -83,7 +107,7 @@ function PlayerTable({
                           key={pos}
                           variant="outline"
                           className={
-                            pos === player.position ? 'border-primary' : ''
+                            pos === player.position ? "border-primary" : ""
                           }
                         >
                           {pos}
@@ -94,17 +118,6 @@ function PlayerTable({
                 </TableCell>
                 <TableCell className="text-center">{player.age}</TableCell>
                 <TableCell className="text-center">
-                  {player.nationality}
-                </TableCell>
-                <TableCell className="text-center">
-                  {getFormBadge(player.form)}
-                </TableCell>
-                <TableCell
-                  className={cn(getFitnessColor(player.fitness), 'text-center')}
-                >
-                  {player.fitness}%
-                </TableCell>
-                <TableCell className="text-center">
                   {player.nationalTeam?.callUp ? (
                     <Badge
                       className="bg-blue-500 cursor-pointer"
@@ -114,8 +127,18 @@ function PlayerTable({
                       {player.nationalTeam.name}
                     </Badge>
                   ) : (
-                    <span className="text-muted-foreground text-sm">-</span>
+                    <span className="text-muted-foreground text-sm">
+                      {player.nationality}
+                    </span>
                   )}
+                </TableCell>
+                <TableCell className="text-center">
+                  {getFormBadge(player.form)}
+                </TableCell>
+                <TableCell
+                  className={cn(getFitnessColor(player.fitness), "text-center")}
+                >
+                  {player.fitness}%
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
@@ -143,15 +166,6 @@ function PlayerTable({
                     >
                       <TrendingUp className="h-4 w-4" />
                     </Button>
-                    {player.nationalTeam?.callUp && (
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => handleNationalTeamDetails(player)}
-                      >
-                        <Flag className="h-4 w-4" />
-                      </Button>
-                    )}
                   </div>
                 </TableCell>
               </TableRow>

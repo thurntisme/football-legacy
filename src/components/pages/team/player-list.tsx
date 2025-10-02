@@ -1,11 +1,9 @@
 "use client";
 
-import NationalTeamIncomeSummary from "../../national-team-income-summary";
 import PlayerContractEditDialog from "../../player-contract-edit-dialog";
 import PlayerContractShirtTable from "../../player-contract-shirt-table";
 import PlayerEditDialog from "../../player-edit-dialog";
 import PlayerNationalTeamDialog from "../../player-national-team-dialog";
-import PlayerTable from "../../player-table";
 import PlayerUpgradeDialog from "../../player-upgrade-dialog";
 
 import type React from "react";
@@ -34,6 +32,9 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/components/ui/use-toast";
 import { Player } from "@/types/player";
+
+import NationalTeamIncomeSummary from "./national-team-income-summary";
+import PlayerTable from "./player-table";
 
 type PlayerListProps = {
   initPlayers: Player[];
@@ -245,7 +246,7 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
       }
       return 0;
     });
-  const toggleSortOrder = () => {
+  const handleToggleSortOrder = () => {
     setSortOrder(sortOrder === "desc" ? "asc" : "desc");
   };
   // Add the player detail dialog to the component return
@@ -286,16 +287,9 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
               <SelectItem value="fitness">Fitness</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" size="icon" onClick={toggleSortOrder}>
-            {sortOrder === "desc" ? (
-              <ChevronDown className="h-4 w-4" />
-            ) : (
-              <ChevronUp className="h-4 w-4" />
-            )}
-          </Button>
         </div>
       </div>
-      <NationalTeamIncomeSummary />
+      <NationalTeamIncomeSummary players={players} />
       <PlayerTable
         players={filteredPlayers}
         toggleLineup={toggleLineup}
@@ -310,6 +304,8 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
         selectedForSwap={selectedForSwap}
         handlePlayerUpgrade={handlePlayerUpgrade}
         handleNationalTeamDetails={handleNationalTeamDetails}
+        sortOrder={sortOrder}
+        toggleSortOrder={handleToggleSortOrder}
       />
       <PlayerDetailDialog
         player={selectedDetailPlayer}

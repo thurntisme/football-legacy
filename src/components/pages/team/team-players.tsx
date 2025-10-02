@@ -44,14 +44,6 @@ const TeamPlayers = ({ players }: Props) => {
       <CardContent>
         <PlayerList initPlayers={players} />
       </CardContent>
-      <div className="mt-4 p-4 bg-muted rounded-md">
-        <h3 className="text-sm font-medium mb-2">Player Management</h3>
-        <p className="text-sm text-muted-foreground">
-          Player management actions like detailed editing, upgrades, and
-          contract management have been moved to this page for easier access.
-          Use the info and edit buttons to manage your players.
-        </p>
-      </div>
     </Card>
   );
 };

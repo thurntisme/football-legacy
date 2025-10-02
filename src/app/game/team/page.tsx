@@ -2,7 +2,15 @@
 
 import { useState } from "react";
 
-import { ArrowLeft, BarChart, Hash, Rocket, Shirt, Users } from "lucide-react";
+import {
+  ArrowLeft,
+  BarChart,
+  Hash,
+  LayoutGrid,
+  Rocket,
+  Shirt,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 
 import ContentWrapper from "@/components/common/content-wrapper";
@@ -95,9 +103,9 @@ export default function TeamPage() {
           setPlayerRolesOpen={setPlayerRolesOpen}
         />
         <Tabs defaultValue="formation" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="formation" className="flex items-center">
-              <Shirt className="mr-2 h-4 w-4" />
+              <LayoutGrid className="mr-2 h-4 w-4" />
               Formation
             </TabsTrigger>
             <TabsTrigger value="players" className="flex items-center">
@@ -107,10 +115,6 @@ export default function TeamPage() {
             <TabsTrigger value="analytics" className="flex items-center">
               <BarChart className="mr-2 h-4 w-4" />
               Team Analytics
-            </TabsTrigger>
-            <TabsTrigger value="shirt-numbers" className="flex items-center">
-              <Hash className="mr-2 h-4 w-4" />
-              Shirt Numbers
             </TabsTrigger>
           </TabsList>
 
@@ -127,10 +131,6 @@ export default function TeamPage() {
 
           <TabsContent value="analytics" className="space-y-6">
             <TeamAnalytics />
-          </TabsContent>
-
-          <TabsContent value="shirt-numbers" className="space-y-6">
-            <ShirtNumberManager players={data?.players} />
           </TabsContent>
         </Tabs>
 

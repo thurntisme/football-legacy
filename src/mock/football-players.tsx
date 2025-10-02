@@ -36,7 +36,7 @@ export const FootballPlayers = [
     type: "normal",
     nationalTeam: {
       name: "Austria",
-      callUp: true,
+      callUp: false,
       nextMatch: "2025-06-12",
       paymentReceived: 15000,
     },

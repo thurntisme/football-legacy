@@ -3,12 +3,17 @@ import React from "react";
 import { Flag } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { players } from "@/constants/player";
+import { Player } from "@/types/player";
 
-type Props = {};
+type Props = {
+  players: Player[];
+};
 
-const NationalTeamIncomeSummary = (props: Props) => {
-  const totalNationalTeamIncome = 221503;
+const NationalTeamIncomeSummary = ({ players }: Props) => {
+  const playerCalledUp = players.filter((p) => p.nationalTeam?.callUp);
+  const totalNationalTeamIncome = playerCalledUp.reduce((sum, p) => {
+    return sum + (p.nationalTeam?.paymentReceived || 0);
+  }, 0);
 
   return (
     <Card className="bg-green-50">
@@ -28,8 +33,7 @@ const NationalTeamIncomeSummary = (props: Props) => {
               £{totalNationalTeamIncome.toLocaleString()}
             </p>
             <p className="text-sm text-muted-foreground">
-              {players.filter((p) => p.nationalTeam?.callUp).length} players
-              called up
+              {playerCalledUp.length}/{players.length} players called up
             </p>
           </div>
         </div>
