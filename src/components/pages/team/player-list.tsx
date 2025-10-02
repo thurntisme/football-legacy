@@ -1,7 +1,5 @@
 "use client";
 
-import PlayerContractEditDialog from "../../player-contract-edit-dialog";
-import PlayerContractShirtTable from "../../player-contract-shirt-table";
 import PlayerEditDialog from "../../player-edit-dialog";
 import PlayerNationalTeamDialog from "../../player-national-team-dialog";
 import PlayerUpgradeDialog from "../../player-upgrade-dialog";
@@ -34,6 +32,8 @@ import { toast } from "@/components/ui/use-toast";
 import { Player } from "@/types/player";
 
 import NationalTeamIncomeSummary from "./national-team-income-summary";
+import PlayerContractEditDialog from "./player-contract-edit-dialog";
+import PlayerContractShirtTable from "./player-contract-table";
 import PlayerTable from "./player-table";
 
 type PlayerListProps = {
@@ -336,8 +336,6 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
         contractEditDialogOpen={contractEditDialogOpen}
         setContractEditDialogOpen={setContractEditDialogOpen}
         selectedPlayerForContract={selectedPlayerForContract}
-        editedSalary={editedSalary}
-        setEditedSalary={setEditedSalary}
         saveContractChanges={saveContractChanges}
       />
     </div>
