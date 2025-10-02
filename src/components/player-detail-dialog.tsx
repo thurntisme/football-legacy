@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Calendar,
@@ -7,19 +7,21 @@ import {
   Ruler,
   Trophy,
   Weight,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Separator } from '@/components/ui/separator';
-import { Player } from '@/types/football/player';
+} from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { formatCurrency } from "@/lib/finance";
+import { getFormColor } from "@/lib/player";
+import { Player } from "@/types/player";
 
 interface PlayerDetailDialogProps {
   player: Player | null;
@@ -34,29 +36,6 @@ export default function PlayerDetailDialog({
 }: PlayerDetailDialogProps) {
   if (!player) return null;
 
-  const getFormColor = (form: string) => {
-    switch (form) {
-      case 'excellent':
-        return 'bg-green-500';
-      case 'good':
-        return 'bg-emerald-400';
-      case 'average':
-        return 'bg-amber-400';
-      case 'poor':
-        return 'bg-red-400';
-      default:
-        return 'bg-gray-400';
-    }
-  };
-
-  const formatCurrency = (value: number) => {
-    if (value >= 1000000) {
-      return `£${(value / 1000000).toFixed(1)}M`;
-    } else {
-      return `£${value.toLocaleString()}`;
-    }
-  };
-
   // Add more attributes to the attributes object in the generateAttributes function
   const generateAttributes = () => {
     const baseValue = player.rating - 10;
@@ -66,46 +45,46 @@ export default function PlayerDetailDialog({
       // Physical attributes
       pace: Math.min(
         99,
-        baseValue + positionBonus.pace + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.pace + Math.floor(Math.random() * 15),
       ),
       shooting: Math.min(
         99,
-        baseValue + positionBonus.shooting + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.shooting + Math.floor(Math.random() * 15),
       ),
       passing: Math.min(
         99,
-        baseValue + positionBonus.passing + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.passing + Math.floor(Math.random() * 15),
       ),
       dribbling: Math.min(
         99,
-        baseValue + positionBonus.dribbling + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.dribbling + Math.floor(Math.random() * 15),
       ),
       defending: Math.min(
         99,
-        baseValue + positionBonus.defending + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.defending + Math.floor(Math.random() * 15),
       ),
       physical: Math.min(
         99,
-        baseValue + positionBonus.physical + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.physical + Math.floor(Math.random() * 15),
       ),
       // Mental attributes
       vision: Math.min(
         99,
-        baseValue + positionBonus.vision + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.vision + Math.floor(Math.random() * 15),
       ),
       positioning: Math.min(
         99,
-        baseValue + positionBonus.positioning + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.positioning + Math.floor(Math.random() * 15),
       ),
       composure: Math.min(99, baseValue + Math.floor(Math.random() * 15)),
       // Technical attributes
       ballControl: Math.min(
         99,
-        baseValue + positionBonus.ballControl + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.ballControl + Math.floor(Math.random() * 15),
       ),
       longShots: Math.min(
         99,
-        baseValue + positionBonus.longShots + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.longShots + Math.floor(Math.random() * 15),
       ),
       // Additional attributes
       agility: Math.min(99, baseValue + Math.floor(Math.random() * 15)),
@@ -116,17 +95,17 @@ export default function PlayerDetailDialog({
       aggression: Math.min(99, baseValue + Math.floor(Math.random() * 15)),
       interceptions: Math.min(
         99,
-        baseValue + positionBonus.defending + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.defending + Math.floor(Math.random() * 15),
       ),
       heading: Math.min(
         99,
         baseValue +
           ((player.height || 180) > 185 ? 10 : 0) +
-          Math.floor(Math.random() * 15)
+          Math.floor(Math.random() * 15),
       ),
       finishing: Math.min(
         99,
-        baseValue + positionBonus.shooting + Math.floor(Math.random() * 15)
+        baseValue + positionBonus.shooting + Math.floor(Math.random() * 15),
       ),
     };
   };
@@ -134,7 +113,7 @@ export default function PlayerDetailDialog({
   // Update the getPositionBonus function to include the new attributes
   const getPositionBonus = (position: string) => {
     switch (position) {
-      case 'GK':
+      case "GK":
         return {
           pace: -10,
           shooting: -20,
@@ -147,7 +126,7 @@ export default function PlayerDetailDialog({
           ballControl: -10,
           longShots: -15,
         };
-      case 'CB':
+      case "CB":
         return {
           pace: 0,
           shooting: -10,
@@ -160,10 +139,10 @@ export default function PlayerDetailDialog({
           ballControl: 0,
           longShots: -5,
         };
-      case 'LB':
-      case 'RB':
-      case 'LWB':
-      case 'RWB':
+      case "LB":
+      case "RB":
+      case "LWB":
+      case "RWB":
         return {
           pace: 10,
           shooting: -5,
@@ -176,7 +155,7 @@ export default function PlayerDetailDialog({
           ballControl: 5,
           longShots: 0,
         };
-      case 'CDM':
+      case "CDM":
         return {
           pace: 0,
           shooting: -5,
@@ -189,7 +168,7 @@ export default function PlayerDetailDialog({
           ballControl: 5,
           longShots: 0,
         };
-      case 'CM':
+      case "CM":
         return {
           pace: 0,
           shooting: 0,
@@ -202,7 +181,7 @@ export default function PlayerDetailDialog({
           ballControl: 10,
           longShots: 5,
         };
-      case 'CAM':
+      case "CAM":
         return {
           pace: 5,
           shooting: 10,
@@ -215,8 +194,8 @@ export default function PlayerDetailDialog({
           ballControl: 15,
           longShots: 10,
         };
-      case 'LM':
-      case 'RM':
+      case "LM":
+      case "RM":
         return {
           pace: 15,
           shooting: 5,
@@ -229,8 +208,8 @@ export default function PlayerDetailDialog({
           ballControl: 10,
           longShots: 5,
         };
-      case 'LW':
-      case 'RW':
+      case "LW":
+      case "RW":
         return {
           pace: 15,
           shooting: 10,
@@ -243,8 +222,8 @@ export default function PlayerDetailDialog({
           ballControl: 15,
           longShots: 10,
         };
-      case 'ST':
-      case 'CF':
+      case "ST":
+      case "CF":
         return {
           pace: 10,
           shooting: 20,
@@ -280,7 +259,7 @@ export default function PlayerDetailDialog({
     height: player.height || Math.floor(170 + Math.random() * 20), // 170-190 cm
     personality:
       player.personality ||
-      ['Leader', 'Team Player', 'Determined', 'Professional', 'Ambitious'][
+      ["Leader", "Team Player", "Determined", "Professional", "Ambitious"][
         Math.floor(Math.random() * 5)
       ],
     injuryProne:
@@ -291,7 +270,7 @@ export default function PlayerDetailDialog({
       player.internationalCaps || Math.floor(Math.random() * 50),
     preferredRole:
       player.preferredRole ||
-      ['Target Man', 'Playmaker', 'Box-to-Box', 'Sweeper', 'Poacher'][
+      ["Target Man", "Playmaker", "Box-to-Box", "Sweeper", "Poacher"][
         Math.floor(Math.random() * 5)
       ],
     potential:
@@ -299,13 +278,13 @@ export default function PlayerDetailDialog({
       Math.min(99, player.rating + Math.floor(Math.random() * 10)),
     morale:
       player.morale ||
-      (['high', 'normal', 'low'][Math.floor(Math.random() * 3)] as
-        | 'high'
-        | 'normal'
-        | 'low'),
+      (["high", "normal", "low"][Math.floor(Math.random() * 3)] as
+        | "high"
+        | "normal"
+        | "low"),
     birthdate:
       player.birthdate ||
-      `${1990 + Math.floor(Math.random() * 10)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`,
+      `${1990 + Math.floor(Math.random() * 10)}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, "0")}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, "0")}`,
   };
 
   const attributes = generateAttributes();
@@ -330,28 +309,27 @@ export default function PlayerDetailDialog({
                 </div>
                 <div
                   className={`absolute -top-1 -right-1 w-6 h-6 rounded-full ${getFormColor(
-                    enhancedPlayer.form
+                    enhancedPlayer.form,
                   )} flex items-center justify-center text-white font-bold`}
                 >
-                  {enhancedPlayer.form === 'excellent'
-                    ? 'A'
-                    : enhancedPlayer.form === 'good'
-                      ? 'B'
-                      : enhancedPlayer.form === 'average'
-                        ? 'C'
-                        : 'D'}
+                  {enhancedPlayer.form === "excellent"
+                    ? "A"
+                    : enhancedPlayer.form === "good"
+                      ? "B"
+                      : enhancedPlayer.form === "average"
+                        ? "C"
+                        : "D"}
                 </div>
               </div>
 
               <div className="text-center">
-                <Badge className="mb-1">{enhancedPlayer.position}</Badge>
                 <div className="flex flex-wrap justify-center gap-1 mt-1">
                   {enhancedPlayer.playablePositions.map((pos) => (
                     <Badge
                       key={pos}
                       variant="outline"
                       className={
-                        pos === enhancedPlayer.position ? 'border-primary' : ''
+                        pos === enhancedPlayer.position ? "border-primary" : ""
                       }
                     >
                       {pos}
@@ -373,7 +351,7 @@ export default function PlayerDetailDialog({
                   <Footprints className="h-4 w-4 mr-2 text-muted-foreground" />
                   <span>
                     {enhancedPlayer.foot.charAt(0).toUpperCase() +
-                      enhancedPlayer.foot.slice(1)}{' '}
+                      enhancedPlayer.foot.slice(1)}{" "}
                     foot
                   </span>
                 </div>
@@ -450,7 +428,7 @@ export default function PlayerDetailDialog({
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-muted-foreground">Morale:</span>
                   <span
-                    className={`font-medium ${enhancedPlayer.morale === 'high' ? 'text-green-500' : enhancedPlayer.morale === 'low' ? 'text-red-500' : ''}`}
+                    className={`font-medium ${enhancedPlayer.morale === "high" ? "text-green-500" : enhancedPlayer.morale === "low" ? "text-red-500" : ""}`}
                   >
                     {enhancedPlayer.morale.charAt(0).toUpperCase() +
                       enhancedPlayer.morale.slice(1)}
@@ -461,9 +439,9 @@ export default function PlayerDetailDialog({
                     Injury Prone:
                   </span>
                   <span
-                    className={`font-medium ${enhancedPlayer.injuryProne ? 'text-red-500' : 'text-green-500'}`}
+                    className={`font-medium ${enhancedPlayer.injuryProne ? "text-red-500" : "text-green-500"}`}
                   >
-                    {enhancedPlayer.injuryProne ? 'Yes' : 'No'}
+                    {enhancedPlayer.injuryProne ? "Yes" : "No"}
                   </span>
                 </div>
               </div>
@@ -733,10 +711,10 @@ export default function PlayerDetailDialog({
                             opacity: enhancedPlayer.fitness / 100,
                             backgroundColor:
                               enhancedPlayer.fitness > 80
-                                ? 'rgb(34, 197, 94)'
+                                ? "rgb(34, 197, 94)"
                                 : enhancedPlayer.fitness > 60
-                                  ? 'rgb(250, 204, 21)'
-                                  : 'rgb(239, 68, 68)',
+                                  ? "rgb(250, 204, 21)"
+                                  : "rgb(239, 68, 68)",
                           }}
                         ></div>
                       </div>
@@ -762,9 +740,9 @@ export default function PlayerDetailDialog({
                 <div className="text-center p-3 border rounded-md">
                   <div className="text-sm text-muted-foreground">Goals</div>
                   <div className="text-2xl font-bold">
-                    {['ST', 'LW', 'RW', 'CAM'].includes(enhancedPlayer.position)
+                    {["ST", "LW", "RW", "CAM"].includes(enhancedPlayer.position)
                       ? Math.floor(Math.random() * 10) + 1
-                      : ['CM', 'RM', 'LM'].includes(enhancedPlayer.position)
+                      : ["CM", "RM", "LM"].includes(enhancedPlayer.position)
                         ? Math.floor(Math.random() * 5)
                         : Math.floor(Math.random() * 2)}
                   </div>
@@ -772,8 +750,8 @@ export default function PlayerDetailDialog({
                 <div className="text-center p-3 border rounded-md">
                   <div className="text-sm text-muted-foreground">Assists</div>
                   <div className="text-2xl font-bold">
-                    {['CAM', 'CM', 'LW', 'RW', 'RM', 'LM'].includes(
-                      enhancedPlayer.position
+                    {["CAM", "CM", "LW", "RW", "RM", "LM"].includes(
+                      enhancedPlayer.position,
                     )
                       ? Math.floor(Math.random() * 8) + 1
                       : Math.floor(Math.random() * 3)}
