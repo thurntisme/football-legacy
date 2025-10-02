@@ -10,7 +10,6 @@ import { useState } from "react";
 import { Filter, Search } from "lucide-react";
 
 import PlayerDetailDialog from "@/components/player-detail-dialog";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -30,13 +29,12 @@ type PlayerListProps = {
   initPlayers: Player[];
 };
 
-export default function PlayerList({ initPlayers }: PlayerListProps) {
+export default function TeamPlayerList({ initPlayers }: PlayerListProps) {
   // State management for player list
   const [players, setPlayers] = useState<Player[]>(() => initPlayers);
   const [searchTerm, setSearchTerm] = useState("");
   const [positionFilter, setPositionFilter] = useState("all");
   const [sortBy, setSortBy] = useState("rating");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [selectedDetailPlayer, setSelectedDetailPlayer] =
     useState<Player | null>(null);
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
@@ -44,12 +42,8 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
   const [editedAttributes, setEditedAttributes] = useState<
     Record<string, number>
   >({});
-  const [swapMode, setSwapMode] = useState(false);
-  const [selectedForSwap, setSelectedForSwap] = useState<Player | null>(null);
   const [selectedPlayerForUpgrade, setSelectedPlayerForUpgrade] =
     useState<Player | null>(null);
-  const [upgradeSuccess, setUpgradeSuccess] = useState<boolean | null>(null);
-  const [showUpgradeResult, setShowUpgradeResult] = useState(false);
   const [upgradeDialogOpen, setUpgradeDialogOpen] = useState(false);
   // New state for national team dialog
   const [nationalTeamDialogOpen, setNationalTeamDialogOpen] = useState(false);
@@ -63,15 +57,7 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
   const [editedSalary, setEditedSalary] = useState<number>(0);
   const handlePlayerUpgrade = (player: Player) => {
     setSelectedPlayerForUpgrade(player);
-    setUpgradeSuccess(null);
-    setShowUpgradeResult(false);
     setUpgradeDialogOpen(true);
-  };
-  const handleContractEdit = (player: Player) => {
-    setSelectedPlayerForContract(player);
-    setEditedShirtNumber(player.shirtNumber);
-    setEditedSalary(player.salary);
-    setContractEditDialogOpen(true);
   };
   const handleNationalTeamDetails = (player: Player) => {
     setSelectedPlayerForNational(player);
@@ -90,49 +76,6 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
       title: "Contract Updated",
       description: `${selectedPlayerForContract.name}'s contract details have been updated.`,
     });
-  };
-  const attemptUpgrade = () => {
-    if (!selectedPlayerForUpgrade) return;
-    // 60% chance of success for level 1, 40% for level 2, 20% for level 3+
-    let successChance = 0.6;
-    if (selectedPlayerForUpgrade.attributes.level === 2) successChance = 0.4;
-    if (
-      selectedPlayerForUpgrade.attributes.level &&
-      selectedPlayerForUpgrade.attributes.level >= 3
-    )
-      successChance = 0.2;
-    const success = Math.random() < successChance;
-    setUpgradeSuccess(success);
-    setShowUpgradeResult(true);
-    if (success && selectedPlayerForUpgrade) {
-      // Update player level
-      const updatedPlayers = players.map((p) =>
-        p.id === selectedPlayerForUpgrade.id
-          ? {
-              ...p,
-              attributes: {
-                ...p.attributes,
-                level: (p.attributes.level || 1) + 1,
-              },
-            }
-          : p,
-      );
-      setPlayers(updatedPlayers);
-      toast({
-        title: "Upgrade Successful!",
-        description: `${
-          selectedPlayerForUpgrade.name
-        } has been upgraded to level ${
-          (selectedPlayerForUpgrade.attributes.level || 1) + 1
-        }!`,
-      });
-    } else {
-      toast({
-        title: "Upgrade Failed",
-        description: "The upgrade attempt was unsuccessful. Try again later.",
-        variant: "destructive",
-      });
-    }
   };
   const handleEditAttributes = (player: Player) => {
     setEditingPlayer(player);
@@ -170,74 +113,6 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
       ...editedAttributes,
       [attribute]: value,
     });
-  };
-  const toggleLineup = (playerId: string) => {
-    setPlayers(
-      players.map((player) =>
-        player.id === playerId
-          ? { ...player, inLineup: !player.inLineup }
-          : player,
-      ),
-    );
-  };
-  const getFormBadge = (form: string) => {
-    switch (form) {
-      case "excellent":
-        return <Badge className="bg-green-500">Excellent</Badge>;
-      case "good":
-        return <Badge className="bg-emerald-400">Good</Badge>;
-      case "average":
-        return <Badge className="bg-amber-400">Average</Badge>;
-      case "poor":
-        return <Badge className="bg-red-400">Poor</Badge>;
-      default:
-        return <Badge variant="outline">Unknown</Badge>;
-    }
-  };
-  const getFitnessColor = (fitness: number) => {
-    if (fitness >= 90) return "text-green-500";
-    if (fitness >= 75) return "text-emerald-400";
-    if (fitness >= 60) return "text-amber-400";
-    return "text-red-500";
-  };
-  // Filter and sort players
-  const filteredPlayers = players
-    .filter((player) => {
-      // Search filter
-      const matchesSearch =
-        player.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        player.nationality.toLowerCase().includes(searchTerm.toLowerCase());
-      // Position filter
-      const matchesPosition =
-        positionFilter === "all" ||
-        (positionFilter === "gk" && player.position === "GK") ||
-        (positionFilter === "def" &&
-          ["CB", "LB", "RB", "LWB", "RWB"].includes(player.position)) ||
-        (positionFilter === "mid" &&
-          ["CM", "CDM", "CAM", "LM", "RM"].includes(player.position)) ||
-        (positionFilter === "att" &&
-          ["ST", "LW", "RW", "CF"].includes(player.position));
-      return matchesSearch && matchesPosition;
-    })
-    .sort((a, b) => {
-      // Sort logic
-      if (sortBy === "rating") {
-        return sortOrder === "desc" ? b.rating - a.rating : a.rating - b.rating;
-      } else if (sortBy === "name") {
-        return sortOrder === "desc"
-          ? b.name.localeCompare(a.name)
-          : a.name.localeCompare(b.name);
-      } else if (sortBy === "age") {
-        return sortOrder === "desc" ? b.age - a.age : a.age - b.age;
-      } else if (sortBy === "fitness") {
-        return sortOrder === "desc"
-          ? b.fitness - a.fitness
-          : a.fitness - b.fitness;
-      }
-      return 0;
-    });
-  const handleToggleSortOrder = () => {
-    setSortOrder(sortOrder === "desc" ? "asc" : "desc");
   };
   // Add the player detail dialog to the component return
   return (
@@ -281,21 +156,12 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
       </div>
       <NationalTeamIncomeSummary players={players} />
       <PlayerTable
-        players={filteredPlayers}
-        toggleLineup={toggleLineup}
-        getFormBadge={getFormBadge}
-        getFitnessColor={getFitnessColor}
+        initPlayers={initPlayers}
         setSelectedDetailPlayer={setSelectedDetailPlayer}
         setDetailDialogOpen={setDetailDialogOpen}
         onEditAttributes={handleEditAttributes}
-        setSwapMode={setSwapMode}
-        setSelectedForSwap={setSelectedForSwap}
-        swapMode={swapMode}
-        selectedForSwap={selectedForSwap}
         handlePlayerUpgrade={handlePlayerUpgrade}
         handleNationalTeamDetails={handleNationalTeamDetails}
-        sortOrder={sortOrder}
-        toggleSortOrder={handleToggleSortOrder}
       />
       <PlayerDetailDialog
         player={selectedDetailPlayer}

@@ -6,7 +6,7 @@ import { ArrowLeftRight, FileSignature, Shirt } from "lucide-react";
 import Link from "next/link";
 
 import PageTitle from "@/components/common/page-title";
-import PlayerList from "@/components/pages/team/player-list";
+import TeamPlayerList from "@/components/pages/team/team-player-list";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
@@ -42,7 +42,7 @@ const TeamPlayers = ({ players }: Props) => {
         </PageTitle>
       </CardHeader>
       <CardContent>
-        <PlayerList initPlayers={players} />
+        <TeamPlayerList initPlayers={players} />
       </CardContent>
     </Card>
   );

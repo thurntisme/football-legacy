@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   ArrowDown,
   ArrowUp,
-  ArrowUpDown,
   Flag,
   Info,
   Pencil,
@@ -21,44 +20,40 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getFitnessColor, getFormBadge } from "@/lib/player";
 import { cn } from "@/lib/utils";
-import { Player } from "@/types/football/player";
+import { Player } from "@/types/player";
 
 interface PlayerTableProps {
-  players: Player[];
-  toggleLineup: (id: string) => void;
-  getFormBadge: (form: string) => React.ReactNode;
-  getFitnessColor: (fitness: number) => string;
+  initPlayers: Player[];
   setSelectedDetailPlayer: React.Dispatch<React.SetStateAction<Player | null>>;
   setDetailDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onEditAttributes: (player: Player) => void;
-  setSwapMode: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedForSwap: React.Dispatch<React.SetStateAction<Player | null>>;
-  swapMode: boolean;
-  selectedForSwap: Player | null;
   handlePlayerUpgrade: (player: Player) => void;
   handleNationalTeamDetails: (player: Player) => void;
-  toggleSortOrder: () => void;
-  sortOrder: "asc" | "desc";
 }
 // Update the PlayerTable component to include the detail button
 function PlayerTable({
-  players,
-  toggleLineup,
-  getFormBadge,
-  getFitnessColor,
+  initPlayers,
   setSelectedDetailPlayer,
   setDetailDialogOpen,
   onEditAttributes,
-  setSwapMode,
-  setSelectedForSwap,
-  swapMode,
-  selectedForSwap,
   handlePlayerUpgrade,
   handleNationalTeamDetails,
-  toggleSortOrder,
-  sortOrder,
 }: PlayerTableProps) {
+  const [players, setPlayers] = useState<Player[]>(initPlayers);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
+  const toggleSortOrder = () => {
+    const newSortOrder = sortOrder === "desc" ? "asc" : "desc";
+    setSortOrder(newSortOrder);
+    setPlayers(
+      [...players].sort((a, b) =>
+        newSortOrder === "asc" ? a.rating - b.rating : b.rating - a.rating,
+      ),
+    );
+  };
+
   return (
     <div className="border rounded-md">
       <Table>
