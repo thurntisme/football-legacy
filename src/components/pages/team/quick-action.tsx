@@ -1,62 +1,107 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 import { ShoppingCart, UserCog, Wand2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
+import { internalApi } from "@/lib/api/internal";
+import { Player } from "@/types/player";
+import { useQuery } from "@tanstack/react-query";
+
+import BestLineupDialog from "./best-lineup-dialog";
+import PlayerRolesDialog from "./player-roles-dialog";
+import TransferRecommendationsDialog from "./transfer-recommendations-dialog";
 
 type Props = {
-  onChooseBestPlayers: () => void;
-  onShowTransferRecommendations: () => void;
-  setPlayerRolesOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  players: Player[];
+  formation: string | undefined;
 };
 
-const QuickAction = ({
-  onChooseBestPlayers,
-  onShowTransferRecommendations,
-  setPlayerRolesOpen,
-}: Props) => {
+const QuickAction = ({ players, formation }: Props) => {
+  const [playerRolesOpen, setPlayerRolesOpen] = useState(false);
+  const [transferRecsOpen, setTransferRecsOpen] = useState(false);
+  const [bestLineupOpen, setBestLineupOpen] = useState(false);
+
+  const {
+    data: rcmPlayers,
+    isLoading: isLoadingRcmPlayers,
+    error: isErrorRcmPlayers,
+    refetch: refetchRcmPlayers,
+  } = useQuery({
+    queryKey: ["market-recommend-players"],
+    queryFn: async () => {
+      const { data } = await internalApi.get("/market/recommend");
+      return data;
+    },
+    enabled: false,
+  });
+
+  const handleShowTransferRecommendations = () => {
+    refetchRcmPlayers();
+    setTransferRecsOpen(true);
+  };
+
+  const handleBestLineupConfirm = (selectedPlayers: Player[]) => {
+    const selectedLineup = selectedPlayers.map((p) => p.name).join(", ");
+
+    toast({
+      title: "Best Lineup Selected",
+      description: `Your lineup has been updated with the selected players: ${selectedLineup.substring(
+        0,
+        100,
+      )}...`,
+    });
+  };
+
   return (
-    <div className="mb-6 flex flex-col sm:flex-row gap-4 p-4 bg-muted/30 rounded-lg border">
-      <div className="flex-1">
-        <h3 className="font-medium mb-1">Quick Actions</h3>
-        <p className="text-sm text-muted-foreground mb-3">
-          Optimize your team with one click
-        </p>
-        <div className="flex flex-wrap gap-2">
-          <Button
-            onClick={onChooseBestPlayers}
-            className="flex items-center gap-2"
-          >
-            <Wand2 className="h-4 w-4" />
-            Choose Best Players
-          </Button>
-          <Button variant="outline" onClick={() => setPlayerRolesOpen(true)}>
-            <UserCog className="h-4 w-4" />
-            Player Roles
-          </Button>
-          <Button
-            variant="outline"
-            onClick={onShowTransferRecommendations}
-            className="flex items-center gap-2"
-          >
-            <ShoppingCart className="h-4 w-4" />
-            Transfer Recommendations
-          </Button>
-        </div>
+    <>
+      <div className="flex flex-wrap gap-2">
+        <Button
+          onClick={() => setBestLineupOpen(true)}
+          className="flex items-center gap-2"
+          variant="outline"
+        >
+          <Wand2 className="h-4 w-4" />
+          Choose Best Players
+        </Button>
+        <Button variant="outline" onClick={() => setPlayerRolesOpen(true)}>
+          <UserCog className="h-4 w-4" />
+          Player Roles
+        </Button>
+        <Button
+          variant="outline"
+          onClick={handleShowTransferRecommendations}
+          className="flex items-center gap-2"
+        >
+          <ShoppingCart className="h-4 w-4" />
+          Transfer Recommendations
+        </Button>
       </div>
-      <div className="w-1/3">
-        <h3 className="font-medium mb-1">Current Status</h3>
-        <p className="text-sm text-muted-foreground mb-1">
-          Team Strength: <span className="font-medium">82/100</span>
-        </p>
-        <p className="text-sm text-muted-foreground mb-1">
-          Average Form: <span className="font-medium text-green-600">Good</span>
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Substitutes: <span className="font-medium">12 players</span>
-        </p>
-      </div>
-    </div>
+
+      <PlayerRolesDialog
+        players={players}
+        open={playerRolesOpen}
+        onOpenChange={setPlayerRolesOpen}
+      />
+
+      <TransferRecommendationsDialog
+        open={transferRecsOpen}
+        onOpenChange={setTransferRecsOpen}
+        rcmPlayers={rcmPlayers}
+        isLoading={isLoadingRcmPlayers}
+        error={isErrorRcmPlayers}
+      />
+
+      {/* <BestLineupDialog
+        open={bestLineupOpen}
+        onOpenChange={setBestLineupOpen}
+        players={players}
+        onConfirm={handleBestLineupConfirm}
+        currentFormation={formation}
+      /> */}
+    </>
   );
 };
 

@@ -22,6 +22,7 @@ import MySubstitutes from "./my-substitutes";
 import MyTeamFormationField from "./my-team-formation-field";
 import MyTeamFormationSelector from "./my-team-formation-selector";
 import MyTeamRating from "./my-team-rating";
+import QuickAction from "./quick-action";
 import SelectedPlayerSummary from "./selected-player-summary";
 
 type TeamFormationProps = {
@@ -139,6 +140,8 @@ export default function TeamFormation({
             />
 
             <MyTeamRating positions={positions} />
+
+            <QuickAction players={players} formation={currentFormation} />
 
             <Button className="w-full" onClick={handleSaveFormation}>
               <Save className="mr-2 h-4 w-4" />

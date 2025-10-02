@@ -1,31 +1,20 @@
 "use client";
 
-import { useState } from "react";
-
 import { ArrowLeft, BarChart, LayoutGrid, Rocket, Users } from "lucide-react";
 import Link from "next/link";
 
 import ContentWrapper from "@/components/common/content-wrapper";
 import PageTitle from "@/components/common/page-title";
-import PlayerRolesDialog from "@/components/pages/team/player-roles-dialog";
-import QuickAction from "@/components/pages/team/quick-action";
 import TeamAnalytics from "@/components/pages/team/team-analytics";
 import TeamFormation from "@/components/pages/team/team-formation";
 import TeamPlayers from "@/components/pages/team/team-players";
-import TransferRecommendationsDialog from "@/components/pages/team/transfer-recommendations-dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
-import { toast } from "@/hooks/use-toast";
 import { internalApi } from "@/lib/api/internal";
-import { Player } from "@/types/player";
 import { useQuery } from "@tanstack/react-query";
 
 export default function TeamPage() {
-  const [playerRolesOpen, setPlayerRolesOpen] = useState(false);
-  const [transferRecsOpen, setTransferRecsOpen] = useState(false);
-  const [bestLineupOpen, setBestLineupOpen] = useState(false);
-
   const { data, isLoading, error } = useQuery({
     queryKey: ["my-team-players"],
     queryFn: async () => {
@@ -33,41 +22,6 @@ export default function TeamPage() {
       return data;
     },
   });
-
-  const {
-    data: rcmPlayers,
-    isLoading: isLoadingRcmPlayers,
-    error: isErrorRcmPlayers,
-    refetch: refetchRcmPlayers,
-  } = useQuery({
-    queryKey: ["market-recommend-players"],
-    queryFn: async () => {
-      const { data } = await internalApi.get("/market/recommend");
-      return data;
-    },
-    enabled: false,
-  });
-
-  const handleChooseBestPlayers = () => {
-    setBestLineupOpen(true);
-  };
-
-  const handleBestLineupConfirm = (selectedPlayers: Player[]) => {
-    const selectedLineup = selectedPlayers.map((p) => p.name).join(", ");
-
-    toast({
-      title: "Best Lineup Selected",
-      description: `Your lineup has been updated with the selected players: ${selectedLineup.substring(
-        0,
-        100,
-      )}...`,
-    });
-  };
-
-  const handleShowTransferRecommendations = () => {
-    refetchRcmPlayers();
-    setTransferRecsOpen(true);
-  };
 
   return (
     <>
@@ -87,11 +41,6 @@ export default function TeamPage() {
       </PageTitle>
 
       <ContentWrapper isLoading={isLoading} error={error}>
-        <QuickAction
-          onChooseBestPlayers={handleChooseBestPlayers}
-          onShowTransferRecommendations={handleShowTransferRecommendations}
-          setPlayerRolesOpen={setPlayerRolesOpen}
-        />
         <Tabs defaultValue="formation" className="space-y-6">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="formation" className="flex items-center">
@@ -123,28 +72,6 @@ export default function TeamPage() {
             <TeamAnalytics />
           </TabsContent>
         </Tabs>
-
-        <PlayerRolesDialog
-          players={data?.players}
-          open={playerRolesOpen}
-          onOpenChange={setPlayerRolesOpen}
-        />
-
-        <TransferRecommendationsDialog
-          open={transferRecsOpen}
-          onOpenChange={setTransferRecsOpen}
-          rcmPlayers={rcmPlayers}
-          isLoading={isLoadingRcmPlayers}
-          error={isErrorRcmPlayers}
-        />
-
-        {/* <BestLineupDialog
-          open={bestLineupOpen}
-          onOpenChange={setBestLineupOpen}
-          players={data?.players}
-          onConfirm={handleBestLineupConfirm}
-          currentFormation={data?.formation}
-        /> */}
       </ContentWrapper>
     </>
   );
