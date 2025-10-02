@@ -1,8 +1,5 @@
 "use client";
 
-import MyTeamRating from "../../my-team-rating";
-import MyTeamTactics from "../../my-team-tactics";
-
 import { useCallback, useEffect, useState } from "react";
 
 import { Info, InfoIcon, Save } from "lucide-react";
@@ -33,6 +30,7 @@ import { Player } from "@/types/player";
 import MySubstitutes from "./my-substitutes";
 import MyTeamFormationField from "./my-team-formation-field";
 import MyTeamFormationSelector from "./my-team-formation-selector";
+import MyTeamRating from "./my-team-rating";
 import SelectedPlayerSummary from "./selected-player-summary";
 
 type TeamFormationProps = {
@@ -558,12 +556,7 @@ export default function TeamFormation({
               handleFormationChange={handleFormationChange}
             />
 
-            {/* <MyTeamTactics
-              tactics={tactics}
-              handleTacticsChange={handleTacticsChange}
-            />
-
-            <MyTeamRating positions={positions} /> */}
+            <MyTeamRating positions={positions} />
 
             <Button className="w-full" onClick={handleSaveFormation}>
               <Save className="mr-2 h-4 w-4" />
