@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Pencil } from "lucide-react";
+import { Pencil, UserX } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -67,14 +67,22 @@ const PlayerContractTable = ({
             <TableCell className="text-center">
               {player.contractYears} years
             </TableCell>
-            <TableCell className="text-right">
+            <TableCell className="text-right space-x-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => openContractEditDialog(player)}
               >
-                <Pencil className="h-4 w-4 mr-2" />
+                <Pencil className="h-4 w-4" />
                 Edit
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                // onClick={() => handleReleasePlayer(player.id)}
+              >
+                <UserX className="h-4 w-4" />
+                Release
               </Button>
             </TableCell>
           </TableRow>
