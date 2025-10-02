@@ -102,7 +102,7 @@ export default function TeamPage() {
             </TabsTrigger>
             <TabsTrigger value="players" className="flex items-center">
               <Users className="mr-2 h-4 w-4" />
-              Player List
+              Players
             </TabsTrigger>
             <TabsTrigger value="analytics" className="flex items-center">
               <BarChart className="mr-2 h-4 w-4" />

@@ -1,5 +1,13 @@
 "use client";
 
+import NationalTeamIncomeSummary from "../../national-team-income-summary";
+import PlayerContractEditDialog from "../../player-contract-edit-dialog";
+import PlayerContractShirtTable from "../../player-contract-shirt-table";
+import PlayerEditDialog from "../../player-edit-dialog";
+import PlayerNationalTeamDialog from "../../player-national-team-dialog";
+import PlayerTable from "../../player-table";
+import PlayerUpgradeDialog from "../../player-upgrade-dialog";
+
 import type React from "react";
 import { useState } from "react";
 
@@ -26,14 +34,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/components/ui/use-toast";
 import { Player } from "@/types/player";
-
-import NationalTeamIncomeSummary from "./national-team-income-summary";
-import PlayerContractEditDialog from "./player-contract-edit-dialog";
-import PlayerContractShirtTable from "./player-contract-shirt-table";
-import PlayerEditDialog from "./player-edit-dialog";
-import PlayerNationalTeamDialog from "./player-national-team-dialog";
-import PlayerTable from "./player-table";
-import PlayerUpgradeDialog from "./player-upgrade-dialog";
 
 type PlayerListProps = {
   initPlayers: Player[];
@@ -296,64 +296,21 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
         </div>
       </div>
       <NationalTeamIncomeSummary />
-      <Tabs defaultValue="all">
-        <TabsList className="mb-4">
-          <TabsTrigger value="all">All Players ({players.length})</TabsTrigger>
-          <TabsTrigger value="national">
-            National Team (
-            {players.filter((p) => p.nationalTeam?.callUp).length})
-          </TabsTrigger>
-          <TabsTrigger value="contracts">Contracts</TabsTrigger>
-        </TabsList>
-        <TabsContent value="all">
-          <PlayerTable
-            players={filteredPlayers}
-            toggleLineup={toggleLineup}
-            getFormBadge={getFormBadge}
-            getFitnessColor={getFitnessColor}
-            setSelectedDetailPlayer={setSelectedDetailPlayer}
-            setDetailDialogOpen={setDetailDialogOpen}
-            onEditAttributes={handleEditAttributes}
-            setSwapMode={setSwapMode}
-            setSelectedForSwap={setSelectedForSwap}
-            swapMode={swapMode}
-            selectedForSwap={selectedForSwap}
-            handlePlayerUpgrade={handlePlayerUpgrade}
-            handleNationalTeamDetails={handleNationalTeamDetails}
-          />
-        </TabsContent>
-        <TabsContent value="national">
-          <PlayerTable
-            players={filteredPlayers.filter((p) => p.nationalTeam?.callUp)}
-            toggleLineup={toggleLineup}
-            getFormBadge={getFormBadge}
-            getFitnessColor={getFitnessColor}
-            setSelectedDetailPlayer={setSelectedDetailPlayer}
-            setDetailDialogOpen={setDetailDialogOpen}
-            onEditAttributes={handleEditAttributes}
-            setSwapMode={setSwapMode}
-            setSelectedForSwap={setSelectedForSwap}
-            swapMode={swapMode}
-            selectedForSwap={selectedForSwap}
-            handlePlayerUpgrade={handlePlayerUpgrade}
-            handleNationalTeamDetails={handleNationalTeamDetails}
-          />
-        </TabsContent>
-        <TabsContent value="contracts">
-          <Card>
-            <CardHeader>
-              <CardTitle>Player Contract</CardTitle>
-              <CardDescription>Manage player salaries</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <PlayerContractShirtTable
-                filteredPlayers={filteredPlayers}
-                handleContractEdit={handleContractEdit}
-              />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+      <PlayerTable
+        players={filteredPlayers}
+        toggleLineup={toggleLineup}
+        getFormBadge={getFormBadge}
+        getFitnessColor={getFitnessColor}
+        setSelectedDetailPlayer={setSelectedDetailPlayer}
+        setDetailDialogOpen={setDetailDialogOpen}
+        onEditAttributes={handleEditAttributes}
+        setSwapMode={setSwapMode}
+        setSelectedForSwap={setSelectedForSwap}
+        swapMode={swapMode}
+        selectedForSwap={selectedForSwap}
+        handlePlayerUpgrade={handlePlayerUpgrade}
+        handleNationalTeamDetails={handleNationalTeamDetails}
+      />
       <PlayerDetailDialog
         player={selectedDetailPlayer}
         open={detailDialogOpen}

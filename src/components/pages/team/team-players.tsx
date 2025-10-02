@@ -2,18 +2,13 @@
 
 import React from "react";
 
-import { ArrowLeftRight } from "lucide-react";
+import { ArrowLeftRight, FileSignature, Shirt } from "lucide-react";
 import Link from "next/link";
 
-import PlayerList from "@/components/player-list";
+import PageTitle from "@/components/common/page-title";
+import PlayerList from "@/components/pages/team/player-list";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { Player } from "@/types/player";
 
@@ -24,19 +19,27 @@ type Props = {
 const TeamPlayers = ({ players }: Props) => {
   return (
     <Card>
-      <CardHeader>
-        <div className="flex justify-between items-center">
-          <div>
-            <CardTitle>Player List</CardTitle>
-            <CardDescription>Manage your squad and line-up</CardDescription>
-          </div>
+      <CardHeader className="pb-0">
+        <PageTitle title="Players" subTitle="Manage your squad and line-up">
           <Button variant="outline" asChild>
-            <Link href={`${FOOTBALL_STATS_URL}/club`}>
+            <Link href={`${FOOTBALL_STATS_URL}/game/team/contract`}>
+              <FileSignature className="mr-2 h-4 w-4" />
+              Contract
+            </Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link href={`${FOOTBALL_STATS_URL}/game/team/shirt-number`}>
+              <Shirt className="mr-2 h-4 w-4" />
+              Shirt Number
+            </Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link href={`${FOOTBALL_STATS_URL}/game/club`}>
               <ArrowLeftRight className="mr-2 h-4 w-4" />
               Club Management
             </Link>
           </Button>
-        </div>
+        </PageTitle>
       </CardHeader>
       <CardContent>
         <PlayerList initPlayers={players} />
