@@ -2,23 +2,13 @@
 
 import { useState } from "react";
 
-import {
-  ArrowLeft,
-  BarChart,
-  Hash,
-  LayoutGrid,
-  Rocket,
-  Shirt,
-  Users,
-} from "lucide-react";
+import { ArrowLeft, BarChart, LayoutGrid, Rocket, Users } from "lucide-react";
 import Link from "next/link";
 
 import ContentWrapper from "@/components/common/content-wrapper";
 import PageTitle from "@/components/common/page-title";
-import BestLineupDialog from "@/components/pages/team/best-lineup-dialog";
 import PlayerRolesDialog from "@/components/pages/team/player-roles-dialog";
 import QuickAction from "@/components/pages/team/quick-action";
-import ShirtNumberManager from "@/components/pages/team/shirt-number-manager";
 import TeamAnalytics from "@/components/pages/team/team-analytics";
 import TeamFormation from "@/components/pages/team/team-formation";
 import TeamPlayers from "@/components/pages/team/team-players";

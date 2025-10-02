@@ -7,18 +7,10 @@ import PlayerUpgradeDialog from "../../player-upgrade-dialog";
 import type React from "react";
 import { useState } from "react";
 
-import { ChevronDown, ChevronUp, Filter, Search } from "lucide-react";
+import { Filter, Search } from "lucide-react";
 
 import PlayerDetailDialog from "@/components/player-detail-dialog";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -27,13 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/components/ui/use-toast";
 import { Player } from "@/types/player";
 
 import NationalTeamIncomeSummary from "./national-team-income-summary";
 import PlayerContractEditDialog from "./player-contract-edit-dialog";
-import PlayerContractShirtTable from "./player-contract-table";
 import PlayerTable from "./player-table";
 
 type PlayerListProps = {
@@ -320,12 +310,9 @@ export default function PlayerList({ initPlayers }: PlayerListProps) {
         editedAttributes={editedAttributes}
       />
       <PlayerUpgradeDialog
-        attemptUpgrade={attemptUpgrade}
         upgradeDialogOpen={upgradeDialogOpen}
         setUpgradeDialogOpen={setUpgradeDialogOpen}
         selectedPlayerForUpgrade={selectedPlayerForUpgrade}
-        showUpgradeResult={showUpgradeResult}
-        upgradeSuccess={upgradeSuccess}
       />
       <PlayerNationalTeamDialog
         nationalTeamDialogOpen={nationalTeamDialogOpen}
