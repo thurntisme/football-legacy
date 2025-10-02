@@ -1,5 +1,7 @@
 "use client";
 
+import { ThemeToggle } from "../theme-toggle";
+
 import {
   CreditCard,
   HelpCircle,
@@ -12,6 +14,7 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
+import { OnlineStatus } from "@/components/online-status";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,12 +27,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { GUEST_USER } from "@/constants/guest-user";
+import { navItems } from "@/constants/nav-items";
 import { FOOTBALL_PATH, FOOTBALL_STATS_URL } from "@/constants/site";
 import { useIsMobile } from "@/hooks/use-mobile";
-
-import { OnlineStatus } from "@/components/online-status";
-import { ThemeToggle } from "../theme-toggle";
-import { navItems } from "@/constants/nav-items";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -115,7 +115,7 @@ export default function Navbar() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="text-xs md:text-sm"
+                        className="text-xs md:text-sm gap-0"
                       >
                         {item.icon}
                         <span className="hidden sm:inline">{item.label}</span>
@@ -128,13 +128,13 @@ export default function Navbar() {
                           asChild
                           className={
                             pathname ===
-                            `${FOOTBALL_PATH}/game/${item.href}/${child.href}`
+                            `${FOOTBALL_PATH}/${item.href}/${child.href}`
                               ? "bg-primary/10 font-medium"
                               : ""
                           }
                         >
                           <Link
-                            href={`${FOOTBALL_STATS_URL}/game/${item.href}/${child.href}`}
+                            href={`${FOOTBALL_STATS_URL}/${item.href}/${child.href}`}
                             className="flex items-center cursor-pointer"
                           >
                             {child.icon}
@@ -147,7 +147,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href={`${FOOTBALL_STATS_URL}/${item.href}`}
-                    className="flex items-center"
+                    className="flex items-center gap-0"
                   >
                     {item.icon}
                     <span className="hidden sm:inline">{item.label}</span>

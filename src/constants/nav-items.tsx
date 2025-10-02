@@ -1,17 +1,21 @@
 import {
-  Home,
-  Users,
   Building,
-  Landmark,
-  ShoppingCart,
-  Search,
+  CalendarDays,
   Dumbbell,
-  Wifi,
+  FileSignature,
+  Home,
+  Landmark,
+  ListOrdered,
   Newspaper,
   Package,
+  Search,
+  Shirt,
+  ShoppingCart,
   Trophy,
-  CalendarDays,
-  ListOrdered,
+  User2,
+  Users,
+  Users2Icon,
+  Wifi,
 } from "lucide-react";
 
 export const navItems = [
@@ -24,6 +28,23 @@ export const navItems = [
     href: "game/team",
     label: "Team",
     icon: <Users className="h-4 w-4 mr-2" />,
+    children: [
+      {
+        href: "",
+        label: "Roster",
+        icon: <Users2Icon className="h-4 w-4 mr-2" />,
+      },
+      {
+        href: "contract",
+        label: "Contract",
+        icon: <FileSignature className="h-4 w-4 mr-2" />,
+      },
+      {
+        href: "shirt-number",
+        label: "Shirt Number",
+        icon: <Shirt className="h-4 w-4 mr-2" />,
+      },
+    ],
   },
   {
     href: "game/club",
