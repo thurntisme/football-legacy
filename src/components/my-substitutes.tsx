@@ -12,6 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getFormColor } from "@/lib/player";
+import { Player } from "@/types/player";
 
 type Props = {
   availablePlayers: any[];
@@ -27,6 +28,8 @@ type Props = {
   setDetailDialogOpen: (open: boolean) => void;
   handleSubstituteSelect: (player: any) => void;
   tactics: string;
+  selectedPlayer: Player | null;
+  setSelectedPlayer: (player: Player | null) => void;
 };
 
 const MySubstitutes = ({
@@ -43,7 +46,19 @@ const MySubstitutes = ({
   setDetailDialogOpen,
   handleSubstituteSelect,
   tactics,
+  selectedPlayer,
+  setSelectedPlayer,
 }: Props) => {
+  const handleClickPlayer = (player: Player | null) => {
+    if (player) {
+      if (selectedPlayer && selectedPlayer.id === player.id) {
+        setSelectedPlayer(null);
+      } else {
+        setSelectedPlayer(player);
+      }
+    }
+  };
+
   return (
     <div className="mt-6">
       <div className="flex items-center justify-between mb-3">
@@ -80,23 +95,23 @@ const MySubstitutes = ({
         {availablePlayers
           .slice(
             currentSubPage * subsPerPage,
-            (currentSubPage + 1) * subsPerPage
+            (currentSubPage + 1) * subsPerPage,
           )
           .map((player) => (
             <div
               key={player.id}
               className={`flex flex-col items-center p-3 border rounded-md cursor-pointer transition-all ${
-                selectedSubstitute?.id === player.id
+                selectedPlayer?.id === player.id
                   ? "border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20"
                   : "hover:border-primary"
               }`}
-              onClick={() => handleSubstituteSelect(player)}
+              onClick={() => handleClickPlayer(player)}
             >
               <div className="w-10 h-10 rounded-full flex items-center justify-center bg-primary/10 font-bold mb-2 relative">
                 {player.rating}
                 <div
                   className={`absolute -top-1 -right-1 w-3 h-3 rounded-full ${getFormColor(
-                    player.form
+                    player.form,
                   )}`}
                 ></div>
 
@@ -120,7 +135,9 @@ const MySubstitutes = ({
                   </div>
                 )}
               </div>
-              <div className="text-sm font-medium">{player.name}</div>
+              <div className="text-sm font-medium text-center truncate max-w-full">
+                <span className="truncate max-w-full">{player.name}</span>
+              </div>
               <Badge variant="outline" className="mt-1">
                 {player.position}
               </Badge>

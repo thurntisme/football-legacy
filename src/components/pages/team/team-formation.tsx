@@ -529,8 +529,10 @@ export default function TeamFormation({
               setSelectedPlayer={setSelectedPlayer}
             />
 
-            {/* <MySubstitutes
+            <MySubstitutes
               subsPerPage={subsPerPage}
+              selectedPlayer={selectedPlayer}
+              setSelectedPlayer={setSelectedPlayer}
               selectedSubstitute={selectedSubstitute}
               setSelectedSubstitute={setSelectedSubstitute}
               setSwappablePositions={setSwappablePositions}
@@ -543,7 +545,7 @@ export default function TeamFormation({
               nextSubPage={nextSubPage}
               currentSubPage={currentSubPage}
               totalSubPages={totalSubPages}
-            /> */}
+            />
           </div>
 
           <div className="w-full md:w-64 space-y-4">
