@@ -2,77 +2,77 @@
 
 // Enum for Player Form
 export enum PlayerForm {
-  EXCELLENT = 'excellent',
-  GOOD = 'good',
-  AVERAGE = 'average',
-  POOR = 'poor',
+  EXCELLENT = "excellent",
+  GOOD = "good",
+  AVERAGE = "average",
+  POOR = "poor",
 }
 
 // Enum for Player Status Type
 export enum PlayerStatusType {
-  INJURED = 'injured',
-  UNHAPPY = 'unhappy',
-  TRANSFER = 'transfer',
-  SUSPENDED = 'suspended',
-  FIT = 'fit',
+  INJURED = "injured",
+  UNHAPPY = "unhappy",
+  TRANSFER = "transfer",
+  SUSPENDED = "suspended",
+  FIT = "fit",
 }
 
 // Enum for Player Morale
 export enum PlayerMorale {
-  HIGH = 'high',
-  NORMAL = 'normal',
-  LOW = 'low',
+  HIGH = "high",
+  NORMAL = "normal",
+  LOW = "low",
 }
 
 // Enum for Training Performance
 export enum PlayerTrainingPerformance {
-  EXCELLENT = 'excellent',
-  GOOD = 'good',
-  AVERAGE = 'average',
-  POOR = 'poor',
+  EXCELLENT = "excellent",
+  GOOD = "good",
+  AVERAGE = "average",
+  POOR = "poor",
 }
 
 // Enum for Player Type
 export enum PlayerType {
-  NORMAL = 'normal',
-  RISING = 'rising',
-  YOUNG = 'young',
-  LEGEND = 'legend',
+  NORMAL = "normal",
+  RISING = "rising",
+  YOUNG = "young",
+  LEGEND = "legend",
 }
 
 // Enum for Foot Preference
 export enum PlayerFootPreference {
-  LEFT = 'left',
-  RIGHT = 'right',
-  BOTH = 'both',
+  LEFT = "left",
+  RIGHT = "right",
+  BOTH = "both",
 }
 
 export enum PlayerPreferredRole {
-  PLAYMAKER = 'playmaker',
-  TARGETMAN = 'targetman',
-  WINGER = 'winger',
-  BOX_TO_BOX = 'box_to_box',
-  SWEEPER = 'sweeper',
-  POACHER = 'poacher',
-  BALL_WINNER = 'ball_winner',
+  PLAYMAKER = "playmaker",
+  TARGETMAN = "targetman",
+  WINGER = "winger",
+  BOX_TO_BOX = "box_to_box",
+  SWEEPER = "sweeper",
+  POACHER = "poacher",
+  BALL_WINNER = "ball_winner",
 }
 
 export enum PlayerPersonality {
-  AMBITIOUS = 'ambitious',
-  CALM = 'calm',
-  AGGRESSIVE = 'aggressive',
-  LAID_BACK = 'laid_back',
-  OPTIMISTIC = 'optimistic',
-  PESSIMISTIC = 'pessimistic',
-  DETERMINED = 'determined',
-  SELFISH = 'selfish',
-  TEAM_PLAYER = 'team_player',
-  LOYAL = 'loyal',
-  UNRELIABLE = 'unreliable',
-  UNPREDICTABLE = 'unpredictable',
-  DISCIPLINED = 'disciplined',
-  UNDISCIPLINED = 'undisciplined',
-  CONFIDENT = 'confident',
+  AMBITIOUS = "ambitious",
+  CALM = "calm",
+  AGGRESSIVE = "aggressive",
+  LAID_BACK = "laid_back",
+  OPTIMISTIC = "optimistic",
+  PESSIMISTIC = "pessimistic",
+  DETERMINED = "determined",
+  SELFISH = "selfish",
+  TEAM_PLAYER = "team_player",
+  LOYAL = "loyal",
+  UNRELIABLE = "unreliable",
+  UNPREDICTABLE = "unpredictable",
+  DISCIPLINED = "disciplined",
+  UNDISCIPLINED = "undisciplined",
+  CONFIDENT = "confident",
 }
 
 type BaseAttributes = {
@@ -193,7 +193,7 @@ export type Player = {
   injuryProne: boolean;
   personality: PlayerPersonality;
   club?: string;
-  transferStatus?: 'listed' | 'transfer-listed' | 'loan-listed' | 'not-listed';
+  transferStatus?: "listed" | "transfer-listed" | "loan-listed" | "not-listed";
 };
 
 export type YouthPlayer = {
@@ -230,4 +230,9 @@ export type PlayerRoles = {
   striker: PlayerRoleType[];
   midfielder: PlayerRoleType[];
   defender: PlayerRoleType[];
+};
+
+export type PlayerContract = {
+  player: Player;
+  newSalary: number;
 };

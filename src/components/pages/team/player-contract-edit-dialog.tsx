@@ -1,10 +1,9 @@
-import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { DollarSign } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import {
   Dialog,
   DialogContent,
@@ -13,25 +12,38 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Player } from "@/types/player";
+import { Player, PlayerContract } from "@/types/player";
 
 type Props = {
   contractEditDialogOpen: boolean;
   setContractEditDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedPlayerForContract: Player | null;
-  editedSalary: number;
-  setEditedSalary: React.Dispatch<React.SetStateAction<number>>;
-  saveContractChanges: () => void;
+  saveContractChanges: (newContract: PlayerContract) => void;
 };
 
 const PlayerContractEditDialog = ({
   contractEditDialogOpen,
   setContractEditDialogOpen,
   selectedPlayerForContract,
-  editedSalary,
-  setEditedSalary,
   saveContractChanges,
 }: Props) => {
+  const [editedSalary, setEditedSalary] = useState<number>(0);
+
+  useEffect(() => {
+    if (selectedPlayerForContract) {
+      setEditedSalary(selectedPlayerForContract.salary);
+    }
+  }, [selectedPlayerForContract]);
+
+  const onSave = () => {
+    if (!selectedPlayerForContract) return;
+    const newContract = {
+      player: selectedPlayerForContract,
+      newSalary: editedSalary,
+    };
+    saveContractChanges(newContract);
+  };
+
   return (
     <Dialog
       open={contractEditDialogOpen}
@@ -102,7 +114,7 @@ const PlayerContractEditDialog = ({
           >
             Cancel
           </Button>
-          <Button onClick={saveContractChanges}>Save Changes</Button>
+          <Button onClick={onSave}>Save Changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

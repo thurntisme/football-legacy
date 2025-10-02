@@ -1,8 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { Pencil } from 'lucide-react';
+import { Pencil } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -10,17 +11,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Player } from '@/types/football/player';
+} from "@/components/ui/table";
+import { Player } from "@/types/player";
 
 type Props = {
   filteredPlayers: Player[];
-  handleContractEdit: (player: Player) => void;
+  openContractEditDialog: (player: Player) => void;
 };
 
-const PlayerContractShirtTable = ({
+const PlayerContractTable = ({
   filteredPlayers,
-  handleContractEdit,
+  openContractEditDialog,
 }: Props) => {
   return (
     <Table>
@@ -28,7 +29,8 @@ const PlayerContractShirtTable = ({
         <TableRow>
           <TableHead>Name</TableHead>
           <TableHead className="text-center">Position</TableHead>
-          <TableHead className="text-center">Shirt #</TableHead>
+          <TableHead className="text-center">Rating</TableHead>
+          <TableHead className="text-center">Position</TableHead>
           <TableHead className="text-center">Salary (£/week)</TableHead>
           <TableHead className="text-center">Contract Years</TableHead>
           <TableHead className="text-right">Actions</TableHead>
@@ -40,7 +42,24 @@ const PlayerContractShirtTable = ({
             <TableCell>{player.name}</TableCell>
             <TableCell className="text-center">{player.position}</TableCell>
             <TableCell className="font-medium text-center">
-              {player.shirtNumber}
+              {player.rating}
+            </TableCell>
+            <TableCell className="text-center">
+              <div className="flex flex-col align-items-center">
+                <div className="flex flex-wrap justify-center gap-1 mt-1">
+                  {player.playablePositions.map((pos) => (
+                    <Badge
+                      key={pos}
+                      variant="outline"
+                      className={
+                        pos === player.position ? "border-primary" : ""
+                      }
+                    >
+                      {pos}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
             </TableCell>
             <TableCell className="text-center">
               £{player.salary.toLocaleString()}
@@ -52,7 +71,7 @@ const PlayerContractShirtTable = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => handleContractEdit(player)}
+                onClick={() => openContractEditDialog(player)}
               >
                 <Pencil className="h-4 w-4 mr-2" />
                 Edit
@@ -65,4 +84,4 @@ const PlayerContractShirtTable = ({
   );
 };
 
-export default PlayerContractShirtTable;
+export default PlayerContractTable;
