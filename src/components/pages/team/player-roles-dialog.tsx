@@ -3,16 +3,7 @@
 import type React from "react";
 import { useState } from "react";
 
-import {
-  Award,
-  Check,
-  CornerUpRight,
-  Flag,
-  Footprints,
-  Megaphone,
-  RotateCcw,
-  Target,
-} from "lucide-react";
+import { Award, Check } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,16 +14,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { PlayerPosition } from "@/constants/formations";
+import { playerRoles } from "@/constants/player";
 import { toast } from "@/hooks/use-toast";
-import { Player } from "@/types/football/player";
+import { getFormColor } from "@/lib/player";
+import { Player, PlayerRole } from "@/types/player";
 
-type PlayerRole = {
-  id: string;
-  name: string;
-  description: string;
-  icon: React.ReactNode;
-  assignedPlayerId: string | null;
-};
 type PlayerRolesDialogProps = {
   players: Player[];
   open: boolean;
@@ -44,51 +31,7 @@ export default function PlayerRolesDialog({
   onOpenChange,
 }: PlayerRolesDialogProps) {
   // Define available roles
-  const [roles, setRoles] = useState<PlayerRole[]>([
-    {
-      id: "captain",
-      name: "Captain",
-      description:
-        "Team leader who communicates with the referee and boosts team morale",
-      icon: <Megaphone className="h-5 w-5" />,
-      assignedPlayerId: "3", // Default to Robert Garcia (CB)
-    },
-    {
-      id: "vice-captain",
-      name: "Vice-Captain",
-      description: "Takes over captain duties when the captain is unavailable",
-      icon: <Flag className="h-5 w-5" />,
-      assignedPlayerId: "7", // Default to Steven Taylor (CDM)
-    },
-    {
-      id: "penalty-taker",
-      name: "Penalty Taker",
-      description: "Primary player to take penalty kicks",
-      icon: <Target className="h-5 w-5" />,
-      assignedPlayerId: "10", // Default to Mark Williams (ST)
-    },
-    {
-      id: "free-kick-taker",
-      name: "Free Kick Taker",
-      description: "Primary player to take direct free kicks",
-      icon: <Footprints className="h-5 w-5" />,
-      assignedPlayerId: "6", // Default to Daniel Martinez (CM)
-    },
-    {
-      id: "corner-taker-right",
-      name: "Corner Taker (Right)",
-      description: "Takes corner kicks from the right side",
-      icon: <CornerUpRight className="h-5 w-5" />,
-      assignedPlayerId: "9", // Default to Chris Johnson (LW)
-    },
-    {
-      id: "corner-taker-left",
-      name: "Corner Taker (Left)",
-      description: "Takes corner kicks from the left side",
-      icon: <RotateCcw className="h-5 w-5" />,
-      assignedPlayerId: "11", // Default to Paul Davis (RW)
-    },
-  ]);
+  const [roles, setRoles] = useState<PlayerRole[]>(playerRoles);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   // Handle role assignment
   const assignPlayerToRole = (roleId: string, playerId: string) => {
@@ -111,21 +54,6 @@ export default function PlayerRolesDialog({
     if (id === null) return null;
     return players.find((player) => player.id === id) || null;
   };
-  // Get form color
-  const getFormColor = (form: string | undefined) => {
-    switch (form) {
-      case "excellent":
-        return "bg-green-500";
-      case "good":
-        return "bg-emerald-400";
-      case "average":
-        return "bg-amber-400";
-      case "poor":
-        return "bg-red-400";
-      default:
-        return "bg-gray-400";
-    }
-  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -147,7 +75,7 @@ export default function PlayerRolesDialog({
                     key={role.id}
                     className={`p-3 border rounded-md cursor-pointer transition-all ${
                       selectedRole === role.id
-                        ? "border-primary bg-primary/5 ring-2 ring-primary/20"
+                        ? "border-primary bg-primary/5"
                         : "hover:border-primary/50"
                     }`}
                     onClick={() => setSelectedRole(role.id)}
@@ -161,16 +89,19 @@ export default function PlayerRolesDialog({
                         <div className="text-sm text-muted-foreground">
                           {role.description}
                         </div>
-                        {assignedPlayer && (
-                          <div className="mt-2 flex items-center">
-                            <Badge variant="outline" className="mr-2">
-                              {assignedPlayer.position}
-                            </Badge>
-                            <span className="text-sm font-medium">
-                              {assignedPlayer.name}
-                            </span>
-                          </div>
-                        )}
+                        <div className="mt-2 flex items-center">
+                          <Badge
+                            variant={
+                              assignedPlayer?.position ? "default" : "outline"
+                            }
+                            className="mr-2"
+                          >
+                            {assignedPlayer?.position || PlayerPosition.GK}
+                          </Badge>
+                          <span className="text-sm font-medium">
+                            {assignedPlayer?.name || "Unassigned"}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -181,7 +112,7 @@ export default function PlayerRolesDialog({
           <div>
             <h3 className="text-lg font-medium mb-3">Squad Players</h3>
             {selectedRole ? (
-              <div className="space-y-3">
+              <div className="space-y-3 max-h-[695px] overflow-y-auto pr-1">
                 {players.map((player) => (
                   <div
                     key={player.id}

@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import React from "react";
 
 // Enum for Player Form
 export enum PlayerForm {
@@ -235,4 +236,12 @@ export type PlayerRoles = {
 export type PlayerContract = {
   player: Player;
   newSalary: number;
+};
+
+export type PlayerRole = {
+  id: string;
+  name: string;
+  description: string;
+  icon: React.ReactNode;
+  assignedPlayerId: string | null;
 };
