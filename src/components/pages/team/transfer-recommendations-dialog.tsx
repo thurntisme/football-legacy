@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   ArrowRight,
@@ -8,10 +8,12 @@ import {
   DollarSign,
   ShoppingCart,
   TrendingUp,
+  UserSearch,
+  X,
 } from "lucide-react";
-// Add Link component import
 import Link from "next/link";
 
+import ContentWrapper from "@/components/common/content-wrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -25,8 +27,8 @@ import {
 } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "@/components/ui/use-toast";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
+import { toast } from "@/hooks/use-toast";
 
 type Player = {
   id: number;
@@ -65,7 +67,7 @@ export default function TransferRecommendationsDialog({
 
   const handleViewInMarket = (player: Player) => {
     // In a real app, this would navigate to the transfer market with this player pre-selected
-    console.log({
+    toast({
       title: "Viewing Player in Market",
       description: `Navigating to ${player.name} in the transfer market.`,
     });
@@ -125,7 +127,7 @@ export default function TransferRecommendationsDialog({
               £{(player.price / 1000000).toFixed(1)}M
             </div>
             <Button size="sm" onClick={() => handleViewInMarket(player)}>
-              <ShoppingCart className="h-4 w-4 mr-2" />
+              <UserSearch className="h-4 w-4" />
               View in Market
             </Button>
           </div>
@@ -134,8 +136,15 @@ export default function TransferRecommendationsDialog({
     </Card>
   );
 
+  const handleOpenChange = (open: boolean) => {
+    onOpenChange(open);
+    if (!open) {
+      setSelectedTab("similar");
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Transfer Market Recommendations</DialogTitle>
@@ -143,79 +152,72 @@ export default function TransferRecommendationsDialog({
             Recommended players for your team based on your current squad
           </DialogDescription>
         </DialogHeader>
-        <Tabs
-          defaultValue="similar"
-          value={selectedTab}
-          onValueChange={setSelectedTab}
-        >
-          <TabsList className="grid grid-cols-4 mb-4">
-            <TabsTrigger
-              value="similar"
-              className="flex items-center justify-center"
-            >
-              <ArrowRight className="h-4 w-4 mr-2" />
-              Similar Players
-            </TabsTrigger>
-            <TabsTrigger
-              value="upgrade"
-              className="flex items-center justify-center"
-            >
-              <ArrowUpRight className="h-4 w-4 mr-2" />
-              Upgrades
-            </TabsTrigger>
-            <TabsTrigger
-              value="bargain"
-              className="flex items-center justify-center"
-            >
-              <DollarSign className="h-4 w-4 mr-2" />
-              Bargains
-            </TabsTrigger>
-            <TabsTrigger
-              value="young"
-              className="flex items-center justify-center"
-            >
-              <TrendingUp className="h-4 w-4 mr-2" />
-              Young Talent
-            </TabsTrigger>
-          </TabsList>
-          {isLoading ? (
-            <div className="py-12 text-center">
-              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
-              <p className="mt-4 text-muted-foreground">
-                Finding the best players for your team...
-              </p>
-            </div>
-          ) : (
-            <>
-              <TabsContent value="similar">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {rcmPlayers?.similar?.map(renderPlayerCard)}
-                </div>
-              </TabsContent>
-              <TabsContent value="upgrade">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {rcmPlayers?.upgrade?.map(renderPlayerCard)}
-                </div>
-              </TabsContent>
-              <TabsContent value="bargain">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {rcmPlayers?.bargain?.map(renderPlayerCard)}
-                </div>
-              </TabsContent>
-              <TabsContent value="young">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {rcmPlayers?.young?.map(renderPlayerCard)}
-                </div>
-              </TabsContent>
-            </>
-          )}
-        </Tabs>
+        <ContentWrapper isLoading={isLoading} error={error}>
+          <Tabs
+            defaultValue="similar"
+            value={selectedTab}
+            onValueChange={setSelectedTab}
+          >
+            <TabsList className="grid grid-cols-4 mb-4">
+              <TabsTrigger
+                value="similar"
+                className="flex items-center justify-center"
+              >
+                <ArrowRight className="h-4 w-4 mr-2" />
+                Similar Players
+              </TabsTrigger>
+              <TabsTrigger
+                value="upgrade"
+                className="flex items-center justify-center"
+              >
+                <ArrowUpRight className="h-4 w-4 mr-2" />
+                Upgrades
+              </TabsTrigger>
+              <TabsTrigger
+                value="bargain"
+                className="flex items-center justify-center"
+              >
+                <DollarSign className="h-4 w-4 mr-2" />
+                Bargains
+              </TabsTrigger>
+              <TabsTrigger
+                value="young"
+                className="flex items-center justify-center"
+              >
+                <TrendingUp className="h-4 w-4 mr-2" />
+                Young Talent
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="similar">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {rcmPlayers?.similar?.map(renderPlayerCard)}
+              </div>
+            </TabsContent>
+            <TabsContent value="upgrade">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {rcmPlayers?.upgrade?.map(renderPlayerCard)}
+              </div>
+            </TabsContent>
+            <TabsContent value="bargain">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {rcmPlayers?.bargain?.map(renderPlayerCard)}
+              </div>
+            </TabsContent>
+            <TabsContent value="young">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {rcmPlayers?.young?.map(renderPlayerCard)}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </ContentWrapper>
         <DialogFooter className="mt-4">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
+            <X className="h-4 w-4" />
             Close
           </Button>
           <Button asChild>
-            <Link href={`${FOOTBALL_STATS_URL}/market`}>
+            <Link href={`${FOOTBALL_STATS_URL}/game/market`}>
+              <ShoppingCart className="h-4 w-4" />
               Go to Transfer Market
             </Link>
           </Button>
