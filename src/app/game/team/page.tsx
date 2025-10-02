@@ -116,7 +116,6 @@ export default function TeamPage() {
 
           <TabsContent value="formation" className="space-y-6">
             <TeamFormation
-              allPlayers={data?.players}
               formation={data?.formation}
               players={data?.players}
             />
