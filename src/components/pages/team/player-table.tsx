@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import {
   ArrowDown,
@@ -28,31 +28,59 @@ interface PlayerTableProps {
   initPlayers: Player[];
   setSelectedDetailPlayer: React.Dispatch<React.SetStateAction<Player | null>>;
   setDetailDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onEditAttributes: (player: Player) => void;
-  handlePlayerUpgrade: (player: Player) => void;
-  handleNationalTeamDetails: (player: Player) => void;
+  openEditDialog: (player: Player) => void;
+  openUpgradeDialog: (player: Player) => void;
+  openNationalTeamDialog: (player: Player) => void;
 }
-// Update the PlayerTable component to include the detail button
+
+const SORT_TYPES = ["desc", "asc"] as const;
+
 function PlayerTable({
   initPlayers,
   setSelectedDetailPlayer,
   setDetailDialogOpen,
-  onEditAttributes,
-  handlePlayerUpgrade,
-  handleNationalTeamDetails,
+  openEditDialog,
+  openUpgradeDialog,
+  openNationalTeamDialog,
 }: PlayerTableProps) {
   const [players, setPlayers] = useState<Player[]>(initPlayers);
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [sortOrderIndex, setSortOrderIndex] = useState<number>(
+    SORT_TYPES.length,
+  );
 
   const toggleSortOrder = () => {
-    const newSortOrder = sortOrder === "desc" ? "asc" : "desc";
-    setSortOrder(newSortOrder);
-    setPlayers(
-      [...players].sort((a, b) =>
-        newSortOrder === "asc" ? a.rating - b.rating : b.rating - a.rating,
-      ),
-    );
+    let newSortOrderIndex = sortOrderIndex;
+    if (sortOrderIndex === SORT_TYPES.length) {
+      newSortOrderIndex = 0;
+      setPlayers([...players].sort((a, b) => b.rating - a.rating));
+      setSortOrderIndex(newSortOrderIndex);
+    } else {
+      newSortOrderIndex += 1;
+      if (newSortOrderIndex >= SORT_TYPES.length) {
+        newSortOrderIndex = SORT_TYPES.length;
+        setPlayers([...initPlayers]);
+      } else {
+        setPlayers(
+          [...players].sort((a, b) =>
+            SORT_TYPES[newSortOrderIndex] === "asc"
+              ? a.rating - b.rating
+              : b.rating - a.rating,
+          ),
+        );
+      }
+      setSortOrderIndex(newSortOrderIndex);
+    }
   };
+
+  const sortOrderHtml = useMemo(() => {
+    if (sortOrderIndex === 0) {
+      return <ArrowDown className="ml-1 h-4 w-4" />;
+    }
+    if (sortOrderIndex === 1) {
+      return <ArrowUp className="ml-1 h-4 w-4" />;
+    }
+    return null;
+  }, [sortOrderIndex]);
 
   return (
     <div className="border rounded-md">
@@ -65,11 +93,7 @@ function PlayerTable({
                 onClick={toggleSortOrder}
               >
                 Rating
-                {sortOrder === "desc" ? (
-                  <ArrowDown className="ml-1 h-4 w-4" />
-                ) : (
-                  <ArrowUp className="ml-1 h-4 w-4" />
-                )}
+                {sortOrderHtml}
               </span>
             </TableHead>
             <TableHead>Name</TableHead>
@@ -116,7 +140,7 @@ function PlayerTable({
                   {player.nationalTeam?.callUp ? (
                     <Badge
                       className="bg-blue-500 cursor-pointer"
-                      onClick={() => handleNationalTeamDetails(player)}
+                      onClick={() => openNationalTeamDialog(player)}
                     >
                       <Flag className="h-3 w-3 mr-1" />
                       {player.nationalTeam.name}
@@ -150,14 +174,14 @@ function PlayerTable({
                     <Button
                       variant="outline"
                       size="icon"
-                      onClick={() => onEditAttributes(player)}
+                      onClick={() => openEditDialog(player)}
                     >
                       <Pencil className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="outline"
                       size="icon"
-                      onClick={() => handlePlayerUpgrade(player)}
+                      onClick={() => openUpgradeDialog(player)}
                     >
                       <TrendingUp className="h-4 w-4" />
                     </Button>

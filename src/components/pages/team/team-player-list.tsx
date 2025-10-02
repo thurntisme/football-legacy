@@ -55,11 +55,11 @@ export default function TeamPlayerList({ initPlayers }: PlayerListProps) {
     useState<Player | null>(null);
   const [editedShirtNumber, setEditedShirtNumber] = useState<number>(0);
   const [editedSalary, setEditedSalary] = useState<number>(0);
-  const handlePlayerUpgrade = (player: Player) => {
+  const handleOpenUpgradeDialog = (player: Player) => {
     setSelectedPlayerForUpgrade(player);
     setUpgradeDialogOpen(true);
   };
-  const handleNationalTeamDetails = (player: Player) => {
+  const handleOpenNationalTeamDialog = (player: Player) => {
     setSelectedPlayerForNational(player);
     setNationalTeamDialogOpen(true);
   };
@@ -77,7 +77,7 @@ export default function TeamPlayerList({ initPlayers }: PlayerListProps) {
       description: `${selectedPlayerForContract.name}'s contract details have been updated.`,
     });
   };
-  const handleEditAttributes = (player: Player) => {
+  const handleOpenEditDialog = (player: Player) => {
     setEditingPlayer(player);
     setEditedAttributes({
       pace: player.attributes.pace,
@@ -159,9 +159,9 @@ export default function TeamPlayerList({ initPlayers }: PlayerListProps) {
         initPlayers={initPlayers}
         setSelectedDetailPlayer={setSelectedDetailPlayer}
         setDetailDialogOpen={setDetailDialogOpen}
-        onEditAttributes={handleEditAttributes}
-        handlePlayerUpgrade={handlePlayerUpgrade}
-        handleNationalTeamDetails={handleNationalTeamDetails}
+        openEditDialog={handleOpenEditDialog}
+        openUpgradeDialog={handleOpenUpgradeDialog}
+        openNationalTeamDialog={handleOpenNationalTeamDialog}
       />
       <PlayerDetailDialog
         player={selectedDetailPlayer}
