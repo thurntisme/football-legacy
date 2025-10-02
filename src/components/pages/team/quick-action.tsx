@@ -94,13 +94,13 @@ const QuickAction = ({ players, formation }: Props) => {
         error={isErrorRcmPlayers}
       />
 
-      {/* <BestLineupDialog
+      <BestLineupDialog
         open={bestLineupOpen}
         onOpenChange={setBestLineupOpen}
         players={players}
         onConfirm={handleBestLineupConfirm}
-        currentFormation={formation}
-      /> */}
+        baseFormation={formation}
+      />
     </>
   );
 };
