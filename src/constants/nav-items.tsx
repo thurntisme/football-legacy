@@ -88,7 +88,7 @@ export const navItems = [
     icon: <Dumbbell className="h-4 w-4 mr-2" />,
   },
   {
-    href: "youth-academy",
+    href: "game/youth-academy",
     label: "Youth Academy",
     icon: <Users className="h-4 w-4 mr-2" />,
   },
