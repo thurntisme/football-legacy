@@ -137,8 +137,8 @@ type GoalkeeperAttributes = {
 type PlayerAttributes = BaseAttributes & Partial<GoalkeeperAttributes>;
 
 export type Player = {
-  id: string;
-  uuid: string;
+  id: string; // Player in team
+  uuid: string; // Player in database
   avatar?: string | null;
   avatar_url: string;
   playerIndex: number;

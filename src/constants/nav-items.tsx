@@ -12,7 +12,6 @@ import {
   Shirt,
   ShoppingCart,
   Trophy,
-  User2,
   Users,
   Users2Icon,
   Wifi,
@@ -74,7 +73,7 @@ export const navItems = [
     ],
   },
   {
-    href: "market",
+    href: "game/market",
     label: "Market",
     icon: <ShoppingCart className="h-4 w-4 mr-2" />,
   },

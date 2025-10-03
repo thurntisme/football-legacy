@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Heart, Info, ShoppingCart, Star } from 'lucide-react';
+import { Heart, Info, ShoppingCart, Star } from "lucide-react";
 
 import {
   AlertDialog,
@@ -12,11 +12,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Player } from '@/types/football/player';
+} from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { formatCurrency } from "@/lib/finance";
+import { Player } from "@/types/player";
 
 type Props = {
   key: string;
@@ -58,30 +59,20 @@ const MarketPlayer = ({
     <Card key={key} className="overflow-hidden">
       <CardContent className="p-0">
         <div className="relative">
-          <div className="absolute top-2 left-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className={`h-8 w-8 rounded-full ${favorites.has(player.uuid) ? 'bg-primary/10 text-primary' : 'text-muted-foreground'}`}
-              onClick={(e) => toggleFavorite(player.uuid, e)}
-            >
-              <Star
-                className={`h-4 w-4 ${favorites.has(player.uuid) ? 'fill-primary' : ''}`}
+          <div className="p-4 flex items-center space-x-3">
+            <div className="relative">
+              <img
+                src={player.avatar_url || "/placeholder.svg"}
+                alt={player.name}
+                className="w-20 h-20 rounded-full border-2 border-primary/20 object-cover"
               />
-            </Button>
-          </div>
-          <div className="absolute top-2 right-2">
-            <Badge variant="secondary" className="font-bold">
-              {player.rating}
-            </Badge>
-          </div>
-          <div className="p-4 flex items-center">
-            <img
-              src={player.avatar_url || '/placeholder.svg'}
-              alt={player.name}
-              className="w-20 h-20 rounded-full border-2 border-primary/20 mr-3 object-cover"
-            />
-            <div>
+              <div className="absolute -bottom-2 left-[50%] -translate-x-1/2">
+                <Badge variant="secondary" className="font-bold">
+                  {player.rating}
+                </Badge>
+              </div>
+            </div>
+            <div className="space-y-1">
               <h3 className="font-bold">{player.name}</h3>
               <div className="flex items-center text-sm text-muted-foreground">
                 <span className="mr-2">{player.position}</span>
@@ -98,31 +89,36 @@ const MarketPlayer = ({
       </CardContent>
       <CardFooter className="flex justify-between py-2 px-4 border-t">
         <div className="text-lg font-bold">
-          £{(player.market_value / 1000000).toFixed(1)}M
+          {formatCurrency(player.marketValue)}
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
             onClick={(event) => toggleFavorite(player.uuid, event)}
+            className="rounded-full w-8 h-8"
           >
             <Heart
-              className={`h-4 w-4 ${favorites.has(player.uuid) ? 'fill-red-500 text-red-500' : ''}`}
+              className={`h-4 w-4 ${favorites.has(player.uuid) ? "fill-red-500 text-red-500" : ""}`}
             />
           </Button>
           <Button
-            variant="outline"
-            size="sm"
+            variant="ghost"
+            size="icon"
             onClick={() => setSelectedPlayer(player)}
+            className="rounded-full w-8 h-8"
           >
             <Info className="h-4 w-4" />
           </Button>
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button size="sm" onClick={() => setPlayerToBuy(player)}>
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                Buy
+              <Button
+                size="icon"
+                onClick={() => setPlayerToBuy(player)}
+                className="w-8 h-8"
+              >
+                <ShoppingCart className="h-4 w-4" />
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>

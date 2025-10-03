@@ -3,7 +3,7 @@
 import PageTitle from "@/components/common/page-title";
 import LoanMarket from "@/components/loan-market";
 import MyListings from "@/components/my-listings";
-import TransferMarket from "@/components/transfer-market";
+import TransferMarket from "@/components/pages/market/transfer-market";
 import TransferOverview from "@/components/transfer-overview";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
