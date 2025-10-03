@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 import {
   Calendar,
@@ -11,17 +11,17 @@ import {
   Target,
   Trash2,
   Users,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -30,103 +30,103 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
-import { toast } from '@/components/ui/use-toast';
+} from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
 
 // Mock training sessions data
 const initialSessions = [
   {
-    id: '1',
-    title: 'Pre-Match Tactical Session',
-    description: 'Focus on opponent analysis and tactical preparation',
-    date: '2025-03-25',
-    time: '10:00',
+    id: "1",
+    title: "Pre-Match Tactical Session",
+    description: "Focus on opponent analysis and tactical preparation",
+    date: "2025-03-25",
+    time: "10:00",
     duration: 60,
-    type: 'tactical',
-    participants: 'First Team',
+    type: "tactical",
+    participants: "First Team",
     objectives: [
-      'Defensive organization',
-      'Set piece preparation',
-      'Counter-attack strategy',
+      "Defensive organization",
+      "Set piece preparation",
+      "Counter-attack strategy",
     ],
   },
   {
-    id: '2',
-    title: 'Recovery Session',
-    description: 'Light recovery session after match',
-    date: '2025-03-23',
-    time: '09:30',
+    id: "2",
+    title: "Recovery Session",
+    description: "Light recovery session after match",
+    date: "2025-03-23",
+    time: "09:30",
     duration: 45,
-    type: 'fitness',
-    participants: 'Match Players',
-    objectives: ['Active recovery', 'Injury prevention', 'Light stretching'],
+    type: "fitness",
+    participants: "Match Players",
+    objectives: ["Active recovery", "Injury prevention", "Light stretching"],
   },
   {
-    id: '3',
-    title: 'Technical Drills',
-    description: 'Focus on passing and ball control',
-    date: '2025-03-24',
-    time: '14:00',
+    id: "3",
+    title: "Technical Drills",
+    description: "Focus on passing and ball control",
+    date: "2025-03-24",
+    time: "14:00",
     duration: 90,
-    type: 'technical',
-    participants: 'All Players',
+    type: "technical",
+    participants: "All Players",
     objectives: [
-      'Passing accuracy',
-      'First touch improvement',
-      'Small-sided games',
+      "Passing accuracy",
+      "First touch improvement",
+      "Small-sided games",
     ],
   },
 ];
 
 // Training types
 const trainingTypes = [
-  { id: 'fitness', name: 'Fitness' },
-  { id: 'tactical', name: 'Tactical' },
-  { id: 'technical', name: 'Technical' },
-  { id: 'teamwork', name: 'Teamwork' },
-  { id: 'match_prep', name: 'Match Preparation' },
+  { id: "fitness", name: "Fitness" },
+  { id: "tactical", name: "Tactical" },
+  { id: "technical", name: "Technical" },
+  { id: "teamwork", name: "Teamwork" },
+  { id: "match_prep", name: "Match Preparation" },
 ];
 
 // Participant groups
 const participantGroups = [
-  'All Players',
-  'First Team',
-  'Reserves',
-  'Match Players',
-  'Non-Match Players',
-  'Goalkeepers',
-  'Defenders',
-  'Midfielders',
-  'Forwards',
+  "All Players",
+  "First Team",
+  "Reserves",
+  "Match Players",
+  "Non-Match Players",
+  "Goalkeepers",
+  "Defenders",
+  "Midfielders",
+  "Forwards",
 ];
 
 export default function TrainingSessions() {
   const [sessions, setSessions] = useState(initialSessions);
-  const [activeTab, setActiveTab] = useState('upcoming');
+  const [activeTab, setActiveTab] = useState("upcoming");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingSession, setEditingSession] = useState<any>(null);
 
   // New session form state
   const [newSession, setNewSession] = useState({
-    title: '',
-    description: '',
-    date: '',
-    time: '',
+    title: "",
+    description: "",
+    date: "",
+    time: "",
     duration: 60,
-    type: 'tactical',
-    participants: 'All Players',
-    objectives: [''],
+    type: "tactical",
+    participants: "All Players",
+    objectives: [""],
   });
 
   // Filter sessions based on active tab
@@ -134,9 +134,9 @@ export default function TrainingSessions() {
     const sessionDate = new Date(session.date);
     const today = new Date();
 
-    if (activeTab === 'upcoming') {
+    if (activeTab === "upcoming") {
       return sessionDate >= today;
-    } else if (activeTab === 'past') {
+    } else if (activeTab === "past") {
       return sessionDate < today;
     }
     return true;
@@ -182,12 +182,12 @@ export default function TrainingSessions() {
     if (editingSession) {
       setEditingSession({
         ...editingSession,
-        objectives: [...currentSession.objectives, ''],
+        objectives: [...currentSession.objectives, ""],
       });
     } else {
       setNewSession({
         ...newSession,
-        objectives: [...currentSession.objectives, ''],
+        objectives: [...currentSession.objectives, ""],
       });
     }
   };
@@ -217,33 +217,33 @@ export default function TrainingSessions() {
       // Update existing session
       setSessions(
         sessions.map((session) =>
-          session.id === editingSession.id ? editingSession : session
-        )
+          session.id === editingSession.id ? editingSession : session,
+        ),
       );
       toast({
-        title: 'Training session updated',
-        description: 'The training session has been successfully updated.',
+        title: "Training session updated",
+        description: "The training session has been successfully updated.",
       });
     } else {
       // Add new session
       const newId = Math.random().toString(36).substring(2, 9);
       setSessions([...sessions, { ...newSession, id: newId }]);
       toast({
-        title: 'Training session created',
-        description: 'A new training session has been added to the schedule.',
+        title: "Training session created",
+        description: "A new training session has been added to the schedule.",
       });
     }
 
     // Reset form and close dialog
     setNewSession({
-      title: '',
-      description: '',
-      date: '',
-      time: '',
+      title: "",
+      description: "",
+      date: "",
+      time: "",
       duration: 60,
-      type: 'tactical',
-      participants: 'All Players',
-      objectives: [''],
+      type: "tactical",
+      participants: "All Players",
+      objectives: [""],
     });
     setEditingSession(null);
     setDialogOpen(false);
@@ -253,8 +253,8 @@ export default function TrainingSessions() {
   const deleteSession = (id: string) => {
     setSessions(sessions.filter((session) => session.id !== id));
     toast({
-      title: 'Training session deleted',
-      description: 'The training session has been removed from the schedule.',
+      title: "Training session deleted",
+      description: "The training session has been removed from the schedule.",
     });
   };
 
@@ -267,18 +267,18 @@ export default function TrainingSessions() {
   // Get type badge color
   const getTypeBadgeColor = (type: string) => {
     switch (type) {
-      case 'fitness':
-        return 'bg-green-100 text-green-800';
-      case 'tactical':
-        return 'bg-blue-100 text-blue-800';
-      case 'technical':
-        return 'bg-purple-100 text-purple-800';
-      case 'teamwork':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'match_prep':
-        return 'bg-red-100 text-red-800';
+      case "fitness":
+        return "bg-green-100 text-green-800";
+      case "tactical":
+        return "bg-blue-100 text-blue-800";
+      case "technical":
+        return "bg-purple-100 text-purple-800";
+      case "teamwork":
+        return "bg-yellow-100 text-yellow-800";
+      case "match_prep":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -308,13 +308,13 @@ export default function TrainingSessions() {
             <DialogHeader>
               <DialogTitle>
                 {editingSession
-                  ? 'Edit Training Session'
-                  : 'Create New Training Session'}
+                  ? "Edit Training Session"
+                  : "Create New Training Session"}
               </DialogTitle>
               <DialogDescription>
                 {editingSession
-                  ? 'Update the details of this training session.'
-                  : 'Add a new training session to your schedule.'}
+                  ? "Update the details of this training session."
+                  : "Add a new training session to your schedule."}
               </DialogDescription>
             </DialogHeader>
 
@@ -324,7 +324,7 @@ export default function TrainingSessions() {
                 <Input
                   id="title"
                   value={editingSession?.title || newSession.title}
-                  onChange={(e) => handleInputChange('title', e.target.value)}
+                  onChange={(e) => handleInputChange("title", e.target.value)}
                   placeholder="e.g., Pre-Match Tactical Session"
                 />
               </div>
@@ -335,7 +335,7 @@ export default function TrainingSessions() {
                   id="description"
                   value={editingSession?.description || newSession.description}
                   onChange={(e) =>
-                    handleInputChange('description', e.target.value)
+                    handleInputChange("description", e.target.value)
                   }
                   placeholder="Brief description of the training session"
                 />
@@ -351,7 +351,7 @@ export default function TrainingSessions() {
                       type="date"
                       value={editingSession?.date || newSession.date}
                       onChange={(e) =>
-                        handleInputChange('date', e.target.value)
+                        handleInputChange("date", e.target.value)
                       }
                     />
                   </div>
@@ -366,7 +366,7 @@ export default function TrainingSessions() {
                       type="time"
                       value={editingSession?.time || newSession.time}
                       onChange={(e) =>
-                        handleInputChange('time', e.target.value)
+                        handleInputChange("time", e.target.value)
                       }
                     />
                   </div>
@@ -384,8 +384,8 @@ export default function TrainingSessions() {
                     value={editingSession?.duration || newSession.duration}
                     onChange={(e) =>
                       handleInputChange(
-                        'duration',
-                        Number.parseInt(e.target.value)
+                        "duration",
+                        Number.parseInt(e.target.value),
                       )
                     }
                   />
@@ -395,7 +395,7 @@ export default function TrainingSessions() {
                   <Label htmlFor="type">Session Type</Label>
                   <Select
                     value={editingSession?.type || newSession.type}
-                    onValueChange={(value) => handleInputChange('type', value)}
+                    onValueChange={(value) => handleInputChange("type", value)}
                   >
                     <SelectTrigger id="type">
                       <SelectValue />
@@ -420,7 +420,7 @@ export default function TrainingSessions() {
                       editingSession?.participants || newSession.participants
                     }
                     onValueChange={(value) =>
-                      handleInputChange('participants', value)
+                      handleInputChange("participants", value)
                     }
                   >
                     <SelectTrigger id="participants" className="w-full">
@@ -473,7 +473,7 @@ export default function TrainingSessions() {
                         </Button>
                       )}
                     </div>
-                  )
+                  ),
                 )}
               </div>
             </div>
@@ -490,7 +490,7 @@ export default function TrainingSessions() {
               </Button>
               <Button onClick={saveSession}>
                 <Save className="mr-2 h-4 w-4" />
-                {editingSession ? 'Update Session' : 'Create Session'}
+                {editingSession ? "Update Session" : "Create Session"}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -570,7 +570,7 @@ export default function TrainingSessions() {
                           <Target className="mr-2 h-4 w-4 mt-0.5 flex-shrink-0" />
                           <span>{objective}</span>
                         </li>
-                      )
+                      ),
                     )}
                   </ul>
                 </div>

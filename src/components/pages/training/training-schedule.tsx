@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 import {
   AlertCircle,
@@ -10,77 +10,77 @@ import {
   Save,
   Target,
   Users,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { toast } from '@/components/ui/use-toast';
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { toast } from "@/components/ui/use-toast";
 
 // Training types with their icons and descriptions
 const trainingTypes = [
   {
-    id: 'fitness',
-    name: 'Fitness',
+    id: "fitness",
+    name: "Fitness",
     icon: <Dumbbell className="h-5 w-5" />,
-    description: 'Focus on physical conditioning and stamina',
+    description: "Focus on physical conditioning and stamina",
   },
   {
-    id: 'tactical',
-    name: 'Tactical',
+    id: "tactical",
+    name: "Tactical",
     icon: <Brain className="h-5 w-5" />,
-    description: 'Focus on team shape and tactical understanding',
+    description: "Focus on team shape and tactical understanding",
   },
   {
-    id: 'technical',
-    name: 'Technical',
+    id: "technical",
+    name: "Technical",
     icon: <Footprints className="h-5 w-5" />,
-    description: 'Focus on ball control and technique',
+    description: "Focus on ball control and technique",
   },
   {
-    id: 'teamwork',
-    name: 'Teamwork',
+    id: "teamwork",
+    name: "Teamwork",
     icon: <Users className="h-5 w-5" />,
-    description: 'Focus on team cohesion and communication',
+    description: "Focus on team cohesion and communication",
   },
   {
-    id: 'match_prep',
-    name: 'Match Preparation',
+    id: "match_prep",
+    name: "Match Preparation",
     icon: <Target className="h-5 w-5" />,
-    description: 'Focus on preparing for upcoming matches',
+    description: "Focus on preparing for upcoming matches",
   },
   {
-    id: 'rest',
-    name: 'Rest Day',
+    id: "rest",
+    name: "Rest Day",
     icon: null,
-    description: 'Recovery day with no training',
+    description: "Recovery day with no training",
   },
 ];
 
 // Days of the week
 const daysOfWeek = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday',
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
 ];
 
 export default function TrainingSchedule() {
@@ -88,9 +88,9 @@ export default function TrainingSchedule() {
   const [schedule, setSchedule] = useState(
     daysOfWeek.map((day) => ({
       day,
-      type: day === 'Sunday' ? 'rest' : 'fitness',
-      intensity: day === 'Sunday' ? 0 : 50,
-    }))
+      type: day === "Sunday" ? "rest" : "fitness",
+      intensity: day === "Sunday" ? 0 : 50,
+    })),
   );
 
   const [hasChanges, setHasChanges] = useState(false);
@@ -104,11 +104,11 @@ export default function TrainingSchedule() {
             ...item,
             type,
             // Set intensity to 0 for rest days
-            intensity: type === 'rest' ? 0 : item.intensity,
+            intensity: type === "rest" ? 0 : item.intensity,
           };
         }
         return item;
-      })
+      }),
     );
     setHasChanges(true);
   };
@@ -121,7 +121,7 @@ export default function TrainingSchedule() {
           return { ...item, intensity };
         }
         return item;
-      })
+      }),
     );
     setHasChanges(true);
   };
@@ -130,26 +130,26 @@ export default function TrainingSchedule() {
   const saveSchedule = () => {
     // Here you would typically save to a backend
     toast({
-      title: 'Training schedule saved',
-      description: 'Your weekly training schedule has been updated.',
+      title: "Training schedule saved",
+      description: "Your weekly training schedule has been updated.",
     });
     setHasChanges(false);
   };
 
   // Get intensity label
   const getIntensityLabel = (intensity: number) => {
-    if (intensity === 0) return 'None';
-    if (intensity < 33) return 'Light';
-    if (intensity < 66) return 'Medium';
-    return 'High';
+    if (intensity === 0) return "None";
+    if (intensity < 33) return "Light";
+    if (intensity < 66) return "Medium";
+    return "High";
   };
 
   // Get intensity color
   const getIntensityColor = (intensity: number) => {
-    if (intensity === 0) return 'bg-gray-200 text-gray-700';
-    if (intensity < 33) return 'bg-green-100 text-green-800';
-    if (intensity < 66) return 'bg-yellow-100 text-yellow-800';
-    return 'bg-red-100 text-red-800';
+    if (intensity === 0) return "bg-gray-200 text-gray-700";
+    if (intensity < 33) return "bg-green-100 text-green-800";
+    if (intensity < 66) return "bg-yellow-100 text-yellow-800";
+    return "bg-red-100 text-red-800";
   };
 
   return (
@@ -167,12 +167,12 @@ export default function TrainingSchedule() {
         {schedule.map((day) => (
           <Card
             key={day.day}
-            className={day.type === 'rest' ? 'opacity-80' : ''}
+            className={day.type === "rest" ? "opacity-80" : ""}
           >
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">{day.day}</CardTitle>
               <CardDescription>
-                {day.type !== 'rest' && (
+                {day.type !== "rest" && (
                   <Badge className={getIntensityColor(day.intensity)}>
                     {getIntensityLabel(day.intensity)}
                   </Badge>
@@ -199,7 +199,7 @@ export default function TrainingSchedule() {
                 </SelectContent>
               </Select>
 
-              {day.type !== 'rest' && (
+              {day.type !== "rest" && (
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span>Intensity</span>

@@ -83,7 +83,7 @@ export const navItems = [
     icon: <Search className="h-4 w-4 mr-2" />,
   },
   {
-    href: "training",
+    href: "game/training",
     label: "Training",
     icon: <Dumbbell className="h-4 w-4 mr-2" />,
   },

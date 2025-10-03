@@ -1,7 +1,7 @@
 import PageTitle from "@/components/common/page-title";
-import TrainingFocus from "@/components/training-focus";
-import TrainingSchedule from "@/components/training-schedule";
-import TrainingSessions from "@/components/training-sessions";
+import TrainingFocus from "@/components/pages/training/training-focus";
+import TrainingSchedule from "@/components/pages/training/training-schedule";
+import TrainingSessions from "@/components/pages/training/training-sessions";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
