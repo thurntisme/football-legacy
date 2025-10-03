@@ -1,17 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import { DollarSign, Pencil, Star, Trash } from 'lucide-react';
+import { DollarSign, Pencil, Star, Trash } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { formatCurrency } from "@/lib/finance";
+import { Player } from "@/types/player";
 
 type Props = {
-  list: any[];
-  onRemoveFromList: (player: any) => void;
+  list: Player[];
+  onRemoveFromList: (player: Player) => void;
 };
 
-const TransferListed = ({ list, onRemoveFromList }: Props) => {
+const MyListedPlayers = ({ list, onRemoveFromList }: Props) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {list.length > 0 ? (
@@ -23,9 +25,6 @@ const TransferListed = ({ list, onRemoveFromList }: Props) => {
                   <div>
                     <div className="flex items-center">
                       <h3 className="font-bold">{player.name}</h3>
-                      {player.rating >= 80 && (
-                        <Star className="h-3 w-3 text-amber-400 ml-1" />
-                      )}
                     </div>
                     <div className="flex items-center mt-1">
                       <Badge className="mr-1">{player.position}</Badge>
@@ -34,22 +33,24 @@ const TransferListed = ({ list, onRemoveFromList }: Props) => {
                       </span>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right pt-1">
                     <div className="font-bold">{player.rating}</div>
-                    <div className="text-xs text-muted-foreground">Rating</div>
+                    {player.rating >= 80 && (
+                      <Star className="h-3 w-3 text-amber-400 ml-1" />
+                    )}
                   </div>
                 </div>
                 <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
                   <div>
                     <div className="text-muted-foreground">Value</div>
                     <div className="font-medium">
-                      £{(player.marketValue / 1000000).toFixed(1)}M
+                      {formatCurrency(player.marketValue)}
                     </div>
                   </div>
                   <div>
                     <div className="text-muted-foreground">Salary</div>
                     <div className="font-medium">
-                      £{player.salary.toLocaleString()}/w
+                      {formatCurrency(player.salary)}/w
                     </div>
                   </div>
                 </div>
@@ -60,11 +61,11 @@ const TransferListed = ({ list, onRemoveFromList }: Props) => {
                     className="flex-1"
                     onClick={() => onRemoveFromList(player)}
                   >
-                    <Trash className="h-4 w-4 mr-1" />
+                    <Trash className="h-4 w-4" />
                     Remove
                   </Button>
                   <Button size="sm" variant="outline" className="flex-1">
-                    <Pencil className="h-4 w-4 mr-1" />
+                    <Pencil className="h-4 w-4" />
                     Edit
                   </Button>
                 </div>
@@ -75,9 +76,9 @@ const TransferListed = ({ list, onRemoveFromList }: Props) => {
       ) : (
         <div className="col-span-full text-center py-8">
           <DollarSign className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
-          <h3 className="text-lg font-medium mb-1">No Transfer Listings</h3>
+          <h3 className="text-lg font-medium mb-1">No Player Found</h3>
           <p className="text-muted-foreground mb-4">
-            You don't have any players on the transfer list.
+            You don't have any players on the this list.
           </p>
         </div>
       )}
@@ -85,4 +86,4 @@ const TransferListed = ({ list, onRemoveFromList }: Props) => {
   );
 };
 
-export default TransferListed;
+export default MyListedPlayers;
