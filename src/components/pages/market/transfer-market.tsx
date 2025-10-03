@@ -5,9 +5,17 @@ import ContentWrapper from "../../common/content-wrapper";
 import type React from "react";
 import { useState } from "react";
 
-import { ChevronDown, ChevronUp, Filter, Star } from "lucide-react";
+import { ChevronDown, ChevronUp, Filter, Search, Star } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { internalApi } from "@/lib/api/internal";
 import { Player } from "@/types/player";
@@ -21,6 +29,7 @@ export default function TransferMarket() {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [showFavorites, setShowFavorites] = useState<boolean>(false);
   const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const {
     data: marketPlayers,
@@ -66,63 +75,82 @@ export default function TransferMarket() {
 
   return (
     <ContentWrapper isLoading={isLoading} error={error}>
-      <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-medium">Available Players</h3>
-          <div className="flex gap-2">
-            <Button
-              variant={showFavorites ? "default" : "outline"}
-              onClick={() => setShowFavorites(!showFavorites)}
-              className="flex items-center gap-2"
-            >
-              <Star
-                className={`h-4 w-4 ${showFavorites ? "fill-white" : ""}`}
-              />
-              {showFavorites ? "Showing Favorites" : "Show Favorites"}
-            </Button>
-            <Button
-              variant={showFilters ? "default" : "outline"}
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2"
-            >
-              <Filter className="h-4 w-4" />
-              Filters
-              {showFilters ? (
-                <ChevronDown className="h-4 w-4" />
-              ) : (
-                <ChevronUp className="h-4 w-4" />
-              )}
-            </Button>
-          </div>
-        </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Browse Market</CardTitle>
+          <CardDescription>
+            Find and sign players to strengthen your squad
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            <div className="flex flex-col md:flex-row gap-4 mb-6">
+              <div className="relative flex-1">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search players..."
+                  className="pl-8"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
 
-        <TransferMarketFilter
-          showFilters={showFilters}
-          setShowFilters={setShowFilters}
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {marketPlayers && marketPlayers.length > 0 ? (
-            marketPlayers.map((player: Player) => (
-              <MarketPlayer
-                key={player.id}
-                player={player}
-                favorites={favorites}
-                selectedPlayer={selectedPlayer}
-                onToggleFavorite={handleToggleFavorite}
-                onSelectPlayer={handleSelectPlayer}
-                purchasePlayer={handlePurchasePlayer}
-              />
-            ))
-          ) : (
-            <div className="col-span-full text-center py-8">
-              {showFavorites
-                ? "No favorite players found."
-                : "No players match your filters."}
+              <div className="flex gap-2">
+                <Button
+                  variant={showFavorites ? "default" : "outline"}
+                  onClick={() => setShowFavorites(!showFavorites)}
+                  className="flex items-center gap-2"
+                >
+                  <Star
+                    className={`h-4 w-4 ${showFavorites ? "fill-white" : ""}`}
+                  />
+                  {showFavorites ? "Showing Favorites" : "Show Favorites"}
+                </Button>
+                <Button
+                  variant={showFilters ? "default" : "outline"}
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="flex items-center gap-2"
+                >
+                  <Filter className="h-4 w-4" />
+                  Filters
+                  {showFilters ? (
+                    <ChevronDown className="h-4 w-4" />
+                  ) : (
+                    <ChevronUp className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
             </div>
-          )}
-        </div>
-      </div>
+
+            <TransferMarketFilter
+              showFilters={showFilters}
+              setShowFilters={setShowFilters}
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {marketPlayers && marketPlayers.length > 0 ? (
+                marketPlayers.map((player: Player) => (
+                  <MarketPlayer
+                    key={player.id}
+                    player={player}
+                    favorites={favorites}
+                    selectedPlayer={selectedPlayer}
+                    onToggleFavorite={handleToggleFavorite}
+                    onSelectPlayer={handleSelectPlayer}
+                    purchasePlayer={handlePurchasePlayer}
+                  />
+                ))
+              ) : (
+                <div className="col-span-full text-center py-8">
+                  {showFavorites
+                    ? "No favorite players found."
+                    : "No players match your filters."}
+                </div>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </ContentWrapper>
   );
 }

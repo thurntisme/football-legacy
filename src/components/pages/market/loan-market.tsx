@@ -66,9 +66,9 @@ export default function LoanMarket() {
     <ContentWrapper isLoading={isLoading} error={error}>
       <Card>
         <CardHeader>
-          <CardTitle>Loan Listing</CardTitle>
+          <CardTitle>Loan Market</CardTitle>
           <CardDescription>
-            Manage your transfer and loan listings
+            Browse players available for loan and make offers to strengthen your
           </CardDescription>
         </CardHeader>
         <CardContent>

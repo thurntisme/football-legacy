@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { NATIONALITIES } from "@/constants/common";
 import { POSITIONS } from "@/constants/formations";
@@ -78,30 +79,12 @@ const TransferMarketFilter = ({ showFilters, setShowFilters }: Props) => {
     <Card className="p-4">
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-medium">Advanced Filters</h3>
-        <Button variant="outline" size="sm" onClick={closeFilters}>
+        <Button variant="ghost" size="sm" onClick={closeFilters}>
           <X className="h-4 w-4" />
-          Close Filters
         </Button>
       </div>
-
+      <Separator className="my-4" />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="space-x-2 col-start-1 col-end-4 flex items-center">
-          <div className="relative w-3/4">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Player name or club..."
-              value={nameFilter}
-              onChange={(e) => setNameFilter(e.target.value)}
-              className="pl-8"
-            />
-          </div>
-          <Button size="sm" onClick={submitFilters}>
-            <Send className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="sm" onClick={resetFilters}>
-            <Trash className="h-4 w-4" />
-          </Button>
-        </div>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="positions">
             <AccordionTrigger className="text-sm font-medium">
@@ -237,6 +220,15 @@ const TransferMarketFilter = ({ showFilters, setShowFilters }: Props) => {
             className="my-4"
           />
         </div>
+      </div>
+      <Separator className="mt-6 mb-4" />
+      <div className="flex justify-center space-x-2">
+        <Button size="sm" onClick={submitFilters}>
+          <Send className="h-4 w-4" /> Apply Filters
+        </Button>
+        <Button variant="outline" size="sm" onClick={resetFilters}>
+          <Trash className="h-4 w-4" /> Reset Filters
+        </Button>
       </div>
     </Card>
   );
