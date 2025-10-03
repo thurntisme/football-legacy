@@ -7,7 +7,8 @@ export const formatNumber = (value: number, afterDot = 0): string => {
   return formatter.format(value);
 };
 
-export const formatCurrency = (value: number, prefix = "£") => {
+export const formatCurrency = (value: number | undefined, prefix = "£") => {
+  if (value === undefined) return "-";
   if (value >= 1000000) {
     return `${prefix}${(value / 1000000).toFixed(1)}M`;
   } else {

@@ -195,6 +195,11 @@ export type Player = {
   personality: PlayerPersonality;
   club?: string;
   transferStatus?: "listed" | "transfer-listed" | "loan-listed" | "not-listed";
+  loan?: {
+    fee: number;
+    duration: string;
+    wage: number;
+  };
 };
 
 export type YouthPlayer = {

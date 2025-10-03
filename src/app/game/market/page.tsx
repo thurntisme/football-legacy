@@ -1,7 +1,7 @@
 "use client";
 
 import PageTitle from "@/components/common/page-title";
-import LoanMarket from "@/components/loan-market";
+import LoanMarket from "@/components/pages/market/loan-market";
 import MyListings from "@/components/pages/market/my-listings";
 import TransferMarket from "@/components/pages/market/transfer-market";
 import TransferOverview from "@/components/transfer-overview";
