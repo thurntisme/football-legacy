@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Heart, Info, ShoppingCart, Star } from "lucide-react";
+import { Check, Heart, Info, ShoppingCart, Star, X } from "lucide-react";
 
 import {
   AlertDialog,
@@ -25,9 +25,10 @@ type Props = {
   favorites: Set<string>;
   onToggleFavorite: (playerId: string) => void;
   onSelectPlayer: (player: Player) => void;
-  onSetPlayerToBuy: (player: Player) => void;
-  onBuyPlayer: (player: Player) => void;
+  purchasePlayer: (player: Player) => void;
 };
+
+const USER_BUDGET = 250000000;
 
 const MarketPlayer = ({
   key,
@@ -35,8 +36,7 @@ const MarketPlayer = ({
   favorites,
   onToggleFavorite,
   onSelectPlayer,
-  onSetPlayerToBuy,
-  onBuyPlayer,
+  purchasePlayer,
 }: Props) => {
   const toggleFavorite = (playerId: string, event: React.MouseEvent) => {
     event.stopPropagation();
@@ -47,13 +47,7 @@ const MarketPlayer = ({
     onSelectPlayer(player);
   };
 
-  const handleBuyPlayer = (player: any) => {
-    onBuyPlayer(player);
-  };
-
-  const setPlayerToBuy = (player: any) => {
-    onSetPlayerToBuy(player);
-  };
+  const isPossibleToPurchase = USER_BUDGET >= player.marketValue;
 
   return (
     <Card key={key} className="overflow-hidden">
@@ -95,11 +89,11 @@ const MarketPlayer = ({
           <Button
             variant="ghost"
             size="icon"
-            onClick={(event) => toggleFavorite(player.uuid, event)}
+            onClick={(event) => toggleFavorite(player.id, event)}
             className="rounded-full w-8 h-8"
           >
             <Heart
-              className={`h-4 w-4 ${favorites.has(player.uuid) ? "fill-red-500 text-red-500" : ""}`}
+              className={`h-4 w-4 ${favorites.has(player.id) ? "fill-red-500 text-red-500" : ""}`}
             />
           </Button>
           <Button
@@ -113,11 +107,7 @@ const MarketPlayer = ({
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button
-                size="icon"
-                onClick={() => setPlayerToBuy(player)}
-                className="w-8 h-8"
-              >
+              <Button size="icon" className="w-8 h-8">
                 <ShoppingCart className="h-4 w-4" />
               </Button>
             </AlertDialogTrigger>
@@ -125,43 +115,48 @@ const MarketPlayer = ({
               <AlertDialogHeader>
                 <AlertDialogTitle>Confirm Purchase</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Are you sure you want to sign <b>{player.name}</b> for £
-                  {(player.market_value / 1000000).toFixed(1)}M?
-                  <div className="mt-2 p-3 bg-muted rounded-md">
-                    <div className="flex justify-between mb-1">
-                      <span>Transfer Fee:</span>
-                      <span className="font-medium">
-                        £{(player.market_value / 1000000).toFixed(1)}M
-                      </span>
-                    </div>
-                    <div className="flex justify-between mb-1">
-                      <span>Weekly Wage:</span>
-                      <span className="font-medium">
-                        £
-                        {Math.round(player.market_value / 500).toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="flex justify-between pt-2 border-t mt-2">
-                      <span className="font-bold">Remaining Budget:</span>
-                      <span className="font-bold">
-                        £
-                        {25000000 - player.market_value > 0
-                          ? (
-                              (25000000 - player.market_value) /
-                              1000000
-                            ).toFixed(1)
-                          : 0}
-                        M
-                      </span>
-                    </div>
-                  </div>
+                  {isPossibleToPurchase ? (
+                    <>
+                      Are you sure you want to sign <b>{player.name}</b>?
+                      <div className="mt-2 p-3 bg-muted rounded-md">
+                        <div className="flex justify-between mb-1">
+                          <span>Your Budget:</span>
+                          <span className="font-medium">
+                            {formatCurrency(USER_BUDGET)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between mb-1">
+                          <span>Player Market Value:</span>
+                          <span className="font-medium">
+                            {formatCurrency(player.marketValue)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between pt-2 border-t mt-2">
+                          <span className="font-bold">Remaining Budget:</span>
+                          <span className="font-bold">
+                            {formatCurrency(USER_BUDGET - player.marketValue)}
+                          </span>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      You don't have enough budget to sign <b>{player.name}</b>.
+                    </>
+                  )}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleBuyPlayer(player)}>
-                  Confirm Purchase
-                </AlertDialogAction>
+                <AlertDialogCancel>
+                  <X className="h-4 w-4" />
+                  {isPossibleToPurchase ? "Cancel" : "Close"}
+                </AlertDialogCancel>
+                {isPossibleToPurchase && (
+                  <AlertDialogAction onClick={() => purchasePlayer(player)}>
+                    <Check className="h-4 w-4" />
+                    Confirm Purchase
+                  </AlertDialogAction>
+                )}
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

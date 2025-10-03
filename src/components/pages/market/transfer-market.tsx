@@ -75,7 +75,7 @@ export default function TransferMarket() {
     setShowBuyDialog(true);
   };
 
-  const handleBuyPlayer = (player: Player) => {
+  const handlePurchasePlayer = (player: Player) => {
     toast({
       title: "Player Purchased!",
       description: `You have successfully signed ${player.name} for £${(player.marketValue / 1000000).toFixed(1)}M`,
@@ -129,8 +129,7 @@ export default function TransferMarket() {
                 favorites={favorites}
                 onToggleFavorite={handleToggleFavorite}
                 onSelectPlayer={handleSelectPlayer}
-                onSetPlayerToBuy={handleSetPlayerToBuy}
-                onBuyPlayer={handleBuyPlayer}
+                purchasePlayer={handlePurchasePlayer}
               />
             ))
           ) : (
@@ -143,14 +142,14 @@ export default function TransferMarket() {
         </div>
       </div>
 
-      <MarketPlayerDialog
+      {/* <MarketPlayerDialog
         showPlayerDetails={showPlayerDetails}
         setShowPlayerDetails={setShowPlayerDetails}
         selectedPlayer={selectedPlayer}
         favorites={favorites}
         handleToggleFavorite={handleToggleFavorite}
         handleBuyPlayer={handleBuyPlayer}
-      />
+      /> */}
     </ContentWrapper>
   );
 }
