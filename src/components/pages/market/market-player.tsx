@@ -1,28 +1,21 @@
 import React from "react";
 
-import { Check, Heart, Info, ShoppingCart, Star, X } from "lucide-react";
+import { Heart } from "lucide-react";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/finance";
 import { Player } from "@/types/player";
 
+import ConfirmPurchasePlayerDialog from "./confirm-purchase-player-dialog";
+import MarketPlayerDetailDialog from "./market-player-detail-dialog";
+
 type Props = {
   key: string;
   player: Player;
   favorites: Set<string>;
+  selectedPlayer: Player | null;
   onToggleFavorite: (playerId: string) => void;
   onSelectPlayer: (player: Player) => void;
   purchasePlayer: (player: Player) => void;
@@ -34,6 +27,7 @@ const MarketPlayer = ({
   key,
   player,
   favorites,
+  selectedPlayer,
   onToggleFavorite,
   onSelectPlayer,
   purchasePlayer,
@@ -41,10 +35,6 @@ const MarketPlayer = ({
   const toggleFavorite = (playerId: string, event: React.MouseEvent) => {
     event.stopPropagation();
     onToggleFavorite(playerId);
-  };
-
-  const setSelectedPlayer = (player: any) => {
-    onSelectPlayer(player);
   };
 
   const isPossibleToPurchase = USER_BUDGET >= player.marketValue;
@@ -96,70 +86,15 @@ const MarketPlayer = ({
               className={`h-4 w-4 ${favorites.has(player.id) ? "fill-red-500 text-red-500" : ""}`}
             />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setSelectedPlayer(player)}
-            className="rounded-full w-8 h-8"
-          >
-            <Info className="h-4 w-4" />
-          </Button>
 
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button size="icon" className="w-8 h-8">
-                <ShoppingCart className="h-4 w-4" />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Confirm Purchase</AlertDialogTitle>
-                <AlertDialogDescription>
-                  {isPossibleToPurchase ? (
-                    <>
-                      Are you sure you want to sign <b>{player.name}</b>?
-                      <div className="mt-2 p-3 bg-muted rounded-md">
-                        <div className="flex justify-between mb-1">
-                          <span>Your Budget:</span>
-                          <span className="font-medium">
-                            {formatCurrency(USER_BUDGET)}
-                          </span>
-                        </div>
-                        <div className="flex justify-between mb-1">
-                          <span>Player Market Value:</span>
-                          <span className="font-medium">
-                            {formatCurrency(player.marketValue)}
-                          </span>
-                        </div>
-                        <div className="flex justify-between pt-2 border-t mt-2">
-                          <span className="font-bold">Remaining Budget:</span>
-                          <span className="font-bold">
-                            {formatCurrency(USER_BUDGET - player.marketValue)}
-                          </span>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      You don't have enough budget to sign <b>{player.name}</b>.
-                    </>
-                  )}
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>
-                  <X className="h-4 w-4" />
-                  {isPossibleToPurchase ? "Cancel" : "Close"}
-                </AlertDialogCancel>
-                {isPossibleToPurchase && (
-                  <AlertDialogAction onClick={() => purchasePlayer(player)}>
-                    <Check className="h-4 w-4" />
-                    Confirm Purchase
-                  </AlertDialogAction>
-                )}
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <MarketPlayerDetailDialog
+            player={player}
+            selectedPlayer={selectedPlayer}
+            isPossibleToPurchase={isPossibleToPurchase}
+            userBudget={USER_BUDGET}
+            onSelectPlayer={onSelectPlayer}
+            purchasePlayer={purchasePlayer}
+          />
         </div>
       </CardFooter>
     </Card>

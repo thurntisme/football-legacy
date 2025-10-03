@@ -1,7 +1,6 @@
 "use client";
 
 import ContentWrapper from "../../common/content-wrapper";
-import MarketPlayerDialog from "../../market-player-dialog";
 
 import type React from "react";
 import { useState } from "react";
@@ -19,20 +18,9 @@ import TransferMarketFilter from "./transfer-market-filter";
 
 export default function TransferMarket() {
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
-  const [playerToBuy, setPlayerToBuy] = useState<Player | null>(null);
-  const [showBuyDialog, setShowBuyDialog] = useState<boolean>(false);
-  const [showPlayerDetails, setShowPlayerDetails] = useState<boolean>(false);
-
-  // Add a new state for favorite players
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [showFavorites, setShowFavorites] = useState<boolean>(false);
-
-  // Filter states
   const [showFilters, setShowFilters] = useState<boolean>(false);
-  const [selectedPositions, setSelectedPositions] = useState<string[]>([]);
-  const [selectedNationalities, setSelectedNationalities] = useState<string[]>(
-    [],
-  );
 
   const {
     data: marketPlayers,
@@ -67,12 +55,6 @@ export default function TransferMarket() {
 
   const handleSelectPlayer = (player: Player) => {
     setSelectedPlayer(player);
-    setShowPlayerDetails(true);
-  };
-
-  const handleSetPlayerToBuy = (player: Player) => {
-    setPlayerToBuy(player);
-    setShowBuyDialog(true);
   };
 
   const handlePurchasePlayer = (player: Player) => {
@@ -80,7 +62,6 @@ export default function TransferMarket() {
       title: "Player Purchased!",
       description: `You have successfully signed ${player.name} for £${(player.marketValue / 1000000).toFixed(1)}M`,
     });
-    setPlayerToBuy(null);
   };
 
   return (
@@ -127,6 +108,7 @@ export default function TransferMarket() {
                 key={player.id}
                 player={player}
                 favorites={favorites}
+                selectedPlayer={selectedPlayer}
                 onToggleFavorite={handleToggleFavorite}
                 onSelectPlayer={handleSelectPlayer}
                 purchasePlayer={handlePurchasePlayer}
@@ -141,15 +123,6 @@ export default function TransferMarket() {
           )}
         </div>
       </div>
-
-      {/* <MarketPlayerDialog
-        showPlayerDetails={showPlayerDetails}
-        setShowPlayerDetails={setShowPlayerDetails}
-        selectedPlayer={selectedPlayer}
-        favorites={favorites}
-        handleToggleFavorite={handleToggleFavorite}
-        handleBuyPlayer={handleBuyPlayer}
-      /> */}
     </ContentWrapper>
   );
 }
