@@ -1,10 +1,10 @@
-import React from 'react';
+import PageTitle from "../../common/page-title";
 
-import { Trophy, Wifi, WifiOff } from 'lucide-react';
+import React from "react";
 
-import { Badge } from '@/components/ui/badge';
+import { Trophy, Wifi, WifiOff } from "lucide-react";
 
-import PageTitle from './common/page-title';
+import { Badge } from "@/components/ui/badge";
 
 type Props = {
   isConnected: boolean;
@@ -16,7 +16,7 @@ const OnlineMatchOverview = ({ isConnected }: Props) => {
       title="Online Matches"
       subTitle="Play against other managers in real-time"
     >
-      <Badge variant={isConnected ? 'default' : 'destructive'} className="mr-2">
+      <Badge variant={isConnected ? "default" : "destructive"} className="mr-2">
         {isConnected ? (
           <>
             <Wifi className="h-3 w-3 mr-1" /> Connected

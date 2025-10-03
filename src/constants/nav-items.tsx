@@ -93,7 +93,7 @@ export const navItems = [
     icon: <Users className="h-4 w-4 mr-2" />,
   },
   {
-    href: "online-match",
+    href: "game/online",
     label: "Online",
     icon: <Wifi className="h-4 w-4 mr-2" />,
   },

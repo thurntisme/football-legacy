@@ -2,29 +2,22 @@
 
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
-
-import FindOnlineMatch from "@/components/find-online-match";
-import ForfeitConfirmationDialog from "@/components/forfeit-confirmation-dialog";
-import LiveMatch from "@/components/live-match";
-import MatchApprovalDialog from "@/components/match-approval-dialog";
-import MatchDetailDialog from "@/components/match-detail-dialog";
-import MatchHistory from "@/components/match-history";
-import OnlineLeaderboard from "@/components/online-leaderboard";
-import OnlineMatchOverview from "@/components/online-match-overview";
-import TeamInfoDialog from "@/components/team-info-dialog";
-import WaitingOpponentDialog from "@/components/waiting-opponent-dialog";
+import FindOnlineMatch from "@/components/pages/online/find-online-match";
+import ForfeitConfirmationDialog from "@/components/pages/online/forfeit-confirmation-dialog";
+import LiveMatch from "@/components/pages/online/live-match";
+import MatchApprovalDialog from "@/components/pages/online/match-approval-dialog";
+import MatchDetailDialog from "@/components/pages/online/match-detail-dialog";
+import MatchHistory from "@/components/pages/online/match-history";
+import OnlineLeaderboard from "@/components/pages/online/online-leaderboard";
+import OnlineMatchOverview from "@/components/pages/online/online-match-overview";
+import TeamInfoDialog from "@/components/pages/online/team-info-dialog";
+import WaitingOpponentDialog from "@/components/pages/online/waiting-opponent-dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { initialChatMessages, onlineUsers } from "@/mock/football";
-import {
-  MatchDetail,
-  MatchMessage,
-  OnlineManager,
-} from "@/types/football/match";
+import { MatchDetail, MatchMessage, OnlineManager } from "@/types/match";
 
 export default function OnlineMatchPage() {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState("find");
   const [isConnected, setIsConnected] = useState(true);
   const [inMatch, setInMatch] = useState(false);
@@ -213,7 +206,7 @@ export default function OnlineMatchPage() {
   const beginMatch = () => {
     // Add system message about match starting
     addSystemChatMessage(
-      "Both managers have approved. Redirecting to match..."
+      "Both managers have approved. Redirecting to match...",
     );
 
     // Redirect to match start page after a short delay
