@@ -1,14 +1,18 @@
 import {
   Building,
   CalendarDays,
+  CreditCard,
   Dumbbell,
   FileSignature,
+  HelpCircle,
   Home,
   Landmark,
   ListOrdered,
+  MessageSquare,
   Newspaper,
   Package,
   Search,
+  Settings,
   Shirt,
   ShoppingCart,
   Trophy,
@@ -56,7 +60,7 @@ export const navItems = [
     icon: <Landmark className="h-4 w-4 mr-2" />,
   },
   {
-    href: "league",
+    href: "game/league",
     label: "League",
     icon: <Trophy className="h-4 w-4 mr-2" />,
     children: [
@@ -106,5 +110,28 @@ export const navItems = [
     href: "game/items",
     label: "Items",
     icon: <Package className="h-4 w-4 mr-2" />,
+  },
+];
+
+export const userItems = [
+  {
+    href: "user/settings",
+    label: "Settings",
+    icon: <Settings className="h-4 w-4 mr-2" />,
+  },
+  {
+    href: "user/payment",
+    label: "Payment",
+    icon: <CreditCard className="h-4 w-4 mr-2" />,
+  },
+  {
+    href: "user/support",
+    label: "Ticket Support",
+    icon: <HelpCircle className="h-4 w-4 mr-2" />,
+  },
+  {
+    href: "user/feedback",
+    label: "Feedback",
+    icon: <MessageSquare className="h-4 w-4 mr-2" />,
   },
 ];

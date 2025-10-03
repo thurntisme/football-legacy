@@ -2,15 +2,7 @@
 
 import { ThemeToggle } from "../theme-toggle";
 
-import {
-  CreditCard,
-  HelpCircle,
-  LogOut,
-  Menu,
-  MessageSquare,
-  Settings,
-  Trophy,
-} from "lucide-react";
+import { LogOut, Menu, Trophy } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -21,13 +13,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { GUEST_USER } from "@/constants/guest-user";
-import { navItems } from "@/constants/nav-items";
+import { navItems, userItems } from "@/constants/nav-items";
 import { FOOTBALL_PATH, FOOTBALL_STATS_URL } from "@/constants/site";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -210,84 +200,31 @@ export default function Navbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">
-                    {GUEST_USER.fullname ?? ""}
-                  </p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    {GUEST_USER.email ?? ""}
-                  </p>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                asChild
-                className={
-                  pathname === `${FOOTBALL_PATH}/settings`
-                    ? "bg-primary/10 font-medium"
-                    : ""
-                }
-              >
-                <Link
-                  href={`${FOOTBALL_STATS_URL}/settings`}
-                  className="flex items-center"
+              {userItems.map((item) => (
+                <DropdownMenuItem
+                  key={item.href}
+                  asChild
+                  className={
+                    pathname === `/${item.href}`
+                      ? "bg-primary/10 font-medium"
+                      : ""
+                  }
                 >
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                asChild
-                className={
-                  pathname === `${FOOTBALL_PATH}/payment`
-                    ? "bg-primary/10 font-medium"
-                    : ""
-                }
-              >
-                <Link
-                  href={`${FOOTBALL_STATS_URL}/payment`}
-                  className="flex items-center"
-                >
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  <span>Payment</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                asChild
-                className={
-                  pathname === `${FOOTBALL_PATH}/support`
-                    ? "bg-primary/10 font-medium"
-                    : ""
-                }
-              >
-                <Link
-                  href={`${FOOTBALL_STATS_URL}/support`}
-                  className="flex items-center"
-                >
-                  <HelpCircle className="mr-2 h-4 w-4" />
-                  <span>Ticket Support</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                asChild
-                className={
-                  pathname === `${FOOTBALL_PATH}/feedback`
-                    ? "bg-primary/10 font-medium"
-                    : ""
-                }
-              >
-                <Link
-                  href={`${FOOTBALL_STATS_URL}/feedback`}
-                  className="flex items-center"
-                >
-                  <MessageSquare className="mr-2 h-4 w-4" />
-                  <span>Feedback</span>
-                </Link>
-              </DropdownMenuItem>
+                  <Link
+                    href={`/${item.href}`}
+                    className="flex items-center cursor-pointer"
+                  >
+                    {item.icon}
+                    {item.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <span className="flex items-center" onClick={handleLogout}>
+                <span
+                  className="flex items-center cursor-pointer"
+                  onClick={handleLogout}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </span>
