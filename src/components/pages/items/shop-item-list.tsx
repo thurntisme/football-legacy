@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
-
-import { Building, User, Users } from "lucide-react";
+import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,23 +10,31 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ITEM_CATEGORIES } from "@/constants/items";
 import { toast } from "@/hooks/use-toast";
 import { ShopItems } from "@/mock/football";
 import { ShopItem } from "@/types/item";
 
 import ShopItemCard from "./shop-item-card";
 
+const USER_COINS = 1000;
+
 export default function ShopItemList() {
   const [shopItems, setShopItems] = useState<ShopItem[]>(ShopItems);
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null);
   const [itemToBuy, setItemToBuy] = useState<ShopItem | null>(null);
-  const [coins, setCoins] = useState(15000);
+
+  const filteredCategory = useMemo(() => {
+    if (selectedCategory === "all") {
+      return shopItems;
+    }
+    return shopItems.filter((item) => item.category === selectedCategory);
+  }, [selectedCategory, shopItems]);
 
   const handleBuyItem = (item: ShopItem) => {
-    if (coins >= item.price) {
-      setCoins(coins - item.price);
-
+    if (USER_COINS >= item.price) {
       // Special handling for stadium name change
       if (item.name === "Stadium Name Change") {
         const newName = prompt("Enter new stadium name:", "");
@@ -70,34 +76,27 @@ export default function ShopItemList() {
       </CardHeader>
       <CardContent>
         <div className="flex gap-4 mb-6 overflow-x-auto pb-2">
-          <Button variant="default" className="rounded-full">
-            All Items
-          </Button>
-          <Button variant="outline" className="rounded-full flex items-center">
-            <User className="mr-2 h-4 w-4" />
-            Player Items
-          </Button>
-          <Button variant="outline" className="rounded-full flex items-center">
-            <Users className="mr-2 h-4 w-4" />
-            Team Items
-          </Button>
-          <Button variant="outline" className="rounded-full flex items-center">
-            <Building className="mr-2 h-4 w-4" />
-            Club Items
-          </Button>
-          <Button variant="outline" className="rounded-full">
-            Special Offers
-          </Button>
+          {ITEM_CATEGORIES.map(({ label, slug, icon }) => (
+            <Button
+              key={label}
+              variant={selectedCategory === slug ? "default" : "outline"}
+              className={`rounded-full${icon ? " flex items-center" : ""}`}
+              onClick={() => setSelectedCategory(slug)}
+            >
+              {icon}
+              {label}
+            </Button>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {shopItems.map((item) => (
+          {filteredCategory.map((item) => (
             <ShopItemCard
               key={item.id}
               item={item}
               selectedItem={selectedItem}
               setSelectedItem={setSelectedItem}
-              coins={coins}
+              userCoin={USER_COINS}
               handleBuyItem={handleBuyItem}
             />
           ))}

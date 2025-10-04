@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Building, User, Users } from "lucide-react";
 
@@ -11,17 +11,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ShopItem } from "@/types/item";
-import ConfirmPurchaseDialog from "./confirm-purchase-dialog";
-import InfoDialog from "./info-dialog";
 import { formatNumber } from "@/lib/finance";
 import { getItemPrice } from "@/lib/item";
+import { ShopItem } from "@/types/item";
+
+import ConfirmPurchaseDialog from "./confirm-purchase-dialog";
+import InfoDialog from "./info-dialog";
 
 type Props = {
   item: ShopItem;
   selectedItem: ShopItem | null;
   setSelectedItem: (item: ShopItem | null) => void;
-  coins: number;
+  userCoin: number;
   handleBuyItem: (item: ShopItem) => void;
 };
 
@@ -29,11 +30,9 @@ const ShopItemCard = ({
   item,
   selectedItem,
   setSelectedItem,
-  coins,
+  userCoin,
   handleBuyItem,
 }: Props) => {
-  const [itemToBuy, setItemToBuy] = useState<ShopItem | null>(null);
-
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "player":
@@ -113,16 +112,14 @@ const ShopItemCard = ({
           >
             <ConfirmPurchaseDialog
               item={item}
-              coins={coins}
-              setItemToBuy={setItemToBuy}
+              coins={userCoin}
               handleBuyItem={handleBuyItem}
             />
           </InfoDialog>
 
           <ConfirmPurchaseDialog
             item={item}
-            coins={coins}
-            setItemToBuy={setItemToBuy}
+            coins={userCoin}
             handleBuyItem={handleBuyItem}
           />
         </div>

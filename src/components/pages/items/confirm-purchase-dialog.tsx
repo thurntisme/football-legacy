@@ -1,4 +1,7 @@
 import React from "react";
+
+import { ShoppingCart } from "lucide-react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,28 +14,21 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
-import { ShopItem } from "@/types/item";
-import { getItemActualPrice, getItemPrice } from "@/lib/item";
 import { formatNumber } from "@/lib/finance";
+import { getItemActualPrice, getItemPrice } from "@/lib/item";
+import { ShopItem } from "@/types/item";
 
 type Props = {
   item: ShopItem;
   coins: number;
-  setItemToBuy: (item: ShopItem) => void;
   handleBuyItem: (item: ShopItem) => void;
 };
 
-const ConfirmPurchaseDialog = ({
-  item,
-  coins,
-  setItemToBuy,
-  handleBuyItem,
-}: Props) => {
+const ConfirmPurchaseDialog = ({ item, coins, handleBuyItem }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button size="sm" onClick={() => setItemToBuy(item)}>
+        <Button size="sm" disabled={coins < getItemActualPrice(item)}>
           <ShoppingCart className="h-4 w-4 mr-2" />
           Buy
         </Button>

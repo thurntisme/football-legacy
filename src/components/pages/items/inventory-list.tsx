@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { Building, ShoppingCart, User, Users } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
