@@ -57,3 +57,66 @@ export const playerRoles: PlayerRole[] = [
     assignedPlayerId: null,
   },
 ];
+
+export const playerAttributes = [
+  {
+    key: "physical",
+    title: "Physical Attributes",
+    attributes: [
+      { key: "pace", label: "Pace" },
+      { key: "acceleration", label: "Acceleration" },
+      { key: "agility", label: "Agility" },
+      { key: "stamina", label: "Stamina" },
+      { key: "strength", label: "Strength" },
+      { key: "jumping", label: "Jumping" },
+    ],
+  },
+  {
+    key: "technical",
+    title: "Technical Attributes",
+    attributes: [
+      { key: "dribbling", label: "Dribbling" },
+      { key: "ballControl", label: "Ball Control" },
+      { key: "crossing", label: "Crossing" },
+      { key: "shooting", label: "Shooting" },
+      { key: "finishing", label: "Finishing" },
+      { key: "longShots", label: "Long Shots" },
+      { key: "heading", label: "Heading" },
+      { key: "tackling", label: "Tackling" },
+      { key: "defending", label: "Defending" },
+      { key: "shortPassing", label: "Short Passing" },
+      { key: "longPassing", label: "Long Passing" },
+      { key: "powerShots", label: "Power Shots" },
+      { key: "setPieces", label: "Set Pieces" },
+    ],
+  },
+  {
+    key: "mental",
+    title: "Mental Attributes",
+    attributes: [
+      { key: "vision", label: "Vision" },
+      { key: "positioning", label: "Positioning" },
+      { key: "anticipation", label: "Anticipation" },
+      { key: "decisionMaking", label: "Decision Making" },
+      { key: "composure", label: "Composure" },
+      { key: "concentration", label: "Concentration" },
+      { key: "workRate", label: "Work Rate" },
+      { key: "leadership", label: "Leadership" },
+      { key: "flair", label: "Flair" },
+      { key: "creativity", label: "Creativity" },
+    ],
+  },
+  {
+    key: "goalkeeping",
+    title: "Goalkeeping Attributes",
+    attributes: [
+      { key: "reflexes", label: "Reflexes" },
+      { key: "diving", label: "Diving" },
+      { key: "handling", label: "Handling" },
+      { key: "kicking", label: "Kicking" },
+      { key: "positioningGK", label: "GK Positioning" },
+      { key: "oneOnOne", label: "One-on-One" },
+      { key: "commandOfArea", label: "Command of Area" },
+    ],
+  },
+];

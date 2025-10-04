@@ -33,12 +33,33 @@ export enum PlayerTrainingPerformance {
   POOR = "poor",
 }
 
-// Enum for Player Type
-export enum PlayerType {
-  NORMAL = "normal",
-  RISING = "rising",
-  YOUNG = "young",
-  LEGEND = "legend",
+// Enum for Player Edition
+export enum PlayerEdition {
+  // 🏆 Legendary players across all eras
+  LEGEND = "Legend", // Legendary players with iconic careers
+
+  // 🕰️ Retro eras
+  CLASSIC_70S = "Classic 70s", // Players from 1970–1979 era
+  CLASSIC_80S = "Classic 80s", // Players from 1980–1989 era
+  CLASSIC_90S = "Classic 90s", // Players from 1990–1999 era
+  CLASSIC_2000S = "Classic 2000s", // Players from 2000–2009 era
+  CLASSIC_2010S = "Classic 2010s", // Players from 2010–2019 era
+
+  // ⚽ Modern generations
+  MODERN = "Modern", // Current generation players
+  FUTURE_STAR = "Future Star", // Young talents with high potential
+
+  // 🌍 Special tournament or event editions
+  WORLD_CUP = "World Cup", // Special edition for World Cup performers
+  EURO = "Euro", // Special edition for European Championship players
+  CONTINENTAL = "Continental", // Asian Cup, Copa America, etc.
+
+  // 🌟 Themed editions
+  ICON = "Icon", // High prestige similar to LEGEND but may include modern icons (e.g. Messi, Ronaldo)
+  HERO = "Hero", // Players famous for specific clubs or moments
+  SPECIAL = "Special", // Limited-time or promotional edition
+  TEAM_OF_THE_YEAR = "TOTY", // Team of the Year
+  TEAM_OF_THE_SEASON = "TOTS", // Team of the Season
 }
 
 // Enum for Foot Preference
@@ -76,130 +97,125 @@ export enum PlayerPersonality {
   CONFIDENT = "confident",
 }
 
-type BaseAttributes = {
-  // Core Physical & Technical
-  pace: number;
-  acceleration: number;
-  agility: number;
-  stamina: number;
-  strength: number;
-  jumping: number;
+type PlayerAttributes = {
+  // ⚡ Physical Attributes
+  pace: number; // Overall running speed (top speed)
+  acceleration: number; // How quickly the player reaches top speed
+  agility: number; // Quickness in changing direction
+  stamina: number; // Endurance — how long the player maintains performance
+  strength: number; // Physical power in duels and shielding
+  jumping: number; // Ability to leap and win aerial duels
 
-  // Technical Skills
-  dribbling: number;
-  ballControl: number;
-  crossing: number;
-  shooting: number;
-  longShots: number;
-  reactions: number;
-  heading: number;
-  tackling: number;
-  defending: number;
-  finishing: number;
-  shortPassing: number;
-  longPassing: number;
-  powerShots: number;
-  setPieces: number;
+  // 🎯 Technical Skills
+  dribbling: number; // Ball control while moving
+  ballControl: number; // First touch and control of the ball
+  crossing: number; // Accuracy and power of crosses
+  shooting: number; // General shooting accuracy and power
+  longShots: number; // Shooting ability from long distance
+  reactions: number; // Response time to situations (second ball, rebounds)
+  heading: number; // Accuracy and power of headers
+  tackling: number; // Ability to win the ball through tackles
+  defending: number; // Overall defensive awareness and positioning
+  finishing: number; // Accuracy in front of goal
+  shortPassing: number; // Accuracy in short passes
+  longPassing: number; // Accuracy and vision in long passes
+  powerShots: number; // Power and technique in powerful shots
+  setPieces: number; // Ability to take free kicks, corners, and penalties
 
-  // Mental Attributes
-  vision: number;
-  positioning: number;
-  anticipation: number;
-  decisionMaking: number;
-  composure: number;
-  concentration: number;
-  workRate: number;
-  leadership: number;
-  flair: number;
-  creativity: number;
+  // 🧠 Mental Attributes
+  vision: number; // Ability to see and execute creative passes
+  positioning: number; // Off-the-ball movement / defensive positioning
+  anticipation: number; // Ability to predict opponent’s actions
+  decisionMaking: number; // Choosing the right option under pressure
+  composure: number; // Calmness and control under pressure
+  concentration: number; // Focus throughout the match
+  workRate: number; // Effort level, both offensively and defensively
+  leadership: number; // Influence and command on the pitch
+  flair: number; // Creativity and willingness to attempt unique plays
+  creativity: number; // Ability to create chances from nothing
 
-  // Optional Extras
-  weakFoot?: number; // 1 to 5
-  skillMoves?: number; // 1 to 5
-  injuryProne?: number; // 0 to 100
-  consistency?: number; // 0 to 100
-  morale?: number; // 0 to 100
-  level?: number; // overall rating
-  potential?: number; // future max rating
+  // 🧤 Goalkeeper-Specific Attributes
+  reflexes: number; // Quick reactions to shots
+  diving: number; // Ability to dive and save shots
+  handling: number; // Securely catching the ball, avoiding rebounds
+  kicking: number; // Accuracy and distance of goal kicks
+  positioningGK: number; // Positioning when facing shots
+  oneOnOne: number; // Ability to stop attackers in 1v1 situations
+  commandOfArea: number; // Control of the penalty area (coming for crosses, directing defense)
 };
 
-type GoalkeeperAttributes = {
-  // Only applies to GK
-  reflexes: number;
-  diving: number;
-  handling: number;
-  kicking: number;
-  positioningGK: number;
-  oneOnOne: number;
-  commandOfArea: number;
-};
+export type BasePlayer = {
+  uuid: string; // Player unique ID in the database
+  avatarUrl: string; // Full URL of the avatar image
+  playerIndex: number; // Index/order in the squad
+  name: string; // Player's full name
+  position: string; // Main position (e.g. "CB", "ST")
+  playablePositions: string[]; // List of positions the player can play
+  foot: PlayerFootPreference; // Preferred foot (e.g. "Left", "Right", "Both")
+  rating: number; // Overall rating (0–100)
+  form: PlayerForm; // Recent performance form (e.g. "Excellent", "Poor")
+  fitness: number; // Current fitness level (0–100)
+  shirtNumber: number; // Jersey number
+  salary: number; // Weekly or monthly salary
+  contractLength: number; // Remaining contract by matches
+  birthday: string; // Player's date of birth
+  nationality: string; // Nationality
+  height: number; // Height in cm
+  weight: number; // Weight in kg
 
-type PlayerAttributes = BaseAttributes & Partial<GoalkeeperAttributes>;
-
-export type Player = {
-  id: string; // Player in team
-  uuid: string; // Player in database
-  avatar?: string | null;
-  avatar_url: string;
-  playerIndex: number;
-  name: string;
-  position: string;
-  rating: number;
-  form: PlayerForm;
-  fitness: number;
-  shirtNumber: number;
-  selected: boolean;
-  salary: number;
-  contractYears: number;
-  age: number;
-  nationality: string;
-  height: number;
-  weight: number;
   status: {
-    type: PlayerStatusType;
-    details: string;
-    until: string;
+    type: PlayerStatusType; // Current status (e.g. "Injured", "Suspended")
+    details: string; // Additional info about status
+    until: string; // Status expiry date
   };
-  contractExpiring: boolean;
-  morale: PlayerMorale;
-  trainingPerformance: PlayerTrainingPerformance;
+
+  morale: PlayerMorale; // Current morale level
+  trainingPerformance: PlayerTrainingPerformance; // Training evaluation
+
   stats: {
-    matches: number;
-    goals: number;
-    assists: number;
-    yellowCards: number;
-    redCards: number;
-    cleanSheets: number;
-    minutesPlayed: number;
-    rating: number;
+    matches: number; // Number of matches played
+    goals: number; // Goals scored
+    assists: number; // Assists provided
+    yellowCards: number; // Yellow cards received
+    redCards: number; // Red cards received
+    cleanSheets: number; // Clean sheets (for GK/defenders)
+    minutesPlayed: number; // Total minutes played
+    rating: number; // Average match rating
   };
-  level: number;
-  type: PlayerType;
+
+  edition: PlayerEdition; // Player type (e.g. "Senior", "Youth", "Legend")
+  attributes: PlayerAttributes; // Player's detailed attributes
+  marketValue: number; // Estimated market value
+  potential: number; // Potential maximum rating (0–5)
+  skillMoves: number; // Skill move ability (1 = basic, 5 = advanced)
+
+  preferredRole: PlayerPreferredRole | null; // Preferred tactical role (e.g. "Poacher", "Playmaker")
+  personality: PlayerPersonality | null; // Personality type (e.g. "Leader", "Calm", "Aggressive")
+  injuryProne: number; // Likelihood of getting injured (0 = never, 5 = very high)
+  consistency: number; // Performance consistency (0 = unstable, 100 = very reliable)
+};
+
+export type Player = Partial<BasePlayer> & {
+  id?: string; // Player ID in the team
+  clubId?: string; // Current club name
+
   nationalTeam?: {
-    name: string;
-    callUp: boolean;
-    nextMatch: string;
-    paymentReceived: number;
+    name: string; // National team name
+    callUp: boolean; // Whether called up to the national team
+    nextMatch: string; // Next national team match
+    paymentReceived: number; // Compensation from national team
+    internationalCaps: number; // Number of international appearances
   };
-  attributes: PlayerAttributes;
-  inLineup?: boolean;
-  playablePositions: string[];
-  foot: PlayerFootPreference;
-  marketValue: number;
-  market_value: number;
-  birthdate: string;
-  potential: number;
-  preferredRole: PlayerPreferredRole;
-  internationalCaps: number;
-  injuryProne: boolean;
-  personality: PlayerPersonality;
-  club?: string;
-  transferStatus?: "listed" | "transfer-listed" | "loan-listed" | "not-listed";
+
+  transferStatus?: "transfer-listed" | "loan-listed" | "not-listed"; // Transfer market status
   loan?: {
-    fee: number;
-    duration: string;
-    wage: number;
+    fee: number; // Loan fee
+    duration: string; // Loan duration
+    wage: number; // Wage contribution
   };
+
+  level?: number; // Player level or experience tier
+  role?: string | null; // Current role in the team
 };
 
 export type YouthPlayer = {
