@@ -29,8 +29,7 @@ const ConfirmPurchaseDialog = ({ item, coins, handleBuyItem }: Props) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button size="sm" disabled={coins < getItemActualPrice(item)}>
-          <ShoppingCart className="h-4 w-4 mr-2" />
-          Buy
+          <ShoppingCart className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

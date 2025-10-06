@@ -1,4 +1,9 @@
 import React, { ReactElement } from "react";
+
+import { Info } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,18 +13,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Info } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { ShopItem } from "@/types/item";
-import { getItemPrice } from "@/lib/item";
 import { formatNumber } from "@/lib/finance";
+import { getCategoryIcon, getCategoryLabel, getItemPrice } from "@/lib/item";
+import { ShopItem } from "@/types/item";
 
 type Props = {
   selectedItem: ShopItem | null;
   setSelectedItem: (item: ShopItem | null) => void;
   item: ShopItem;
-  getCategoryIcon: (category: string) => React.JSX.Element | null;
   children?: ReactElement;
 };
 
@@ -27,7 +28,6 @@ const InfoDialog = ({
   selectedItem,
   setSelectedItem,
   item,
-  getCategoryIcon,
   children,
 }: Props) => {
   return (
@@ -65,10 +65,12 @@ const InfoDialog = ({
                   <Badge variant="outline" className="flex items-center">
                     {getCategoryIcon(selectedItem.category)}
                     <span className="ml-1 capitalize">
-                      {selectedItem.category} Item
+                      {getCategoryLabel(selectedItem.category)} Item
                     </span>
                   </Badge>
-                  <Badge variant="outline">{selectedItem.duration}</Badge>
+                  <Badge variant="outline">
+                    {item.duration.quantity} {item.duration.unit}
+                  </Badge>
                 </div>
               </div>
             </div>
@@ -86,7 +88,9 @@ const InfoDialog = ({
 
               <div>
                 <h3 className="text-sm font-medium mb-2">Duration</h3>
-                <p className="text-sm">{selectedItem.duration}</p>
+                <p className="text-sm">
+                  {item.duration.quantity} {item.duration.unit}
+                </p>
               </div>
 
               <div>

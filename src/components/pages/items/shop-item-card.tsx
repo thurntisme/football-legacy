@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Building, User, Users } from "lucide-react";
-
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -12,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatNumber } from "@/lib/finance";
-import { getItemPrice } from "@/lib/item";
+import { getCategoryIcon, getCategoryLabel, getItemPrice } from "@/lib/item";
 import { ShopItem } from "@/types/item";
 
 import ConfirmPurchaseDialog from "./confirm-purchase-dialog";
@@ -33,19 +31,6 @@ const ShopItemCard = ({
   userCoin,
   handleBuyItem,
 }: Props) => {
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case "player":
-        return <User className="h-4 w-4" />;
-      case "team":
-        return <Users className="h-4 w-4" />;
-      case "club":
-        return <Building className="h-4 w-4" />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <Card
       key={item.id}
@@ -78,13 +63,17 @@ const ShopItemCard = ({
           {item.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="pb-2">
+      <CardContent className="pb-2 px-4">
         <div className="flex justify-center space-x-2 mb-2">
           <Badge variant="outline" className="flex items-center">
             {getCategoryIcon(item.category)}
-            <span className="ml-1 capitalize">{item.category}</span>
+            <span className="ml-1 capitalize">
+              {getCategoryLabel(item.category)}
+            </span>
           </Badge>
-          <Badge variant="outline">{item.duration}</Badge>
+          <Badge variant="outline">
+            {item.duration.quantity} {item.duration.unit}
+          </Badge>
         </div>
         <p className="text-sm text-center text-muted-foreground">
           {item.effect}
@@ -108,7 +97,6 @@ const ShopItemCard = ({
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
             item={item}
-            getCategoryIcon={getCategoryIcon}
           >
             <ConfirmPurchaseDialog
               item={item}

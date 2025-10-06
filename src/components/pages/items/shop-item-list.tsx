@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 
+import ContentWrapper from "@/components/common/content-wrapper";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,24 +11,37 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ITEM_CATEGORIES } from "@/constants/items";
+import { ITEM_CATEGORIES, ItemCategoryEnum } from "@/constants/items";
 import { toast } from "@/hooks/use-toast";
-import { ShopItems } from "@/mock/football";
+import { internalApi } from "@/lib/api/internal";
 import { ShopItem } from "@/types/item";
+import { useQuery } from "@tanstack/react-query";
 
 import ShopItemCard from "./shop-item-card";
 
 const USER_COINS = 1000;
 
 export default function ShopItemList() {
-  const [shopItems, setShopItems] = useState<ShopItem[]>(ShopItems);
-  const [selectedCategory, setSelectedCategory] = useState("all");
-
+  const [selectedCategory, setSelectedCategory] = useState<ItemCategoryEnum>(
+    ItemCategoryEnum.ALL,
+  );
   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null);
-  const [itemToBuy, setItemToBuy] = useState<ShopItem | null>(null);
+
+  const {
+    data: shopItems,
+    isLoading,
+    error,
+  } = useQuery<ShopItem[] | null>({
+    queryKey: ["item-list"],
+    queryFn: async () => {
+      const { data } = await internalApi.get("/items");
+      return data;
+    },
+  });
 
   const filteredCategory = useMemo(() => {
-    if (selectedCategory === "all") {
+    if (!shopItems) return [];
+    if (selectedCategory === ItemCategoryEnum.ALL) {
       return shopItems;
     }
     return shopItems.filter((item) => item.category === selectedCategory);
@@ -55,8 +69,6 @@ export default function ShopItemList() {
           description: `You have successfully purchased ${item.name}`,
         });
       }
-
-      setItemToBuy(null);
     } else {
       toast({
         title: "Insufficient Coins",
@@ -75,32 +87,34 @@ export default function ShopItemList() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-4 mb-6 overflow-x-auto pb-2">
-          {ITEM_CATEGORIES.map(({ label, slug, icon }) => (
-            <Button
-              key={label}
-              variant={selectedCategory === slug ? "default" : "outline"}
-              className={`rounded-full${icon ? " flex items-center" : ""}`}
-              onClick={() => setSelectedCategory(slug)}
-            >
-              {icon}
-              {label}
-            </Button>
-          ))}
-        </div>
+        <ContentWrapper isLoading={isLoading} error={error}>
+          <div className="flex gap-4 mb-6 overflow-x-auto pb-2">
+            {ITEM_CATEGORIES.map(({ label, slug, icon }) => (
+              <Button
+                key={label}
+                variant={selectedCategory === slug ? "default" : "outline"}
+                className={`rounded-full${icon ? " flex items-center" : ""}`}
+                onClick={() => setSelectedCategory(slug)}
+              >
+                {icon}
+                {label}
+              </Button>
+            ))}
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {filteredCategory.map((item) => (
-            <ShopItemCard
-              key={item.id}
-              item={item}
-              selectedItem={selectedItem}
-              setSelectedItem={setSelectedItem}
-              userCoin={USER_COINS}
-              handleBuyItem={handleBuyItem}
-            />
-          ))}
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {filteredCategory.map((item) => (
+              <ShopItemCard
+                key={item.id}
+                item={item}
+                selectedItem={selectedItem}
+                setSelectedItem={setSelectedItem}
+                userCoin={USER_COINS}
+                handleBuyItem={handleBuyItem}
+              />
+            ))}
+          </div>
+        </ContentWrapper>
       </CardContent>
     </Card>
   );

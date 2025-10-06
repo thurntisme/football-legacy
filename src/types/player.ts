@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 
+import { PlayerEditionEnum } from "@/constants/player";
+
 // Enum for Player Form
 export enum PlayerForm {
   EXCELLENT = "excellent",
@@ -31,25 +33,6 @@ export enum PlayerTrainingPerformance {
   GOOD = "good",
   AVERAGE = "average",
   POOR = "poor",
-}
-
-export enum PlayerEditionEnum {
-  LEGEND = "legend",
-  CLASSIC_70S = "classic_70s",
-  CLASSIC_80S = "classic_80s",
-  CLASSIC_90S = "classic_90s",
-  CLASSIC_2000S = "classic_2000s",
-  CLASSIC_2010S = "classic_2010s",
-  MODERN = "modern",
-  FUTURE_STAR = "future_star",
-  WORLD_CUP = "world_cup",
-  EURO = "euro",
-  CONTINENTAL = "continental",
-  ICON = "icon",
-  HERO = "hero",
-  SPECIAL = "special",
-  TEAM_OF_THE_YEAR = "toty",
-  TEAM_OF_THE_SEASON = "tots",
 }
 
 // Enum for Foot Preference
@@ -153,15 +136,6 @@ export type BasePlayer = {
   height: number; // Height in cm
   weight: number; // Weight in kg
 
-  status: {
-    type: PlayerStatusType; // Current status (e.g. "Injured", "Suspended")
-    details: string; // Additional info about status
-    until: string; // Status expiry date
-  };
-
-  morale: PlayerMorale; // Current morale level
-  trainingPerformance: PlayerTrainingPerformance; // Training evaluation
-
   stats: {
     matches: number; // Number of matches played
     goals: number; // Goals scored
@@ -206,6 +180,15 @@ export type Player = Partial<BasePlayer> & {
 
   level?: number; // Player level or experience tier
   role?: PlayerRoleEnum | null; // Current role in the team
+  morale?: PlayerMorale; // Current morale level
+
+  status: {
+    type: PlayerStatusType; // Current status (e.g. "Injured", "Suspended")
+    details: string; // Additional info about status
+    until: string; // Status expiry date
+  };
+
+  trainingPerformance: PlayerTrainingPerformance; // Training evaluation
 };
 
 export enum PlayerRoleEnum {

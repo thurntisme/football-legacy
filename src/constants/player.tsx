@@ -8,12 +8,7 @@ import {
 } from "lucide-react";
 
 import playerData from "@/data/football-player.json";
-import {
-  Player,
-  PlayerEditionEnum,
-  PlayerRole,
-  PlayerRoleEnum,
-} from "@/types/player";
+import { Player, PlayerRole, PlayerRoleEnum } from "@/types/player";
 
 export const players = playerData as Player[];
 
@@ -125,6 +120,25 @@ export const playerAttributes = [
     ],
   },
 ];
+
+export enum PlayerEditionEnum {
+  LEGEND = "legend",
+  CLASSIC_70S = "classic_70s",
+  CLASSIC_80S = "classic_80s",
+  CLASSIC_90S = "classic_90s",
+  CLASSIC_2000S = "classic_2000s",
+  CLASSIC_2010S = "classic_2010s",
+  MODERN = "modern",
+  FUTURE_STAR = "future_star",
+  WORLD_CUP = "world_cup",
+  EURO = "euro",
+  CONTINENTAL = "continental",
+  ICON = "icon",
+  HERO = "hero",
+  SPECIAL = "special",
+  TEAM_OF_THE_YEAR = "toty",
+  TEAM_OF_THE_SEASON = "tots",
+}
 
 export const PlayerEditionLabel: Record<PlayerEditionEnum, string> = {
   [PlayerEditionEnum.LEGEND]: "Legend",
