@@ -137,7 +137,7 @@ export default function PlayerDetailDialog({
                     Contract:
                   </span>
                   <span className="font-medium">
-                    {player.contractYears} years
+                    {player.contractLength} match(es)
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -168,8 +168,7 @@ export default function PlayerDetailDialog({
                   <span
                     className={`font-medium ${player.morale === "high" ? "text-green-500" : player.morale === "low" ? "text-red-500" : ""}`}
                   >
-                    {player.morale.charAt(0).toUpperCase() +
-                      player.morale.slice(1)}
+                    {player.morale}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -192,9 +191,9 @@ export default function PlayerDetailDialog({
                   <Card>
                     <CardContent className="p-4">
                       <div className="flex justify-between items-center relative">
-                        <div>
+                        <div className="space-y-2">
                           <h4 className="text-sm font-medium">Form</h4>
-                          <p className="text-2xl font-bold capitalize">
+                          <p className="text-xl font-bold capitalize">
                             {player.form}
                           </p>
                         </div>
@@ -207,11 +206,9 @@ export default function PlayerDetailDialog({
                   <Card>
                     <CardContent className="p-4">
                       <div className="flex justify-between items-center">
-                        <div>
+                        <div className="space-y-2">
                           <h4 className="text-sm font-medium">Fitness</h4>
-                          <p className="text-2xl font-bold">
-                            {player.fitness}%
-                          </p>
+                          <p className="text-xl font-bold">{player.fitness}%</p>
                         </div>
                         <div className="w-12 h-12 rounded-full border-4 border-secondary flex items-center justify-center">
                           <div

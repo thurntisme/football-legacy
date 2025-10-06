@@ -39,7 +39,7 @@ export default function TransferMarket() {
     queryKey: ["market-players"],
     queryFn: async () => {
       const res = await internalApi.get("/market/list");
-      return res.data;
+      return res.data?.data || [];
     },
   });
 

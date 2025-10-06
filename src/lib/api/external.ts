@@ -1,4 +1,4 @@
-import { createExternalApiClient } from './externalClient';
+import { createExternalApiClient } from "./externalClient";
 
 /**
  * An instance of the external API client configured with the base URL and authorization headers.
@@ -38,8 +38,8 @@ import { createExternalApiClient } from './externalClient';
  */
 export const externalApi = createExternalApiClient({
   baseURL:
-    process.env.NEXT_EXTERNAL_API_BASE_URL || 'http://localhost:3000/api',
+    process.env.NEXT_EXTERNAL_API_BASE_URL || "http://localhost:8000/api",
   headers: {
-    'x-api-key': process.env.API_KEY || '',
+    "x-api-key": process.env.API_KEY || "",
   },
 });

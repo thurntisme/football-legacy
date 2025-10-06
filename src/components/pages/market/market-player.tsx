@@ -12,7 +12,6 @@ import { Player } from "@/types/player";
 import MarketPlayerDetailDialog from "./market-player-detail-dialog";
 
 type Props = {
-  key: string;
   player: Player;
   favorites: Set<string>;
   selectedPlayer: Player | null;
@@ -24,7 +23,6 @@ type Props = {
 const USER_BUDGET = 250000000;
 
 const MarketPlayer = ({
-  key,
   player,
   favorites,
   selectedPlayer,
@@ -56,13 +54,13 @@ const MarketPlayer = ({
   const isPossibleToPurchase = USER_BUDGET >= player.marketValue;
 
   return (
-    <Card key={key} className="overflow-hidden">
+    <Card className="overflow-hidden">
       <CardContent className="p-0">
         <div className="relative">
           <div className="p-4 flex items-center space-x-3">
             <div className="relative">
               <img
-                src={player.avatar_url || "/placeholder.svg"}
+                src={player.avatarUrl || "/placeholder.svg"}
                 alt={player.name}
                 className="w-20 h-20 rounded-full border-2 border-primary/20 object-cover"
               />
@@ -77,12 +75,12 @@ const MarketPlayer = ({
               <div className="flex items-center text-sm text-muted-foreground">
                 <span className="mr-2">{player.position}</span>
                 <span>•</span>
-                <span className="mx-2">{player.age} yrs</span>
+                <span className="mx-2">{player.birthday}</span>
               </div>
               <div className="text-sm text-muted-foreground">
                 {player.nationality}
               </div>
-              <div className="text-sm font-medium mt-1">{player.club}</div>
+              <div className="text-sm font-medium mt-1">{player.clubId}</div>
             </div>
           </div>
         </div>
@@ -95,11 +93,11 @@ const MarketPlayer = ({
           <Button
             variant="ghost"
             size="icon"
-            onClick={(event) => toggleFavorite(player.id, event)}
+            onClick={(event) => player.id && toggleFavorite(player.id, event)}
             className="w-8 h-8"
           >
             <Heart
-              className={`h-4 w-4 ${favorites.has(player.id) ? "fill-red-500 text-red-500" : ""}`}
+              className={`h-4 w-4 ${player.id && favorites.has(player.id) ? "fill-red-500 text-red-500" : ""}`}
             />
           </Button>
           <Button
