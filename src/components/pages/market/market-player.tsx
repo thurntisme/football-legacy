@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Heart } from "lucide-react";
+import { Heart, Info } from "lucide-react";
 
+import PlayerDetailDialog from "@/components/player-detail-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/finance";
 import { Player } from "@/types/player";
 
-import ConfirmPurchasePlayerDialog from "./confirm-purchase-player-dialog";
 import MarketPlayerDetailDialog from "./market-player-detail-dialog";
 
 type Props = {
@@ -32,9 +32,25 @@ const MarketPlayer = ({
   onSelectPlayer,
   purchasePlayer,
 }: Props) => {
+  const [selectedDetailPlayer, setSelectedDetailPlayer] =
+    useState<Player | null>(null);
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
+
   const toggleFavorite = (playerId: string, event: React.MouseEvent) => {
     event.stopPropagation();
     onToggleFavorite(playerId);
+  };
+
+  const viewDetailPlayer = (player: Player) => {
+    setSelectedDetailPlayer(player);
+    setIsDetailDialogOpen(true);
+  };
+
+  const onOpenDetailChange = (isOpen: boolean) => {
+    setIsDetailDialogOpen(isOpen);
+    if (!isOpen) {
+      setSelectedDetailPlayer(null);
+    }
   };
 
   const isPossibleToPurchase = USER_BUDGET >= player.marketValue;
@@ -80,13 +96,29 @@ const MarketPlayer = ({
             variant="ghost"
             size="icon"
             onClick={(event) => toggleFavorite(player.id, event)}
-            className="rounded-full w-8 h-8"
+            className="w-8 h-8"
           >
             <Heart
               className={`h-4 w-4 ${favorites.has(player.id) ? "fill-red-500 text-red-500" : ""}`}
             />
           </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={(e) => {
+              e.stopPropagation();
+              viewDetailPlayer(player);
+            }}
+          >
+            <Info className="h-4 w-4" />
+          </Button>
 
+          <PlayerDetailDialog
+            player={selectedDetailPlayer}
+            open={isDetailDialogOpen}
+            onOpenChange={onOpenDetailChange}
+          />
           <MarketPlayerDetailDialog
             player={player}
             selectedPlayer={selectedPlayer}

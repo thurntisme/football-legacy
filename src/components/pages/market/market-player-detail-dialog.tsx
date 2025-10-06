@@ -137,12 +137,11 @@ const MarketPlayerDetailDialog = ({
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button
-            variant="ghost"
             size="icon"
             onClick={() => onSelectPlayer(player)}
-            className="rounded-full w-8 h-8"
+            className="w-8 h-8"
           >
-            <Info className="h-4 w-4" />
+            <ShoppingCart className="h-4 w-4" />
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
@@ -414,7 +413,7 @@ const MarketPlayerDetailDialog = ({
           )}
         </AlertDialogContent>
       </AlertDialog>
-      <ConfirmPurchasePlayerDialog
+      {/* <ConfirmPurchasePlayerDialog
         isPossibleToPurchase={isPossibleToPurchase}
         player={player}
         userBudget={userBudget}
@@ -423,7 +422,7 @@ const MarketPlayerDetailDialog = ({
         <Button size="icon" className="w-8 h-8">
           <ShoppingCart className="h-4 w-4" />
         </Button>
-      </ConfirmPurchasePlayerDialog>
+      </ConfirmPurchasePlayerDialog> */}
     </>
   );
 };
