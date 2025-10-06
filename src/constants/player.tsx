@@ -8,13 +8,18 @@ import {
 } from "lucide-react";
 
 import playerData from "@/data/football-player.json";
-import { Player, PlayerRole } from "@/types/player";
+import {
+  Player,
+  PlayerEditionEnum,
+  PlayerRole,
+  PlayerRoleEnum,
+} from "@/types/player";
 
 export const players = playerData as Player[];
 
 export const playerRoles: PlayerRole[] = [
   {
-    id: "captain",
+    id: PlayerRoleEnum.CAPTION,
     name: "Captain",
     description:
       "Team leader who communicates with the referee and boosts team morale",
@@ -22,38 +27,38 @@ export const playerRoles: PlayerRole[] = [
     assignedPlayerId: null,
   },
   {
-    id: "vice-captain",
+    id: PlayerRoleEnum.VICE_CAPTION,
     name: "Vice-Captain",
     description: "Takes over captain duties when the captain is unavailable",
     icon: <Flag className="h-5 w-5" />,
     assignedPlayerId: null,
   },
   {
-    id: "penalty-taker",
+    id: PlayerRoleEnum.PENALTY_TAKER,
     name: "Penalty Taker",
     description: "Primary player to take penalty kicks",
     icon: <Target className="h-5 w-5" />,
     assignedPlayerId: null,
   },
   {
-    id: "free-kick-taker",
+    id: PlayerRoleEnum.FREE_KICK_TAKER,
     name: "Free Kick Taker",
     description: "Primary player to take direct free kicks",
     icon: <Footprints className="h-5 w-5" />,
     assignedPlayerId: null,
   },
   {
-    id: "corner-taker-right",
-    name: "Corner Taker (Right)",
-    description: "Takes corner kicks from the right side",
-    icon: <CornerUpRight className="h-5 w-5" />,
-    assignedPlayerId: null,
-  },
-  {
-    id: "corner-taker-left",
+    id: PlayerRoleEnum.LEFT_CORNER_TAKER,
     name: "Corner Taker (Left)",
     description: "Takes corner kicks from the left side",
     icon: <RotateCcw className="h-5 w-5" />,
+    assignedPlayerId: null,
+  },
+  {
+    id: PlayerRoleEnum.RIGHT_CORNER_TAKER,
+    name: "Corner Taker (Right)",
+    description: "Takes corner kicks from the right side",
+    icon: <CornerUpRight className="h-5 w-5" />,
     assignedPlayerId: null,
   },
 ];
@@ -120,3 +125,22 @@ export const playerAttributes = [
     ],
   },
 ];
+
+export const PlayerEditionLabel: Record<PlayerEditionEnum, string> = {
+  [PlayerEditionEnum.LEGEND]: "Legend",
+  [PlayerEditionEnum.CLASSIC_70S]: "Classic 70s",
+  [PlayerEditionEnum.CLASSIC_80S]: "Classic 80s",
+  [PlayerEditionEnum.CLASSIC_90S]: "Classic 90s",
+  [PlayerEditionEnum.CLASSIC_2000S]: "Classic 2000s",
+  [PlayerEditionEnum.CLASSIC_2010S]: "Classic 2010s",
+  [PlayerEditionEnum.MODERN]: "Modern",
+  [PlayerEditionEnum.FUTURE_STAR]: "Future Star",
+  [PlayerEditionEnum.WORLD_CUP]: "World Cup",
+  [PlayerEditionEnum.EURO]: "Euro",
+  [PlayerEditionEnum.CONTINENTAL]: "Continental",
+  [PlayerEditionEnum.ICON]: "Icon",
+  [PlayerEditionEnum.HERO]: "Hero",
+  [PlayerEditionEnum.SPECIAL]: "Special",
+  [PlayerEditionEnum.TEAM_OF_THE_YEAR]: "TOTY",
+  [PlayerEditionEnum.TEAM_OF_THE_SEASON]: "TOTS",
+};

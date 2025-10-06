@@ -33,33 +33,23 @@ export enum PlayerTrainingPerformance {
   POOR = "poor",
 }
 
-// Enum for Player Edition
-export enum PlayerEdition {
-  // 🏆 Legendary players across all eras
-  LEGEND = "Legend", // Legendary players with iconic careers
-
-  // 🕰️ Retro eras
-  CLASSIC_70S = "Classic 70s", // Players from 1970–1979 era
-  CLASSIC_80S = "Classic 80s", // Players from 1980–1989 era
-  CLASSIC_90S = "Classic 90s", // Players from 1990–1999 era
-  CLASSIC_2000S = "Classic 2000s", // Players from 2000–2009 era
-  CLASSIC_2010S = "Classic 2010s", // Players from 2010–2019 era
-
-  // ⚽ Modern generations
-  MODERN = "Modern", // Current generation players
-  FUTURE_STAR = "Future Star", // Young talents with high potential
-
-  // 🌍 Special tournament or event editions
-  WORLD_CUP = "World Cup", // Special edition for World Cup performers
-  EURO = "Euro", // Special edition for European Championship players
-  CONTINENTAL = "Continental", // Asian Cup, Copa America, etc.
-
-  // 🌟 Themed editions
-  ICON = "Icon", // High prestige similar to LEGEND but may include modern icons (e.g. Messi, Ronaldo)
-  HERO = "Hero", // Players famous for specific clubs or moments
-  SPECIAL = "Special", // Limited-time or promotional edition
-  TEAM_OF_THE_YEAR = "TOTY", // Team of the Year
-  TEAM_OF_THE_SEASON = "TOTS", // Team of the Season
+export enum PlayerEditionEnum {
+  LEGEND = "legend",
+  CLASSIC_70S = "classic_70s",
+  CLASSIC_80S = "classic_80s",
+  CLASSIC_90S = "classic_90s",
+  CLASSIC_2000S = "classic_2000s",
+  CLASSIC_2010S = "classic_2010s",
+  MODERN = "modern",
+  FUTURE_STAR = "future_star",
+  WORLD_CUP = "world_cup",
+  EURO = "euro",
+  CONTINENTAL = "continental",
+  ICON = "icon",
+  HERO = "hero",
+  SPECIAL = "special",
+  TEAM_OF_THE_YEAR = "toty",
+  TEAM_OF_THE_SEASON = "tots",
 }
 
 // Enum for Foot Preference
@@ -183,7 +173,7 @@ export type BasePlayer = {
     rating: number; // Average match rating
   };
 
-  edition: PlayerEdition; // Player type (e.g. "Senior", "Youth", "Legend")
+  edition: PlayerEditionEnum; // Player edition (e.g. "Classic", "Iconic")
   attributes: PlayerAttributes; // Player's detailed attributes
   marketValue: number; // Estimated market value
   potential: number; // Potential maximum rating (0–5)
@@ -215,8 +205,17 @@ export type Player = Partial<BasePlayer> & {
   };
 
   level?: number; // Player level or experience tier
-  role?: string | null; // Current role in the team
+  role?: PlayerRoleEnum | null; // Current role in the team
 };
+
+export enum PlayerRoleEnum {
+  CAPTION = "captain",
+  VICE_CAPTION = "vice-captain",
+  PENALTY_TAKER = "penalty-taker",
+  FREE_KICK_TAKER = "free-kick-taker",
+  LEFT_CORNER_TAKER = "left-corner-taker",
+  RIGHT_CORNER_TAKER = "right-corner-taker",
+}
 
 export type YouthPlayer = {
   id: string;
