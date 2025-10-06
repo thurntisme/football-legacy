@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { players } from "@/constants/player";
+import { getCategoryIcon } from "@/lib/item";
 import { InventoryItem } from "@/types/item";
 
 type Props = {
@@ -47,31 +48,8 @@ const InventoryCard = ({
   setSelectedPlayer,
   handleUseItem,
 }: Props) => {
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case "player":
-        return <User className="h-4 w-4" />;
-      case "team":
-        return <Users className="h-4 w-4" />;
-      case "club":
-        return <Building className="h-4 w-4" />;
-      default:
-        return null;
-    }
-  };
-
   return (
-    <Card
-      key={item.id}
-      className={`${
-        item.used ? "border-green-500" : ""
-      } flex flex-col relative`}
-    >
-      {item.used && (
-        <div className="absolute top-2 right-2">
-          <Badge className="bg-green-500">Active</Badge>
-        </div>
-      )}
+    <Card className="flex flex-col relative">
       <CardHeader className="pb-2">
         <div className="flex justify-center">
           <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
@@ -93,33 +71,22 @@ const InventoryCard = ({
             {getCategoryIcon(item.category)}
             <span className="ml-1 capitalize">{item.category}</span>
           </Badge>
-          <Badge variant="outline">{item.duration}</Badge>
         </div>
         <p className="text-sm text-center text-muted-foreground">
           {item.effect}
         </p>
       </CardContent>
       <CardFooter className="flex justify-between py-2 px-3 mt-auto border-t">
-        <div className="font-medium">Qty: {item.quantity}</div>
+        <div className="font-medium">Qty: {item.remaining_quantity}</div>
         <Dialog>
           <DialogTrigger asChild>
             <Button
-              variant={item.used ? "outline" : "default"}
+              variant="default"
               size="sm"
               onClick={() => setSelectedItem(item)}
-              disabled={item.used}
             >
-              {item.used ? (
-                <>
-                  <Check className="h-4 w-4 mr-2" />
-                  Active
-                </>
-              ) : (
-                <>
-                  <Zap className="h-4 w-4 mr-2" />
-                  Use
-                </>
-              )}
+              <Zap className="h-4 w-4" />
+              Use
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -148,7 +115,7 @@ const InventoryCard = ({
                       {selectedItem.effect}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Duration: {selectedItem.duration}
+                      Duration: {item.duration.quantity} {item.duration.unit}
                     </p>
                   </div>
                 </div>

@@ -105,7 +105,7 @@ export default function ShopItemList() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {filteredCategory.map((item) => (
               <ShopItemCard
-                key={item.id}
+                key={item.slug}
                 item={item}
                 selectedItem={selectedItem}
                 setSelectedItem={setSelectedItem}

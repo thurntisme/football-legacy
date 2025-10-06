@@ -1,30 +1,23 @@
 import { ItemCategoryEnum, ItemDurationUnitEnum } from "@/constants/items";
 
-export type ShopItem = {
-  id?: number;
-  slug?: string;
+type Item = {
+  slug: string;
   name: string;
   description: string;
+  originalPrice: number;
   price: number;
   category: ItemCategoryEnum;
   effect: string;
+  image: string;
+};
+
+export type ShopItem = Item & {
   duration: {
     quantity: number;
     unit: ItemDurationUnitEnum;
   };
-  image: string;
-  discount?: number;
-  limited?: boolean;
 };
 
-export type InventoryItem = {
-  id: number;
-  name: string;
-  description: string;
-  category: ItemCategoryEnum;
-  effect: string;
-  duration: string;
-  image: string;
-  quantity: number;
-  used?: boolean;
+export type InventoryItem = Item & {
+  remaining_quantity: number;
 };
