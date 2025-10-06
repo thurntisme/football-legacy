@@ -117,10 +117,9 @@ type PlayerAttributes = {
   commandOfArea: number; // Control of the penalty area (coming for crosses, directing defense)
 };
 
-export type BasePlayer = {
+export type Player = {
   uuid: string; // Player unique ID in the database
   avatarUrl: string; // Full URL of the avatar image
-  playerIndex: number; // Index/order in the squad
   name: string; // Player's full name
   position: string; // Main position (e.g. "CB", "ST")
   playablePositions: string[]; // List of positions the player can play
@@ -128,24 +127,12 @@ export type BasePlayer = {
   rating: number; // Overall rating (0–100)
   form: PlayerForm; // Recent performance form (e.g. "Excellent", "Poor")
   fitness: number; // Current fitness level (0–100)
-  shirtNumber: number; // Jersey number
   salary: number; // Weekly or monthly salary
   contractLength: number; // Remaining contract by matches
   birthday: string; // Player's date of birth
   nationality: string; // Nationality
   height: number; // Height in cm
   weight: number; // Weight in kg
-
-  stats: {
-    matches: number; // Number of matches played
-    goals: number; // Goals scored
-    assists: number; // Assists provided
-    yellowCards: number; // Yellow cards received
-    redCards: number; // Red cards received
-    cleanSheets: number; // Clean sheets (for GK/defenders)
-    minutesPlayed: number; // Total minutes played
-    rating: number; // Average match rating
-  };
 
   edition: PlayerEditionEnum; // Player edition (e.g. "Classic", "Iconic")
   attributes: PlayerAttributes; // Player's detailed attributes
@@ -157,13 +144,15 @@ export type BasePlayer = {
   personality: PlayerPersonality | null; // Personality type (e.g. "Leader", "Calm", "Aggressive")
   injuryProne: number; // Likelihood of getting injured (0 = never, 5 = very high)
   consistency: number; // Performance consistency (0 = unstable, 100 = very reliable)
-};
+} & Partial<PlayerInClub>;
 
-export type Player = Partial<BasePlayer> & {
-  id?: string; // Player ID in the team
-  clubId?: string; // Current club name
+export type PlayerInClub = {
+  id: string; // Player ID in the team
+  clubId: string; // Current club name
+  shirtNumber: number; // Jersey number
+  playerIndex: number; // Index/order in the squad
 
-  nationalTeam?: {
+  nationalTeam: {
     name: string; // National team name
     callUp: boolean; // Whether called up to the national team
     nextMatch: string; // Next national team match
@@ -171,21 +160,32 @@ export type Player = Partial<BasePlayer> & {
     internationalCaps: number; // Number of international appearances
   };
 
-  transferStatus?: "transfer-listed" | "loan-listed" | "not-listed"; // Transfer market status
-  loan?: {
+  transferStatus: "transfer-listed" | "loan-listed" | "not-listed"; // Transfer market status
+  loan: {
     fee: number; // Loan fee
     duration: string; // Loan duration
     wage: number; // Wage contribution
   };
 
-  level?: number; // Player level or experience tier
-  role?: PlayerRoleEnum | null; // Current role in the team
-  morale?: PlayerMorale; // Current morale level
+  level: number; // Player level or experience tier
+  role: PlayerRoleEnum | null; // Current role in the team
+  morale: PlayerMorale; // Current morale level
 
   status: {
     type: PlayerStatusType; // Current status (e.g. "Injured", "Suspended")
     details: string; // Additional info about status
     until: string; // Status expiry date
+  };
+
+  stats: {
+    matches: number; // Number of matches played
+    goals: number; // Goals scored
+    assists: number; // Assists provided
+    yellowCards: number; // Yellow cards received
+    redCards: number; // Red cards received
+    cleanSheets: number; // Clean sheets (for GK/defenders)
+    minutesPlayed: number; // Total minutes played
+    rating: number; // Average match rating
   };
 
   trainingPerformance: PlayerTrainingPerformance; // Training evaluation
