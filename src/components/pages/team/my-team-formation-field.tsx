@@ -80,7 +80,9 @@ const MyTeamFormationField = ({
                       ></div>
                     </div>
                     <div className="mt-1.5 px-2 py-0.5 bg-black/70 rounded text-white text-xs whitespace-nowrap">
-                      {pos.player.name.split(" ")[1]}
+                      {pos.player.name.split(" ").length > 1
+                        ? pos.player.name.split(" ")[1]
+                        : pos.player.name}
                     </div>
                   </div>
 

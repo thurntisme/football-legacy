@@ -18,8 +18,8 @@ export default function TeamPage() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["my-team-players"],
     queryFn: async () => {
-      const { data } = await internalApi.get("/team");
-      return data;
+      const res = await internalApi.get("/team");
+      return res.data?.data || [];
     },
   });
 
