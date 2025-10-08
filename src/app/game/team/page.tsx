@@ -15,7 +15,7 @@ import { internalApi } from "@/lib/api/internal";
 import { useQuery } from "@tanstack/react-query";
 
 export default function TeamPage() {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["my-team-players"],
     queryFn: async () => {
       const res = await internalApi.get("/team");
@@ -28,19 +28,19 @@ export default function TeamPage() {
       <PageTitle title="Team Management">
         <Button variant="outline" asChild>
           <Link href={`${FOOTBALL_STATS_URL}/game/match/start`}>
-            <Rocket className="h-4 w-4 mr-2" />
+            <Rocket className="h-4 w-4" />
             Start Match
           </Link>
         </Button>
         <Button asChild>
           <Link href={`${FOOTBALL_STATS_URL}/game/dashboard`}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            <ArrowLeft className="h-4 w-4" />
             Back to Dashboard
           </Link>
         </Button>
       </PageTitle>
 
-      <ContentWrapper isLoading={isLoading} error={error}>
+      <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
         <Tabs defaultValue="formation" className="space-y-6">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="formation" className="flex items-center">

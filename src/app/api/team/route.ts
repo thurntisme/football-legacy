@@ -5,13 +5,9 @@ import { externalApi } from "@/lib/api/external";
 export async function GET() {
   try {
     const response = await externalApi.get("/football/team");
-
     return NextResponse.json(response);
   } catch (error) {
-    console.error("Axios error:", error);
-    return NextResponse.json(
-      { error: "Something went wrong" },
-      { status: 500 },
-    );
+    console.log(error);
+    throw new Error("Failed to fetch football team");
   }
 }

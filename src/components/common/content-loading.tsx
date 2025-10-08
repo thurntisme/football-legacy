@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 
-import { Loader2 } from 'lucide-react';
+import { Loader2 } from "lucide-react";
 
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from "@/components/ui/card";
 
-type Props = {};
+const ContentLoading = () => {
+  const [progress, setProgress] = useState(0);
 
-const ContentLoading = (props: Props) => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 98) {
+          clearInterval(interval);
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Card className="w-full h-[70vh] flex items-center justify-center">
       <CardContent className="flex flex-col items-center justify-center p-8 space-y-4 min-w-[500px] max-w-full">
@@ -18,7 +31,7 @@ const ContentLoading = (props: Props) => {
         <div className="w-full bg-muted rounded-full h-2">
           <div
             className="bg-primary h-2 rounded-full animate-pulse"
-            style={{ width: '60%' }}
+            style={{ width: `${progress}%` }}
           ></div>
         </div>
       </CardContent>

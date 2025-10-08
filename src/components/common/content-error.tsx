@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { AlertTriangle, RefreshCw } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Props = {
   message?: string;
-  handleRetry?: () => void;
+  onRetry: () => void;
 };
 
-const ContentError = ({ message, handleRetry }: Props) => {
+const ContentError = ({ message, onRetry }: Props) => {
   return (
     <Card className="w-full h-[70vh] flex flex-col items-center justify-center">
       <CardHeader className="text-center">
@@ -35,7 +35,7 @@ const ContentError = ({ message, handleRetry }: Props) => {
         )}
 
         <div className="flex flex-col space-y-2">
-          <Button onClick={handleRetry} className="w-full">
+          <Button onClick={onRetry} className="w-full">
             <RefreshCw className="mr-2 h-4 w-4" />
             Try Again
           </Button>
