@@ -183,7 +183,7 @@ export const lineupFormations: LineupFormation[] = [
 ];
 
 // Position compatibility mapping
-export const positionCompatibility2: Record<string, string> = {
+export const positionCompatibility: Record<string, string> = {
   GK: "GK",
   CB: "CB",
   LCB: "CB",
@@ -205,7 +205,9 @@ export const positionCompatibility2: Record<string, string> = {
   RM: "RM",
   LW: "LW",
   RW: "RW",
+  LT: "ST",
   ST: "ST",
+  RT: "ST",
   CF: "ST",
 };
 

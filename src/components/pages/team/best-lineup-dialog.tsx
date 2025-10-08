@@ -6,7 +6,6 @@ import {
   ArrowRight,
   ChevronDown,
   ChevronUp,
-  Info,
   Trash,
   Wand2,
   X,
@@ -23,16 +22,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { toast } from "@/components/ui/use-toast";
-import { positionCompatibility2 } from "@/constants/formations";
+import { positionCompatibility } from "@/constants/formations";
 import { getFormationPositions } from "@/lib/formation";
-import { getFitnessColor, getFormBadge } from "@/lib/player";
 import { Player } from "@/types/player";
 
 import BestLineupAvailable from "./best-lineup-available";
@@ -89,7 +81,7 @@ export default function BestLineupDialog({
     players.forEach((player) => {
       // Find which position this player is filling
       for (const [formationPos, count] of Object.entries(positionNeeds)) {
-        const compatiblePositions = positionCompatibility2[formationPos];
+        const compatiblePositions = positionCompatibility[formationPos];
         if (
           player.playablePositions.includes(compatiblePositions) &&
           (!filled[formationPos] || filled[formationPos] < count)
@@ -162,7 +154,7 @@ export default function BestLineupDialog({
         // For each position in the formation, find the best player
         formationPos.forEach((position) => {
           // Get compatible positions
-          const compatiblePosition = positionCompatibility2[position.id];
+          const compatiblePosition = positionCompatibility[position.id];
 
           // Filter players by compatible positions
           let eligiblePlayers = availablePlayers.filter((p) =>
