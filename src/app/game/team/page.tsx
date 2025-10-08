@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, BarChart, LayoutGrid, Rocket, Users } from "lucide-react";
+import { BarChart, LayoutGrid, Rocket, Users } from "lucide-react";
 import Link from "next/link";
 
 import ContentWrapper from "@/components/common/content-wrapper";
@@ -30,12 +30,6 @@ export default function TeamPage() {
           <Link href={`${FOOTBALL_STATS_URL}/game/match/start`}>
             <Rocket className="h-4 w-4" />
             Start Match
-          </Link>
-        </Button>
-        <Button asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/game/dashboard`}>
-            <ArrowLeft className="h-4 w-4" />
-            Back to Dashboard
           </Link>
         </Button>
       </PageTitle>
