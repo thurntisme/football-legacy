@@ -3,7 +3,7 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 
-import { BarChart3, Check, Home, Star, User } from "lucide-react";
+import { Home, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -11,20 +11,10 @@ import MatchResultLeagueImpact from "@/components/match-result-league-impact";
 import MatchResultOverview from "@/components/match-result-overview";
 import MatchResultPlayers from "@/components/match-result-players";
 import MatchResultReward from "@/components/match-result-reward";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
-import { MatchResult, RewardItem } from "@/types/football/match";
+import { MatchResult, RewardItem } from "@/types/match";
 
 export default function MatchResultPage() {
   const [selectedReward, setSelectedReward] = useState<number | null>(null);

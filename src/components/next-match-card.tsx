@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import { ArrowRight, CalendarDays } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowRight, CalendarDays } from "lucide-react";
+import Link from "next/link";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
+} from "@/components/ui/card";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 export default function NextMatchCard() {
   return (
-    <Card>
+    <Card className="flex flex-col">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg flex items-center">
           <CalendarDays className="h-5 w-5 mr-2" />
           Next Match
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="mt-auto pb-8">
         <div className="flex items-center justify-between">
           <div className="flex flex-col items-center">
             <Avatar className="h-14 w-14 mb-2">
@@ -56,9 +56,9 @@ export default function NextMatchCard() {
       </CardContent>
       <CardFooter>
         <Button variant="outline" className="w-full" asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/match/prepare`}>
+          <Link href={`${FOOTBALL_STATS_URL}/game/match/prepare`}>
             Prepare for Match
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>
       </CardFooter>

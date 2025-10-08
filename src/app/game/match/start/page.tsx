@@ -7,9 +7,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import AbortMatchDialog from "@/components/abort-match-dialog";
+import PageTitle from "@/components/common/page-title";
 import MatchProcess from "@/components/match-process";
 import MatchTeamOverview from "@/components/match-team-overview";
-import WaitingForApproval from "@/components/waiting-for-approval";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,6 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import WaitingForApproval from "@/components/waiting-for-approval";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
 
@@ -354,7 +355,7 @@ export default function MatchStartPage() {
   const [commentaryHistory, setCommentaryHistory] = useState<string[]>([]);
   const [audioEnabled, setAudioEnabled] = useState(true);
   const commentaryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null
+    null,
   );
   const matchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -408,15 +409,18 @@ export default function MatchStartPage() {
       setHomeApproved(true);
 
       // Simulate away team approval after 2-5 seconds
-      setTimeout(() => {
-        setAwayApproved(true);
+      setTimeout(
+        () => {
+          setAwayApproved(true);
 
-        // Start match after both approvals
-        setTimeout(() => {
-          setWaitingForApproval(false);
-          startMatch();
-        }, 1000);
-      }, 2000 + Math.random() * 3000);
+          // Start match after both approvals
+          setTimeout(() => {
+            setWaitingForApproval(false);
+            startMatch();
+          }, 1000);
+        },
+        2000 + Math.random() * 3000,
+      );
     }, 1000);
   };
 
@@ -444,7 +448,7 @@ export default function MatchStartPage() {
       // Fatigue increases as the match progresses
       newState.fatigue = Math.min(
         100,
-        prev.fatigue + (minute > 45 ? 1.2 : 0.8)
+        prev.fatigue + (minute > 45 ? 1.2 : 0.8),
       );
 
       // Confidence changes based on score and recent events
@@ -544,8 +548,8 @@ export default function MatchStartPage() {
         currentTactic === "possession"
           ? 5
           : currentTactic === "defensive"
-          ? -5
-          : 0;
+            ? -5
+            : 0;
       const confidenceBonus = (psychologicalState.confidence - 50) / 10; // -5 to +5 based on confidence
 
       newStats.home.possession = Math.max(
@@ -555,8 +559,8 @@ export default function MatchStartPage() {
           newStats.home.possession +
             possessionShift +
             tacticBonus +
-            confidenceBonus
-        )
+            confidenceBonus,
+        ),
       );
       newStats.away.possession = 100 - newStats.home.possession;
 
@@ -575,12 +579,12 @@ export default function MatchStartPage() {
           95,
           85 -
             psychologicalState.pressure / 20 -
-            psychologicalState.fatigue / 25
-        )
+            psychologicalState.fatigue / 25,
+        ),
       );
       newStats.away.passAccuracy = Math.max(
         70,
-        Math.min(95, 85 - Math.random() * 10)
+        Math.min(95, 85 - Math.random() * 10),
       );
 
       // Update tackles and interceptions
@@ -712,7 +716,7 @@ export default function MatchStartPage() {
 
       // Navigate to result page after a short delay
       setTimeout(() => {
-        router.push(`${FOOTBALL_STATS_URL}/match/result`);
+        router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
       }, 5000);
     }
 
@@ -769,7 +773,7 @@ export default function MatchStartPage() {
             addCommentary("fullTime");
 
             setTimeout(() => {
-              router.push(`${FOOTBALL_STATS_URL}/match/result`);
+              router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
             }, 5000);
           }
 
@@ -838,7 +842,7 @@ export default function MatchStartPage() {
     // Normalize probabilities
     const totalProb = Object.values(eventProbabilities).reduce(
       (sum, val) => sum + val,
-      0
+      0,
     );
     Object.keys(eventProbabilities).forEach((key) => {
       eventProbabilities[key as keyof typeof eventProbabilities] /= totalProb;
@@ -864,8 +868,8 @@ export default function MatchStartPage() {
       (currentTactic === "attacking"
         ? 0.1
         : currentTactic === "defensive"
-        ? -0.1
-        : 0);
+          ? -0.1
+          : 0);
     const eventTeam: "home" | "away" =
       Math.random() < homeTeamProbability ? "home" : "away";
 
@@ -1080,7 +1084,7 @@ export default function MatchStartPage() {
 
     // Navigate to result page after a short delay
     setTimeout(() => {
-      router.push(`${FOOTBALL_STATS_URL}/match/result`);
+      router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
     }, 3000);
   };
 
@@ -1145,17 +1149,16 @@ export default function MatchStartPage() {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Match Day</h1>
-        <Button asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/match/prepare`}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
+      <PageTitle title="Match Day">
+        <Button asChild variant="outline">
+          <Link href={`${FOOTBALL_STATS_URL}/game/match/prepare`}>
+            <ArrowLeft className="h-4 w-4" />
             Back to Preparation
           </Link>
         </Button>
-      </div>
+      </PageTitle>
 
-      <Card className="mb-6">
+      <Card className="mb-6 py-8">
         <CardHeader className="pb-3 text-center space-y-3">
           <CardTitle>Premier League - Matchday 24</CardTitle>
           <CardDescription>
@@ -1183,7 +1186,7 @@ export default function MatchStartPage() {
                   onClick={requestMatchApproval}
                   className="mb-4"
                 >
-                  <Play className="mr-2 h-5 w-5" />
+                  <Play className="h-5 w-5" />
                   Start Match
                 </Button>
 

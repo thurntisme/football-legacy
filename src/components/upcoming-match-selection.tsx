@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 
-import { Users } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Users } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 type Props = {};
 
 const UpcomingMatchSelection = (props: Props) => {
   const router = useRouter();
 
-  const onSave = () => {
-    router.push(`${FOOTBALL_STATS_URL}/match/start`);
+  const onStart = () => {
+    router.push(`${FOOTBALL_STATS_URL}/game/match/start`);
   };
 
   return (
@@ -56,17 +56,17 @@ const UpcomingMatchSelection = (props: Props) => {
 
           {/* Sample players */}
           {[
-            { id: 'gk', x: 50, y: 90, name: 'Miller', rating: 82 },
-            { id: 'lb', x: 20, y: 70, name: 'Wilson', rating: 78 },
-            { id: 'cb1', x: 35, y: 70, name: 'Garcia', rating: 81 },
-            { id: 'cb2', x: 65, y: 70, name: 'Brown', rating: 80 },
-            { id: 'rb', x: 80, y: 70, name: 'Lee', rating: 79 },
-            { id: 'cdm', x: 50, y: 55, name: 'Taylor', rating: 84 },
-            { id: 'cm1', x: 30, y: 50, name: 'Martinez', rating: 83 },
-            { id: 'cm2', x: 70, y: 50, name: 'Anderson', rating: 82 },
-            { id: 'lw', x: 20, y: 30, name: 'Johnson', rating: 85 },
-            { id: 'st', x: 50, y: 25, name: 'Williams', rating: 86 },
-            { id: 'rw', x: 80, y: 30, name: 'Davis', rating: 84 },
+            { id: "gk", x: 50, y: 90, name: "Miller", rating: 82 },
+            { id: "lb", x: 20, y: 70, name: "Wilson", rating: 78 },
+            { id: "cb1", x: 35, y: 70, name: "Garcia", rating: 81 },
+            { id: "cb2", x: 65, y: 70, name: "Brown", rating: 80 },
+            { id: "rb", x: 80, y: 70, name: "Lee", rating: 79 },
+            { id: "cdm", x: 50, y: 55, name: "Taylor", rating: 84 },
+            { id: "cm1", x: 30, y: 50, name: "Martinez", rating: 83 },
+            { id: "cm2", x: 70, y: 50, name: "Anderson", rating: 82 },
+            { id: "lw", x: 20, y: 30, name: "Johnson", rating: 85 },
+            { id: "st", x: 50, y: 25, name: "Williams", rating: 86 },
+            { id: "rw", x: 80, y: 30, name: "Davis", rating: 84 },
           ].map((player) => (
             <div
               key={player.id}
@@ -96,11 +96,11 @@ const UpcomingMatchSelection = (props: Props) => {
           <h3 className="text-lg font-medium">Substitutes</h3>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {[
-              { name: 'Sam Wilson', position: 'GK', rating: 78 },
-              { name: 'Alex Turner', position: 'CB', rating: 75 },
-              { name: 'Mike Johnson', position: 'CM', rating: 77 },
-              { name: 'Eric Thompson', position: 'LW', rating: 76 },
-              { name: 'John Smith', position: 'ST', rating: 81 },
+              { name: "Sam Wilson", position: "GK", rating: 78 },
+              { name: "Alex Turner", position: "CB", rating: 75 },
+              { name: "Mike Johnson", position: "CM", rating: 77 },
+              { name: "Eric Thompson", position: "LW", rating: 76 },
+              { name: "John Smith", position: "ST", rating: 81 },
             ].map((player, index) => (
               <div
                 key={index}
@@ -119,7 +119,7 @@ const UpcomingMatchSelection = (props: Props) => {
         </div>
 
         <div className="flex justify-center mt-6">
-          <Button onClick={onSave}>Save Team Selection</Button>
+          <Button onClick={onStart}>Start Match</Button>
         </div>
       </CardContent>
     </Card>
