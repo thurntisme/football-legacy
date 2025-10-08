@@ -3,14 +3,15 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 
-import { Home, User } from "lucide-react";
+import { ArrowLeft, Home, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import MatchResultLeagueImpact from "@/components/match-result-league-impact";
-import MatchResultOverview from "@/components/match-result-overview";
-import MatchResultPlayers from "@/components/match-result-players";
-import MatchResultReward from "@/components/match-result-reward";
+import PageTitle from "@/components/common/page-title";
+import MatchResultLeagueImpact from "@/components/pages/match/match-result-league-impact";
+import MatchResultOverview from "@/components/pages/match/match-result-overview";
+import MatchResultPlayers from "@/components/pages/match/match-result-players";
+import MatchResultReward from "@/components/pages/match/match-result-reward";
 import { Button } from "@/components/ui/button";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
@@ -210,20 +211,11 @@ export default function MatchResultPage() {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Match Result</h1>
-        <Button asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/dashboard`}>
-            <Home className="mr-2 h-4 w-4" />
-            Back to Dashboard
-          </Link>
-        </Button>
-      </div>
+      <PageTitle title="Match Result" />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <MatchResultOverview matchResult={matchResult} />
-
           <MatchResultPlayers matchResult={matchResult} />
         </div>
 
@@ -233,10 +225,14 @@ export default function MatchResultPage() {
             selectedReward={selectedReward}
             setSelectedReward={setSelectedReward}
             rewardClaimed={rewardClaimed}
-            handleClaimReward={handleClaimReward}
           />
-
           <MatchResultLeagueImpact />
+          <Button asChild className="w-full mt-6">
+            <Link href={`${FOOTBALL_STATS_URL}/dashboard`}>
+              <ArrowLeft className="h-4 w-4" />
+              <span className="text-white">Back to Dashboard</span>
+            </Link>
+          </Button>
         </div>
       </div>
     </>

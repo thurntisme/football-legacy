@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { MatchResult } from '@/types/football/match';
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { MatchResult } from "@/types/match";
 
 type Props = {
   matchResult: MatchResult;
@@ -26,18 +26,18 @@ const MatchResultOverview = ({ matchResult }: Props) => {
           </div>
           <Badge
             className={
-              matchResult.result === 'win'
-                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-                : matchResult.result === 'loss'
-                  ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-                  : 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300'
+              matchResult.result === "win"
+                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+                : matchResult.result === "loss"
+                  ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
+                  : "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300"
             }
           >
-            {matchResult.result === 'win'
-              ? 'Victory'
-              : matchResult.result === 'loss'
-                ? 'Defeat'
-                : 'Draw'}
+            {matchResult.result === "win"
+              ? "Victory"
+              : matchResult.result === "loss"
+                ? "Defeat"
+                : "Draw"}
           </Badge>
         </div>
       </CardHeader>
@@ -157,13 +157,13 @@ const MatchResultOverview = ({ matchResult }: Props) => {
                     <span className="font-medium">{goal.player}</span>
                     {goal.assist && (
                       <span className="text-sm text-muted-foreground">
-                        {' '}
+                        {" "}
                         (assist: {goal.assist})
                       </span>
                     )}
                   </div>
                   <Badge variant="outline">
-                    {goal.team === 'home' ? 'Your Team' : 'City FC'}
+                    {goal.team === "home" ? "Your Team" : "City FC"}
                   </Badge>
                 </div>
               ))}

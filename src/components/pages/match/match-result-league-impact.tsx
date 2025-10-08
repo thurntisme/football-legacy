@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import { BarChart3 } from 'lucide-react';
-import Link from 'next/link';
+import { BarChart3 } from "lucide-react";
+import Link from "next/link";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 type Props = {};
 
