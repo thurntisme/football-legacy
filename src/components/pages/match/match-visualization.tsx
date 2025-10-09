@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import React from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from "@/components/ui/badge";
 
 type MatchVisualizationProps = {
   currentMinute: number;
@@ -20,7 +20,7 @@ type MatchVisualizationProps = {
 type BallPosition = {
   x: number;
   y: number;
-  team: 'home' | 'away' | 'neutral';
+  team: "home" | "away" | "neutral";
   moving: boolean;
   direction: { x: number; y: number };
 };
@@ -29,7 +29,7 @@ type PlayerPosition = {
   id: number;
   x: number;
   y: number;
-  team: 'home' | 'away';
+  team: "home" | "away";
   moving: boolean;
   direction: { x: number; y: number };
   targetX: number;
@@ -46,13 +46,13 @@ export default function MatchVisualization({
   const [ballPosition, setBallPosition] = useState<BallPosition>({
     x: 50,
     y: 50,
-    team: 'neutral',
+    team: "neutral",
     moving: false,
     direction: { x: 0, y: 0 },
   });
   const [players, setPlayers] = useState<PlayerPosition[]>([]);
-  const [possession, setPossession] = useState<'home' | 'away'>('home');
-  const [lastEventType, setLastEventType] = useState<string>('');
+  const [possession, setPossession] = useState<"home" | "away">("home");
+  const [lastEventType, setLastEventType] = useState<string>("");
   const animationRef = useRef<number>(0);
 
   // Initialize player positions
@@ -63,7 +63,7 @@ export default function MatchVisualization({
         id: 1,
         x: 50,
         y: 90,
-        team: 'home',
+        team: "home",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 50,
@@ -73,7 +73,7 @@ export default function MatchVisualization({
         id: 2,
         x: 20,
         y: 75,
-        team: 'home',
+        team: "home",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 20,
@@ -83,7 +83,7 @@ export default function MatchVisualization({
         id: 3,
         x: 35,
         y: 75,
-        team: 'home',
+        team: "home",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 35,
@@ -93,7 +93,7 @@ export default function MatchVisualization({
         id: 4,
         x: 65,
         y: 75,
-        team: 'home',
+        team: "home",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 65,
@@ -103,7 +103,7 @@ export default function MatchVisualization({
         id: 5,
         x: 80,
         y: 75,
-        team: 'home',
+        team: "home",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 80,
@@ -113,7 +113,7 @@ export default function MatchVisualization({
         id: 6,
         x: 35,
         y: 60,
-        team: 'home',
+        team: "home",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 35,
@@ -123,7 +123,7 @@ export default function MatchVisualization({
         id: 7,
         x: 50,
         y: 55,
-        team: 'home',
+        team: "home",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 50,
@@ -133,7 +133,7 @@ export default function MatchVisualization({
         id: 8,
         x: 65,
         y: 60,
-        team: 'home',
+        team: "home",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 65,
@@ -143,7 +143,7 @@ export default function MatchVisualization({
         id: 9,
         x: 25,
         y: 40,
-        team: 'home',
+        team: "home",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 25,
@@ -153,7 +153,7 @@ export default function MatchVisualization({
         id: 10,
         x: 50,
         y: 35,
-        team: 'home',
+        team: "home",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 50,
@@ -163,7 +163,7 @@ export default function MatchVisualization({
         id: 11,
         x: 75,
         y: 40,
-        team: 'home',
+        team: "home",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 75,
@@ -177,7 +177,7 @@ export default function MatchVisualization({
         id: 12,
         x: 50,
         y: 10,
-        team: 'away',
+        team: "away",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 50,
@@ -187,7 +187,7 @@ export default function MatchVisualization({
         id: 13,
         x: 20,
         y: 25,
-        team: 'away',
+        team: "away",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 20,
@@ -197,7 +197,7 @@ export default function MatchVisualization({
         id: 14,
         x: 35,
         y: 25,
-        team: 'away',
+        team: "away",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 35,
@@ -207,7 +207,7 @@ export default function MatchVisualization({
         id: 15,
         x: 65,
         y: 25,
-        team: 'away',
+        team: "away",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 65,
@@ -217,7 +217,7 @@ export default function MatchVisualization({
         id: 16,
         x: 80,
         y: 25,
-        team: 'away',
+        team: "away",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 80,
@@ -227,7 +227,7 @@ export default function MatchVisualization({
         id: 17,
         x: 20,
         y: 40,
-        team: 'away',
+        team: "away",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 20,
@@ -237,7 +237,7 @@ export default function MatchVisualization({
         id: 18,
         x: 35,
         y: 45,
-        team: 'away',
+        team: "away",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 35,
@@ -247,7 +247,7 @@ export default function MatchVisualization({
         id: 19,
         x: 65,
         y: 45,
-        team: 'away',
+        team: "away",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 65,
@@ -257,7 +257,7 @@ export default function MatchVisualization({
         id: 20,
         x: 80,
         y: 40,
-        team: 'away',
+        team: "away",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 80,
@@ -267,7 +267,7 @@ export default function MatchVisualization({
         id: 21,
         x: 40,
         y: 65,
-        team: 'away',
+        team: "away",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 40,
@@ -277,7 +277,7 @@ export default function MatchVisualization({
         id: 22,
         x: 60,
         y: 65,
-        team: 'away',
+        team: "away",
         moving: false,
         direction: { x: 0, y: 0 },
         targetX: 60,
@@ -296,40 +296,40 @@ export default function MatchVisualization({
     setLastEventType(latestEvent.type);
 
     // Determine which team the event is for
-    const eventTeam = latestEvent.text.includes('Your Team') ? 'home' : 'away';
+    const eventTeam = latestEvent.text.includes("Your Team") ? "home" : "away";
 
     // Update ball position and player movements based on event type
     switch (latestEvent.type) {
-      case 'shot':
-      case 'goal':
-      case 'miss':
+      case "shot":
+      case "goal":
+      case "miss":
         // Move ball towards goal
         setBallPosition({
-          x: eventTeam === 'home' ? 50 : 50,
-          y: eventTeam === 'home' ? 10 : 90,
+          x: eventTeam === "home" ? 50 : 50,
+          y: eventTeam === "home" ? 10 : 90,
           team: eventTeam,
           moving: true,
-          direction: { x: 0, y: eventTeam === 'home' ? -1 : 1 },
+          direction: { x: 0, y: eventTeam === "home" ? -1 : 1 },
         });
         setPossession(eventTeam);
         break;
-      case 'corner':
+      case "corner":
         // Move ball to corner
         setBallPosition({
           x: Math.random() > 0.5 ? 5 : 95,
-          y: eventTeam === 'home' ? 15 : 85,
+          y: eventTeam === "home" ? 15 : 85,
           team: eventTeam,
           moving: true,
-          direction: { x: eventTeam === 'home' ? 1 : -1, y: 0 },
+          direction: { x: eventTeam === "home" ? 1 : -1, y: 0 },
         });
         setPossession(eventTeam);
         break;
-      case 'foul':
+      case "foul":
         // Random position on field
         setBallPosition({
           x: 20 + Math.random() * 60,
           y: 20 + Math.random() * 60,
-          team: 'neutral',
+          team: "neutral",
           moving: false,
           direction: { x: 0, y: 0 },
         });
@@ -386,11 +386,11 @@ export default function MatchVisualization({
           const randomDistance = 5 + Math.random() * 10;
           const targetX = Math.max(
             5,
-            Math.min(95, player.x + Math.cos(randomAngle) * randomDistance)
+            Math.min(95, player.x + Math.cos(randomAngle) * randomDistance),
           );
           const targetY = Math.max(
             5,
-            Math.min(95, player.y + Math.sin(randomAngle) * randomDistance)
+            Math.min(95, player.y + Math.sin(randomAngle) * randomDistance),
           );
 
           return {
@@ -410,7 +410,7 @@ export default function MatchVisualization({
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Set canvas dimensions
@@ -422,7 +422,7 @@ export default function MatchVisualization({
       }
     };
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
 
     // Animation function
     const animate = () => {
@@ -467,7 +467,7 @@ export default function MatchVisualization({
         if (prev.moving) {
           // Ball speed based on event type
           const ballSpeed =
-            lastEventType === 'shot' || lastEventType === 'goal' ? 2 : 0.5;
+            lastEventType === "shot" || lastEventType === "goal" ? 2 : 0.5;
 
           // New position
           const newX = prev.x + prev.direction.x * ballSpeed;
@@ -492,17 +492,17 @@ export default function MatchVisualization({
         // Player circle
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = player.team === 'home' ? '#3b82f6' : '#ef4444';
+        ctx.fillStyle = player.team === "home" ? "#3b82f6" : "#ef4444";
         ctx.fill();
-        ctx.strokeStyle = '#ffffff';
+        ctx.strokeStyle = "#ffffff";
         ctx.lineWidth = 1;
         ctx.stroke();
 
         // Player number
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = "#ffffff";
         ctx.font = `${radius}px Arial`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
         ctx.fillText(player.id.toString(), x, y);
       });
 
@@ -513,9 +513,9 @@ export default function MatchVisualization({
 
       ctx.beginPath();
       ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = "#ffffff";
       ctx.fill();
-      ctx.strokeStyle = '#000000';
+      ctx.strokeStyle = "#000000";
       ctx.lineWidth = 0.5;
       ctx.stroke();
 
@@ -529,7 +529,7 @@ export default function MatchVisualization({
     // Cleanup
     return () => {
       cancelAnimationFrame(animationRef.current);
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener("resize", resizeCanvas);
     };
   }, [players, ballPosition, lastEventType, possession, psychologicalState]);
 
@@ -537,14 +537,14 @@ export default function MatchVisualization({
   const drawField = (
     ctx: CanvasRenderingContext2D,
     width: number,
-    height: number
+    height: number,
   ) => {
     // Field background
-    ctx.fillStyle = '#4ade80';
+    ctx.fillStyle = "#4ade80";
     ctx.fillRect(0, 0, width, height);
 
     // Field lines
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
     ctx.lineWidth = 2;
 
     // Outer boundary
@@ -564,7 +564,7 @@ export default function MatchVisualization({
     // Center spot
     ctx.beginPath();
     ctx.arc(width * 0.5, height * 0.5, width * 0.01, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
     ctx.fill();
 
     // Penalty areas
@@ -597,7 +597,7 @@ export default function MatchVisualization({
       height * 0.95,
       cornerRadius,
       (3 * Math.PI) / 2,
-      2 * Math.PI
+      2 * Math.PI,
     );
     ctx.stroke();
     ctx.beginPath();
@@ -606,29 +606,29 @@ export default function MatchVisualization({
       height * 0.95,
       cornerRadius,
       Math.PI,
-      (3 * Math.PI) / 2
+      (3 * Math.PI) / 2,
     );
     ctx.stroke();
   };
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full pt-12 rounded-lg ">
       <canvas ref={canvasRef} className="w-full h-full" />
 
       {/* Possession indicator */}
-      <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
+      <div className="absolute top-2 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
         <Badge
-          variant={possession === 'home' ? 'default' : 'destructive'}
+          variant={possession === "home" ? "default" : "destructive"}
           className="mr-2"
         >
-          {possession === 'home' ? 'Your Team' : 'City FC'}
+          {possession === "home" ? "Your Team" : "City FC"}
         </Badge>
         Possession
       </div>
 
       {/* Last event indicator */}
       {lastEventType && (
-        <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
+        <div className="absolute top-2 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
           {lastEventType.charAt(0).toUpperCase() + lastEventType.slice(1)}
         </div>
       )}

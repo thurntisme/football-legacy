@@ -49,7 +49,6 @@ export default function MatchStartPage() {
   const [awayApproved, setAwayApproved] = useState(false);
   const [abortDialogOpen, setAbortDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("match");
-  const [showTacticalOverlay, setShowTacticalOverlay] = useState(false);
   const [matchSpeed, setMatchSpeed] = useState(1); // 1 = normal, 2 = fast, 0.5 = slow
   const [activeTacticalTriggers, setActiveTacticalTriggers] = useState<
     string[]
@@ -459,7 +458,8 @@ export default function MatchStartPage() {
 
       // Navigate to result page after a short delay
       setTimeout(() => {
-        router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
+        // router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
+        console.log("save the match");
       }, 5000);
     }
 
@@ -941,14 +941,12 @@ export default function MatchStartPage() {
                 audioEnabled={audioEnabled}
                 setAudioEnabled={setAudioEnabled}
                 showTacticalOverlay={false}
-                setShowTacticalOverlay={setShowTacticalOverlay}
                 currentTactic={currentTactic}
                 score={score}
                 matchEvents={matchEvents}
                 psychologicalState={psychologicalState}
                 commentary={commentary}
                 commentaryHistory={commentaryHistory}
-                changeTactics={changeTactics}
                 tacticalTriggers={tacticalTriggers}
                 activeTacticalTriggers={activeTacticalTriggers}
                 toggleTacticalTrigger={toggleTacticalTrigger}

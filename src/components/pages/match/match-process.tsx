@@ -1,15 +1,15 @@
 import MatchPlayers from "../../match-players";
 import MatchStatistics from "../../match-statistics";
-import MatchTactics from "../../match-tactics";
-import MatchView from "../../match-view";
 
 import React, { useState } from "react";
 
 import { BarChart3, Layers, Play, Users } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MatchStatics } from "@/types/football/match";
-import { PlayerRoles } from "@/types/football/player";
+import { MatchStatics } from "@/types/match";
+import { PlayerRoles } from "@/types/player";
+
+import MatchView from "./match-view";
 
 export type Props = {
   currentMinute: number;
@@ -23,7 +23,6 @@ export type Props = {
   audioEnabled: boolean;
   setAudioEnabled: React.Dispatch<React.SetStateAction<boolean>>;
   showTacticalOverlay: boolean;
-  setShowTacticalOverlay: React.Dispatch<React.SetStateAction<boolean>>;
   currentTactic: string;
   score: { home: number; away: number };
   matchEvents: { minute: number; type: string; text: string }[];
@@ -35,7 +34,6 @@ export type Props = {
   };
   commentary: string;
   commentaryHistory: string[];
-  changeTactics: (tactic: string) => void;
   tacticalTriggers: { id: string; name: string; description: string }[];
   activeTacticalTriggers: string[];
   toggleTacticalTrigger: (id: string) => void;
@@ -54,14 +52,12 @@ const MatchProcess = ({
   skipToEnd,
   audioEnabled,
   setAudioEnabled,
-  setShowTacticalOverlay,
   currentTactic,
   score,
   matchEvents,
   psychologicalState,
   commentary,
   commentaryHistory,
-  changeTactics,
   tacticalTriggers,
   activeTacticalTriggers,
   toggleTacticalTrigger,
@@ -73,14 +69,10 @@ const MatchProcess = ({
   return (
     <div className="w-full mt-4">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-4 mb-4">
+        <TabsList className="grid grid-cols-3 mb-4">
           <TabsTrigger value="match">
             <Play className="h-4 w-4 mr-2" />
             Match
-          </TabsTrigger>
-          <TabsTrigger value="tactics">
-            <Layers className="h-4 w-4 mr-2" />
-            Tactics
           </TabsTrigger>
           <TabsTrigger value="stats">
             <BarChart3 className="h-4 w-4 mr-2" />
@@ -105,7 +97,6 @@ const MatchProcess = ({
             audioEnabled={audioEnabled}
             setAudioEnabled={setAudioEnabled}
             showTacticalOverlay={false}
-            setShowTacticalOverlay={setShowTacticalOverlay}
             currentTactic={currentTactic}
             score={score}
             matchEvents={matchEvents}
@@ -113,17 +104,6 @@ const MatchProcess = ({
             commentary={commentary}
             commentaryHistory={commentaryHistory}
             matchStats={matchStats}
-          />
-        </TabsContent>
-
-        <TabsContent value="tactics" className="space-y-4">
-          <MatchTactics
-            currentTactic={currentTactic}
-            changeTactics={changeTactics}
-            tacticalTriggers={tacticalTriggers}
-            activeTacticalTriggers={activeTacticalTriggers}
-            toggleTacticalTrigger={toggleTacticalTrigger}
-            playerRoles={playerRoles}
           />
         </TabsContent>
 
