@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import PageTitle from "@/components/common/page-title";
 import FindOnlineMatch from "@/components/pages/online/find-online-match";
 import ForfeitConfirmationDialog from "@/components/pages/online/forfeit-confirmation-dialog";
 import LiveMatch from "@/components/pages/online/live-match";
@@ -9,7 +10,6 @@ import MatchApprovalDialog from "@/components/pages/online/match-approval-dialog
 import MatchDetailDialog from "@/components/pages/online/match-detail-dialog";
 import MatchHistory from "@/components/pages/online/match-history";
 import OnlineLeaderboard from "@/components/pages/online/online-leaderboard";
-import OnlineMatchOverview from "@/components/pages/online/online-match-overview";
 import TeamInfoDialog from "@/components/pages/online/team-info-dialog";
 import WaitingOpponentDialog from "@/components/pages/online/waiting-opponent-dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -277,13 +277,12 @@ export default function OnlineMatchPage() {
 
   return (
     <>
-      <OnlineMatchOverview isConnected={isConnected} />
+      <PageTitle
+        title="Online Matches"
+        subTitle="Play against other managers in real-time"
+      />
 
-      <Tabs
-        value={activeTab || "find"}
-        onValueChange={setActiveTab}
-        className="w-full"
-      >
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid grid-cols-4 mb-6">
           <TabsTrigger value="find" disabled={inMatch}>
             Find Opponents
@@ -300,11 +299,7 @@ export default function OnlineMatchPage() {
         </TabsList>
 
         <TabsContent value="find" className="space-y-4">
-          <FindOnlineMatch
-            onlineUsers={filteredUsers}
-            viewTeamInfo={viewTeamInfo}
-            challengeUser={challengeUser}
-          />
+          <FindOnlineMatch challengeUser={challengeUser} />
         </TabsContent>
 
         <TabsContent value="match">
