@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import { Check } from 'lucide-react';
+import { Check } from "lucide-react";
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -17,7 +17,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 
 type Props = {};
 
@@ -42,7 +42,7 @@ const Subscriptions = (props: Props) => {
               </CardHeader>
               <CardContent className="pb-3">
                 <div className="text-3xl font-bold mb-4">
-                  £0{' '}
+                  £0{" "}
                   <span className="text-sm font-normal text-muted-foreground">
                     /month
                   </span>
@@ -86,7 +86,7 @@ const Subscriptions = (props: Props) => {
               </CardHeader>
               <CardContent className="pb-3">
                 <div className="text-3xl font-bold mb-4">
-                  £9.99{' '}
+                  £9.99{" "}
                   <span className="text-sm font-normal text-muted-foreground">
                     /month
                   </span>
@@ -133,7 +133,7 @@ const Subscriptions = (props: Props) => {
               </CardHeader>
               <CardContent className="pb-3">
                 <div className="text-3xl font-bold mb-4">
-                  £19.99{' '}
+                  £19.99{" "}
                   <span className="text-sm font-normal text-muted-foreground">
                     /month
                   </span>
@@ -245,70 +245,6 @@ const Subscriptions = (props: Props) => {
               </tbody>
             </table>
           </div>
-        </CardContent>
-      </Card>
-
-      <Card className="md:col-span-3">
-        <CardHeader>
-          <CardTitle>Frequently Asked Questions</CardTitle>
-          <CardDescription>
-            Common questions about our subscription plans
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1">
-              <AccordionTrigger>
-                How do I upgrade my subscription?
-              </AccordionTrigger>
-              <AccordionContent>
-                You can upgrade your subscription at any time by selecting your
-                desired plan on this page and following the payment process.
-                Your new benefits will be available immediately after successful
-                payment.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Can I cancel my subscription?</AccordionTrigger>
-              <AccordionContent>
-                Yes, you can cancel your subscription at any time. Your benefits
-                will remain active until the end of your current billing period.
-                To cancel, go to your account settings and select "Manage
-                Subscription."
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>
-                When do I receive my monthly coins?
-              </AccordionTrigger>
-              <AccordionContent>
-                Monthly coins are credited to your account on the first day of
-                each billing cycle. For example, if you subscribed on the 15th
-                of the month, you'll receive your coins on the 15th of each
-                subsequent month.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-4">
-              <AccordionTrigger>
-                Is there a discount for annual subscriptions?
-              </AccordionTrigger>
-              <AccordionContent>
-                Yes, we offer a 20% discount when you choose annual billing for
-                any of our subscription plans. This option will be available
-                during the checkout process.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-5">
-              <AccordionTrigger>
-                What payment methods do you accept?
-              </AccordionTrigger>
-              <AccordionContent>
-                We accept all major credit cards (Visa, Mastercard, American
-                Express), PayPal, and Apple Pay. For some regions, we also
-                support local payment methods.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
         </CardContent>
       </Card>
     </div>

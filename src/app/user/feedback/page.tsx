@@ -4,10 +4,10 @@ import type React from "react";
 
 import { MessageSquare } from "lucide-react";
 
-import FeedbackGuide from "@/components/feedback-guide";
-import GiveFeedback from "@/components/give-feedback";
-import ViewResponses from "@/components/view-responses";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import FeedbackGuide from "@/components/user/feedback/feedback-guide";
+import GiveFeedback from "@/components/user/feedback/give-feedback";
+import ViewResponses from "@/components/user/feedback/view-responses";
 
 export default function FeedbackPage() {
   return (

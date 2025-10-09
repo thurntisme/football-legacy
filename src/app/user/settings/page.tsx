@@ -1,10 +1,10 @@
 import { Bell, Settings, User } from "lucide-react";
 
 import PageTitle from "@/components/common/page-title";
-import GameSettings from "@/components/game-settings";
-import NotificationSettings from "@/components/notification-settings";
-import ProfileSettings from "@/components/profile-settings";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import GameSettings from "@/components/user/settings/game-settings";
+import NotificationSettings from "@/components/user/settings/notification-settings";
+import ProfileSettings from "@/components/user/settings/profile-settings";
 
 export default function SettingsPage() {
   return (

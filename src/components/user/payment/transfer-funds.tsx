@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   Coins,
@@ -7,10 +7,10 @@ import {
   ShoppingBag,
   TrendingUp,
   Zap,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -18,7 +18,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 
 type Props = {};
 
@@ -224,7 +224,7 @@ const TransferFunds = (props: Props) => {
               <div className="h-2 bg-muted rounded-full overflow-hidden">
                 <div
                   className="bg-green-500 h-2 rounded-full"
-                  style={{ width: '25%' }}
+                  style={{ width: "25%" }}
                 ></div>
               </div>
               <p className="text-xs text-muted-foreground mt-1">
@@ -242,7 +242,7 @@ const TransferFunds = (props: Props) => {
               <div className="h-2 bg-muted rounded-full overflow-hidden">
                 <div
                   className="bg-amber-500 h-2 rounded-full"
-                  style={{ width: '30%' }}
+                  style={{ width: "30%" }}
                 ></div>
               </div>
               <p className="text-xs text-muted-foreground mt-1">

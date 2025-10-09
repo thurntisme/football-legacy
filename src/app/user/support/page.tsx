@@ -1,8 +1,8 @@
 import PageTitle from "@/components/common/page-title";
-import Faq from "@/components/faq";
-import NewTicket from "@/components/new-ticket";
-import SupportTickets from "@/components/support-tickets";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Faq from "@/components/user/support/faq";
+import NewTicket from "@/components/user/support/new-ticket";
+import SupportTickets from "@/components/user/support/support-tickets";
 
 export default function SupportPage() {
   return (
