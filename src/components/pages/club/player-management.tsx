@@ -3,16 +3,9 @@
 import type React from "react";
 import { useState } from "react";
 
-import {
-  AlertTriangle,
-  ArrowLeftRight,
-  ArrowUpRight,
-  Loader2,
-  Sparkles,
-} from "lucide-react";
+import { ArrowLeftRight, Loader2, Sparkles } from "lucide-react";
 import Link from "next/link";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -46,7 +39,6 @@ export default function PlayerManagement() {
     });
   };
   const handlePlaceOnMarket = (playerId: string) => {
-    console.log("Placing player on transfer market:", playerId);
     toast({
       title: "Player Listed",
       description: "The player has been placed on the transfer market.",
@@ -88,71 +80,20 @@ export default function PlayerManagement() {
     }
     setIsGeneratingCombinedPlayer(true);
     setTimeout(() => {
-      console.log("Generating combined player from:", selectedPlayers);
       setIsGeneratingCombinedPlayer(false);
       setShowGenerateCombinedButton(false);
       toast({
         title: "Combined Player Generated!",
         description: `A New player has been created by combining player attributes!`,
       });
-    }, 2000); // 2 second loading time
+      const selectedPlayerIds = selectedPlayers.map((p) => p.id);
+      const newPlayers = players.filter(
+        (p) => !selectedPlayerIds.includes(p.id),
+      );
+      setPlayers(newPlayers);
+    }, 2000);
   };
-  const getStatusBadge = (status: Player["status"]) => {
-    if (!status) return null;
-    switch (status.type) {
-      case "injured":
-        return (
-          <Badge variant="destructive" className="flex items-center gap-1">
-            <AlertTriangle className="h-3 w-3" /> Injured: {status.details} (
-            {status.until})
-          </Badge>
-        );
-      case "unhappy":
-        return (
-          <Badge variant="secondary" className="flex items-center gap-1">
-            Unhappy: {status.details}
-          </Badge>
-        );
-      case "transfer":
-        return (
-          <Badge variant="secondary" className="flex items-center gap-1">
-            <ArrowUpRight className="h-3 w-3" /> Transfer Listed:{" "}
-            {status.details}
-          </Badge>
-        );
-      case "suspended":
-        return (
-          <Badge variant="destructive" className="flex items-center gap-1">
-            Suspended: {status.details} ({status.until})
-          </Badge>
-        );
-      case "fit":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-green-50 text-green-700 border-green-200"
-          >
-            Fit to Play
-          </Badge>
-        );
-      default:
-        return null;
-    }
-  };
-  const getPlayerTypeBadge = (type?: string) => {
-    switch (type) {
-      case "normal":
-        return <Badge className="bg-blue-500">Normal</Badge>;
-      case "rising":
-        return <Badge className="bg-purple-500">Rising Star</Badge>;
-      case "young":
-        return <Badge className="bg-amber-500">Young Talent</Badge>;
-      case "legend":
-        return <Badge className="bg-red-500">Legend</Badge>;
-      default:
-        return null;
-    }
-  };
+
   return (
     <Card>
       <CardHeader>
@@ -184,7 +125,7 @@ export default function PlayerManagement() {
             )}
           </div>
           <Button variant="outline" asChild>
-            <Link href={`${FOOTBALL_STATS_URL}/team`}>
+            <Link href={`${FOOTBALL_STATS_URL}/game/team`}>
               <ArrowLeftRight className="mr-2 h-4 w-4" />
               Team Management
             </Link>
@@ -199,8 +140,6 @@ export default function PlayerManagement() {
           handlePlaceOnMarket={handlePlaceOnMarket}
           handleJoinTeam={handleJoinTeam}
           handleReleasePlayer={handleReleasePlayer}
-          getPlayerTypeBadge={getPlayerTypeBadge}
-          getStatusBadge={getStatusBadge}
         />
       </CardContent>
     </Card>

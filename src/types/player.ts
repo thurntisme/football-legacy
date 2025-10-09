@@ -42,6 +42,12 @@ export enum PlayerFootPreference {
   BOTH = "both",
 }
 
+export type PlayerStatus = {
+  type: PlayerStatusType; // Current status (e.g. "Injured", "Suspended")
+  details: string; // Additional info about status
+  until: string; // Status expiry date
+};
+
 export enum PlayerPreferredRole {
   PLAYMAKER = "playmaker",
   TARGETMAN = "targetman",
@@ -171,11 +177,7 @@ export type PlayerInClub = {
   role: PlayerRoleEnum | null; // Current role in the team
   morale: PlayerMorale; // Current morale level
 
-  status: {
-    type: PlayerStatusType; // Current status (e.g. "Injured", "Suspended")
-    details: string; // Additional info about status
-    until: string; // Status expiry date
-  };
+  status: PlayerStatus;
 
   stats: {
     matches: number; // Number of matches played
@@ -189,6 +191,8 @@ export type PlayerInClub = {
   };
 
   trainingPerformance: PlayerTrainingPerformance; // Training evaluation
+
+  selected: boolean; // Whether the player is selected
 };
 
 export enum PlayerRoleEnum {

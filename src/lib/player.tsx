@@ -1,5 +1,8 @@
+import { AlertTriangle, ArrowUpRight } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
-import { PlayerForm } from "@/types/player";
+import { PlayerEditionEnum } from "@/constants/player";
+import { PlayerForm, PlayerStatus } from "@/types/player";
 
 export const getFormColor = (form: PlayerForm) => {
   switch (form) {
@@ -184,5 +187,74 @@ export const getPositionBonus = (position: string) => {
         ballControl: 0,
         longShots: 0,
       };
+  }
+};
+
+export const getEditionBadge = (edition: PlayerEditionEnum) => {
+  switch (edition) {
+    case PlayerEditionEnum.LEGEND:
+      return <Badge className="bg-red-500">Legend</Badge>;
+    case PlayerEditionEnum.CLASSIC_70S:
+      return <Badge className="bg-emerald-400">70s</Badge>;
+    case PlayerEditionEnum.CLASSIC_80S:
+      return <Badge className="bg-amber-400">80s</Badge>;
+    case PlayerEditionEnum.CLASSIC_90S:
+      return <Badge className="bg-red-400">90s</Badge>;
+    case PlayerEditionEnum.CLASSIC_2000S:
+      return <Badge className="bg-blue-400">2000s</Badge>;
+    case PlayerEditionEnum.CLASSIC_2010S:
+      return <Badge className="bg-purple-400">2010s</Badge>;
+    case PlayerEditionEnum.MODERN:
+      return <Badge className="bg-green-400">Modern</Badge>;
+    case PlayerEditionEnum.FUTURE_STAR:
+      return <Badge className="bg-yellow-400">Future Star</Badge>;
+    case PlayerEditionEnum.WORLD_CUP:
+      return <Badge className="bg-blue-400">World Cup</Badge>;
+    case PlayerEditionEnum.EURO:
+      return <Badge className="bg-green-400">Euro</Badge>;
+    default:
+      return null;
+  }
+};
+
+export const getStatusBadge = (status: PlayerStatus) => {
+  if (!status) return null;
+  switch (status.type) {
+    case "injured":
+      return (
+        <Badge variant="destructive" className="flex items-center gap-1">
+          <AlertTriangle className="h-3 w-3" /> Injured: {status.details} (
+          {status.until})
+        </Badge>
+      );
+    case "unhappy":
+      return (
+        <Badge variant="secondary" className="flex items-center gap-1">
+          Unhappy: {status.details}
+        </Badge>
+      );
+    case "transfer":
+      return (
+        <Badge variant="secondary" className="flex items-center gap-1">
+          <ArrowUpRight className="h-3 w-3" /> Transfer Listed: {status.details}
+        </Badge>
+      );
+    case "suspended":
+      return (
+        <Badge variant="destructive" className="flex items-center gap-1">
+          Suspended: {status.details} ({status.until})
+        </Badge>
+      );
+    case "fit":
+      return (
+        <Badge
+          variant="outline"
+          className="bg-green-50 text-green-700 border-green-200"
+        >
+          Fit to Play
+        </Badge>
+      );
+    default:
+      return null;
   }
 };

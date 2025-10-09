@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { Save } from 'lucide-react';
+import { Save } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 
 type Props = {
   transfer: number;
@@ -68,10 +68,10 @@ const BudgetAllocation = ({
                 </div>
                 <div className="text-2xl font-bold">
                   {transferBudget >= 20000000
-                    ? 'Strong'
+                    ? "Strong"
                     : transferBudget >= 10000000
-                      ? 'Average'
-                      : 'Weak'}
+                      ? "Average"
+                      : "Weak"}
                 </div>
               </div>
               <div className="border rounded-md p-4">
@@ -80,10 +80,10 @@ const BudgetAllocation = ({
                 </div>
                 <div className="text-2xl font-bold">
                   {wageBudget >= 800000
-                    ? 'High'
+                    ? "High"
                     : wageBudget >= 500000
-                      ? 'Medium'
-                      : 'Low'}
+                      ? "Medium"
+                      : "Low"}
                 </div>
               </div>
             </div>

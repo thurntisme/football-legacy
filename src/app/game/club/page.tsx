@@ -1,9 +1,9 @@
 import { Banknote, Users } from "lucide-react";
 
-import ClubFinances from "@/components/club-finances";
-import ClubInformation from "@/components/club-information";
 import PageTitle from "@/components/common/page-title";
-import PlayerManagement from "@/components/player-management";
+import ClubFinances from "@/components/pages/club/club-finances";
+import ClubInformation from "@/components/pages/club/club-information";
+import PlayerManagement from "@/components/pages/club/player-management";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ClubPage() {
