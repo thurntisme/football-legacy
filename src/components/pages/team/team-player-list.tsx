@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { Filter, Search } from "lucide-react";
 
-import PlayerDetailDialog from "@/components/player-detail-dialog";
+import PlayerDetailDialog from "@/components/common/player-detail-dialog";
 import { Input } from "@/components/ui/input";
 import {
   Select,

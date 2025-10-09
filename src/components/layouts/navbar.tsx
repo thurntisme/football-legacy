@@ -1,12 +1,12 @@
 "use client";
 
-import { ThemeToggle } from "../theme-toggle";
+import { ThemeToggle } from "../common/theme-toggle";
 
 import { LogOut, Menu, Trophy } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-import { OnlineStatus } from "@/components/online-status";
+import { OnlineStatus } from "@/components/common/online-status";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {

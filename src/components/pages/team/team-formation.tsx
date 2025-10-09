@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Save } from "lucide-react";
 
-import PlayerDetailDialog from "@/components/player-detail-dialog";
+import PlayerDetailDialog from "@/components/common/player-detail-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Card,

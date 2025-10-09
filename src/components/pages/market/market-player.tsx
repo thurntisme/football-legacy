@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Heart, Info } from "lucide-react";
 
-import PlayerDetailDialog from "@/components/player-detail-dialog";
+import PlayerDetailDialog from "@/components/common/player-detail-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";

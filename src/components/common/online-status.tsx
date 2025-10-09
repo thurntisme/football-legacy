@@ -71,7 +71,7 @@ export function OnlineStatus({
         isOnline
           ? "text-green-600 dark:text-green-500"
           : "text-red-600 dark:text-red-500",
-        sizeClasses[size]
+        sizeClasses[size],
       )}
     >
       {isOnline ? (

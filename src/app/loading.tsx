@@ -1,4 +1,4 @@
-import { LoadingBar } from "@/components/loading-bar";
+import { LoadingBar } from "@/components/common/loading-bar";
 
 export default function Loading() {
   return (

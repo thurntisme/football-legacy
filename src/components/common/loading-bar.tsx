@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { Progress } from '@/components/ui/progress';
-import { cn } from '@/lib/utils';
+import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
 
 interface LoadingBarProps {
   progress?: number;
   indeterminate?: boolean;
   showPercentage?: boolean;
   className?: string;
-  color?: 'default' | 'success' | 'warning' | 'error';
-  size?: 'sm' | 'md' | 'lg';
+  color?: "default" | "success" | "warning" | "error";
+  size?: "sm" | "md" | "lg";
   label?: string;
   duration?: number;
   onComplete?: () => void;
@@ -22,8 +22,8 @@ export function LoadingBar({
   indeterminate = false,
   showPercentage = true,
   className,
-  color = 'default',
-  size = 'md',
+  color = "default",
+  size = "md",
   label,
   duration = 2000,
   onComplete,
@@ -71,32 +71,32 @@ export function LoadingBar({
   }, [indeterminate, duration]);
 
   const colorClasses = {
-    default: '',
-    success: 'text-green-600',
-    warning: 'text-amber-600',
-    error: 'text-red-600',
+    default: "",
+    success: "text-green-600",
+    warning: "text-amber-600",
+    error: "text-red-600",
   };
 
   const progressColorClasses = {
-    default: '',
-    success: '[--progress-foreground:theme(colors.green.600)]',
-    warning: '[--progress-foreground:theme(colors.amber.600)]',
-    error: '[--progress-foreground:theme(colors.red.600)]',
+    default: "",
+    success: "[--progress-foreground:theme(colors.green.600)]",
+    warning: "[--progress-foreground:theme(colors.amber.600)]",
+    error: "[--progress-foreground:theme(colors.red.600)]",
   };
 
   const sizeClasses = {
-    sm: 'h-1',
-    md: 'h-2',
-    lg: 'h-3',
+    sm: "h-1",
+    md: "h-2",
+    lg: "h-3",
   };
 
   return (
-    <div className={cn('w-full space-y-2', className)}>
+    <div className={cn("w-full space-y-2", className)}>
       {label && (
         <div className="flex justify-between items-center">
           <span className="text-sm font-medium">{label}</span>
           {showPercentage && (
-            <span className={cn('text-sm font-medium', colorClasses[color])}>
+            <span className={cn("text-sm font-medium", colorClasses[color])}>
               {Math.round(progress)}%
             </span>
           )}
@@ -108,7 +108,7 @@ export function LoadingBar({
       />
       {!label && showPercentage && (
         <div className="flex justify-end">
-          <span className={cn('text-sm font-medium', colorClasses[color])}>
+          <span className={cn("text-sm font-medium", colorClasses[color])}>
             {Math.round(progress)}%
           </span>
         </div>

@@ -11,7 +11,7 @@ import {
   X,
 } from "lucide-react";
 
-import { LoadingBar } from "@/components/loading-bar";
+import { LoadingBar } from "@/components/common/loading-bar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
