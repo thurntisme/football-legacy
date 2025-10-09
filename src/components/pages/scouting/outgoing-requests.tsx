@@ -1,7 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,19 +7,33 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { IScoutingRequest } from "@/types/common";
+import { toast } from "@/hooks/use-toast";
+import { outgoingLists } from "@/mock/scouting";
+import { IScoutingRequest } from "@/types/scouting";
 
+import ScoutingRequestList from "./request-list";
 import { ScoutPlayerDialog } from "./scout-player-dialog";
 
-type Props = {
-  outgoingRequests: IScoutingRequest[];
-  getStatusBadge: (status: string) => React.ReactNode;
-};
+type Props = {};
 
-const OutgoingScoutingRequests = ({
-  outgoingRequests,
-  getStatusBadge,
-}: Props) => {
+const OutgoingScoutingRequests = () => {
+  const [outgoingRequests, setOutgoingRequests] =
+    useState<IScoutingRequest[]>(outgoingLists);
+
+  const handleAcceptRequest = (requestId: number) => {
+    toast({
+      title: "Transfer Accepted",
+      description: "You have accepted the transfer request.",
+    });
+  };
+
+  const handleRejectRequest = (requestId: number) => {
+    toast({
+      title: "Transfer Rejected",
+      description: "You have rejected the transfer request.",
+    });
+  };
+
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between items-center">
@@ -36,56 +48,11 @@ const OutgoingScoutingRequests = ({
         </div>
       </CardHeader>
       <CardContent>
-        {outgoingRequests.length > 0 ? (
-          <div className="space-y-4">
-            {outgoingRequests.map((request) => (
-              <div
-                key={request.id}
-                className="flex items-center justify-between p-4 border rounded-lg"
-              >
-                <div className="flex items-center gap-4">
-                  <Avatar>
-                    <AvatarImage
-                      src={request.teamLogo}
-                      alt={request.teamName}
-                    />
-                    <AvatarFallback>
-                      {request.teamName.substring(0, 2)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="font-medium">{request.teamName}</div>
-                    <div className="text-sm text-muted-foreground">
-                      Your offer for{" "}
-                      <span className="font-medium">{request.playerName}</span>{" "}
-                      ({request.playerPosition})
-                    </div>
-                    <div className="flex items-center gap-2 mt-1">
-                      {getStatusBadge(request.status)}
-                      {request.status === "pending" && (
-                        <span className="text-xs text-muted-foreground">
-                          Expires in {request.expiresIn}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col items-end">
-                  <div className="font-bold text-lg">
-                    £{(request.offerAmount / 1000000).toFixed(1)}M
-                  </div>
-                  <Button variant="outline" size="sm" className="mt-2">
-                    View Details
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-8 text-muted-foreground">
-            No outgoing transfer requests at this time.
-          </div>
-        )}
+        <ScoutingRequestList
+          requests={outgoingRequests}
+          onAcceptRequest={handleAcceptRequest}
+          onRejectRequest={handleRejectRequest}
+        />
       </CardContent>
     </Card>
   );

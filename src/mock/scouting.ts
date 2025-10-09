@@ -1,4 +1,4 @@
-import { IScoutingRequest } from "@/types/common";
+import { IScoutingRequest, ScoutingStatusEnum } from "@/types/scouting";
 
 export const incomingLists: IScoutingRequest[] = [
   {
@@ -8,7 +8,7 @@ export const incomingLists: IScoutingRequest[] = [
     playerName: "Chris Johnson",
     playerPosition: "LW",
     offerAmount: 28000000,
-    status: "pending",
+    status: ScoutingStatusEnum.PENDING,
     expiresIn: "2 days",
   },
   {
@@ -18,7 +18,7 @@ export const incomingLists: IScoutingRequest[] = [
     playerName: "Mark Williams",
     playerPosition: "ST",
     offerAmount: 35000000,
-    status: "negotiating",
+    status: ScoutingStatusEnum.NEGOTIATING,
     expiresIn: "1 day",
   },
   {
@@ -28,7 +28,7 @@ export const incomingLists: IScoutingRequest[] = [
     playerName: "Daniel Martinez",
     playerPosition: "CM",
     offerAmount: 22000000,
-    status: "rejected",
+    status: ScoutingStatusEnum.REJECTED,
     expiresIn: "Expired",
   },
 ];
@@ -41,7 +41,7 @@ export const outgoingLists: IScoutingRequest[] = [
     playerName: "Thomas Müller",
     playerPosition: "CAM",
     offerAmount: 40000000,
-    status: "pending",
+    status: ScoutingStatusEnum.PENDING,
     expiresIn: "3 days",
   },
   {
@@ -51,7 +51,17 @@ export const outgoingLists: IScoutingRequest[] = [
     playerName: "Carlos Vega",
     playerPosition: "RW",
     offerAmount: 32000000,
-    status: "negotiating",
+    status: ScoutingStatusEnum.NEGOTIATING,
     expiresIn: "2 days",
+  },
+  {
+    id: 103,
+    teamName: "Manchester United",
+    teamLogo: "/placeholder.svg?height=40&width=40",
+    playerName: "David Smith",
+    playerPosition: "CB",
+    offerAmount: 25000000,
+    status: ScoutingStatusEnum.ACCEPTED,
+    expiresIn: "Expired",
   },
 ];
