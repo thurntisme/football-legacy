@@ -1,9 +1,5 @@
 "use client";
 
-import PlayerEditDialog from "../../player-edit-dialog";
-import PlayerNationalTeamDialog from "../../player-national-team-dialog";
-import PlayerUpgradeDialog from "../../player-upgrade-dialog";
-
 import type React from "react";
 import { useState } from "react";
 
@@ -23,7 +19,10 @@ import { Player } from "@/types/player";
 
 import NationalTeamIncomeSummary from "./national-team-income-summary";
 import PlayerContractEditDialog from "./player-contract-edit-dialog";
+import PlayerEditDialog from "./player-edit-dialog";
+import PlayerNationalTeamDialog from "./player-national-team-dialog";
 import PlayerTable from "./player-table";
+import PlayerUpgradeDialog from "./player-upgrade-dialog";
 
 type PlayerListProps = {
   initPlayers: Player[];

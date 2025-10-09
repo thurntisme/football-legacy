@@ -1,8 +1,5 @@
 "use client";
 
-import LoanConfirmationDialog from "../../loan-confirmation-dialog";
-import MyListingsFilter from "../../my-listings-filter";
-
 import { useState } from "react";
 
 import ContentWrapper from "@/components/common/content-wrapper";
@@ -19,7 +16,9 @@ import { internalApi } from "@/lib/api/internal";
 import { Player } from "@/types/player";
 import { useQuery } from "@tanstack/react-query";
 
+import LoanConfirmationDialog from "./loan-confirmation-dialog";
 import MyListedPlayers from "./my-listed-players";
+import MyListingsFilter from "./my-listings-filter";
 
 export default function MyListings() {
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);

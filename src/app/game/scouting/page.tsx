@@ -17,10 +17,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 export default function ScoutingPage() {
-  const onRegionSelect = (region: string | null) => {
-    console.log(region);
-  };
-
   return (
     <>
       <PageTitle

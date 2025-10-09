@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { Flag } from 'lucide-react';
+import { Flag } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,8 +10,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Player } from '@/types/football/player';
+} from "@/components/ui/dialog";
+import { Player } from "@/types/player";
 
 type Props = {
   nationalTeamDialogOpen: boolean;
@@ -35,7 +35,7 @@ const PlayerNationalTeamDialog = ({
           <DialogDescription>
             {selectedPlayerForNational?.nationalTeam
               ? `${selectedPlayerForNational.name}'s international duty information`
-              : 'Player has not been called up for international duty'}
+              : "Player has not been called up for international duty"}
           </DialogDescription>
         </DialogHeader>
         <div className="py-4 space-y-4">

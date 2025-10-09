@@ -19,6 +19,7 @@ import {
   Video,
 } from "lucide-react";
 
+import PageTitle from "@/components/common/page-title";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -42,8 +43,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import PageTitle from "@/components/common/page-title";
-import { mockMessages, mockGroups, mockFriends } from "@/mock/chat";
+import { mockFriends, mockGroups, mockMessages } from "@/mock/chat";
 import { ChatMessage } from "@/types/chat";
 
 export default function ChatPage() {

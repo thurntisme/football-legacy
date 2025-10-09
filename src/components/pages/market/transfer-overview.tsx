@@ -1,6 +1,6 @@
-'use client';
+import React from "react";
 
-import { ArrowUpDown, Clock, DollarSign } from 'lucide-react';
+import { ArrowUpDown, Clock, DollarSign } from "lucide-react";
 
 import {
   Card,
@@ -8,11 +8,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 
-export default function MarketOverviewCard() {
+type Props = {};
+
+const TransferOverview = (props: Props) => {
   return (
-    <Card>
+    <Card className="mb-6">
       <CardHeader className="pb-3">
         <CardTitle>Market Overview</CardTitle>
         <CardDescription>Current transfer window: Summer 2025</CardDescription>
@@ -59,4 +61,6 @@ export default function MarketOverviewCard() {
       </CardContent>
     </Card>
   );
-}
+};
+
+export default TransferOverview;

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,12 +8,12 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
 type Props = {
   confirmDialogOpen: boolean;
   setConfirmDialogOpen: (open: boolean) => void;
-  dialogAction: 'remove' | 'edit';
+  dialogAction: "remove" | "edit";
   selectedPlayer: { name: string } | null;
   confirmRemoveFromList: () => void;
 };
@@ -30,18 +30,18 @@ const LoanConfirmationDialog = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {dialogAction === 'remove'
-              ? 'Remove from Listings'
-              : 'Edit Listing'}
+            {dialogAction === "remove"
+              ? "Remove from Listings"
+              : "Edit Listing"}
           </DialogTitle>
           <DialogDescription>
-            {dialogAction === 'remove' && selectedPlayer
+            {dialogAction === "remove" && selectedPlayer
               ? `Are you sure you want to remove ${selectedPlayer.name} from your listings?`
-              : 'Edit the listing details for this player.'}
+              : "Edit the listing details for this player."}
           </DialogDescription>
         </DialogHeader>
 
-        {dialogAction === 'remove' ? (
+        {dialogAction === "remove" ? (
           <div className="py-4">
             <p>
               This will make the player unavailable on the transfer market, but
@@ -56,7 +56,7 @@ const LoanConfirmationDialog = ({
           <Button variant="outline" onClick={() => setConfirmDialogOpen(false)}>
             Cancel
           </Button>
-          {dialogAction === 'remove' ? (
+          {dialogAction === "remove" ? (
             <Button variant="destructive" onClick={confirmRemoveFromList}>
               Remove from Listings
             </Button>

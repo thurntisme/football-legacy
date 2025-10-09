@@ -1,22 +1,22 @@
-import React from 'react';
+import React from "react";
 
-import { Filter, Search } from 'lucide-react';
+import { Filter, Search } from "lucide-react";
 
-import { Input } from '@/components/ui/input';
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
 type Props = {};
 
 const MyListingsFilter = (props: Props) => {
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [positionFilter, setPositionFilter] = React.useState('all');
-  const [sortBy, setSortBy] = React.useState('rating');
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [positionFilter, setPositionFilter] = React.useState("all");
+  const [sortBy, setSortBy] = React.useState("rating");
 
   return (
     <div className="flex flex-col md:flex-row gap-4 mb-6">
