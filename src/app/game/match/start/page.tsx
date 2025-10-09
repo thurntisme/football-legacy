@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import PageTitle from "@/components/common/page-title";
+import AbortMatchDialog from "@/components/pages/match/abort-match-dialog";
 import MatchAction from "@/components/pages/match/match-action";
 import MatchProcess from "@/components/pages/match/match-process";
 import MatchTeamOverview from "@/components/pages/match/match-team-overview";
@@ -958,11 +959,11 @@ export default function MatchStartPage() {
         </CardContent>
       </Card>
 
-      {/* <AbortMatchDialog
+      <AbortMatchDialog
         abortDialogOpen={abortDialogOpen}
         setAbortDialogOpen={setAbortDialogOpen}
         abortMatch={abortMatch}
-      /> */}
+      />
     </>
   );
 }
