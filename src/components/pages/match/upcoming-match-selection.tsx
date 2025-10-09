@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { Users } from "lucide-react";
+import { Rocket, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -37,7 +37,7 @@ const UpcomingMatchSelection = (props: Props) => {
           </CardDescription>
         </div>
         <Button asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/team`}>
+          <Link href={`${FOOTBALL_STATS_URL}/game/team`}>
             <Users className="mr-2 h-4 w-4" />
             Team Management
           </Link>
@@ -70,7 +70,7 @@ const UpcomingMatchSelection = (props: Props) => {
           ].map((player) => (
             <div
               key={player.id}
-              className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform hover:scale-110"
+              className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform"
               style={{ left: `${player.x}%`, top: `${player.y}%` }}
             >
               <div className="flex flex-col items-center">
@@ -83,11 +83,6 @@ const UpcomingMatchSelection = (props: Props) => {
               </div>
             </div>
           ))}
-
-          {/* Formation name overlay */}
-          <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
-            4-3-3 • Balanced
-          </div>
         </div>
 
         <Separator className="my-6" />
@@ -119,7 +114,10 @@ const UpcomingMatchSelection = (props: Props) => {
         </div>
 
         <div className="flex justify-center mt-6">
-          <Button onClick={onStart}>Start Match</Button>
+          <Button onClick={onStart}>
+            <Rocket className="w-4 h-4" />
+            Start Match
+          </Button>
         </div>
       </CardContent>
     </Card>

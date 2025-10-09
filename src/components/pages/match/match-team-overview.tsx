@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { Badge } from '@/components/ui/badge';
-import { MatchScore } from '@/types/football/match';
+import { Badge } from "@/components/ui/badge";
+import { MatchScore } from "@/types/match";
 
 type Props = {
   matchStarted: boolean;
@@ -37,10 +37,10 @@ const MatchTeamOverview = ({
               {score.home} - {score.away}
             </div>
             <Badge
-              variant={matchEnded ? 'secondary' : 'default'}
+              variant={matchEnded ? "secondary" : "default"}
               className="text-sm"
             >
-              {matchEnded ? 'Full Time' : `${currentMinute}'`}
+              {matchEnded ? "Full Time" : `${currentMinute}'`}
             </Badge>
           </div>
         ) : (

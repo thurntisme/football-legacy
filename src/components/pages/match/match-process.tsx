@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import MatchPlayers from "../../match-players";
+import MatchStatistics from "../../match-statistics";
+import MatchTactics from "../../match-tactics";
+import MatchView from "../../match-view";
 
-import { BarChart3, Layers, Play, Users } from 'lucide-react';
+import React, { useState } from "react";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MatchStatics } from '@/types/football/match';
-import { PlayerRoles } from '@/types/football/player';
+import { BarChart3, Layers, Play, Users } from "lucide-react";
 
-import MatchPlayers from './match-players';
-import MatchStatistics from './match-statistics';
-import MatchTactics from './match-tactics';
-import MatchView from './match-view';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MatchStatics } from "@/types/football/match";
+import { PlayerRoles } from "@/types/football/player";
 
 export type Props = {
   currentMinute: number;
@@ -68,7 +68,7 @@ const MatchProcess = ({
   playerRoles,
   matchStats,
 }: Props) => {
-  const [activeTab, setActiveTab] = useState('match');
+  const [activeTab, setActiveTab] = useState("match");
 
   return (
     <div className="w-full mt-4">
