@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import { Check, FileText, TrendingUp, X } from 'lucide-react';
+import { Check, FileText, TrendingUp, X } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 
 type Props = {
   incomeProposals: any[];
@@ -67,7 +67,7 @@ const IncomeProposals = ({
                       <p className="font-medium">{proposal.proposedBy}</p>
                     </div>
                   </div>
-                  {proposal.status === 'pending' && (
+                  {proposal.status === "pending" && (
                     <div className="mt-4 flex gap-2">
                       <Button
                         size="sm"
@@ -90,7 +90,7 @@ const IncomeProposals = ({
                 {proposal.image && (
                   <div className="w-full md:w-48 h-32 md:h-auto">
                     <img
-                      src={proposal.image || '/placeholder.svg'}
+                      src={proposal.image || "/placeholder.svg"}
                       alt={proposal.title}
                       className="w-full h-full object-cover"
                     />
