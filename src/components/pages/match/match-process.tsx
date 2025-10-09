@@ -1,14 +1,12 @@
-import MatchPlayers from "../../match-players";
-import MatchStatistics from "../../match-statistics";
-
 import React, { useState } from "react";
 
-import { BarChart3, Layers, Play, Users } from "lucide-react";
+import { BarChart3, Play, Users } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MatchStatics } from "@/types/match";
-import { PlayerRoles } from "@/types/player";
 
+import MatchPlayers from "./match-players";
+import MatchStatistics from "./match-statistics";
 import MatchView from "./match-view";
 
 export type Props = {
@@ -34,10 +32,6 @@ export type Props = {
   };
   commentary: string;
   commentaryHistory: string[];
-  tacticalTriggers: { id: string; name: string; description: string }[];
-  activeTacticalTriggers: string[];
-  toggleTacticalTrigger: (id: string) => void;
-  playerRoles: PlayerRoles;
   matchStats: MatchStatics;
 };
 
@@ -58,10 +52,6 @@ const MatchProcess = ({
   psychologicalState,
   commentary,
   commentaryHistory,
-  tacticalTriggers,
-  activeTacticalTriggers,
-  toggleTacticalTrigger,
-  playerRoles,
   matchStats,
 }: Props) => {
   const [activeTab, setActiveTab] = useState("match");

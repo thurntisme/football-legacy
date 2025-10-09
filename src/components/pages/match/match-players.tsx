@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { AlertTriangle, CheckCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 type Props = {
   psychologicalState: {
@@ -103,30 +103,30 @@ const MatchPlayers = ({ psychologicalState }: Props) => {
           {/* This would be populated with actual player performance data */}
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((num) => {
             const playerNames = [
-              'Miller',
-              'Wilson',
-              'Garcia',
-              'Brown',
-              'Lee',
-              'Martinez',
-              'Taylor',
-              'Anderson',
-              'Johnson',
-              'Williams',
-              'Davis',
+              "Miller",
+              "Wilson",
+              "Garcia",
+              "Brown",
+              "Lee",
+              "Martinez",
+              "Taylor",
+              "Anderson",
+              "Johnson",
+              "Williams",
+              "Davis",
             ];
             const positions = [
-              'GK',
-              'LB',
-              'CB',
-              'CB',
-              'RB',
-              'CDM',
-              'CM',
-              'CM',
-              'LW',
-              'ST',
-              'RW',
+              "GK",
+              "LB",
+              "CB",
+              "CB",
+              "RB",
+              "CDM",
+              "CM",
+              "CM",
+              "LW",
+              "ST",
+              "RW",
             ];
             const playerRatings = [
               6.8, 7.2, 6.9, 7.0, 7.5, 8.1, 7.3, 6.7, 7.8, 7.4, 7.6,

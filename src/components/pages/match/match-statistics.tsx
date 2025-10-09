@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 import {
   Bar,
@@ -12,11 +12,11 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from 'recharts';
+} from "recharts";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type MatchStatisticsProps = {
   homeTeam: string;
@@ -58,7 +58,7 @@ export default function MatchStatistics({
   stats,
   currentMinute,
 }: MatchStatisticsProps) {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
 
   // Generate possession history data (simulated)
   const generatePossessionHistory = () => {
@@ -74,7 +74,7 @@ export default function MatchStatistics({
           : 50 + (Math.random() * 20 - 10);
 
       data.push({
-        minute: minute === 0 ? 'Start' : `${minute}'`,
+        minute: minute === 0 ? "Start" : `${minute}'`,
         home: Math.round(homePossession),
         away: Math.round(100 - homePossession),
       });
@@ -374,7 +374,7 @@ export default function MatchStatistics({
                         {stats.home.shots > 0
                           ? Math.round(
                               (stats.home.shotsOnTarget / stats.home.shots) *
-                                100
+                                100,
                             )
                           : 0}
                         %
@@ -397,7 +397,7 @@ export default function MatchStatistics({
                         {stats.away.shots > 0
                           ? Math.round(
                               (stats.away.shotsOnTarget / stats.away.shots) *
-                                100
+                                100,
                             )
                           : 0}
                         %
@@ -435,7 +435,7 @@ export default function MatchStatistics({
                     <Progress
                       value={Math.min(
                         100,
-                        (stats.home.shots / (stats.home.possession / 100)) * 10
+                        (stats.home.shots / (stats.home.possession / 100)) * 10,
                       )}
                       className="h-2"
                     />
@@ -454,7 +454,7 @@ export default function MatchStatistics({
                     <Progress
                       value={Math.min(
                         100,
-                        (stats.away.shots / (stats.away.possession / 100)) * 10
+                        (stats.away.shots / (stats.away.possession / 100)) * 10,
                       )}
                       className="h-2"
                     />
