@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { ArrowRight, Clock, Users, Wifi } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowRight, Clock, Users, Wifi } from "lucide-react";
+import Link from "next/link";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
+} from "@/components/ui/card";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 export default function OnlineMatchWidget() {
   const [onlineCount, setOnlineCount] = useState(0);
@@ -31,11 +31,11 @@ export default function OnlineMatchWidget() {
       // Mock data
       setOnlineCount(12);
       setLastMatch({
-        opponent: 'Sarah Coach',
-        opponentTeam: 'Chelsea FC',
-        result: 'win',
-        score: '2-0',
-        date: '2023-03-22',
+        opponent: "Sarah Coach",
+        opponentTeam: "Chelsea FC",
+        result: "win",
+        score: "2-0",
+        date: "2023-03-22",
       });
 
       setIsLoading(false);
@@ -120,19 +120,19 @@ export default function OnlineMatchWidget() {
                       </span>
                       <Badge
                         variant={
-                          lastMatch.result === 'win'
-                            ? 'default'
-                            : lastMatch.result === 'loss'
-                              ? 'destructive'
-                              : 'outline'
+                          lastMatch.result === "win"
+                            ? "default"
+                            : lastMatch.result === "loss"
+                              ? "destructive"
+                              : "outline"
                         }
                         className="text-xs"
                       >
-                        {lastMatch.result === 'win'
-                          ? 'Win'
-                          : lastMatch.result === 'loss'
-                            ? 'Loss'
-                            : 'Draw'}
+                        {lastMatch.result === "win"
+                          ? "Win"
+                          : lastMatch.result === "loss"
+                            ? "Loss"
+                            : "Draw"}
                       </Badge>
                     </div>
                     <div className="text-xs text-muted-foreground">
@@ -158,7 +158,7 @@ export default function OnlineMatchWidget() {
       </CardContent>
       <CardFooter>
         <Button asChild className="w-full">
-          <Link href={`${FOOTBALL_STATS_URL}/online-match`}>
+          <Link href={`${FOOTBALL_STATS_URL}/game/online-match`}>
             Play Online Match
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>

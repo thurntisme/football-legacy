@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { ArrowRight, Inbox } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowRight, Inbox } from "lucide-react";
+import Link from "next/link";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,9 +12,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 export default function LatestNewsCard() {
   return (
@@ -209,7 +209,7 @@ export default function LatestNewsCard() {
       </CardContent>
       <CardFooter>
         <Button variant="outline" className="w-full" asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/news`}>
+          <Link href={`${FOOTBALL_STATS_URL}/game/news`}>
             View All News
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>

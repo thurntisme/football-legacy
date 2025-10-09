@@ -34,7 +34,9 @@ export default function FinancialSummaryCard() {
                 {convertNumberWithSeparator(guestUser.coin ?? 0)}
               </p>
               <Button variant="link" className="h-auto p-0 text-xs" asChild>
-                <Link href={`${FOOTBALL_STATS_URL}/payment`}>Buy More</Link>
+                <Link href={`${FOOTBALL_STATS_URL}/game/payment`}>
+                  Buy More
+                </Link>
               </Button>
             </div>
           </div>

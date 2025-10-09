@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { ArrowRight, BarChart3 } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowRight, BarChart3 } from "lucide-react";
+import Link from "next/link";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,8 +12,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
+} from "@/components/ui/card";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 export default function TeamPerformanceCard() {
   return (
@@ -82,7 +82,7 @@ export default function TeamPerformanceCard() {
       </CardContent>
       <CardFooter>
         <Button variant="outline" className="w-full" asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/team`}>
+          <Link href={`${FOOTBALL_STATS_URL}/game/team`}>
             Team Analysis
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>

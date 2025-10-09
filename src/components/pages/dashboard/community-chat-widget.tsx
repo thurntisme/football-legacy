@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChatMessage } from "@/types/chat";
 import { mockCommunityMessages } from "@/mock/chat";
+import { ChatMessage } from "@/types/chat";
 
 export default function CommunityChat() {
   const [messages, setMessages] = useState<ChatMessage[]>(

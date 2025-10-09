@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { ArrowRight, TrendingUp } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowRight, TrendingUp } from "lucide-react";
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,8 +11,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
+} from "@/components/ui/card";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 export default function LeaguePositionCard() {
   return (
@@ -69,7 +69,7 @@ export default function LeaguePositionCard() {
       </CardContent>
       <CardFooter>
         <Button variant="outline" className="w-full" asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/league/standings`}>
+          <Link href={`${FOOTBALL_STATS_URL}/game/league/standings`}>
             View Full Table
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>

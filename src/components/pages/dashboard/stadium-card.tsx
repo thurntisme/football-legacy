@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { ArrowRight, Building } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowRight, Building } from "lucide-react";
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 export default function StadiumCard() {
   return (
@@ -49,7 +49,7 @@ export default function StadiumCard() {
       </CardContent>
       <CardFooter>
         <Button variant="outline" className="w-full" asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/stadium`}>
+          <Link href={`${FOOTBALL_STATS_URL}/game/stadium`}>
             Manage Stadium
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>

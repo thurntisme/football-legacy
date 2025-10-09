@@ -4,15 +4,15 @@ import { Trophy, Users } from "lucide-react";
 import Link from "next/link";
 
 import PageTitle from "@/components/common/page-title";
-import CommunityChat from "@/components/community-chat-widget";
-import FinancialSummaryCard from "@/components/financial-summary-card";
-import LatestNewsCard from "@/components/latest-news-card";
-import LeaguePositionCard from "@/components/league-position-card";
-import NextMatchCard from "@/components/next-match-card";
-import OnlineMatchWidget from "@/components/online-match-widget";
-import StadiumCard from "@/components/pages/stadium/stadium-card";
-import StaffManagementCard from "@/components/staff-management-card";
-import TeamPerformanceCard from "@/components/team-performance-card";
+import CommunityChat from "@/components/pages/dashboard/community-chat-widget";
+import FinancialSummaryCard from "@/components/pages/dashboard/financial-summary-card";
+import LatestNewsCard from "@/components/pages/dashboard/latest-news-card";
+import LeaguePositionCard from "@/components/pages/dashboard/league-position-card";
+import NextMatchCard from "@/components/pages/dashboard/next-match-card";
+import OnlineMatchWidget from "@/components/pages/dashboard/online-match-widget";
+import StadiumCard from "@/components/pages/dashboard/stadium-card";
+import StaffManagementCard from "@/components/pages/dashboard/staff-management-card";
+import TeamPerformanceCard from "@/components/pages/dashboard/team-performance-card";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -23,14 +23,14 @@ export default function Home() {
         subTitle="Welcome back to your football manager dashboard"
       >
         <Button asChild>
-          <Link href="/match/prepare">
-            <Trophy className="mr-2 h-4 w-4" />
+          <Link href="/game/match/prepare">
+            <Trophy className="h-4 w-4" />
             Prepare Match
           </Link>
         </Button>
         <Button variant="outline" asChild>
-          <Link href="/training">
-            <Users className="mr-2 h-4 w-4" />
+          <Link href="/game/training">
+            <Users className="h-4 w-4" />
             Training
           </Link>
         </Button>
