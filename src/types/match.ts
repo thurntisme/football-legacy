@@ -159,3 +159,22 @@ export interface MatchEvent {
   player?: string;
   minute: number;
 }
+
+export type BallPosition = {
+  x: number;
+  y: number;
+  team: "home" | "away" | "neutral";
+  moving: boolean;
+  direction: { x: number; y: number };
+};
+
+export type PlayerPosition = {
+  id: number;
+  x: number;
+  y: number;
+  team: "home" | "away";
+  moving: boolean;
+  direction: { x: number; y: number };
+  targetX: number;
+  targetY: number;
+};

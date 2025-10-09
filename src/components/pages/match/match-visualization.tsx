@@ -1,13 +1,15 @@
 "use client";
 
+import FieldMarking from "../team/field-marking";
+
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
+import { playerInMatch } from "@/mock/match-start";
+import { BallPosition, PlayerPosition } from "@/types/match";
 
-type MatchVisualizationProps = {
-  currentMinute: number;
-  score: { home: number; away: number };
+type props = {
   matchEvents: { minute: number; text: string; type: string }[];
   psychologicalState: {
     confidence: number;
@@ -17,31 +19,10 @@ type MatchVisualizationProps = {
   };
 };
 
-type BallPosition = {
-  x: number;
-  y: number;
-  team: "home" | "away" | "neutral";
-  moving: boolean;
-  direction: { x: number; y: number };
-};
-
-type PlayerPosition = {
-  id: number;
-  x: number;
-  y: number;
-  team: "home" | "away";
-  moving: boolean;
-  direction: { x: number; y: number };
-  targetX: number;
-  targetY: number;
-};
-
 export default function MatchVisualization({
-  currentMinute,
-  score,
   matchEvents,
   psychologicalState,
-}: MatchVisualizationProps) {
+}: props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [ballPosition, setBallPosition] = useState<BallPosition>({
     x: 50,
@@ -57,235 +38,7 @@ export default function MatchVisualization({
 
   // Initialize player positions
   useEffect(() => {
-    // Create home team players (in a 4-3-3 formation)
-    const homePlayers: PlayerPosition[] = [
-      {
-        id: 1,
-        x: 50,
-        y: 90,
-        team: "home",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 50,
-        targetY: 90,
-      }, // GK
-      {
-        id: 2,
-        x: 20,
-        y: 75,
-        team: "home",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 20,
-        targetY: 75,
-      }, // LB
-      {
-        id: 3,
-        x: 35,
-        y: 75,
-        team: "home",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 35,
-        targetY: 75,
-      }, // CB
-      {
-        id: 4,
-        x: 65,
-        y: 75,
-        team: "home",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 65,
-        targetY: 75,
-      }, // CB
-      {
-        id: 5,
-        x: 80,
-        y: 75,
-        team: "home",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 80,
-        targetY: 75,
-      }, // RB
-      {
-        id: 6,
-        x: 35,
-        y: 60,
-        team: "home",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 35,
-        targetY: 60,
-      }, // CM
-      {
-        id: 7,
-        x: 50,
-        y: 55,
-        team: "home",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 50,
-        targetY: 55,
-      }, // CM
-      {
-        id: 8,
-        x: 65,
-        y: 60,
-        team: "home",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 65,
-        targetY: 60,
-      }, // CM
-      {
-        id: 9,
-        x: 25,
-        y: 40,
-        team: "home",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 25,
-        targetY: 40,
-      }, // LW
-      {
-        id: 10,
-        x: 50,
-        y: 35,
-        team: "home",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 50,
-        targetY: 35,
-      }, // ST
-      {
-        id: 11,
-        x: 75,
-        y: 40,
-        team: "home",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 75,
-        targetY: 40,
-      }, // RW
-    ];
-
-    // Create away team players (in a 4-4-2 formation)
-    const awayPlayers: PlayerPosition[] = [
-      {
-        id: 12,
-        x: 50,
-        y: 10,
-        team: "away",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 50,
-        targetY: 10,
-      }, // GK
-      {
-        id: 13,
-        x: 20,
-        y: 25,
-        team: "away",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 20,
-        targetY: 25,
-      }, // LB
-      {
-        id: 14,
-        x: 35,
-        y: 25,
-        team: "away",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 35,
-        targetY: 25,
-      }, // CB
-      {
-        id: 15,
-        x: 65,
-        y: 25,
-        team: "away",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 65,
-        targetY: 25,
-      }, // CB
-      {
-        id: 16,
-        x: 80,
-        y: 25,
-        team: "away",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 80,
-        targetY: 25,
-      }, // RB
-      {
-        id: 17,
-        x: 20,
-        y: 40,
-        team: "away",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 20,
-        targetY: 40,
-      }, // LM
-      {
-        id: 18,
-        x: 35,
-        y: 45,
-        team: "away",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 35,
-        targetY: 45,
-      }, // CM
-      {
-        id: 19,
-        x: 65,
-        y: 45,
-        team: "away",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 65,
-        targetY: 45,
-      }, // CM
-      {
-        id: 20,
-        x: 80,
-        y: 40,
-        team: "away",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 80,
-        targetY: 40,
-      }, // RM
-      {
-        id: 21,
-        x: 40,
-        y: 65,
-        team: "away",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 40,
-        targetY: 65,
-      }, // ST
-      {
-        id: 22,
-        x: 60,
-        y: 65,
-        team: "away",
-        moving: false,
-        direction: { x: 0, y: 0 },
-        targetX: 60,
-        targetY: 65,
-      }, // ST
-    ];
-
-    setPlayers([...homePlayers, ...awayPlayers]);
+    setPlayers(playerInMatch);
   }, []);
 
   // React to match events
@@ -431,9 +184,6 @@ export default function MatchVisualization({
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw field
-      drawField(ctx, canvas.width, canvas.height);
-
       // Update player positions
       setPlayers((prevPlayers) => {
         return prevPlayers.map((player) => {
@@ -533,89 +283,14 @@ export default function MatchVisualization({
     };
   }, [players, ballPosition, lastEventType, possession, psychologicalState]);
 
-  // Draw field markings
-  const drawField = (
-    ctx: CanvasRenderingContext2D,
-    width: number,
-    height: number,
-  ) => {
-    // Field background
-    ctx.fillStyle = "#4ade80";
-    ctx.fillRect(0, 0, width, height);
-
-    // Field lines
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
-    ctx.lineWidth = 2;
-
-    // Outer boundary
-    ctx.strokeRect(width * 0.05, height * 0.05, width * 0.9, height * 0.9);
-
-    // Center line
-    ctx.beginPath();
-    ctx.moveTo(width * 0.05, height * 0.5);
-    ctx.lineTo(width * 0.95, height * 0.5);
-    ctx.stroke();
-
-    // Center circle
-    ctx.beginPath();
-    ctx.arc(width * 0.5, height * 0.5, width * 0.1, 0, Math.PI * 2);
-    ctx.stroke();
-
-    // Center spot
-    ctx.beginPath();
-    ctx.arc(width * 0.5, height * 0.5, width * 0.01, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-    ctx.fill();
-
-    // Penalty areas
-    ctx.strokeRect(width * 0.3, height * 0.05, width * 0.4, height * 0.15);
-    ctx.strokeRect(width * 0.3, height * 0.8, width * 0.4, height * 0.15);
-
-    // Goal areas
-    ctx.strokeRect(width * 0.4, height * 0.05, width * 0.2, height * 0.06);
-    ctx.strokeRect(width * 0.4, height * 0.89, width * 0.2, height * 0.06);
-
-    // Penalty spots
-    ctx.beginPath();
-    ctx.arc(width * 0.5, height * 0.15, width * 0.01, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(width * 0.5, height * 0.85, width * 0.01, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Corner arcs
-    const cornerRadius = width * 0.02;
-    ctx.beginPath();
-    ctx.arc(width * 0.05, height * 0.05, cornerRadius, 0, Math.PI / 2);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(width * 0.95, height * 0.05, cornerRadius, Math.PI / 2, Math.PI);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(
-      width * 0.05,
-      height * 0.95,
-      cornerRadius,
-      (3 * Math.PI) / 2,
-      2 * Math.PI,
-    );
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(
-      width * 0.95,
-      height * 0.95,
-      cornerRadius,
-      Math.PI,
-      (3 * Math.PI) / 2,
-    );
-    ctx.stroke();
-  };
-
   return (
     <div className="relative w-full h-full pt-12 rounded-lg ">
-      <canvas ref={canvasRef} className="w-full h-full" />
+      <canvas ref={canvasRef} className="w-full h-full absolute z-10" />
 
-      {/* Possession indicator */}
+      <div className="relative w-full h-full">
+        <FieldMarking />
+      </div>
+
       <div className="absolute top-2 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
         <Badge
           variant={possession === "home" ? "default" : "destructive"}
@@ -626,7 +301,6 @@ export default function MatchVisualization({
         Possession
       </div>
 
-      {/* Last event indicator */}
       {lastEventType && (
         <div className="absolute top-2 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
           {lastEventType.charAt(0).toUpperCase() + lastEventType.slice(1)}

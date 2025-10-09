@@ -145,8 +145,6 @@ const MatchView = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 h-[540px]">
         <div className="relative w-full overflow-hidden col-start-1 col-end-3">
           <MatchVisualization
-            currentMinute={currentMinute}
-            score={score}
             matchEvents={matchEvents}
             psychologicalState={psychologicalState}
           />

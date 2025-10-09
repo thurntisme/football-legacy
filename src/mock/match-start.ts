@@ -1,3 +1,5 @@
+import { PlayerPosition } from "@/types/match";
+
 // Commentator phrases
 export const commentaryPhrases = {
   start: [
@@ -258,3 +260,231 @@ export const statCategories = [
   "tackles",
   "interceptions",
 ];
+
+const homePlayers: PlayerPosition[] = [
+  {
+    id: 1,
+    x: 50,
+    y: 90,
+    team: "home",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 50,
+    targetY: 90,
+  }, // GK
+  {
+    id: 2,
+    x: 20,
+    y: 75,
+    team: "home",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 20,
+    targetY: 75,
+  }, // LB
+  {
+    id: 3,
+    x: 35,
+    y: 75,
+    team: "home",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 35,
+    targetY: 75,
+  }, // CB
+  {
+    id: 4,
+    x: 65,
+    y: 75,
+    team: "home",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 65,
+    targetY: 75,
+  }, // CB
+  {
+    id: 5,
+    x: 80,
+    y: 75,
+    team: "home",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 80,
+    targetY: 75,
+  }, // RB
+  {
+    id: 6,
+    x: 35,
+    y: 60,
+    team: "home",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 35,
+    targetY: 60,
+  }, // CM
+  {
+    id: 7,
+    x: 50,
+    y: 55,
+    team: "home",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 50,
+    targetY: 55,
+  }, // CM
+  {
+    id: 8,
+    x: 65,
+    y: 60,
+    team: "home",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 65,
+    targetY: 60,
+  }, // CM
+  {
+    id: 9,
+    x: 25,
+    y: 40,
+    team: "home",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 25,
+    targetY: 40,
+  }, // LW
+  {
+    id: 10,
+    x: 50,
+    y: 35,
+    team: "home",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 50,
+    targetY: 35,
+  }, // ST
+  {
+    id: 11,
+    x: 75,
+    y: 40,
+    team: "home",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 75,
+    targetY: 40,
+  }, // RW
+];
+
+const awayPlayers: PlayerPosition[] = [
+  {
+    id: 12,
+    x: 50,
+    y: 10,
+    team: "away",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 50,
+    targetY: 10,
+  }, // GK
+  {
+    id: 13,
+    x: 20,
+    y: 25,
+    team: "away",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 20,
+    targetY: 25,
+  }, // LB
+  {
+    id: 14,
+    x: 35,
+    y: 25,
+    team: "away",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 35,
+    targetY: 25,
+  }, // CB
+  {
+    id: 15,
+    x: 65,
+    y: 25,
+    team: "away",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 65,
+    targetY: 25,
+  }, // CB
+  {
+    id: 16,
+    x: 80,
+    y: 25,
+    team: "away",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 80,
+    targetY: 25,
+  }, // RB
+  {
+    id: 17,
+    x: 20,
+    y: 40,
+    team: "away",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 20,
+    targetY: 40,
+  }, // LM
+  {
+    id: 18,
+    x: 35,
+    y: 45,
+    team: "away",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 35,
+    targetY: 45,
+  }, // CM
+  {
+    id: 19,
+    x: 65,
+    y: 45,
+    team: "away",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 65,
+    targetY: 45,
+  }, // CM
+  {
+    id: 20,
+    x: 80,
+    y: 40,
+    team: "away",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 80,
+    targetY: 40,
+  }, // RM
+  {
+    id: 21,
+    x: 40,
+    y: 65,
+    team: "away",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 40,
+    targetY: 65,
+  }, // ST
+  {
+    id: 22,
+    x: 60,
+    y: 65,
+    team: "away",
+    moving: false,
+    direction: { x: 0, y: 0 },
+    targetX: 60,
+    targetY: 65,
+  }, // ST
+];
+
+export const playerInMatch = [...homePlayers, ...awayPlayers];
