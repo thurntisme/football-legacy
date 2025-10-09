@@ -1,12 +1,5 @@
 "use client";
 
-import ConfirmLoanDialog from "../../confirm-loan-dialog";
-import ConfirmMarketDialog from "../../confirm-market-dialog";
-import ConfirmPromoteDialog from "../../confirm-promote-dialog";
-import GenerateYouthPlayerDialog from "../../generate-youth-player-dialog";
-import YouthPlayersFilter from "../../youth-players-filter";
-import YouthPlayersTable from "../../youth-players-table";
-
 import { useState } from "react";
 
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -14,6 +7,13 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { youthPlayerList } from "@/mock/football";
 import { YouthPlayer } from "@/types/player";
+
+import ConfirmLoanDialog from "./confirm-loan-dialog";
+import ConfirmMarketDialog from "./confirm-market-dialog";
+import ConfirmPromoteDialog from "./confirm-promote-dialog";
+import GenerateYouthPlayerDialog from "./generate-youth-player-dialog";
+import YouthPlayersFilter from "./youth-players-filter";
+import YouthPlayersTable from "./youth-players-table";
 
 export default function YouthPlayers() {
   const [searchTerm, setSearchTerm] = useState("");
