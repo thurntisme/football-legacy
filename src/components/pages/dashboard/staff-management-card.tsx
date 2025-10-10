@@ -1,6 +1,6 @@
 "use client";
 
-import { Users } from "lucide-react";
+import { ArrowRight, Users } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -34,8 +34,11 @@ export default function StaffManagementCard() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button asChild className="w-full">
-          <Link href={`${FOOTBALL_STATS_URL}/game/staff`}>Manage Staff</Link>
+        <Button asChild className="w-full" variant="outline">
+          <Link href={`${FOOTBALL_STATS_URL}/game/staff`}>
+            Manage Staff
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </Button>
       </CardFooter>
     </Card>

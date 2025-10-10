@@ -2,13 +2,13 @@ import React from "react";
 
 import { Star } from "lucide-react";
 
-import { StaffMember } from "@/types/staff";
+import { Badge } from "@/components/ui/badge";
 import {
   getAttributeColor,
   getReputationColor,
-  getRoleIcon,
+  getRoleLabel,
 } from "@/lib/staff";
-import { Badge } from "@/components/ui/badge";
+import { StaffMember } from "@/types/staff";
 
 type Props = {
   selectedStaff: StaffMember;
@@ -19,11 +19,17 @@ const StaffDetail = ({ selectedStaff }: Props) => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row gap-6">
         <div className="md:w-1/3 space-y-4">
-          <div className="flex items-center gap-3">
-            {getRoleIcon(selectedStaff.role)}
-            <div>
-              <h3 className="font-bold text-lg">{selectedStaff.name}</h3>
-              <p className="text-muted-foreground">{selectedStaff.role}</p>
+          <div className="flex flex-col gap-1">
+            <h3 className="font-bold text-lg">{selectedStaff.name}</h3>
+            <div className="flex gap-2 items-center">
+              <p className="text-muted-foreground">
+                {getRoleLabel(selectedStaff.role)}
+              </p>
+              <Badge
+                className={`${getReputationColor(selectedStaff.reputation)} capitalize`}
+              >
+                {selectedStaff.reputation}
+              </Badge>
             </div>
           </div>
 
@@ -39,13 +45,6 @@ const StaffDetail = ({ selectedStaff }: Props) => {
             <div className="flex justify-between">
               <span className="text-muted-foreground">Experience:</span>
               <span>{selectedStaff.experience} years</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Reputation:</span>
-              <Badge className={getReputationColor(selectedStaff.reputation)}>
-                {selectedStaff.reputation.charAt(0).toUpperCase() +
-                  selectedStaff.reputation.slice(1)}
-              </Badge>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Salary:</span>

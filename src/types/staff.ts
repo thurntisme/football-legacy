@@ -1,17 +1,14 @@
+import { StaffCategoryEnum, StaffReputationEnum } from "@/constants/staff";
+
 export type StaffMember = {
   id: number;
   name: string;
-  role: string;
+  role: StaffCategoryEnum;
   specialty?: string;
   nationality: string;
   age: number;
   experience: number; // 1-20
-  reputation:
-    | "world class"
-    | "elite"
-    | "established"
-    | "developing"
-    | "amateur";
+  reputation: StaffReputationEnum;
   salary: number;
   contractYears?: number;
   attributes: {
@@ -27,6 +24,3 @@ export type StaffMember = {
   benefits: string[];
   hired?: boolean;
 };
-
-// Types for staff categories
-export type StaffType = "coaching" | "medical" | "scouting" | "hire";

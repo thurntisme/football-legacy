@@ -1,5 +1,12 @@
 "use client";
 
+import React, { useMemo, useState } from "react";
+
+import { Info, Trash2, UserSearchIcon, UserX, Users } from "lucide-react";
+
+import ContentWrapper from "@/components/common/content-wrapper";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,43 +16,64 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  DialogHeader,
-  DialogFooter,
-  DialogClose,
   DialogCloseBtn,
+  DialogFooter,
+  DialogHeader,
 } from "@/components/ui/dialog";
-import { staffList } from "@/mock/staff";
-import { StaffMember, StaffType } from "@/types/staff";
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
-  DialogTitle,
   DialogDescription,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Trash2, Users, Link, UserX } from "lucide-react";
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { StaffCategoryEnum } from "@/constants/staff";
 import { toast } from "@/hooks/use-toast";
-import { Badge } from "@/components/ui/badge";
-import { getFilteredCurrentStaff, getReputationColor } from "@/lib/staff";
+import { internalApi } from "@/lib/api/internal";
+import { getReputationColor, getRoleLabel } from "@/lib/staff";
+import { StaffMember } from "@/types/staff";
+import { useQuery } from "@tanstack/react-query";
+
+import CategorySelector from "./category-selector";
 import StaffDetail from "./staff-detail";
 
-const StaffList = ({ type }: { type: StaffType }) => {
-  const [currentStaff, setCurrentStaff] = useState<StaffMember[]>(
-    staffList as StaffMember[],
+type props = {
+  onSelectHireTab: () => void;
+};
+
+const StaffList = ({ onSelectHireTab }: props) => {
+  const [selectedCategory, setSelectedCategory] = useState<StaffCategoryEnum>(
+    StaffCategoryEnum.ALL,
   );
   const [selectedStaff, setSelectedStaff] = useState<StaffMember | null>(null);
   const [selectedFireStaff, setSelectedFireStaff] =
     useState<StaffMember | null>(null);
 
-  const filteredStaff = getFilteredCurrentStaff(currentStaff, type);
+  const {
+    data: staffList,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery<StaffMember[] | null>({
+    queryKey: ["own-staff-list"],
+    queryFn: async () => {
+      const { data } = await internalApi.get("/staff/own");
+      return data;
+    },
+  });
+
+  const filteredStaff = useMemo(() => {
+    if (!staffList) return [];
+    return staffList.filter((staff) => {
+      if (selectedCategory === StaffCategoryEnum.ALL) {
+        return true;
+      } else {
+        return staff.role === selectedCategory;
+      }
+    });
+  }, [selectedCategory, staffList]);
 
   const handleFireStaff = (staff: StaffMember) => {
-    // Remove from current staff
-    setCurrentStaff(currentStaff.filter((s) => s.id !== staff.id));
-
-    // Close dialog
     setSelectedFireStaff(null);
 
     toast({
@@ -55,16 +83,20 @@ const StaffList = ({ type }: { type: StaffType }) => {
   };
 
   return (
-    <>
-      <div className="space-y-6">
+    <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
+      <CategorySelector
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
+      {filteredStaff && filteredStaff.length ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {filteredStaff.map((staff) => (
             <Card key={staff.id} className="overflow-hidden">
-              <CardHeader className="pb-2">
+              <CardHeader className="pb-4">
                 <div className="flex justify-between items-start">
-                  <div>
+                  <div className="space-y-1">
                     <CardTitle className="text-base">{staff.name}</CardTitle>
-                    <CardDescription>{staff.role}</CardDescription>
+                    {getRoleLabel(staff.role)}
                   </div>
                   <Badge className={getReputationColor(staff.reputation)}>
                     {staff.reputation.charAt(0).toUpperCase() +
@@ -72,7 +104,7 @@ const StaffList = ({ type }: { type: StaffType }) => {
                   </Badge>
                 </div>
               </CardHeader>
-              <CardContent className="pb-2">
+              <CardContent className="pb-4">
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Nationality:</span>
@@ -102,7 +134,8 @@ const StaffList = ({ type }: { type: StaffType }) => {
                       size="sm"
                       onClick={() => setSelectedStaff(staff)}
                     >
-                      View Details
+                      View Detail
+                      <Info className="h-4 w-4" />
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-3xl">
@@ -165,21 +198,19 @@ const StaffList = ({ type }: { type: StaffType }) => {
             </Card>
           ))}
         </div>
-
-        {filteredStaff.length === 0 && (
-          <div className="text-center py-8">
-            <Users className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
-            <h3 className="text-lg font-medium mb-1">No Staff Found</h3>
-            <p className="text-muted-foreground mb-4">
-              You don't have any staff in this category.
-            </p>
-            <Button asChild>
-              <Link href="/game/staff?tab=hire">Hire Staff</Link>
-            </Button>
-          </div>
-        )}
-      </div>
-    </>
+      ) : (
+        <div className="text-center py-8">
+          <Users className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
+          <h3 className="text-lg font-medium mb-1">No Staff Found</h3>
+          <p className="text-muted-foreground mb-4">
+            You don't have any staff in this category.
+          </p>
+          <Button onClick={onSelectHireTab}>
+            Hire Staff <UserSearchIcon className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
+    </ContentWrapper>
   );
 };
 
