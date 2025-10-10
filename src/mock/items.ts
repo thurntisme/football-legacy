@@ -85,6 +85,8 @@ const ClubItems: ShopItem[] = [
     name: "Club Name Change",
     description: "Change your club's name",
     price: 10000,
+    discount: 13,
+    limited: true,
     category: ItemCategoryEnum.CLUB,
     effect: "Rename your club",
     duration: {

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Building, Check, User, Users, Zap } from "lucide-react";
+import { X, Zap } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,34 +20,48 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { players } from "@/constants/player";
-import { getCategoryIcon } from "@/lib/item";
+  ClubItemEnum,
+  ItemCategoryEnum,
+  PlayerItemEnum,
+  TeamItemEnum,
+} from "@/constants/items";
+import { PlayerEditionEnum } from "@/constants/player";
+import { getCategoryIcon, getCategoryLabel } from "@/lib/item";
 import { InventoryItem } from "@/types/item";
+
+import ClubItem from "./club-item";
+import PlayerCardItem from "./player-card-item";
+import PlayerItem from "./player-item";
+import TeamItem from "./team-item";
 
 type Props = {
   item: InventoryItem;
   selectedItem: InventoryItem | null;
-  setSelectedItem: (item: InventoryItem) => void;
-  selectedPlayer: string;
-  setSelectedPlayer: (playerName: string) => void;
-  handleUseItem: (item: InventoryItem) => void;
+  setSelectedItem: (item: InventoryItem | null) => void;
 };
 
-const InventoryCard = ({
-  item,
-  selectedItem,
-  setSelectedItem,
-  selectedPlayer,
-  setSelectedPlayer,
-  handleUseItem,
-}: Props) => {
+const InventoryCard = ({ item, selectedItem, setSelectedItem }: Props) => {
+  const [showDialog, setShowDialog] = useState(false);
+
+  const renderItemSelected = (item: InventoryItem) => {
+    if (item.category === ItemCategoryEnum.PLAYER_CARD) {
+      return <PlayerCardItem slug={item.slug as PlayerEditionEnum} />;
+    }
+    if (item.category === ItemCategoryEnum.PLAYER) {
+      return <PlayerItem slug={item.slug as PlayerItemEnum} />;
+    }
+    if (item.category === ItemCategoryEnum.TEAM) {
+      return <TeamItem slug={item.slug as TeamItemEnum} />;
+    }
+    if (item.category === ItemCategoryEnum.CLUB) {
+      return <ClubItem slug={item.slug as ClubItemEnum} />;
+    }
+
+    return null;
+  };
+
   return (
     <Card className="flex flex-col relative">
       <CardHeader className="pb-2">
@@ -69,7 +83,9 @@ const InventoryCard = ({
         <div className="flex justify-center space-x-2 mb-2">
           <Badge variant="outline" className="flex items-center">
             {getCategoryIcon(item.category)}
-            <span className="ml-1 capitalize">{item.category}</span>
+            <span className="ml-1 capitalize">
+              {getCategoryLabel(item.category)}
+            </span>
           </Badge>
         </div>
         <p className="text-sm text-center text-muted-foreground">
@@ -78,7 +94,7 @@ const InventoryCard = ({
       </CardContent>
       <CardFooter className="flex justify-between py-2 px-3 mt-auto border-t">
         <div className="font-medium">Qty: {item.remaining_quantity}</div>
-        <Dialog>
+        <Dialog open={showDialog} onOpenChange={setShowDialog}>
           <DialogTrigger asChild>
             <Button
               variant="default"
@@ -95,7 +111,7 @@ const InventoryCard = ({
                 <DialogHeader>
                   <DialogTitle>Use Item</DialogTitle>
                   <DialogDescription>
-                    {selectedItem.category === "player"
+                    {selectedItem.category === ItemCategoryEnum.PLAYER_CARD
                       ? "Select a player to use this item on"
                       : `Activate ${selectedItem.name} for your ${selectedItem.category}`}
                   </DialogDescription>
@@ -114,41 +130,20 @@ const InventoryCard = ({
                     <p className="text-sm text-muted-foreground">
                       {selectedItem.effect}
                     </p>
-                    <p className="text-sm text-muted-foreground">
-                      Duration: {item.duration.quantity} {item.duration.unit}
-                    </p>
                   </div>
                 </div>
 
-                {selectedItem.category === "player" && (
-                  <div className="mb-4">
-                    <label className="text-sm font-medium mb-2 block">
-                      Select Player
-                    </label>
-                    <Select
-                      value={selectedPlayer}
-                      onValueChange={setSelectedPlayer}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a player" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {players.map((player) => (
-                          <SelectItem key={player.id} value={player.name}>
-                            {player.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
+                <div className="py-4">{renderItemSelected(item)}</div>
 
-                <DialogFooter>
-                  <Button onClick={() => handleUseItem(selectedItem)}>
-                    <Zap className="mr-2 h-4 w-4" />
-                    {selectedItem.category === "player"
-                      ? "Apply to Player"
-                      : "Activate"}
+                <Separator />
+
+                <DialogFooter className="flex flex-row !justify-center">
+                  <Button
+                    onClick={() => setShowDialog(false)}
+                    variant="outline"
+                  >
+                    <X className="h-4 w-4" />
+                    Cancel
                   </Button>
                 </DialogFooter>
               </>

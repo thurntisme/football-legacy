@@ -9,8 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { formatNumber } from "@/lib/finance";
-import { getCategoryIcon, getCategoryLabel, getItemPrice } from "@/lib/item";
+import {
+  getCategoryIcon,
+  getCategoryLabel,
+  getItemPriceHtml,
+} from "@/lib/item";
 import { ShopItem } from "@/types/item";
 
 import ConfirmPurchaseDialog from "./confirm-purchase-dialog";
@@ -33,12 +36,12 @@ const ShopItemCard = ({
 }: Props) => {
   return (
     <Card
-      key={item.id}
+      key={item.slug}
       className={`${item.discount ? "border-primary" : ""} relative flex flex-col`}
     >
       {item.discount && (
         <div className="absolute top-2 right-2">
-          <Badge className="bg-primary">-{item.discount}%</Badge>
+          <Badge className="bg-primary">{item.discount}%</Badge>
         </div>
       )}
       {item.limited && (
@@ -80,18 +83,7 @@ const ShopItemCard = ({
         </p>
       </CardContent>
       <CardFooter className="flex justify-between py-2 px-3 border-t mt-auto">
-        <div className="flex items-center">
-          {item.discount ? (
-            <div className="flex flex-col">
-              <span className="text-sm line-through text-muted-foreground">
-                {formatNumber(item.price)}
-              </span>
-              <span className="font-bold">{getItemPrice(item)} coins</span>
-            </div>
-          ) : (
-            <span className="font-bold">{formatNumber(item.price)} coins</span>
-          )}
-        </div>
+        <div className="flex items-center">{getItemPriceHtml(item)}</div>
         <div className="flex gap-2">
           <InfoDialog
             selectedItem={selectedItem}

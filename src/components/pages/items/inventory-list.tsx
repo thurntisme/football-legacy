@@ -63,9 +63,6 @@ export default function InventoryList({ setTabsValue }: Props) {
                   key={item.slug}
                   selectedItem={selectedItem}
                   setSelectedItem={setSelectedItem}
-                  selectedPlayer={selectedPlayer}
-                  setSelectedPlayer={setSelectedPlayer}
-                  handleUseItem={handleUseItem}
                 />
               ))}
             </div>
