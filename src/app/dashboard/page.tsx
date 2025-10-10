@@ -22,7 +22,7 @@ export default function Home() {
         title="Dashboard"
         subTitle="Welcome back to your football manager dashboard"
       >
-        <Button asChild>
+        <Button variant="outline" asChild>
           <Link href="/game/match/prepare">
             <Trophy className="h-4 w-4" />
             Prepare Match

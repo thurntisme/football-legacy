@@ -1,12 +1,11 @@
-import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
-
 import React from "react";
 
-import { Star } from "lucide-react";
+import { Star, Swords, X } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import {
   Dialog,
   DialogContent,
@@ -14,7 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { OnlineManager } from "@/types/football/match";
+import { OnlineManager } from "@/types/match";
 
 type Props = {
   teamInfoDialogOpen: boolean;
@@ -114,7 +113,7 @@ const TeamInfoDialog = ({
                     <li key={index} className="text-sm">
                       {player}
                     </li>
-                  )
+                  ),
                 )}
               </ul>
             </div>
@@ -128,7 +127,7 @@ const TeamInfoDialog = ({
                       <li key={index} className="text-sm">
                         {strength}
                       </li>
-                    )
+                    ),
                   )}
                 </ul>
               </div>
@@ -141,7 +140,7 @@ const TeamInfoDialog = ({
                       <li key={index} className="text-sm">
                         {weakness}
                       </li>
-                    )
+                    ),
                   )}
                 </ul>
               </div>
@@ -150,7 +149,10 @@ const TeamInfoDialog = ({
         )}
 
         <DialogFooter>
-          <Button onClick={() => setTeamInfoDialogOpen(false)}>Close</Button>
+          <Button onClick={() => setTeamInfoDialogOpen(false)}>
+            <X className="h-4 w-4" />
+            Close
+          </Button>
           {selectedTeam?.status === "online" && (
             <Button
               onClick={() => {
@@ -158,6 +160,7 @@ const TeamInfoDialog = ({
                 challengeUser(selectedTeam);
               }}
             >
+              <Swords className="h-4 w-4" />
               Challenge
             </Button>
           )}

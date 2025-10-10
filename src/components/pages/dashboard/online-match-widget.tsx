@@ -157,8 +157,8 @@ export default function OnlineMatchWidget() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button asChild className="w-full">
-          <Link href={`${FOOTBALL_STATS_URL}/game/online-match`}>
+        <Button asChild className="w-full" variant="outline">
+          <Link href={`${FOOTBALL_STATS_URL}/game/online`}>
             Play Online Match
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
