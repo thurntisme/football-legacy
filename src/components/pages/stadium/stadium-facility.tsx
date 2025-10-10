@@ -14,9 +14,10 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
 import { IStadiumFacility } from "@/types/common";
+import { Facility } from "@/types/stadium";
 
 type Props = {
-  facilities: IStadiumFacility[];
+  facilities: Facility[] | undefined;
   handleToggleFacility: (facilityId: string) => void;
   handleUpgradeFacility: (facility: IStadiumFacility) => void;
   handleDowngradeFacility: (facility: IStadiumFacility) => void;
@@ -28,6 +29,8 @@ const StadiumFacility = ({
   handleDowngradeFacility,
   handleUpgradeFacility,
 }: Props) => {
+  if (!facilities) return null;
+
   return (
     <Card>
       <CardHeader>
@@ -38,12 +41,12 @@ const StadiumFacility = ({
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
-          {facilities.map((facility) => (
+          {facilities.map((facility: Facility) => (
             <div key={facility.id} className="border-b pb-6 last:border-0">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center">
                   <div className="mr-3 p-2 bg-primary/10 rounded-full">
-                    {facility.icon}
+                    {/* {facility.icon} */}
                   </div>
                   <div>
                     <h3 className="text-lg font-medium">{facility.name}</h3>
@@ -79,7 +82,7 @@ const StadiumFacility = ({
                           onClick={() => handleDowngradeFacility(facility)}
                           disabled={facility.currentLevel <= 1}
                         >
-                          <ChevronDown className="h-4 w-4 mr-1" />
+                          <ChevronDown className="w-4 mr-1" />
                           Downgrade
                         </Button>
                         <Button
@@ -87,7 +90,7 @@ const StadiumFacility = ({
                           onClick={() => handleUpgradeFacility(facility)}
                           disabled={facility.currentLevel >= facility.maxLevel}
                         >
-                          <ChevronUp className="h-4 w-4 mr-1" />
+                          <ChevronUp className="w-4 mr-1" />
                           Upgrade
                         </Button>
                       </div>

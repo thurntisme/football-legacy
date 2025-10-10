@@ -8,18 +8,45 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Facility } from "@/types/stadium";
 
 type Props = {
-  totalCapacity: number;
-  totalMaintenanceCost: number;
-  totalIncome: number;
+  facilities: Facility[] | undefined;
 };
 
-const StadiumOverview = ({
-  totalCapacity,
-  totalMaintenanceCost,
-  totalIncome,
-}: Props) => {
+const StadiumOverview = ({ facilities }: Props) => {
+  if (!facilities) return null;
+
+  const totalCapacity = facilities
+    .filter((facility) => facility.enabled && facility.id === "main-stand")
+    .reduce((total, facility) => {
+      const level =
+        facility.currentLevel > 0
+          ? facility.levels[facility.currentLevel - 1]
+          : null;
+      return total + (level && level.capacity ? level.capacity : 0);
+    }, 0);
+
+  const totalMaintenanceCost = facilities
+    .filter((facility) => facility.enabled)
+    .reduce((total, facility) => {
+      const level =
+        facility.currentLevel > 0
+          ? facility.levels[facility.currentLevel - 1]
+          : null;
+      return total + (level ? level.maintenanceCost : 0);
+    }, 0);
+
+  const totalIncome = facilities
+    .filter((facility) => facility.enabled)
+    .reduce((total, facility) => {
+      const level =
+        facility.currentLevel > 0
+          ? facility.levels[facility.currentLevel - 1]
+          : null;
+      return total + (level && level.income ? level.income : 0);
+    }, 0);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
       <Card>

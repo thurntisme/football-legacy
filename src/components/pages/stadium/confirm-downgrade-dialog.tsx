@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Check, X } from "lucide-react";
+
 import {
   AlertDialogFooter,
   AlertDialogHeader,
@@ -40,6 +42,12 @@ const ConfirmDowngradeDialog = ({
               <>
                 Are you sure you want to downgrade {selectedFacility.name} to
                 level {selectedFacility.currentLevel - 1}?
+              </>
+            )}
+          </AlertDialogDescription>
+          <div>
+            {selectedFacility && selectedFacility.currentLevel > 1 && (
+              <>
                 <div className="mt-4 p-4 bg-muted rounded-md">
                   <div className="flex justify-between">
                     <span>New Maintenance Cost:</span>
@@ -73,11 +81,15 @@ const ConfirmDowngradeDialog = ({
                 </div>
               </>
             )}
-          </AlertDialogDescription>
+          </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>
+            <X className="w-4 h-4" />
+            Cancel
+          </AlertDialogCancel>
           <AlertDialogAction onClick={confirmDowngrade}>
+            <Check className="w-4 h-4" />
             Confirm Downgrade
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -1,20 +1,21 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import ContentWrapper from "@/components/common/content-wrapper";
 import PageTitle from "@/components/common/page-title";
+import ConfirmDowngradeDialog from "@/components/pages/stadium/confirm-downgrade-dialog";
+import ConfirmUpgradeDialog from "@/components/pages/stadium/confirm-upgrade-dialog";
 import StadiumFacility from "@/components/pages/stadium/stadium-facility";
 import StadiumOverview from "@/components/pages/stadium/stadium-overview";
 import { toast } from "@/components/ui/use-toast";
-import { facilityList } from "@/mock/stadium";
+import { internalApi } from "@/lib/api/internal";
 import { Facility } from "@/types/stadium";
-import ConfirmUpgradeDialog from "@/components/pages/stadium/confirm-upgrade-dialog";
-import ConfirmDowngradeDialog from "@/components/pages/stadium/confirm-downgrade-dialog";
+import { useQuery } from "@tanstack/react-query";
 
 export default function StadiumPage() {
-  // Initial facilities data
-  const [facilities, setFacilities] = useState<Facility[]>(facilityList);
+  const [facilities, setFacilities] = useState<Facility[]>();
 
   const [selectedFacility, setSelectedFacility] = useState<Facility | null>(
     null,
@@ -24,40 +25,28 @@ export default function StadiumPage() {
   const [confirmDowngradeDialogOpen, setConfirmDowngradeDialogOpen] =
     useState(false);
 
-  // Calculate total maintenance costs
-  const totalMaintenanceCost = facilities
-    .filter((facility) => facility.enabled)
-    .reduce((total, facility) => {
-      const level =
-        facility.currentLevel > 0
-          ? facility.levels[facility.currentLevel - 1]
-          : null;
-      return total + (level ? level.maintenanceCost : 0);
-    }, 0);
+  const {
+    data: facilityList,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery<Facility[] | null>({
+    queryKey: ["item-list"],
+    queryFn: async () => {
+      const { data } = await internalApi.get("/stadium");
+      return data;
+    },
+  });
 
-  // Calculate total income
-  const totalIncome = facilities
-    .filter((facility) => facility.enabled)
-    .reduce((total, facility) => {
-      const level =
-        facility.currentLevel > 0
-          ? facility.levels[facility.currentLevel - 1]
-          : null;
-      return total + (level && level.income ? level.income : 0);
-    }, 0);
-
-  // Calculate total capacity
-  const totalCapacity = facilities
-    .filter((facility) => facility.enabled && facility.id === "main-stand")
-    .reduce((total, facility) => {
-      const level =
-        facility.currentLevel > 0
-          ? facility.levels[facility.currentLevel - 1]
-          : null;
-      return total + (level && level.capacity ? level.capacity : 0);
-    }, 0);
+  useEffect(() => {
+    if (facilityList) {
+      setFacilities(facilityList);
+    }
+  }, [facilityList]);
 
   const handleToggleFacility = (facilityId: string) => {
+    if (!facilities) return;
+
     setFacilities(
       facilities.map((facility) => {
         if (facility.id === facilityId) {
@@ -97,7 +86,7 @@ export default function StadiumPage() {
   };
 
   const confirmUpgrade = () => {
-    if (!selectedFacility) return;
+    if (!selectedFacility || !facilities) return;
 
     setFacilities(
       facilities.map((facility) => {
@@ -128,7 +117,7 @@ export default function StadiumPage() {
   };
 
   const confirmDowngrade = () => {
-    if (!selectedFacility) return;
+    if (!selectedFacility || !facilities) return;
 
     setFacilities(
       facilities.map((facility) => {
@@ -154,40 +143,32 @@ export default function StadiumPage() {
 
   return (
     <>
-      <PageTitle title="Stadium Development">
-        <div className="flex items-center bg-blue-100 dark:bg-blue-950 px-3 py-1 rounded-md">
-          <span className="text-blue-800 dark:text-blue-300 font-medium text-sm">
-            Stadium Budget: €10M
-          </span>
-        </div>
-      </PageTitle>
+      <PageTitle title="Stadium Development" />
 
-      <StadiumOverview
-        totalCapacity={totalCapacity}
-        totalMaintenanceCost={totalMaintenanceCost}
-        totalIncome={totalIncome}
-      />
+      <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
+        <StadiumOverview facilities={facilities} />
 
-      <StadiumFacility
-        facilities={facilities}
-        handleToggleFacility={handleToggleFacility}
-        handleUpgradeFacility={handleUpgradeFacility}
-        handleDowngradeFacility={handleDowngradeFacility}
-      />
+        <StadiumFacility
+          facilities={facilities}
+          handleToggleFacility={handleToggleFacility}
+          handleUpgradeFacility={handleUpgradeFacility}
+          handleDowngradeFacility={handleDowngradeFacility}
+        />
 
-      <ConfirmUpgradeDialog
-        confirmUpgradeDialogOpen={confirmUpgradeDialogOpen}
-        setConfirmUpgradeDialogOpen={setConfirmUpgradeDialogOpen}
-        selectedFacility={selectedFacility}
-        confirmUpgrade={confirmUpgrade}
-      />
+        <ConfirmUpgradeDialog
+          confirmUpgradeDialogOpen={confirmUpgradeDialogOpen}
+          setConfirmUpgradeDialogOpen={setConfirmUpgradeDialogOpen}
+          selectedFacility={selectedFacility}
+          confirmUpgrade={confirmUpgrade}
+        />
 
-      <ConfirmDowngradeDialog
-        confirmDowngradeDialogOpen={confirmDowngradeDialogOpen}
-        setConfirmDowngradeDialogOpen={setConfirmDowngradeDialogOpen}
-        selectedFacility={selectedFacility}
-        confirmDowngrade={confirmDowngrade}
-      />
+        <ConfirmDowngradeDialog
+          confirmDowngradeDialogOpen={confirmDowngradeDialogOpen}
+          setConfirmDowngradeDialogOpen={setConfirmDowngradeDialogOpen}
+          selectedFacility={selectedFacility}
+          confirmDowngrade={confirmDowngrade}
+        />
+      </ContentWrapper>
     </>
   );
 }

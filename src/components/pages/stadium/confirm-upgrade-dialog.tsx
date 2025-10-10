@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Check, X } from "lucide-react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -39,6 +41,13 @@ const ConfirmUpgradeDialog = ({
                 <>
                   Are you sure you want to upgrade {selectedFacility.name} to
                   level {selectedFacility.currentLevel + 1}?
+                </>
+              )}
+          </AlertDialogDescription>
+          <div>
+            {selectedFacility &&
+              selectedFacility.currentLevel < selectedFacility.maxLevel && (
+                <>
                   <div className="mt-4 p-4 bg-muted rounded-md">
                     <div className="flex justify-between mb-2">
                       <span>Upgrade Cost:</span>
@@ -75,11 +84,15 @@ const ConfirmUpgradeDialog = ({
                   </div>
                 </>
               )}
-          </AlertDialogDescription>
+          </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>
+            <X className="w-4 h-4" />
+            Cancel
+          </AlertDialogCancel>
           <AlertDialogAction onClick={confirmUpgrade}>
+            <Check className="w-4 h-4" />
             Confirm Upgrade
           </AlertDialogAction>
         </AlertDialogFooter>
