@@ -18,17 +18,14 @@ import { internalApi } from "@/lib/api/internal";
 import { OnlineManager } from "@/types/match";
 import { useQuery } from "@tanstack/react-query";
 
-import TeamInfoDialog from "./team-info-dialog";
-
 type Props = {
+  viewTeamInfo: (onlineManager: OnlineManager) => void;
   challengeUser: (user: OnlineManager) => void;
 };
 
-const FindOnlineMatch = ({ challengeUser }: Props) => {
+const FindOnlineMatch = ({ viewTeamInfo, challengeUser }: Props) => {
   const [users, setUsers] = useState<OnlineManager[]>();
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTeam, setSelectedTeam] = useState<OnlineManager | null>(null);
-  const [teamInfoDialogOpen, setTeamInfoDialogOpen] = useState(false);
 
   const {
     data: onlineUsers,
@@ -36,7 +33,7 @@ const FindOnlineMatch = ({ challengeUser }: Props) => {
     error,
     refetch,
   } = useQuery<OnlineManager[] | null>({
-    queryKey: ["item-list"],
+    queryKey: ["online-user-list"],
     queryFn: async () => {
       const { data } = await internalApi.get("/online-user");
       return data;
@@ -48,11 +45,6 @@ const FindOnlineMatch = ({ challengeUser }: Props) => {
       setUsers(onlineUsers);
     }
   }, [onlineUsers]);
-
-  const viewTeamInfo = (user: OnlineManager) => {
-    setSelectedTeam(user);
-    setTeamInfoDialogOpen(true);
-  };
 
   return (
     <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
@@ -138,13 +130,6 @@ const FindOnlineMatch = ({ challengeUser }: Props) => {
           </div>
         </CardContent>
       </Card>
-
-      <TeamInfoDialog
-        teamInfoDialogOpen={teamInfoDialogOpen}
-        setTeamInfoDialogOpen={setTeamInfoDialogOpen}
-        selectedTeam={selectedTeam}
-        challengeUser={challengeUser}
-      />
     </ContentWrapper>
   );
 };

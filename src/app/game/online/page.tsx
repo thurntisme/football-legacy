@@ -299,7 +299,10 @@ export default function OnlineMatchPage() {
         </TabsList>
 
         <TabsContent value="find" className="space-y-4">
-          <FindOnlineMatch challengeUser={challengeUser} />
+          <FindOnlineMatch
+            viewTeamInfo={viewTeamInfo}
+            challengeUser={challengeUser}
+          />
         </TabsContent>
 
         <TabsContent value="match">
@@ -313,11 +316,14 @@ export default function OnlineMatchPage() {
         </TabsContent>
 
         <TabsContent value="history">
-          <MatchHistory viewMatchDetails={viewMatchDetails} />
+          <MatchHistory />
         </TabsContent>
 
         <TabsContent value="leaderboard">
-          <OnlineLeaderboard />
+          <OnlineLeaderboard
+            viewTeamInfo={viewTeamInfo}
+            challengeUser={challengeUser}
+          />
         </TabsContent>
       </Tabs>
 
@@ -350,12 +356,6 @@ export default function OnlineMatchPage() {
         setTeamInfoDialogOpen={setTeamInfoDialogOpen}
         selectedTeam={selectedTeam}
         challengeUser={challengeUser}
-      />
-
-      <MatchDetailDialog
-        matchDetailDialogOpen={matchDetailDialogOpen}
-        setMatchDetailDialogOpen={setMatchDetailDialogOpen}
-        selectedMatch={selectedMatch}
       />
     </>
   );

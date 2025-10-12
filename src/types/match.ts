@@ -16,6 +16,9 @@ export type OnlineManager = {
     strengths: string[];
     weaknesses: string[];
   };
+  wins?: number;
+  draws?: number;
+  losses?: number;
 };
 
 export type MatchMessage = {

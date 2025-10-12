@@ -5,12 +5,12 @@ import React, {
   ReactElement,
   ReactNode,
   ReactPortal,
-} from 'react';
+} from "react";
 
-import { Star } from 'lucide-react';
+import { Star } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -18,26 +18,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Separator } from '@/components/ui/separator';
+} from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { MatchDetail } from "@/types/match";
 
 type Props = {
   matchDetailDialogOpen: boolean;
   setMatchDetailDialogOpen: (open: boolean) => void;
-  selectedMatch: {
-    date: string;
-    opponentTeam: string;
-    score: string;
-    result: 'win' | 'loss' | 'draw';
-    details: {
-      possession: { home: number; away: number };
-      shots: { home: number; away: number };
-      shotsOnTarget: { home: number; away: number };
-      scorers: { home: string[]; away: string[] };
-      cards: { home: string[]; away: string[] };
-      rating: { home: number; away: number };
-    };
-  } | null;
+  selectedMatch: MatchDetail | null;
 };
 
 const MatchDetailDialog = ({
@@ -71,18 +59,18 @@ const MatchDetailDialog = ({
                 </div>
                 <Badge
                   variant={
-                    selectedMatch.result === 'win'
-                      ? 'default'
-                      : selectedMatch.result === 'loss'
-                        ? 'destructive'
-                        : 'outline'
+                    selectedMatch.result === "win"
+                      ? "default"
+                      : selectedMatch.result === "loss"
+                        ? "destructive"
+                        : "outline"
                   }
                 >
-                  {selectedMatch.result === 'win'
-                    ? 'Victory'
-                    : selectedMatch.result === 'loss'
-                      ? 'Defeat'
-                      : 'Draw'}
+                  {selectedMatch.result === "win"
+                    ? "Victory"
+                    : selectedMatch.result === "loss"
+                      ? "Defeat"
+                      : "Draw"}
                 </Badge>
               </div>
 
@@ -207,12 +195,12 @@ const MatchDetailDialog = ({
                               | Promise<AwaitedReactNode>
                               | null
                               | undefined,
-                            index: Key | null | undefined
+                            index: Key | null | undefined,
                           ) => (
                             <li key={index} className="text-sm">
                               {scorer}
                             </li>
-                          )
+                          ),
                         )}
                       </ul>
                     ) : (
@@ -231,7 +219,7 @@ const MatchDetailDialog = ({
                             <li key={index} className="text-sm">
                               {scorer}
                             </li>
-                          )
+                          ),
                         )}
                       </ul>
                     ) : (
@@ -264,12 +252,12 @@ const MatchDetailDialog = ({
                               | Promise<AwaitedReactNode>
                               | null
                               | undefined,
-                            index: Key | null | undefined
+                            index: Key | null | undefined,
                           ) => (
                             <li key={index} className="text-sm">
                               {card}
                             </li>
-                          )
+                          ),
                         )}
                       </ul>
                     ) : (
@@ -299,12 +287,12 @@ const MatchDetailDialog = ({
                               | Promise<AwaitedReactNode>
                               | null
                               | undefined,
-                            index: Key | null | undefined
+                            index: Key | null | undefined,
                           ) => (
                             <li key={index} className="text-sm">
                               {card}
                             </li>
-                          )
+                          ),
                         )}
                       </ul>
                     ) : (
