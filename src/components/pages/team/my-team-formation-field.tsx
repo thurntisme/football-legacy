@@ -11,6 +11,8 @@ import { Player } from "@/types/player";
 import FieldMarking from "./field-marking";
 
 type Props = {
+  isShowRating?: boolean;
+  isShowName?: boolean;
   positions: Position[];
   currentFormation: string | undefined;
   selectedPlayer: Player | null;
@@ -19,6 +21,8 @@ type Props = {
 };
 
 const MyTeamFormationField = ({
+  isShowRating = false,
+  isShowName = true,
   positions,
   currentFormation,
   selectedPlayer,
@@ -40,7 +44,7 @@ const MyTeamFormationField = ({
   };
 
   return (
-    <div className="relative w-full h-[500px] bg-emerald-800 rounded-lg overflow-hidden">
+    <div className="relative w-full h-fit bg-emerald-800 rounded-lg overflow-hidden">
       <FieldMarking />
 
       {positions.map((pos) => (
@@ -62,7 +66,7 @@ const MyTeamFormationField = ({
                     }}
                   >
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center bg-white text-black font-bold text-sm relative ${
+                      className={`w-[20%] aspect-square rounded-full flex items-center justify-center bg-white text-black font-bold text-sm relative ${
                         pos.player.fitness < 80 ? "opacity-70" : ""
                       } ${
                         selectedPlayer &&
@@ -72,18 +76,17 @@ const MyTeamFormationField = ({
                           : ""
                       }`}
                     >
-                      {pos.player.rating}
-                      <div
-                        className={`absolute -top-1 -right-1 w-3 h-3 rounded-full ${getFormColor(
-                          pos.player.form,
-                        )}`}
-                      ></div>
+                      {isShowRating && (
+                        <span className="text-sm">{pos.player.rating}</span>
+                      )}
                     </div>
-                    <div className="mt-1.5 px-2 py-0.5 bg-black/70 rounded text-white text-xs whitespace-nowrap">
-                      {pos.player.name.split(" ").length > 1
-                        ? pos.player.name.split(" ")[1]
-                        : pos.player.name}
-                    </div>
+                    {isShowName && (
+                      <div className="mt-1.5 px-2 py-0.5 bg-black/70 rounded text-white text-xs whitespace-nowrap">
+                        {pos.player.name.split(" ").length > 1
+                          ? pos.player.name.split(" ")[1]
+                          : pos.player.name}
+                      </div>
+                    )}
                   </div>
 
                   {selectedPlayer && selectedPlayer.id !== pos.player.id && (
@@ -111,10 +114,6 @@ const MyTeamFormationField = ({
           </DialogTrigger>
         </Dialog>
       ))}
-
-      <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
-        {currentFormation}
-      </div>
     </div>
   );
 };
