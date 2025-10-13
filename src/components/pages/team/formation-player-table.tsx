@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowLeftRight, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -24,7 +24,8 @@ import { Player } from "@/types/player";
 type Props = {
   initPlayers: Player[];
   selectedPlayer: Player | null;
-  onClickPlayer: (player: Player | null) => void;
+  onClickPlayer: (player: Player) => void;
+  onSwapPlayers: (player: Player) => void;
   isSubstitute?: boolean;
 };
 
@@ -34,6 +35,7 @@ const FormationPlayerTable = ({
   initPlayers,
   selectedPlayer,
   onClickPlayer,
+  onSwapPlayers,
   isSubstitute = false,
 }: Props) => {
   const [currentSubPage, setCurrentSubPage] = useState(0);
@@ -60,17 +62,21 @@ const FormationPlayerTable = ({
           players.map((player) => (
             <TableRow
               key={player.id}
-              className={`btn-sm cursor-pointer 
-                  ${selectedPlayer?.id === player.id ? `${getRatingColor(player.rating)}-200` : `${getRatingColor(player.rating)}-300`} hover:${getRatingColor(player.rating)}-200`}
+              className={`btn-sm cursor-pointer ${
+                selectedPlayer?.id === player.id
+                  ? "bg-blue-500 hover:bg-blue-400 text-white"
+                  : `${getRatingColor(player.rating)}-300 hover:${getRatingColor(player.rating)}-200`
+              }`}
               onClick={() => player.id && onClickPlayer(player)}
             >
               <TableCell className="w-[40px]">
                 <span
                   className="block w-[40px] pl-2 border-l-4"
                   style={{
-                    borderColor: getPositionColor(
-                      player.position as PlayerPosition,
-                    ),
+                    borderColor:
+                      selectedPlayer?.id === player.id
+                        ? "white"
+                        : getPositionColor(player.position as PlayerPosition),
                   }}
                 >
                   {player.position}
@@ -81,6 +87,19 @@ const FormationPlayerTable = ({
                   {player.name}
                   <div className="flex items-center justify-center gap-2">
                     {getPlayerStatusIcons(player)}
+                    {selectedPlayer && selectedPlayer.id !== player.id && (
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-5 w-5 bg-green-600 hover:bg-green-500 text-white hover:text-white btn-swap opacity-0"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSwapPlayers(player);
+                        }}
+                      >
+                        <ArrowLeftRight size="12" />
+                      </Button>
+                    )}
                   </div>
                 </div>
               </TableCell>

@@ -1,3 +1,7 @@
 .pos-item:has(.player-dot:hover) .player-name {
   opacity: 1;
 }
+
+tr:hover .btn-swap {
+  opacity: 1;
+}

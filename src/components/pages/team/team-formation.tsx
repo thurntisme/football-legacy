@@ -111,7 +111,11 @@ export default function TeamFormation({
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-4 gap-6">
-          <div className="flex-1">
+          <div className="flex-1 space-y-4">
+            <SelectedPlayerSummary
+              selectedPlayer={selectedPlayer}
+              handleViewDetailPlayer={handleViewDetailPlayer}
+            />
             <MyTeamFormationField
               positions={positions}
               currentFormation={currentFormation}
@@ -119,30 +123,18 @@ export default function TeamFormation({
               handleSwapPlayers={handleSwapPlayers}
               setSelectedPlayer={setSelectedPlayer}
             />
-
-            <MySubstitutes
-              players={players}
-              selectedPlayer={selectedPlayer}
-              setSelectedPlayer={setSelectedPlayer}
-              viewDetailPlayer={handleViewDetailPlayer}
-              swapSubPlayers={handleSwapSubPlayers}
-            />
           </div>
 
           <div className="col-start-2 col-end-4">
             <MyTeamFormationPlayer
               players={players}
               selectedPlayer={selectedPlayer}
-              onClickPlayer={setSelectedPlayer}
+              setSelectedPlayer={setSelectedPlayer}
+              onSwapPlayers={handleSwapSubPlayers}
             />
           </div>
 
-          <div className="w-full md:w-64 space-y-4">
-            <SelectedPlayerSummary
-              selectedPlayer={selectedPlayer}
-              handleViewDetailPlayer={handleViewDetailPlayer}
-            />
-
+          <div className="w-full space-y-4">
             <MyTeamFormationSelector
               currentFormation={currentFormation}
               handleFormationChange={handleFormationChange}

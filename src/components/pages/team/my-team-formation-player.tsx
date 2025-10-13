@@ -8,13 +8,15 @@ import FormationPlayerTable from "./formation-player-table";
 type Props = {
   players: Player[];
   selectedPlayer: Player | null;
-  onClickPlayer: (player: Player | null) => void;
+  setSelectedPlayer: React.Dispatch<React.SetStateAction<Player | null>>;
+  onSwapPlayers: (player: Player) => void;
 };
 
 const MyTeamFormationPlayer = ({
   players,
   selectedPlayer,
-  onClickPlayer,
+  setSelectedPlayer,
+  onSwapPlayers,
 }: Props) => {
   const [lineup, setLineup] = useState<Player[]>([]);
   const [substitutes, setSubstitutes] = useState<Player[]>([]);
@@ -27,6 +29,15 @@ const MyTeamFormationPlayer = ({
     setSubstitutes(substitutePlayers);
   }, [players]);
 
+  const onClickPlayer = (player: Player) => {
+    if (selectedPlayer && selectedPlayer.id === player.id) {
+      setSelectedPlayer(null);
+      return;
+    }
+
+    setSelectedPlayer(player);
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <Card>
@@ -35,6 +46,7 @@ const MyTeamFormationPlayer = ({
             initPlayers={lineup}
             selectedPlayer={selectedPlayer}
             onClickPlayer={onClickPlayer}
+            onSwapPlayers={onSwapPlayers}
           />
         </CardContent>
       </Card>
@@ -44,6 +56,7 @@ const MyTeamFormationPlayer = ({
             initPlayers={substitutes}
             selectedPlayer={selectedPlayer}
             onClickPlayer={onClickPlayer}
+            onSwapPlayers={onSwapPlayers}
             isSubstitute={true}
           />
         </CardContent>
