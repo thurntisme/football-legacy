@@ -4,7 +4,8 @@ import { ArrowLeftRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { getFormColor } from "@/lib/player";
+import { PlayerPosition } from "@/constants/formations";
+import { getFormColor, getPositionColor } from "@/lib/player";
 import { Position } from "@/types/formation";
 import { Player } from "@/types/player";
 
@@ -12,7 +13,6 @@ import FieldMarking from "./field-marking";
 
 type Props = {
   isShowRating?: boolean;
-  isShowName?: boolean;
   positions: Position[];
   currentFormation: string | undefined;
   selectedPlayer: Player | null;
@@ -22,7 +22,6 @@ type Props = {
 
 const MyTeamFormationField = ({
   isShowRating = false,
-  isShowName = true,
   positions,
   currentFormation,
   selectedPlayer,
@@ -60,45 +59,35 @@ const MyTeamFormationField = ({
               {pos.player ? (
                 <div className="flex flex-col items-center relative pos-item w-[76px]">
                   <div
-                    className="flex flex-col items-center"
+                    className={`w-[25%] player-dot aspect-square rounded-full flex items-center justify-center text-black font-bold text-sm relative ${
+                      pos.player.fitness < 80 ? "opacity-70" : ""
+                    } ${
+                      selectedPlayer &&
+                      pos.player &&
+                      selectedPlayer.id === pos.player.id
+                        ? "ring-4 ring-yellow-400 ring-opacity-70"
+                        : ""
+                    } shadow-[0_0_20px_5px_rgba(255,255,255,0.5)] hover:ring-4 hover:ring-yellow-400 ring-opacity-70`}
+                    style={{
+                      backgroundColor: getPositionColor(
+                        pos.player.position as PlayerPosition,
+                      ),
+                    }}
                     onClick={() => {
                       handleClickPlayer(pos.player);
                     }}
                   >
-                    <div
-                      className={`w-[20%] aspect-square rounded-full flex items-center justify-center bg-white text-black font-bold text-sm relative ${
-                        pos.player.fitness < 80 ? "opacity-70" : ""
-                      } ${
-                        selectedPlayer &&
-                        pos.player &&
-                        selectedPlayer.id === pos.player.id
-                          ? "ring-4 ring-yellow-400 ring-opacity-70"
-                          : ""
-                      }`}
-                    >
-                      {isShowRating && (
-                        <span className="text-sm">{pos.player.rating}</span>
-                      )}
-                    </div>
-                    {isShowName && (
-                      <div className="mt-1.5 px-2 py-0.5 bg-black/70 rounded text-white text-xs whitespace-nowrap">
-                        {pos.player.name.split(" ").length > 1
-                          ? pos.player.name.split(" ")[1]
-                          : pos.player.name}
-                      </div>
+                    {isShowRating && (
+                      <span className="text-sm">{pos.player.rating}</span>
                     )}
                   </div>
-
-                  {selectedPlayer && selectedPlayer.id !== pos.player.id && (
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      className="w-5 h-5 p-0 bg-yellow-500 hover:bg-yellow-500 opacity-0 text-white text-xs absolute bottom-[16px] btn-swap"
-                      onClick={() => handleSwapPlayer(pos)}
-                    >
-                      <ArrowLeftRight className="h-0.5 w-0.5" />
-                    </Button>
-                  )}
+                  <div className="flex flex-col items-center absolute -bottom-5 opacity-0 player-name pointer-events-none">
+                    <div className="mt-1.5 px-2 py-0.5 bg-black/70 rounded text-white text-[10px] whitespace-nowrap">
+                      {pos.player.name.split(" ").length > 1
+                        ? pos.player.name.split(" ")[1]
+                        : pos.player.name}
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div className="flex flex-col items-center">
