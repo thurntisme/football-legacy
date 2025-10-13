@@ -299,10 +299,10 @@ export const getStatusBadge = (status: PlayerStatus) => {
 };
 
 export const getRatingColor = (rating: number) => {
-  if (rating >= 90) return "bg-purple-300 hover:bg-purple-200";
-  if (rating >= 80) return "bg-red-300 hover:bg-red-200";
-  if (rating >= 70) return "bg-amber-300 hover:bg-amber-200";
-  return "bg-emerald-300 hover:bg-emerald-200";
+  if (rating >= 90) return "bg-purple";
+  if (rating >= 80) return "bg-red";
+  if (rating >= 70) return "bg-amber";
+  return "bg-emerald";
 };
 
 export const getPositionColor = (position: PlayerPosition) => {
@@ -318,6 +318,7 @@ export const getPlayerStatusIcons = (player: Player) => {
   if (isLevelUp) {
     levelUp = (
       <Badge
+        key="level-up"
         className="
     text-white 
     font-semibold 
@@ -341,6 +342,7 @@ export const getPlayerStatusIcons = (player: Player) => {
           case "injured":
             return (
               <Badge
+                key={status.type}
                 variant="outline"
                 className="flex items-center gap-1 p-0 w-5 h-5 rounded-full text-red-500 border-none"
               >
@@ -350,6 +352,7 @@ export const getPlayerStatusIcons = (player: Player) => {
           case "suspended":
             return (
               <Badge
+                key={status.type}
                 variant="outline"
                 className="flex items-center gap-1 p-0 w-5 h-5 rounded-full text-red-500 border-none"
               >
