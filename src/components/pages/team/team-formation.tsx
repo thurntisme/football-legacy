@@ -112,10 +112,7 @@ export default function TeamFormation({
       <CardContent>
         <div className="grid grid-cols-4 gap-6">
           <div className="flex-1 space-y-4">
-            <SelectedPlayerSummary
-              selectedPlayer={selectedPlayer}
-              handleViewDetailPlayer={handleViewDetailPlayer}
-            />
+            <MyTeamRating positions={positions} />
             <MyTeamFormationField
               positions={positions}
               currentFormation={currentFormation}
@@ -123,6 +120,11 @@ export default function TeamFormation({
               handleSwapPlayers={handleSwapPlayers}
               setSelectedPlayer={setSelectedPlayer}
             />
+            <MyTeamFormationSelector
+              currentFormation={currentFormation}
+              handleFormationChange={handleFormationChange}
+            />
+            <QuickAction players={players} formation={currentFormation} />
           </div>
 
           <div className="col-start-2 col-end-4">
@@ -135,15 +137,10 @@ export default function TeamFormation({
           </div>
 
           <div className="w-full space-y-4">
-            <MyTeamFormationSelector
-              currentFormation={currentFormation}
-              handleFormationChange={handleFormationChange}
+            <SelectedPlayerSummary
+              selectedPlayer={selectedPlayer}
+              handleViewDetailPlayer={handleViewDetailPlayer}
             />
-
-            <MyTeamRating positions={positions} />
-
-            <QuickAction players={players} formation={currentFormation} />
-
             <Button className="w-full" onClick={handleSaveFormation}>
               <Save className="mr-2 h-4 w-4" />
               Save Formation
