@@ -56,6 +56,51 @@ export enum PlayerPosition {
   SS = "SS",
 }
 
+export const POSITION_COLORS = [
+  {
+    positions: [PlayerPosition.GK],
+    color: "oklch(76.9% 0.188 70.08)",
+  },
+  {
+    positions: [
+      PlayerPosition.CB,
+      PlayerPosition.LCB,
+      PlayerPosition.RCB,
+      PlayerPosition.LB,
+      PlayerPosition.RB,
+      PlayerPosition.LWB,
+      PlayerPosition.RWB,
+    ],
+    color: "oklch(54.6% 0.245 262.881)",
+  },
+  {
+    positions: [
+      PlayerPosition.CDM,
+      PlayerPosition.LCDM,
+      PlayerPosition.RCDM,
+      PlayerPosition.CM,
+      PlayerPosition.LCM,
+      PlayerPosition.RCM,
+      PlayerPosition.CAM,
+      PlayerPosition.LCAM,
+      PlayerPosition.RCAM,
+      PlayerPosition.LM,
+      PlayerPosition.RM,
+    ],
+    color: "oklch(72.3% 0.219 149.579)",
+  },
+  {
+    positions: [
+      PlayerPosition.LW,
+      PlayerPosition.RW,
+      PlayerPosition.ST,
+      PlayerPosition.CF,
+      PlayerPosition.SS,
+    ],
+    color: "oklch(57.7% 0.245 27.325)",
+  },
+];
+
 export const PlayerPositionLabel: Record<PlayerPosition, string> = {
   // 🧤 Goalkeeper
   [PlayerPosition.GK]: "Goalkeeper",

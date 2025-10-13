@@ -1,8 +1,25 @@
-import { AlertTriangle, ArrowUpRight } from "lucide-react";
+import {
+  AlertCircle,
+  AlertTriangle,
+  ArrowBigUpDash,
+  ArrowDown,
+  ArrowDownRight,
+  ArrowRight,
+  ArrowUp,
+  ArrowUpRight,
+  CheckCircle,
+  Cross,
+  CrossIcon,
+  Hospital,
+  OctagonAlert,
+  OctagonX,
+  XCircle,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { PlayerEditionEnum } from "@/constants/player";
-import { PlayerForm, PlayerStatus } from "@/types/player";
+import { POSITION_COLORS, PlayerPosition } from "@/constants/formations";
+import { PlayerEditionEnum, expThresholds } from "@/constants/player";
+import { Player, PlayerForm, PlayerStatus } from "@/types/player";
 
 export const getFormColor = (form: PlayerForm) => {
   switch (form) {
@@ -32,6 +49,28 @@ export const getFormBadge = (form: string) => {
     default:
       return <Badge variant="outline">Unknown</Badge>;
   }
+};
+
+export const getFormBadgeIcon = (form: string) => {
+  switch (form) {
+    case "excellent":
+      return <ArrowUp className="text-green-500 w-4 h-4" />;
+    case "good":
+      return <ArrowUpRight className="text-emerald-400 w-4 h-4" />;
+    case "average":
+      return <ArrowRight className="text-amber-400 w-4 h-4" />;
+    case "poor":
+      return <ArrowDownRight className="text-red-400 w-4 h-4" />;
+    default:
+      return <ArrowDown className="text-gray-400 w-4 h-4" />;
+  }
+};
+
+export const getFitnessColorCode = (fitness: number) => {
+  if (fitness >= 90) return "green-500";
+  if (fitness >= 75) return "emerald-400";
+  if (fitness >= 60) return "amber-400";
+  return "red-500";
 };
 
 export const getFitnessColor = (fitness: number) => {
@@ -257,4 +296,116 @@ export const getStatusBadge = (status: PlayerStatus) => {
     default:
       return null;
   }
+};
+
+export const getRatingColor = (rating: number) => {
+  if (rating >= 90) return "bg-purple-300 hover:bg-purple-200";
+  if (rating >= 80) return "bg-red-300 hover:bg-red-200";
+  if (rating >= 70) return "bg-amber-300 hover:bg-amber-200";
+  return "bg-emerald-300 hover:bg-emerald-200";
+};
+
+export const getPositionColor = (position: PlayerPosition) => {
+  return (
+    POSITION_COLORS.find((p) => p.positions.includes(position))?.color ||
+    "gray-300"
+  );
+};
+
+export const getPlayerStatusIcons = (player: Player) => {
+  const isLevelUp = checkPlayerLevelUp(player);
+  let levelUp = null;
+  if (isLevelUp) {
+    levelUp = (
+      <Badge
+        className="
+    text-white 
+    font-semibold 
+    flex items-center gap-1 
+    bg-gradient-to-b 
+    from-yellow-300 
+    via-amber-500 
+    to-yellow-300
+    shadow-md
+    px-1
+  "
+      >
+        <ArrowBigUpDash className="h-4 w-4" />
+      </Badge>
+    );
+  }
+
+  const status = player?.status
+    ? player.status.map((status) => {
+        switch (status.type) {
+          case "injured":
+            return (
+              <Badge
+                variant="outline"
+                className="flex items-center gap-1 p-0 w-5 h-5 rounded-full text-red-500 border-none"
+              >
+                <Hospital className="h-5 w-5" />
+              </Badge>
+            );
+          case "suspended":
+            return (
+              <Badge
+                variant="outline"
+                className="flex items-center gap-1 p-0 w-5 h-5 rounded-full text-red-500 border-none"
+              >
+                <OctagonX className="h-5 w-5" />
+              </Badge>
+            );
+          default:
+            return null;
+        }
+      })
+    : null;
+
+  return (
+    <>
+      {levelUp}
+      {status}
+    </>
+  );
+};
+
+const checkPlayerLevelUp = (player: Player) => {
+  return !!player?.attributeBonus;
+};
+
+const getLevelConfig = (level: number) => {
+  return (
+    expThresholds.find((r) => level >= r.min && level <= r.max) ??
+    expThresholds.at(-1)!
+  );
+};
+
+export const getExpForNextLevel = (level: number) => {
+  return getLevelConfig(level).expPerLevel;
+};
+
+export const getAttributeBonusForLevel = (level: number) => {
+  return getLevelConfig(level).attributeBonus;
+};
+
+export const levelUpIfPossible = (player: Player): Player => {
+  let newLevel = player.level || 1;
+  let remainingExp = player.exp || 0;
+  let attributeBonus = player.attributeBonus || 0;
+  let totalBonus = 0;
+
+  while (remainingExp >= getExpForNextLevel(newLevel) && newLevel < 99) {
+    remainingExp -= getExpForNextLevel(newLevel);
+    newLevel++;
+
+    totalBonus += getAttributeBonusForLevel(newLevel);
+  }
+
+  return {
+    ...player,
+    level: newLevel,
+    exp: remainingExp,
+    attributeBonus: attributeBonus + totalBonus,
+  };
 };

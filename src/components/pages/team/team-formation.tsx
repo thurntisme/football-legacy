@@ -20,6 +20,7 @@ import { Player } from "@/types/player";
 
 import MySubstitutes from "./my-substitutes";
 import MyTeamFormationField from "./my-team-formation-field";
+import MyTeamFormationPlayer from "./my-team-formation-player";
 import MyTeamFormationSelector from "./my-team-formation-selector";
 import MyTeamRating from "./my-team-rating";
 import QuickAction from "./quick-action";
@@ -109,7 +110,7 @@ export default function TeamFormation({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col md:flex-row gap-6">
+        <div className="grid grid-cols-4 gap-6">
           <div className="flex-1">
             <MyTeamFormationField
               positions={positions}
@@ -125,6 +126,14 @@ export default function TeamFormation({
               setSelectedPlayer={setSelectedPlayer}
               viewDetailPlayer={handleViewDetailPlayer}
               swapSubPlayers={handleSwapSubPlayers}
+            />
+          </div>
+
+          <div className="col-start-2 col-end-4">
+            <MyTeamFormationPlayer
+              players={players}
+              selectedPlayer={selectedPlayer}
+              onClickPlayer={setSelectedPlayer}
             />
           </div>
 

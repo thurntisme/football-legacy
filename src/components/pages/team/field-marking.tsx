@@ -3,7 +3,7 @@ import React from "react";
 const FieldMarking = () => {
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-emerald-800">
-      <div className="relative w-[90%] aspect-[105/68] border-4 border-white/70 bg-emerald-700 overflow-hidden">
+      <div className="relative h-[90%] aspect-[68/105] border-4 border-white/70 bg-emerald-700 overflow-hidden rotate-90">
         {/* Halfway line */}
         <div className="absolute top-1/2 left-0 w-full h-[2px] bg-white/70 transform -translate-y-1/2"></div>
 

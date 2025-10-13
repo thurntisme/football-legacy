@@ -173,11 +173,13 @@ export type PlayerInClub = {
     wage: number; // Wage contribution
   };
 
+  exp: number; // Experience points
+  attributeBonus: number; // Attribute bonus
   level: number; // Player level or experience tier
   role: PlayerRoleEnum | null; // Current role in the team
   morale: PlayerMorale; // Current morale level
 
-  status: PlayerStatus;
+  status: PlayerStatus[];
 
   stats: {
     matches: number; // Number of matches played

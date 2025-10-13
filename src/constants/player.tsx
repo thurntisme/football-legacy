@@ -128,6 +128,7 @@ export enum PlayerEditionEnum {
   CLASSIC_90S = "classic_90s",
   CLASSIC_2000S = "classic_2000s",
   CLASSIC_2010S = "classic_2010s",
+  CLASSIC_2020S = "classic_2020s",
   MODERN = "modern",
   FUTURE_STAR = "future_star",
   WORLD_CUP = "world_cup",
@@ -147,6 +148,7 @@ export const PlayerEditionLabel: Record<PlayerEditionEnum, string> = {
   [PlayerEditionEnum.CLASSIC_90S]: "Classic 90s",
   [PlayerEditionEnum.CLASSIC_2000S]: "Classic 2000s",
   [PlayerEditionEnum.CLASSIC_2010S]: "Classic 2010s",
+  [PlayerEditionEnum.CLASSIC_2020S]: "Classic 2020s",
   [PlayerEditionEnum.MODERN]: "Modern",
   [PlayerEditionEnum.FUTURE_STAR]: "Future Star",
   [PlayerEditionEnum.WORLD_CUP]: "World Cup",
@@ -158,3 +160,17 @@ export const PlayerEditionLabel: Record<PlayerEditionEnum, string> = {
   [PlayerEditionEnum.TEAM_OF_THE_YEAR]: "TOTY",
   [PlayerEditionEnum.TEAM_OF_THE_SEASON]: "TOTS",
 };
+
+export const expThresholds: {
+  min: number;
+  max: number;
+  expPerLevel: number;
+  attributeBonus: number;
+}[] = [
+  { min: 1, max: 10, expPerLevel: 1000, attributeBonus: 4 },
+  { min: 11, max: 20, expPerLevel: 1500, attributeBonus: 3 },
+  { min: 21, max: 40, expPerLevel: 2500, attributeBonus: 3 },
+  { min: 41, max: 60, expPerLevel: 4000, attributeBonus: 2 },
+  { min: 61, max: 80, expPerLevel: 6000, attributeBonus: 1 },
+  { min: 81, max: 99, expPerLevel: 9000, attributeBonus: 1 },
+];
