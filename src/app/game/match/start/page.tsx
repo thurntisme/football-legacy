@@ -21,29 +21,48 @@ import {
 } from "@/components/ui/card";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
+import { commentaryPhrases } from "@/mock/match-start";
 import {
-  commentaryPhrases,
-  playerRoles,
-  tacticalTriggers,
-} from "@/mock/match-start";
+  MatchProcessEvent,
+  MatchProcessPsychological,
+  MatchProcessScore,
+  MatchProcessStats,
+} from "@/types/match";
 
-// Player psychological states
-type PsychologicalState = {
-  confidence: number; // 0-100
-  pressure: number; // 0-100
-  fatigue: number; // 0-100
-  teamwork: number; // 0-100
+const initialMatchScore: MatchProcessScore = { home: 0, away: 0 };
+const initialPsychologicalState: MatchProcessPsychological = {
+  confidence: 70,
+  pressure: 50,
+  fatigue: 0,
+  teamwork: 75,
 };
+const initialStat = {
+  possession: 50,
+  shots: 0,
+  shotsOnTarget: 0,
+  corners: 0,
+  fouls: 0,
+  yellowCards: 0,
+  passes: 0,
+  passAccuracy: 85,
+  tackles: 0,
+  interceptions: 0,
+  heatmap: Array(10).fill(Array(10).fill(0)),
+};
+const initialMatchStats: MatchProcessStats = {
+  home: initialStat,
+  away: initialStat,
+};
+const extraFirstHalfTime = Math.ceil(Math.random() * 10); // Extra time in the first half (in minutes)
+const extraSecondHalfTime = Math.ceil(Math.random() * 10); // Extra time in the second half (in minutes)
 
 export default function MatchStartPage() {
   const router = useRouter();
-  const [matchStarted, setMatchStarted] = useState(false);
-  const [matchPaused, setMatchPaused] = useState(false);
-  const [currentMinute, setCurrentMinute] = useState(0);
-  const [score, setScore] = useState({ home: 0, away: 0 });
-  const [matchEvents, setMatchEvents] = useState<
-    { minute: number; text: string; type: string }[]
-  >([]);
+  const [matchStarted, setMatchStarted] = useState<boolean>(false);
+  const [matchPaused, setMatchPaused] = useState<boolean>(false);
+  const [currentMinute, setCurrentMinute] = useState<number>(0);
+  const [score, setScore] = useState<MatchProcessScore>(initialMatchScore);
+  const [matchEvents, setMatchEvents] = useState<MatchProcessEvent[]>([]);
   const [matchEnded, setMatchEnded] = useState(false);
   const [waitingForApproval, setWaitingForApproval] = useState(false);
   const [homeApproved, setHomeApproved] = useState(false);
@@ -56,42 +75,9 @@ export default function MatchStartPage() {
   >([]);
   const [currentTactic, setCurrentTactic] = useState("balanced");
   const [psychologicalState, setPsychologicalState] =
-    useState<PsychologicalState>({
-      confidence: 70,
-      pressure: 50,
-      fatigue: 0,
-      teamwork: 75,
-    });
-
-  // Match statistics
-  const [matchStats, setMatchStats] = useState({
-    home: {
-      possession: 50,
-      shots: 0,
-      shotsOnTarget: 0,
-      corners: 0,
-      fouls: 0,
-      yellowCards: 0,
-      passes: 0,
-      passAccuracy: 85,
-      tackles: 0,
-      interceptions: 0,
-      heatmap: Array(10).fill(Array(10).fill(0)), // 10x10 grid for heatmap
-    },
-    away: {
-      possession: 50,
-      shots: 0,
-      shotsOnTarget: 0,
-      corners: 0,
-      fouls: 0,
-      yellowCards: 0,
-      passes: 0,
-      passAccuracy: 85,
-      tackles: 0,
-      interceptions: 0,
-      heatmap: Array(10).fill(Array(10).fill(0)),
-    },
-  });
+    useState<MatchProcessPsychological>(initialPsychologicalState);
+  const [matchStats, setMatchStats] =
+    useState<MatchProcessStats>(initialMatchStats);
 
   // Commentary state
   const [commentary, setCommentary] = useState("");
@@ -101,25 +87,13 @@ export default function MatchStartPage() {
     null,
   );
   const matchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Audio synthesis (simulated)
-  const speakCommentary = (text: string) => {
-    if (!audioEnabled) return;
-
-    // In a real app, we would use the Web Speech API:
-    // const utterance = new SpeechSynthesisUtterance(text);
-    // window.speechSynthesis.speak(utterance);
-
-    // For now, we'll just show a toast to simulate the audio
-    toast({
-      title: "Commentary",
-      description: text,
-      duration: 3000,
-    });
-  };
+  const isFirstHalf = useRef<boolean>(true);
 
   // Add commentary
-  const addCommentary = (type: keyof typeof commentaryPhrases) => {
+  const addCommentary = (
+    type: keyof typeof commentaryPhrases,
+    message = "",
+  ) => {
     const phrases = commentaryPhrases[type];
     const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
 
@@ -128,6 +102,10 @@ export default function MatchStartPage() {
     // Add score for certain commentary types
     if (type === "goal" || type === "halfTime" || type === "fullTime") {
       fullPhrase += ` The score is ${score.home}-${score.away}.`;
+    }
+
+    if (message) {
+      fullPhrase += ` ${message}`;
     }
 
     setCommentary(fullPhrase);
@@ -352,46 +330,6 @@ export default function MatchStartPage() {
   const startMatch = () => {
     setMatchStarted(true);
 
-    // Reset match state
-    setCurrentMinute(0);
-    setScore({ home: 0, away: 0 });
-    setMatchEvents([]);
-    setCommentaryHistory([]);
-    setPsychologicalState({
-      confidence: 70,
-      pressure: 50,
-      fatigue: 0,
-      teamwork: 75,
-    });
-    setMatchStats({
-      home: {
-        possession: 50,
-        shots: 0,
-        shotsOnTarget: 0,
-        corners: 0,
-        fouls: 0,
-        yellowCards: 0,
-        passes: 0,
-        passAccuracy: 85,
-        tackles: 0,
-        interceptions: 0,
-        heatmap: Array(10).fill(Array(10).fill(0)),
-      },
-      away: {
-        possession: 50,
-        shots: 0,
-        shotsOnTarget: 0,
-        corners: 0,
-        fouls: 0,
-        yellowCards: 0,
-        passes: 0,
-        passAccuracy: 85,
-        tackles: 0,
-        interceptions: 0,
-        heatmap: Array(10).fill(Array(10).fill(0)),
-      },
-    });
-
     // Initial commentary
     addCommentary("start");
 
@@ -416,7 +354,7 @@ export default function MatchStartPage() {
   };
 
   const updateCurrentMinute = (minute: number) => {
-    const newMinute = minute + 1;
+    let newMinute = minute + 1;
 
     // Update psychological factors
     updatePsychologicalFactors(newMinute);
@@ -428,12 +366,36 @@ export default function MatchStartPage() {
     updateMatchStats();
 
     // Generate random events and commentary
-    if (newMinute === 45) {
-      addCommentary("halfTime");
-    } else if (newMinute === 46) {
-      addCommentary("secondHalf");
-    } else if (newMinute >= 80) {
-      if (Math.random() < 0.1) addCommentary("lateGame");
+    if (isFirstHalf.current) {
+      if (newMinute === 45) {
+        if (!extraFirstHalfTime) {
+          addCommentary("halfTime");
+        } else {
+          addCommentary(
+            "extraTime",
+            `Extra time is ${extraFirstHalfTime} minutes`,
+          );
+        }
+      }
+      if (newMinute === 45 + extraFirstHalfTime) {
+        addCommentary("halfTime");
+        isFirstHalf.current = false;
+        newMinute = 45;
+      }
+    } else {
+      if (newMinute === 90) {
+        if (!extraSecondHalfTime) {
+          onMatchCompleted();
+        } else {
+          addCommentary(
+            "extraTime",
+            `Extra time is ${extraSecondHalfTime} minutes`,
+          );
+        }
+      }
+      if (newMinute === 90 + extraSecondHalfTime) {
+        onMatchCompleted();
+      }
     }
 
     if (newMinute % 10 === 0 || Math.random() < 0.05) {
@@ -449,23 +411,19 @@ export default function MatchStartPage() {
       addCommentary(randomType);
     }
 
-    // End match at 90 minutes
-    if (newMinute >= 90) {
-      if (matchTimerRef.current) {
-        clearInterval(matchTimerRef.current);
-      }
-      setMatchEnded(true);
-      addCommentary("fullTime");
-
-      // Navigate to result page after a short delay
-      setTimeout(() => {
-        // router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
-        console.log("save the match");
-      }, 5000);
-    }
-
     return newMinute;
   };
+
+  const onMatchCompleted = () => {
+    setMatchPaused(true);
+    addCommentary("fullTime");
+    // Navigate to result page after a short delay
+    setTimeout(() => {
+      // router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
+      console.log("save the match");
+    }, 5000);
+  };
+  console.log("render");
 
   // Update match speed
   const updateMatchSpeed = (newSpeed: number) => {
@@ -832,29 +790,6 @@ export default function MatchStartPage() {
     }, 3000);
   };
 
-  // Change tactics
-  const changeTactics = (tactic: string) => {
-    setCurrentTactic(tactic);
-
-    addCommentary("tactical");
-
-    toast({
-      title: "Tactics Changed",
-      description: `Switched to ${tactic} tactics.`,
-    });
-  };
-
-  // Toggle tactical trigger
-  const toggleTacticalTrigger = (triggerId: string) => {
-    setActiveTacticalTriggers((prev) => {
-      if (prev.includes(triggerId)) {
-        return prev.filter((id) => id !== triggerId);
-      } else {
-        return [...prev, triggerId];
-      }
-    });
-  };
-
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -948,10 +883,6 @@ export default function MatchStartPage() {
                 psychologicalState={psychologicalState}
                 commentary={commentary}
                 commentaryHistory={commentaryHistory}
-                tacticalTriggers={tacticalTriggers}
-                activeTacticalTriggers={activeTacticalTriggers}
-                toggleTacticalTrigger={toggleTacticalTrigger}
-                playerRoles={playerRoles}
                 matchStats={matchStats}
               />
             )}

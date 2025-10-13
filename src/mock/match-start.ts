@@ -75,7 +75,6 @@ export const commentaryPhrases = {
     "And that's the end of the first half.",
     "Half time here, with the score at",
     "The teams head to the dressing rooms at the break.",
-    "That's the first 45 minutes completed.",
   ],
   secondHalf: [
     "The second half is underway!",
@@ -125,6 +124,12 @@ export const commentaryPhrases = {
     "They've shifted their formation slightly.",
     "The manager is trying to change the flow of the game tactically.",
     "That tactical switch could make all the difference.",
+  ],
+  extraTime: [
+    "Extra time is being called.",
+    "The match is going into extra time.",
+    "The referee blows for extra time.",
+    "The teams are heading to the extra time break.",
   ],
 };
 

@@ -181,3 +181,36 @@ export type PlayerPosition = {
   targetX: number;
   targetY: number;
 };
+
+export type MatchProcessScore = {
+  home: number;
+  away: number;
+};
+export type MatchProcessEvent = {
+  minute: number;
+  text: string;
+  type: string;
+};
+export type MatchProcessPsychological = {
+  confidence: number; // 0-100
+  pressure: number; // 0-100
+  fatigue: number; // 0-100
+  teamwork: number; // 0-100
+};
+export type TeamStat = {
+  possession: number;
+  shots: number;
+  shotsOnTarget: number;
+  corners: number;
+  fouls: number;
+  yellowCards: number;
+  passes: number;
+  passAccuracy: number;
+  tackles: number;
+  interceptions: number;
+  heatmap: number[][];
+};
+export type MatchProcessStats = {
+  home: TeamStat;
+  away: TeamStat;
+};
