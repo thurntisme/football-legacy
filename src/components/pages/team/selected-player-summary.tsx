@@ -2,6 +2,7 @@ import React from "react";
 
 import { Flame, InfoIcon, Zap } from "lucide-react";
 
+import ConfirmDialog from "@/components/common/confirm-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -94,25 +95,39 @@ const SelectedPlayerSummary = ({
             <span>Fitness: {selectedPlayer?.fitness || "80"}%</span>
           </div>
         </div>
-        <Separator className="my-4" />
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            layout="icon"
-            onClick={handleUpgradeMorale}
-            className="w-8 h-8 bg-orange-500 hover:bg-orange-400 text-white hover:text-white hover:shadow-[0_0_15px_rgba(255,100,0,0.5)]"
-          >
-            <Flame className="!w-5 !h-5" />
-          </Button>
-          <Button
-            variant="outline"
-            layout="icon"
-            onClick={handleUpgradeFitness}
-            className="w-8 h-8 bg-emerald-500 hover:bg-emerald-400 text-white hover:text-white hover:shadow-[0_0_15px_rgba(16,185,129,0.5)]"
-          >
-            <Zap className="!w-5 !h-5" />
-          </Button>
-        </div>
+        {selectedPlayer && (
+          <>
+            <Separator className="my-4" />
+            <div className="flex gap-2">
+              <ConfirmDialog
+                title="Upgrade morale"
+                description={`Are you sure you want to upgrade ${selectedPlayer?.name}'s morale?`}
+                onConfirm={handleUpgradeMorale}
+              >
+                <Button
+                  variant="outline"
+                  layout="icon"
+                  className="w-8 h-8 bg-orange-500 hover:bg-orange-400 text-white hover:text-white hover:shadow-[0_0_15px_rgba(255,100,0,0.5)]"
+                >
+                  <Flame className="!w-5 !h-5" />
+                </Button>
+              </ConfirmDialog>
+              <ConfirmDialog
+                title="Upgrade fitness"
+                description={`Are you sure you want to upgrade ${selectedPlayer?.name}'s fitness?`}
+                onConfirm={handleUpgradeFitness}
+              >
+                <Button
+                  variant="outline"
+                  layout="icon"
+                  className="w-8 h-8 bg-emerald-500 hover:bg-emerald-400 text-white hover:text-white hover:shadow-[0_0_15px_rgba(16,185,129,0.5)]"
+                >
+                  <Zap className="!w-5 !h-5" />
+                </Button>
+              </ConfirmDialog>
+            </div>
+          </>
+        )}
       </CardContent>
     </Card>
   );
