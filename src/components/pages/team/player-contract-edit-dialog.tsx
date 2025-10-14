@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { DollarSign } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
@@ -10,35 +10,35 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { formatCurrency } from "@/lib/finance";
 import { Player, PlayerContract } from "@/types/player";
 
 type Props = {
   contractEditDialogOpen: boolean;
   setContractEditDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedPlayerForContract: Player | null;
+  selectedPlayer: Player | null;
   saveContractChanges: (newContract: PlayerContract) => void;
 };
+const USER_BUDGET = 1000000;
 
 const PlayerContractEditDialog = ({
   contractEditDialogOpen,
   setContractEditDialogOpen,
-  selectedPlayerForContract,
+  selectedPlayer,
   saveContractChanges,
 }: Props) => {
   const [editedSalary, setEditedSalary] = useState<number>(0);
 
   useEffect(() => {
-    if (selectedPlayerForContract) {
-      setEditedSalary(selectedPlayerForContract.salary);
+    if (selectedPlayer) {
+      setEditedSalary(selectedPlayer.salary);
     }
-  }, [selectedPlayerForContract]);
+  }, [selectedPlayer]);
 
   const onSave = () => {
-    if (!selectedPlayerForContract) return;
+    if (!selectedPlayer) return;
     const newContract = {
-      player: selectedPlayerForContract,
+      player: selectedPlayer,
       newSalary: editedSalary,
     };
     saveContractChanges(newContract);
@@ -53,55 +53,61 @@ const PlayerContractEditDialog = ({
         <DialogHeader>
           <DialogTitle>Edit Contract Details</DialogTitle>
           <DialogDescription>
-            {selectedPlayerForContract && (
+            {selectedPlayer && (
               <>
                 Update{" "}
-                <span className="font-semibold">
-                  ${selectedPlayerForContract.name}
-                </span>
+                <span className="font-semibold">{selectedPlayer.name}</span>
                 's contract details
               </>
             )}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
-          {selectedPlayerForContract && (
+          {selectedPlayer && (
             <>
-              <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="salary" className="text-right">
-                  <DollarSign className="h-4 w-4 inline mr-2" />
-                  Salary (£/week)
-                </Label>
-                <div className="col-span-2">
-                  <Input
-                    id="salary"
-                    type="number"
-                    min="1000"
-                    step="1000"
-                    value={editedSalary}
-                    onChange={(e) =>
-                      setEditedSalary(Number.parseInt(e.target.value) || 0)
-                    }
-                  />
-                </div>
-              </div>
               <div className="p-4 border rounded-md bg-muted/50">
                 <h4 className="font-medium mb-3">Contract Information</h4>
-                <div className="grid grid-cols-2 gap-2 text-sm">
-                  <div>Current Salary:</div>
+                <div className="grid grid-cols-2 gap-1 text-sm">
+                  <div>Player Salary:</div>
                   <div className="font-medium">
-                    £{selectedPlayerForContract.salary.toLocaleString()}/week
+                    {formatCurrency(selectedPlayer.salary)}
                   </div>
                   <div>Contract Length:</div>
                   <div className="font-medium">
-                    {selectedPlayerForContract.contractYears} years
+                    {selectedPlayer.contractLength} matches
                   </div>
-                  <div>Market Value:</div>
+                </div>
+                <div className="grid grid-cols-2 gap-1 text-sm mt-2">
+                  <div>Remaining Matches:</div>
                   <div className="font-medium">
-                    {selectedPlayerForContract.marketValue >= 1000000
-                      ? `£${(selectedPlayerForContract.marketValue / 1000000).toFixed(1)}M`
-                      : `£${selectedPlayerForContract.marketValue.toLocaleString()}`}
+                    {selectedPlayer.remainingMatches} matches
                   </div>
+                  <div>New Match Length:</div>
+                  <div className="font-medium">
+                    {selectedPlayer.remainingMatches +
+                      selectedPlayer.contractLength}{" "}
+                    matches
+                  </div>
+                </div>
+              </div>
+              <div className="text-sm text-muted-foreground">
+                <div className="flex justify-between mb-1">
+                  <span>Your Balance:</span>
+                  <span className="font-medium">
+                    {formatCurrency(USER_BUDGET)}
+                  </span>
+                </div>
+                <div className="flex justify-between mb-1">
+                  <span>Player Salary:</span>
+                  <span className="font-medium">
+                    {formatCurrency(selectedPlayer.salary)}
+                  </span>
+                </div>
+                <div className="flex justify-between pt-2 border-t mt-2">
+                  <span className="font-bold">Net Balance:</span>
+                  <span className="font-bold">
+                    {formatCurrency(USER_BUDGET - selectedPlayer.salary)}
+                  </span>
                 </div>
               </div>
             </>
@@ -110,11 +116,16 @@ const PlayerContractEditDialog = ({
         <DialogFooter>
           <Button
             variant="outline"
+            size="sm"
             onClick={() => setContractEditDialogOpen(false)}
           >
+            <X className="h-4 w-4" />
             Cancel
           </Button>
-          <Button onClick={onSave}>Save Changes</Button>
+          <Button onClick={onSave} size="sm">
+            <Check className="h-4 w-4" />
+            Save Changes
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Pencil, UserX } from "lucide-react";
+import { Info, Pencil } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,22 +17,23 @@ import { Player } from "@/types/player";
 type Props = {
   filteredPlayers: Player[];
   openContractEditDialog: (player: Player) => void;
+  viewPlayerDetail: (player: Player) => void;
 };
 
 const PlayerContractTable = ({
   filteredPlayers,
   openContractEditDialog,
+  viewPlayerDetail,
 }: Props) => {
   return (
     <Table>
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
-          <TableHead className="text-center">Position</TableHead>
           <TableHead className="text-center">Rating</TableHead>
           <TableHead className="text-center">Position</TableHead>
-          <TableHead className="text-center">Salary (£/week)</TableHead>
-          <TableHead className="text-center">Contract Years</TableHead>
+          <TableHead className="text-center">Salary (£)</TableHead>
+          <TableHead className="text-center">Remaining Matches</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -40,7 +41,6 @@ const PlayerContractTable = ({
         {filteredPlayers.map((player) => (
           <TableRow key={player.id}>
             <TableCell>{player.name}</TableCell>
-            <TableCell className="text-center">{player.position}</TableCell>
             <TableCell className="font-medium text-center">
               {player.rating}
             </TableCell>
@@ -65,9 +65,17 @@ const PlayerContractTable = ({
               £{player.salary.toLocaleString()}
             </TableCell>
             <TableCell className="text-center">
-              {player.contractYears} years
+              {player.contractLength}
             </TableCell>
             <TableCell className="text-right space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => viewPlayerDetail(player)}
+              >
+                <Info className="h-4 w-4" />
+                Detail
+              </Button>
               <Button
                 variant="outline"
                 size="sm"
@@ -75,14 +83,6 @@ const PlayerContractTable = ({
               >
                 <Pencil className="h-4 w-4" />
                 Edit
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                // onClick={() => handleReleasePlayer(player.id)}
-              >
-                <UserX className="h-4 w-4" />
-                Release
               </Button>
             </TableCell>
           </TableRow>

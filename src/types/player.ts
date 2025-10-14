@@ -133,8 +133,9 @@ export type Player = {
   rating: number; // Overall rating (0–100)
   form: PlayerForm; // Recent performance form (e.g. "Excellent", "Poor")
   fitness: number; // Current fitness level (0–100)
-  salary: number; // Weekly or monthly salary
-  contractLength: number; // Remaining contract by matches
+  salary: number; // Salary
+  contractLength: number; // Contract by matches
+  remainingMatches: number; // Remaining contract matches
   birthday: string; // Player's date of birth
   nationality: string; // Nationality
   height: number; // Height in cm
