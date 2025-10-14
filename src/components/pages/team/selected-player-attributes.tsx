@@ -8,13 +8,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { POSITIONS } from "@/constants/formations";
 import { playerAttributes } from "@/constants/player";
 import { Player } from "@/types/player";
-import { Checkbox } from "@radix-ui/react-checkbox";
 
 type Props = {
   selectedPlayer: Player | null;
@@ -37,8 +36,17 @@ const SelectedPlayerAttributes = ({ selectedPlayer }: Props) => {
                 className="text-sm font-medium flex flex-col space-y-2 hover:no-underline"
                 isShowArrow={false}
               >
-                <div className="flex justify-between items-center w-full">
+                <div className="flex justify-between items-center w-full space-x-2">
                   <span className="text-sm font-medium">{title}</span>
+                  {selectedPlayer?.attributeBonus &&
+                  selectedPlayer?.attributeBonus > 0 ? (
+                    <Badge
+                      variant="outline"
+                      className="w-4 h-4 p-0.5 flex justify-center items-center !ml-auto rounded-sm"
+                    >
+                      <PlusIcon className="!w-3 !h-3" />
+                    </Badge>
+                  ) : null}
                   <span className="text-xs text-muted-foreground flex space-x-1 items-center">
                     <span>123</span>
                     <span>/</span>
@@ -61,7 +69,7 @@ const SelectedPlayerAttributes = ({ selectedPlayer }: Props) => {
                         selectedPlayer?.attributeBonus > 0 ? (
                           <Button
                             variant="outline"
-                            className="w-4 h-4 p-0.5 flex justify-center align-middle !ml-auto"
+                            className="w-4 h-4 p-0.5 flex justify-center items-center !ml-auto"
                           >
                             <PlusIcon className="!w-3 !h-3" />
                           </Button>

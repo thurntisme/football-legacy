@@ -13,6 +13,7 @@ import {
   Hospital,
   OctagonAlert,
   OctagonX,
+  ShieldX,
   XCircle,
 } from "lucide-react";
 
@@ -336,7 +337,9 @@ export const getPlayerStatusIcons = (player: Player) => {
     via-amber-500 
     to-yellow-300
     shadow-md
-    px-1
+    p-0
+    w-5 h-5
+    justify-center
   "
       >
         <ArrowBigUpDash className="h-4 w-4" />
@@ -351,20 +354,20 @@ export const getPlayerStatusIcons = (player: Player) => {
             return (
               <Badge
                 key={status.type}
-                variant="outline"
-                className="flex items-center gap-1 p-0 w-5 h-5 rounded-full text-red-500 border-none"
+                className="gap-1 rounded-full w-5 h-5 bg-red-500 text-white border-none"
+                layout="icon"
               >
-                <Hospital className="h-5 w-5" />
+                <Hospital />
               </Badge>
             );
           case "suspended":
             return (
               <Badge
                 key={status.type}
-                variant="outline"
-                className="flex items-center gap-1 p-0 w-5 h-5 rounded-full text-red-500 border-none"
+                className="gap-1 rounded-full w-5 h-5 bg-red-500 text-white border-none"
+                layout="icon"
               >
-                <OctagonX className="h-5 w-5" />
+                <ShieldX />
               </Badge>
             );
           default:

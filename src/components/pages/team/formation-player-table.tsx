@@ -90,14 +90,14 @@ const FormationPlayerTable = ({
                     {selectedPlayer && selectedPlayer.id !== player.id && (
                       <Button
                         variant="outline"
-                        size="icon"
                         className="h-5 w-5 bg-green-600 hover:bg-green-500 text-white hover:text-white btn-swap opacity-0"
+                        layout="icon"
                         onClick={(e) => {
                           e.stopPropagation();
                           onSwapPlayers(player);
                         }}
                       >
-                        <ArrowLeftRight size="12" />
+                        <ArrowLeftRight />
                       </Button>
                     )}
                   </div>
