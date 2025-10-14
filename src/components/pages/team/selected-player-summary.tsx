@@ -25,7 +25,7 @@ const SelectedPlayerSummary = ({
             <Avatar className="h-10 w-10">
               <AvatarImage
                 src={
-                  selectedPlayer?.avatar_url ||
+                  selectedPlayer?.avatarUrl ||
                   "placeholder.svg?height=40&width=40"
                 }
                 alt={`${selectedPlayer?.name || "Player"}'s Avatar`}

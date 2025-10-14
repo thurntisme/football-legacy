@@ -1,7 +1,17 @@
-.pos-item:has(.player-dot:hover) .player-name {
-  opacity: 1;
-}
-
+.pos-item:has(.player-dot:hover) .player-name,
 tr:hover .btn-swap {
   opacity: 1;
+}
+.player-attr-progress .progress::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: inherit;
+  height: inherit;
+  width: 2px;
+  z-index: 10;
+}
+.player-attr-progress:last-of-type {
+  border-bottom: none;
 }

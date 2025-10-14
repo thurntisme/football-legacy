@@ -61,7 +61,7 @@ export const playerRoles: PlayerRole[] = [
 export const playerAttributes = [
   {
     key: "physical",
-    title: "Physical Attributes",
+    title: "Physical",
     attributes: [
       { key: "pace", label: "Pace" },
       { key: "acceleration", label: "Acceleration" },
@@ -70,10 +70,11 @@ export const playerAttributes = [
       { key: "strength", label: "Strength" },
       { key: "jumping", label: "Jumping" },
     ],
+    maxValue: 660,
   },
   {
     key: "technical",
-    title: "Technical Attributes",
+    title: "Technical",
     attributes: [
       { key: "dribbling", label: "Dribbling" },
       { key: "ballControl", label: "Ball Control" },
@@ -89,10 +90,11 @@ export const playerAttributes = [
       { key: "powerShots", label: "Power Shots" },
       { key: "setPieces", label: "Set Pieces" },
     ],
+    maxValue: 1430,
   },
   {
     key: "mental",
-    title: "Mental Attributes",
+    title: "Mental",
     attributes: [
       { key: "vision", label: "Vision" },
       { key: "positioning", label: "Positioning" },
@@ -105,10 +107,11 @@ export const playerAttributes = [
       { key: "flair", label: "Flair" },
       { key: "creativity", label: "Creativity" },
     ],
+    maxValue: 1100,
   },
   {
     key: "goalkeeping",
-    title: "Goalkeeping Attributes",
+    title: "Goalkeeping",
     attributes: [
       { key: "reflexes", label: "Reflexes" },
       { key: "diving", label: "Diving" },
@@ -118,6 +121,7 @@ export const playerAttributes = [
       { key: "oneOnOne", label: "One-on-One" },
       { key: "commandOfArea", label: "Command of Area" },
     ],
+    maxValue: 770,
   },
 ];
 

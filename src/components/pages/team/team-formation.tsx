@@ -24,6 +24,7 @@ import MyTeamFormationPlayer from "./my-team-formation-player";
 import MyTeamFormationSelector from "./my-team-formation-selector";
 import MyTeamRating from "./my-team-rating";
 import QuickAction from "./quick-action";
+import SelectedPlayerAttributes from "./selected-player-attributes";
 import SelectedPlayerSummary from "./selected-player-summary";
 
 type TeamFormationProps = {
@@ -141,6 +142,7 @@ export default function TeamFormation({
               selectedPlayer={selectedPlayer}
               handleViewDetailPlayer={handleViewDetailPlayer}
             />
+            <SelectedPlayerAttributes selectedPlayer={selectedPlayer} />
             <Button className="w-full" onClick={handleSaveFormation}>
               <Save className="mr-2 h-4 w-4" />
               Save Formation
