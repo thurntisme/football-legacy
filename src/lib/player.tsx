@@ -19,7 +19,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { POSITION_COLORS, PlayerPosition } from "@/constants/formations";
 import { PlayerEditionEnum, expThresholds } from "@/constants/player";
-import { Player, PlayerForm, PlayerStatus } from "@/types/player";
+import { Player, PlayerForm, PlayerMorale, PlayerStatus } from "@/types/player";
 
 export const getFormColor = (form: PlayerForm) => {
   switch (form) {
@@ -51,18 +51,26 @@ export const getFormBadge = (form: string) => {
   }
 };
 
-export const getFormBadgeIcon = (form: string) => {
-  switch (form) {
-    case "excellent":
-      return <ArrowUp className="text-green-500 w-4 h-4" />;
-    case "good":
-      return <ArrowUpRight className="text-emerald-400 w-4 h-4" />;
-    case "average":
-      return <ArrowRight className="text-amber-400 w-4 h-4" />;
-    case "poor":
-      return <ArrowDownRight className="text-red-400 w-4 h-4" />;
+export const getMoraleBadge = (morale: PlayerMorale | undefined) => {
+  switch (morale) {
+    case PlayerMorale.HIGH:
+      return (
+        <Badge className="w-4 h-4 bg-green-500 rounded-sm p-0 flex align-middle justify-center">
+          <ArrowUp className="w-3.5 h-3.5 text-white" />
+        </Badge>
+      );
+    case PlayerMorale.NORMAL:
+      return (
+        <Badge className="w-4 h-4 bg-blue-500 rounded-sm p-0 flex align-middle justify-center">
+          <ArrowRight className="w-3.5 h-3.5 text-white" />
+        </Badge>
+      );
     default:
-      return <ArrowDown className="text-gray-400 w-4 h-4" />;
+      return (
+        <Badge className="w-4 h-4 bg-gray-500 rounded-sm p-0 flex align-middle justify-center">
+          <ArrowDown className="w-3.5 h-3.5 text-white" />
+        </Badge>
+      );
   }
 };
 

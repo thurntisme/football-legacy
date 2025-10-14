@@ -14,7 +14,7 @@ import {
 import { PlayerPosition } from "@/constants/formations";
 import {
   getFitnessColorCode,
-  getFormBadgeIcon,
+  getMoraleBadge,
   getPlayerStatusIcons,
   getPositionColor,
   getRatingColor,
@@ -110,7 +110,7 @@ const FormationPlayerTable = ({
               </TableCell>
               <TableCell className="text-center">
                 <div className="flex items-center justify-center">
-                  {getFormBadgeIcon(player.form)}
+                  {getMoraleBadge(player.morale)}
                 </div>
               </TableCell>
               <TableCell className="text-center">

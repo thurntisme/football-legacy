@@ -105,12 +105,12 @@ export default function PlayerDetailDialog({
                   <Weight className="h-4 w-4 mr-2 text-muted-foreground" />
                   <span>{player.weight} kg</span>
                 </div>
-                {player?.nationalTeam?.internationalCaps && (
-                  <div className="flex items-center">
-                    <Trophy className="h-4 w-4 mr-2 text-muted-foreground" />
-                    <span>{player?.nationalTeam?.internationalCaps} caps</span>
-                  </div>
-                )}
+                <div className="flex items-center">
+                  <Flag className="h-4 w-4 mr-2 text-muted-foreground" />
+                  <span>
+                    {player?.nationalTeam?.internationalCaps || 0} caps
+                  </span>
+                </div>
               </div>
 
               <Separator />
