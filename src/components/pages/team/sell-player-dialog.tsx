@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { formatCurrency } from "@/lib/finance";
 import { Player } from "@/types/player";
 
 type Props = {
@@ -20,6 +21,9 @@ type Props = {
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   confirmSellPlayer: (player: Player) => void;
 };
+
+const USER_BUDGET = 1000000;
+const PERCENT_TO_SELL = 0.75;
 
 const SellPlayerDialog = ({
   isDialogOpen,
@@ -39,12 +43,47 @@ const SellPlayerDialog = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Sell Player</DialogTitle>
-          <DialogDescription>Place player on the market</DialogDescription>
+          <DialogDescription>
+            Place {selectedPlayer?.name || "player"} on the market
+          </DialogDescription>
         </DialogHeader>
         <div className="py-4 space-y-4">
+          <p className="text-sm text-muted-foreground">
+            Selling this player will earn you 75% of his current market value.
+          </p>
           {selectedPlayer && (
-            <div className="flex items-center justify-center gap-4">
-              content
+            <div className="text-sm text-muted-foreground">
+              <div className="p-3 bg-muted rounded-md">
+                <div className="flex justify-between mb-2">
+                  <span>Market Value:</span>
+                  <span className="text-gray-400">
+                    {formatCurrency(selectedPlayer.marketValue)}
+                  </span>
+                </div>
+                <div className="flex justify-between mb-1">
+                  <span>Your Earn:</span>
+                  <span className="font-medium">
+                    {formatCurrency(
+                      selectedPlayer.marketValue * PERCENT_TO_SELL,
+                    )}
+                  </span>
+                </div>
+                <div className="flex justify-between mb-1">
+                  <span>Your Balance:</span>
+                  <span className="font-medium">
+                    {formatCurrency(USER_BUDGET)}
+                  </span>
+                </div>
+                <div className="flex justify-between pt-2 border-t mt-2">
+                  <span className="font-bold">Total:</span>
+                  <span className="font-bold">
+                    {formatCurrency(
+                      selectedPlayer.marketValue * PERCENT_TO_SELL +
+                        USER_BUDGET,
+                    )}
+                  </span>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -55,7 +94,7 @@ const SellPlayerDialog = ({
           </Button>
           <ConfirmDialog
             title="Sell Player"
-            description={`Are you sure want to sell player ${selectedPlayer?.name}?`}
+            description={`Do you really want to sell ${selectedPlayer?.name}?`}
             onConfirm={() => onConfirmSell(selectedPlayer)}
           >
             <Button>
