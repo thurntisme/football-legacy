@@ -5,9 +5,9 @@ import {
   ArrowUp,
   Flag,
   Info,
-  Pencil,
-  Star,
+  ShoppingCart,
   TrendingUp,
+  UserRoundX,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -20,28 +20,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getFitnessColor, getFormBadge } from "@/lib/player";
-import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Player } from "@/types/player";
 
 interface PlayerTableProps {
   initPlayers: Player[];
-  setSelectedDetailPlayer: React.Dispatch<React.SetStateAction<Player | null>>;
-  setDetailDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  openEditDialog: (player: Player) => void;
-  openUpgradeDialog: (player: Player) => void;
-  openNationalTeamDialog: (player: Player) => void;
+  upgradePlayer: (player: Player) => void;
+  viewPlayerInNationalTeam: (player: Player) => void;
+  sellPlayer: (player: Player) => void;
+  releasePlayer: (player: Player) => void;
+  viewPlayerDetail: (player: Player) => void;
 }
 
 const SORT_TYPES = ["desc", "asc"] as const;
 
 function PlayerTable({
   initPlayers,
-  setSelectedDetailPlayer,
-  setDetailDialogOpen,
-  openEditDialog,
-  openUpgradeDialog,
-  openNationalTeamDialog,
+  upgradePlayer,
+  viewPlayerInNationalTeam,
+  sellPlayer,
+  releasePlayer,
+  viewPlayerDetail,
 }: PlayerTableProps) {
   const [players, setPlayers] = useState<Player[]>(initPlayers);
   const [sortOrderIndex, setSortOrderIndex] = useState<number>(
@@ -98,10 +102,8 @@ function PlayerTable({
             </TableHead>
             <TableHead>Name</TableHead>
             <TableHead className="text-center">Position</TableHead>
-            <TableHead className="text-center">Age</TableHead>
             <TableHead className="text-center">Nationality</TableHead>
-            <TableHead className="text-center">Form</TableHead>
-            <TableHead className="text-center">Fitness</TableHead>
+            <TableHead className="text-center">Birthday</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -109,14 +111,7 @@ function PlayerTable({
           {players.length > 0 ? (
             players.map((player) => (
               <TableRow key={player.id}>
-                <TableCell className="font-medium">
-                  <div className="flex items-center justify-center">
-                    {player.rating >= 80 && (
-                      <Star className="h-3 w-3 text-amber-400 mr-1" />
-                    )}
-                    {player.rating}
-                  </div>
-                </TableCell>
+                <TableCell className="text-center">{player.rating}</TableCell>
                 <TableCell>{player.name}</TableCell>
                 <TableCell className="text-center">
                   <div className="flex flex-col align-items-center">
@@ -135,12 +130,11 @@ function PlayerTable({
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="text-center">{player.age}</TableCell>
                 <TableCell className="text-center">
                   {player.nationalTeam?.callUp ? (
                     <Badge
                       className="bg-blue-500 cursor-pointer"
-                      onClick={() => openNationalTeamDialog(player)}
+                      onClick={() => viewPlayerInNationalTeam(player)}
                     >
                       <Flag className="h-3 w-3 mr-1" />
                       {player.nationalTeam.name}
@@ -151,40 +145,59 @@ function PlayerTable({
                     </span>
                   )}
                 </TableCell>
-                <TableCell className="text-center">
-                  {getFormBadge(player.form)}
-                </TableCell>
-                <TableCell
-                  className={cn(getFitnessColor(player.fitness), "text-center")}
-                >
-                  {player.fitness}%
-                </TableCell>
+                <TableCell className="text-center">{player.birthday}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => {
-                        setSelectedDetailPlayer(player);
-                        setDetailDialogOpen(true);
-                      }}
-                    >
-                      <Info className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => openEditDialog(player)}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => openUpgradeDialog(player)}
-                    >
-                      <TrendingUp className="h-4 w-4" />
-                    </Button>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => viewPlayerDetail(player)}
+                          >
+                            <Info className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Info</TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => upgradePlayer(player)}
+                          >
+                            <TrendingUp className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Upgrade</TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => sellPlayer(player)}
+                          >
+                            <ShoppingCart className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Sell</TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => releasePlayer(player)}
+                          >
+                            <UserRoundX className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Release</TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
                 </TableCell>
               </TableRow>
@@ -192,7 +205,7 @@ function PlayerTable({
           ) : (
             <TableRow>
               <TableCell
-                colSpan={9}
+                colSpan={6}
                 className="text-center py-4 text-muted-foreground"
               >
                 No players found matching your filters

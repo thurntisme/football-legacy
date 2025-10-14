@@ -14,32 +14,29 @@ import {
 import { Player } from "@/types/player";
 
 type Props = {
-  nationalTeamDialogOpen: boolean;
-  setNationalTeamDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedPlayerForNational: Player | null;
+  isDialogOpen: boolean;
+  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedPlayer: Player | null;
 };
 
 const PlayerNationalTeamDialog = ({
-  nationalTeamDialogOpen,
-  setNationalTeamDialogOpen,
-  selectedPlayerForNational,
+  isDialogOpen,
+  setIsDialogOpen,
+  selectedPlayer,
 }: Props) => {
   return (
-    <Dialog
-      open={nationalTeamDialogOpen}
-      onOpenChange={setNationalTeamDialogOpen}
-    >
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>National Team Details</DialogTitle>
           <DialogDescription>
-            {selectedPlayerForNational?.nationalTeam
-              ? `${selectedPlayerForNational.name}'s international duty information`
+            {selectedPlayer?.nationalTeam
+              ? `${selectedPlayer.name}'s international duty information`
               : "Player has not been called up for international duty"}
           </DialogDescription>
         </DialogHeader>
         <div className="py-4 space-y-4">
-          {selectedPlayerForNational?.nationalTeam ? (
+          {selectedPlayer?.nationalTeam ? (
             <>
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
@@ -47,11 +44,10 @@ const PlayerNationalTeamDialog = ({
                 </div>
                 <div>
                   <h3 className="font-bold text-lg">
-                    {selectedPlayerForNational.nationalTeam.name}
+                    {selectedPlayer.nationalTeam.name}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    {selectedPlayerForNational.position} • #
-                    {selectedPlayerForNational.shirtNumber}
+                    {selectedPlayer.position} • #{selectedPlayer.shirtNumber}
                   </p>
                 </div>
               </div>
@@ -59,14 +55,14 @@ const PlayerNationalTeamDialog = ({
                 <div className="flex justify-between items-center p-3 bg-muted rounded-md">
                   <span>Next Match</span>
                   <span className="font-medium">
-                    {selectedPlayerForNational.nationalTeam.nextMatch}
+                    {selectedPlayer.nationalTeam.nextMatch}
                   </span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-green-50 text-green-800 rounded-md">
                   <span>Payment Received</span>
                   <span className="font-bold">
                     £
-                    {selectedPlayerForNational.nationalTeam.paymentReceived?.toLocaleString()}
+                    {selectedPlayer.nationalTeam.paymentReceived?.toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -96,9 +92,7 @@ const PlayerNationalTeamDialog = ({
           )}
         </div>
         <DialogFooter>
-          <Button onClick={() => setNationalTeamDialogOpen(false)}>
-            Close
-          </Button>
+          <Button onClick={() => setIsDialogOpen(false)}>Close</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

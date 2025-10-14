@@ -21,15 +21,15 @@ import { toast } from "@/hooks/use-toast";
 import { Player } from "@/types/player";
 
 type Props = {
-  upgradeDialogOpen: boolean;
-  setUpgradeDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedPlayerForUpgrade: Player | null;
+  isDialogOpen: boolean;
+  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedPlayer: Player | null;
 };
 
 const PlayerUpgradeDialog = ({
-  upgradeDialogOpen,
-  setUpgradeDialogOpen,
-  selectedPlayerForUpgrade,
+  isDialogOpen,
+  setIsDialogOpen,
+  selectedPlayer,
 }: Props) => {
   const [upgradeSuccess, setUpgradeSuccess] = useState<boolean>(false);
   const [showUpgradeResult, setShowUpgradeResult] = useState<boolean>(false);
@@ -39,15 +39,12 @@ const PlayerUpgradeDialog = ({
   const maxUpgradeTime = 5000; // 5 seconds
 
   const attemptUpgrade = () => {
-    if (!selectedPlayerForUpgrade) return;
+    if (!selectedPlayer) return;
     setIsUpgrading(true);
     // 60% chance of success for level 1, 40% for level 2, 20% for level 3+
     let successChance = 0.6;
-    if (selectedPlayerForUpgrade.attributes.level === 2) successChance = 0.4;
-    if (
-      selectedPlayerForUpgrade.attributes.level &&
-      selectedPlayerForUpgrade.attributes.level >= 3
-    )
+    if (selectedPlayer.attributes.level === 2) successChance = 0.4;
+    if (selectedPlayer.attributes.level && selectedPlayer.attributes.level >= 3)
       successChance = 0.2;
     const success = Math.random() < successChance;
     setUpgradeSuccess(success);
@@ -66,13 +63,11 @@ const PlayerUpgradeDialog = ({
     setTimeout(() => {
       clearInterval(interval);
       setIsUpgrading(false);
-      if (success && selectedPlayerForUpgrade) {
+      if (success && selectedPlayer) {
         toast({
           title: "Upgrade Successful!",
-          description: `${
-            selectedPlayerForUpgrade.name
-          } has been upgraded to level ${
-            (selectedPlayerForUpgrade.attributes.level || 1) + 1
+          description: `${selectedPlayer.name} has been upgraded to level ${
+            (selectedPlayer.attributes.level || 1) + 1
           }!`,
         });
       } else {
@@ -90,7 +85,7 @@ const PlayerUpgradeDialog = ({
       setShowUpgradeResult(false);
       setUpgradeSuccess(false);
     }
-    setUpgradeDialogOpen(open);
+    setIsDialogOpen(open);
   };
 
   const content = () => {
@@ -118,8 +113,8 @@ const PlayerUpgradeDialog = ({
               <Sparkles className="h-8 w-8 mx-auto mb-2 text-green-600" />
               <h3 className="font-bold text-lg">Upgrade Successful!</h3>
               <p>
-                {selectedPlayerForUpgrade?.name} has been upgraded to level{" "}
-                {(selectedPlayerForUpgrade?.attributes.level || 1) + 1}!
+                {selectedPlayer?.name} has been upgraded to level{" "}
+                {(selectedPlayer?.attributes.level || 1) + 1}!
               </p>
             </>
           ) : (
@@ -139,18 +134,18 @@ const PlayerUpgradeDialog = ({
             <div className="flex items-center justify-center gap-2 mb-2">
               <Progress
                 value={
-                  selectedPlayerForUpgrade?.attributes.level === 1
+                  selectedPlayer?.attributes.level === 1
                     ? 60
-                    : selectedPlayerForUpgrade?.attributes.level === 2
+                    : selectedPlayer?.attributes.level === 2
                       ? 40
                       : 20
                 }
                 className="h-2 w-40"
               />
               <span className="text-sm font-medium">
-                {selectedPlayerForUpgrade?.attributes.level === 1
+                {selectedPlayer?.attributes.level === 1
                   ? "60%"
-                  : selectedPlayerForUpgrade?.attributes.level === 2
+                  : selectedPlayer?.attributes.level === 2
                     ? "40%"
                     : "20%"}
               </span>
@@ -174,40 +169,40 @@ const PlayerUpgradeDialog = ({
   };
 
   return (
-    <Dialog open={upgradeDialogOpen} onOpenChange={onOpenChange}>
+    <Dialog open={isDialogOpen} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Upgrade Player</DialogTitle>
           <DialogDescription>
-            {selectedPlayerForUpgrade &&
-              `Attempt to upgrade ${selectedPlayerForUpgrade.name} from level ${
-                selectedPlayerForUpgrade.attributes.level || 1
-              } to ${(selectedPlayerForUpgrade.attributes.level || 1) + 1}`}
+            {selectedPlayer &&
+              `Attempt to upgrade ${selectedPlayer.name} from level ${
+                selectedPlayer.attributes.level || 1
+              } to ${(selectedPlayer.attributes.level || 1) + 1}`}
           </DialogDescription>
         </DialogHeader>
         <div className="py-4 space-y-4">
-          {selectedPlayerForUpgrade && (
+          {selectedPlayer && (
             <div className="flex items-center justify-center gap-4">
               <div className="text-center">
                 <div
                   className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center font-bold text-xl ${
-                    selectedPlayerForUpgrade.attributes.level === 1
+                    selectedPlayer.attributes.level === 1
                       ? "bg-blue-100 text-blue-800"
-                      : selectedPlayerForUpgrade.attributes.level === 2
+                      : selectedPlayer.attributes.level === 2
                         ? "bg-purple-100 text-purple-800"
-                        : selectedPlayerForUpgrade.attributes.level === 3
+                        : selectedPlayer.attributes.level === 3
                           ? "bg-amber-100 text-amber-800"
                           : "bg-red-100 text-red-800"
                   }`}
                 >
-                  {selectedPlayerForUpgrade.attributes.level || 1}
+                  {selectedPlayer.attributes.level || 1}
                 </div>
                 <p className="mt-2 font-medium">Current</p>
               </div>
               <ArrowRight className="h-8 w-8 text-muted-foreground" />
               <div className="text-center">
                 <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center font-bold text-xl bg-green-100 text-green-800">
-                  {(selectedPlayerForUpgrade.attributes.level || 1) + 1}
+                  {(selectedPlayer.attributes.level || 1) + 1}
                 </div>
                 <p className="mt-2 font-medium">Next</p>
               </div>
@@ -217,7 +212,7 @@ const PlayerUpgradeDialog = ({
         </div>
         <DialogFooter>
           {showUpgradeResult ? (
-            <Button onClick={() => setUpgradeDialogOpen(false)}>Close</Button>
+            <Button onClick={() => setIsDialogOpen(false)}>Close</Button>
           ) : (
             <Button onClick={attemptUpgrade}>Attempt Upgrade</Button>
           )}

@@ -20,7 +20,11 @@ const TeamPlayers = ({ players }: Props) => {
   return (
     <Card>
       <CardHeader className="pb-0">
-        <PageTitle title="Players" subTitle="Manage your squad and line-up">
+        <PageTitle
+          title="Players"
+          subTitle="Manage your squad and line-up"
+          showBtnDashboard={false}
+        >
           <Button variant="outline" asChild>
             <Link href={`${FOOTBALL_STATS_URL}/game/team/contract`}>
               <FileSignature className="mr-2 h-4 w-4" />
@@ -42,7 +46,7 @@ const TeamPlayers = ({ players }: Props) => {
         </PageTitle>
       </CardHeader>
       <CardContent>
-        <TeamPlayerList initPlayers={players} />
+        <TeamPlayerList players={players} />
       </CardContent>
     </Card>
   );
