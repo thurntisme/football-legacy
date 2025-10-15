@@ -11,7 +11,7 @@ import { Progress } from "@/components/ui/progress";
 import { Facility } from "@/types/stadium";
 
 type Props = {
-  facilities: Facility[] | undefined;
+  facilities: Facility[];
 };
 
 const StadiumOverview = ({ facilities }: Props) => {

@@ -12,12 +12,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { IStadiumFacility } from "@/types/common";
+import { Facility } from "@/types/stadium";
 
 type Props = {
   confirmUpgradeDialogOpen: boolean;
   setConfirmUpgradeDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedFacility: IStadiumFacility | null;
+  selectedFacility: Facility | null;
   confirmUpgrade: () => void;
 };
 

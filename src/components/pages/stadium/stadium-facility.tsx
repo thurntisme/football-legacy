@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ChevronDown, ChevronUp, Power } from "lucide-react";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,14 +14,13 @@ import {
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
-import { IStadiumFacility } from "@/types/common";
 import { Facility } from "@/types/stadium";
 
 type Props = {
   facilities: Facility[] | undefined;
   handleToggleFacility: (facilityId: string) => void;
-  handleUpgradeFacility: (facility: IStadiumFacility) => void;
-  handleDowngradeFacility: (facility: IStadiumFacility) => void;
+  handleUpgradeFacility: (facility: Facility) => void;
+  handleDowngradeFacility: (facility: Facility) => void;
 };
 
 const StadiumFacility = ({
@@ -46,7 +46,13 @@ const StadiumFacility = ({
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center">
                   <div className="mr-3 p-2 bg-primary/10 rounded-full">
-                    {/* {facility.icon} */}
+                    <Image
+                      src={facility.iconUrl}
+                      alt={facility.name}
+                      width={24}
+                      height={24}
+                      className="rounded-full"
+                    />
                   </div>
                   <div>
                     <h3 className="text-lg font-medium">{facility.name}</h3>

@@ -14,12 +14,12 @@ import {
   AlertDialogDescription,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { IStadiumFacility } from "@/types/common";
+import { Facility } from "@/types/stadium";
 
 type Props = {
   confirmDowngradeDialogOpen: boolean;
   setConfirmDowngradeDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedFacility: IStadiumFacility | null;
+  selectedFacility: Facility | null;
   confirmDowngrade: () => void;
 };
 

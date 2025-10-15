@@ -15,7 +15,7 @@ import { Facility } from "@/types/stadium";
 import { useQuery } from "@tanstack/react-query";
 
 export default function StadiumPage() {
-  const [facilities, setFacilities] = useState<Facility[]>();
+  const [facilities, setFacilities] = useState<Facility[]>([]);
 
   const [selectedFacility, setSelectedFacility] = useState<Facility | null>(
     null,
@@ -31,10 +31,10 @@ export default function StadiumPage() {
     error,
     refetch,
   } = useQuery<Facility[] | null>({
-    queryKey: ["item-list"],
+    queryKey: ["stadium-facility-list"],
     queryFn: async () => {
-      const { data } = await internalApi.get("/stadium");
-      return data;
+      const res = await internalApi.get("/stadium");
+      return res.data?.data || [];
     },
   });
 

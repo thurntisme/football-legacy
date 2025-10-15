@@ -1,5 +1,3 @@
-import React from "react";
-
 export type FacilityLevel = {
   level: number;
   cost: number;
@@ -13,7 +11,7 @@ export type Facility = {
   id: string;
   name: string;
   description: string;
-  icon: React.ReactNode;
+  iconUrl: string;
   enabled: boolean;
   currentLevel: number;
   maxLevel: number;

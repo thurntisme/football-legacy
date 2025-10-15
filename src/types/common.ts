@@ -9,18 +9,6 @@ export type StadiumFacilityLevel = {
   income?: number;
 };
 
-export type IStadiumFacility = {
-  id: string;
-  name: string;
-  description: string;
-  icon: React.ReactNode;
-  enabled: boolean;
-  currentLevel: number;
-  maxLevel: number;
-  levels: StadiumFacilityLevel[];
-  defaultLevel?: number;
-};
-
 export type IMatch = {
   id: number;
   homeTeam: string;
