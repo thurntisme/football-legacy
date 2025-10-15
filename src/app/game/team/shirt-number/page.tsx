@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { ArrowLeft, Star, Users } from "lucide-react";
+import { Star, Users } from "lucide-react";
 import Link from "next/link";
 
 import ContentWrapper from "@/components/common/content-wrapper";
@@ -25,7 +25,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { players } from "@/constants/player";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
 import { internalApi } from "@/lib/api/internal";
@@ -38,24 +37,24 @@ const ShirtNumber = () => {
   }>({});
   const [availableNumbers, setAvailableNumbers] = useState<number[]>([]);
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["my-team-player-contract"],
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["my-team-player-shirt-number"],
     queryFn: async () => {
-      const { data } = await internalApi.get("/team");
-      return data;
+      const res = await internalApi.get("/team");
+      return res.data?.data || [];
     },
   });
 
   useEffect(() => {
     if (!data?.players) return;
-    // Initialize shirt numbers from player data
     const initialNumbers: { [playerId: string]: number } = {};
     data?.players.forEach((player: Player) => {
-      initialNumbers[player.id] = player.shirtNumber;
+      if (player?.id !== undefined) {
+        initialNumbers[player?.id] = player?.shirtNumber || 99;
+      }
     });
     setShirtNumbers(initialNumbers);
 
-    // Initialize available numbers (1-99)
     const usedNumbers = new Set(Object.values(initialNumbers));
     const available = Array.from({ length: 99 }, (_, i) => i + 1).filter(
       (num) => !usedNumbers.has(num),
@@ -65,6 +64,7 @@ const ShirtNumber = () => {
 
   const handleShirtNumberChange = (player: Player, newNumber: number) => {
     const playerId = player.id;
+    if (!playerId) return;
     // Check if the new number is already taken by another player
     const isNumberTaken = Object.entries(shirtNumbers).some(
       ([id, number]) => id !== playerId && number === newNumber,
@@ -134,20 +134,14 @@ const ShirtNumber = () => {
       >
         <Button variant="outline" asChild>
           <Link href={`${FOOTBALL_STATS_URL}/game/team`}>
-            <Users className="h-4 w-4 mr-2" />
+            <Users className="h-4 w-4" />
             Team
           </Link>
         </Button>
-        <Button asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/game/dashboard`}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Dashboard
-          </Link>
-        </Button>
       </PageTitle>
-      <ContentWrapper isLoading={isLoading} error={error}>
+      <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
         <Card>
-          <CardContent>
+          <CardContent className="p-0">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -158,54 +152,59 @@ const ShirtNumber = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {players.map((player) => (
-                  <TableRow key={player.id}>
-                    <TableCell>{player.name}</TableCell>
-                    <TableCell className="font-medium">
-                      <div className="flex items-center justify-center">
-                        {player.rating >= 80 && (
-                          <Star className="h-3 w-3 text-amber-400 mr-1" />
-                        )}
-                        {player.rating}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-center">
-                      <div className="flex flex-col align-items-center">
-                        <div className="flex flex-wrap justify-center gap-1 mt-1">
-                          {player.playablePositions.map((pos) => (
-                            <Badge
-                              key={pos}
-                              variant="outline"
-                              className={
-                                pos === player.position ? "border-primary" : ""
-                              }
-                            >
-                              {pos}
-                            </Badge>
-                          ))}
+                {data?.players &&
+                  data?.players.map((player: Player) => (
+                    <TableRow key={player.id}>
+                      <TableCell>{player.name}</TableCell>
+                      <TableCell className="font-medium">
+                        <div className="flex items-center justify-center">
+                          {player.rating >= 80 && (
+                            <Star className="h-3 w-3 text-amber-400 mr-1" />
+                          )}
+                          {player.rating}
                         </div>
-                      </div>
-                    </TableCell>
-                    <TableCell className="flex justify-center">
-                      <Select
-                        value={shirtNumbers[player.id]?.toString() || ""}
-                        onValueChange={(value) =>
-                          handleShirtNumberChange(
-                            player,
-                            Number.parseInt(value),
-                          )
-                        }
-                      >
-                        <SelectTrigger className="w-[100px]">
-                          <SelectValue placeholder="Select number" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {renderOptions(player.id)}
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <div className="flex flex-col align-items-center">
+                          <div className="flex flex-wrap justify-center gap-1 mt-1">
+                            {player.playablePositions.map((pos) => (
+                              <Badge
+                                key={pos}
+                                variant="outline"
+                                className={
+                                  pos === player.position
+                                    ? "border-primary"
+                                    : ""
+                                }
+                              >
+                                {pos}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="flex justify-center">
+                        {player?.id && (
+                          <Select
+                            value={shirtNumbers[player.id]?.toString() || ""}
+                            onValueChange={(value) =>
+                              handleShirtNumberChange(
+                                player,
+                                Number.parseInt(value),
+                              )
+                            }
+                          >
+                            <SelectTrigger className="w-[100px]">
+                              <SelectValue placeholder="Select number" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {renderOptions(player.id)}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>
