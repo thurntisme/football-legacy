@@ -1,10 +1,10 @@
 import { Banknote, CalendarDays, Users } from "lucide-react";
 
 import PageTitle from "@/components/common/page-title";
+import AvailablePlayers from "@/components/pages/club/available-players";
 import ClubFinances from "@/components/pages/club/club-finances";
 import ClubHistory from "@/components/pages/club/club-history";
 import ClubInformation from "@/components/pages/club/club-information";
-import PlayerManagement from "@/components/pages/club/player-management";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ClubPage() {
@@ -18,7 +18,7 @@ export default function ClubPage() {
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="players" className="flex items-center">
             <Users className="mr-2 h-4 w-4" />
-            Player Management
+            Available Players
           </TabsTrigger>
           <TabsTrigger value="finances" className="flex items-center">
             <Banknote className="mr-2 h-4 w-4" />
@@ -31,7 +31,7 @@ export default function ClubPage() {
         </TabsList>
 
         <TabsContent value="players" className="space-y-6">
-          <PlayerManagement />
+          <AvailablePlayers />
         </TabsContent>
 
         <TabsContent value="finances" className="space-y-6">

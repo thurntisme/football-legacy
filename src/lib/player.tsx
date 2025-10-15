@@ -252,6 +252,8 @@ export const getEditionBadge = (edition: PlayerEditionEnum) => {
       return <Badge className="bg-blue-400">2000s</Badge>;
     case PlayerEditionEnum.CLASSIC_2010S:
       return <Badge className="bg-purple-400">2010s</Badge>;
+    case PlayerEditionEnum.CLASSIC_2020S:
+      return <Badge className="bg-emerald-400">2020s</Badge>;
     case PlayerEditionEnum.MODERN:
       return <Badge className="bg-green-400">Modern</Badge>;
     case PlayerEditionEnum.FUTURE_STAR:
