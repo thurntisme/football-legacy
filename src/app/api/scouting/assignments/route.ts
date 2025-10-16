@@ -2,14 +2,9 @@ import { NextResponse } from "next/server";
 
 import { externalApi } from "@/lib/api/external";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const role = searchParams.get("role");
-
-    const response = await externalApi.get("/football/staff/own", {
-      params: { role },
-    });
+    const response = await externalApi.get("/football/scouting/assignments");
     return NextResponse.json(response);
   } catch (error) {
     console.error("Axios error:", error);

@@ -1,20 +1,13 @@
 "use client";
 
-import {
-  ArrowDownRight,
-  ArrowLeft,
-  ArrowUpRight,
-  UserSearch,
-} from "lucide-react";
-import Link from "next/link";
+import { ArrowDownRight, ArrowUpRight, UserSearch } from "lucide-react";
 
+import BtnStaffManagement from "@/components/common/btn-staff-management";
 import PageTitle from "@/components/common/page-title";
 import IncomingScoutingRequests from "@/components/pages/scouting/incoming-requests";
 import OutgoingScoutingRequests from "@/components/pages/scouting/outgoing-requests";
 import ScoutingAssignments from "@/components/pages/scouting/scouting-assignments";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 export default function ScoutingPage() {
   return (
@@ -23,12 +16,7 @@ export default function ScoutingPage() {
         title="Scouting Center"
         subTitle="Manage transfer requests and player contracts"
       >
-        <Button asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/team`}>
-            <ArrowLeft className="h-4 w-4" />
-            Back to Team
-          </Link>
-        </Button>
+        <BtnStaffManagement />
       </PageTitle>
 
       <Tabs defaultValue="assignment" className="space-y-8">
@@ -48,7 +36,7 @@ export default function ScoutingPage() {
         </TabsList>
 
         <TabsContent value="assignment" className="space-y-4">
-          <ScoutingAssignments activeRegion={null} />
+          <ScoutingAssignments />
         </TabsContent>
 
         <TabsContent value="incoming" className="space-y-4">

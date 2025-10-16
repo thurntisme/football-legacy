@@ -23,4 +23,17 @@ export type StaffMember = {
   };
   benefits: string[];
   hired?: boolean;
+} & Partial<StaffAssignment>;
+
+export type StaffAssignment = {
+  assignmentId: number;
+  region: string;
+  country: string | null;
+  focus: string;
+  ageRange: [number, number];
+  positionGroups: string[];
+  duration: number; // in days
+  startDate: string;
+  progress: number;
+  status: "active" | "completed";
 };
