@@ -20,7 +20,7 @@ const ScoutingRequestList = ({
 }: Props) => {
   return (
     <>
-      {requests.length > 0 ? (
+      {requests.length ? (
         <div className="space-y-4">
           {requests.map((request) => (
             <div

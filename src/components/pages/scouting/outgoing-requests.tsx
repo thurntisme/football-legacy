@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
+import ContentWrapper from "@/components/common/content-wrapper";
 import {
   Card,
   CardContent,
@@ -8,17 +9,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
-import { outgoingLists } from "@/mock/scouting";
-import { IScoutingRequest } from "@/types/scouting";
+import { internalApi } from "@/lib/api/internal";
+import { useQuery } from "@tanstack/react-query";
 
 import ScoutingRequestList from "./request-list";
-import { ScoutPlayerDialog } from "./scout-player-dialog";
 
 type Props = {};
 
 const OutgoingScoutingRequests = () => {
-  const [outgoingRequests, setOutgoingRequests] =
-    useState<IScoutingRequest[]>(outgoingLists);
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["outgoing-requests"],
+    queryFn: async () => {
+      const res = await internalApi.get("/scouting/outgoing-requests");
+      return res.data?.data || [];
+    },
+  });
 
   const handleAcceptRequest = (requestId: number) => {
     toast({
@@ -36,23 +41,20 @@ const OutgoingScoutingRequests = () => {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row justify-between items-center">
-        <div>
-          <CardTitle>Outgoing Transfer Requests</CardTitle>
-          <CardDescription className="mt-2">
-            Your requests to sign players from other teams
-          </CardDescription>
-        </div>
-        <div className="flex justify-end">
-          <ScoutPlayerDialog />
-        </div>
+      <CardHeader>
+        <CardTitle>Outgoing Transfer Requests</CardTitle>
+        <CardDescription className="mt-2">
+          Your requests to sign players from other teams
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <ScoutingRequestList
-          requests={outgoingRequests}
-          onAcceptRequest={handleAcceptRequest}
-          onRejectRequest={handleRejectRequest}
-        />
+        <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
+          <ScoutingRequestList
+            requests={data || []}
+            onAcceptRequest={handleAcceptRequest}
+            onRejectRequest={handleRejectRequest}
+          />
+        </ContentWrapper>
       </CardContent>
     </Card>
   );
