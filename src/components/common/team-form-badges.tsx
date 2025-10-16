@@ -8,9 +8,15 @@ type Props = {
   forms: TeamFormEnum[];
   shortText?: boolean;
   size?: "xs" | "sm" | "md";
+  className?: string;
 };
 
-const TeamFormBadges = ({ forms, shortText = true, size = "xs" }: Props) => {
+const TeamFormBadges = ({
+  forms,
+  shortText = true,
+  size = "xs",
+  className = "",
+}: Props) => {
   const getTeamFormBadge = (form: TeamFormEnum) => {
     let className = "";
     let title = "";
@@ -41,7 +47,7 @@ const TeamFormBadges = ({ forms, shortText = true, size = "xs" }: Props) => {
   if (!forms?.length) return null;
 
   return (
-    <div className="flex justify-center gap-1">
+    <div className={`flex gap-1 ${className}`}>
       {forms.length &&
         forms.map((form, index) => {
           const { className, title } = getTeamFormBadge(form);

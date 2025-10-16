@@ -2,24 +2,23 @@
 
 import { useEffect, useState } from "react";
 
+import { Swords } from "lucide-react";
+
 import PageTitle from "@/components/common/page-title";
+import CommunityChat from "@/components/pages/dashboard/community-chat-widget";
 import FindOnlineMatch from "@/components/pages/online/find-online-match";
 import ForfeitConfirmationDialog from "@/components/pages/online/forfeit-confirmation-dialog";
-import LiveMatch from "@/components/pages/online/live-match";
 import MatchApprovalDialog from "@/components/pages/online/match-approval-dialog";
-import MatchDetailDialog from "@/components/pages/online/match-detail-dialog";
 import MatchHistory from "@/components/pages/online/match-history";
 import OnlineLeaderboard from "@/components/pages/online/online-leaderboard";
 import TeamInfoDialog from "@/components/pages/online/team-info-dialog";
 import WaitingOpponentDialog from "@/components/pages/online/waiting-opponent-dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import { initialChatMessages, onlineUsers } from "@/mock/football";
+import { initialChatMessages } from "@/mock/football";
 import { MatchDetail, MatchMessage, OnlineManager } from "@/types/match";
 
 export default function OnlineMatchPage() {
-  const [activeTab, setActiveTab] = useState("find");
-  const [isConnected, setIsConnected] = useState(true);
   const [inMatch, setInMatch] = useState(false);
   const [opponent, setOpponent] = useState<any>(null);
   const [chatMessages, setChatMessages] =
@@ -44,35 +43,6 @@ export default function OnlineMatchPage() {
   const [userApproved, setUserApproved] = useState(false);
   const [opponentApproved, setOpponentApproved] = useState(false);
   const [forfeitDialogOpen, setForfeitDialogOpen] = useState(false);
-
-  // Filter users based on search query
-  const filteredUsers = onlineUsers as OnlineManager[];
-
-  // Simulate connection status
-  useEffect(() => {
-    const connectionInterval = setInterval(() => {
-      // 98% chance to stay connected, 2% chance to disconnect (for demo purposes)
-      if (Math.random() > 0.98) {
-        setIsConnected(false);
-        toast({
-          title: "Connection Lost",
-          description: "Attempting to reconnect...",
-          variant: "destructive",
-        });
-
-        // Try to reconnect after 3 seconds
-        setTimeout(() => {
-          setIsConnected(true);
-          toast({
-            title: "Connection Restored",
-            description: "You're back online!",
-          });
-        }, 3000);
-      }
-    }, 10000);
-
-    return () => clearInterval(connectionInterval);
-  }, []);
 
   // Update wait time counter
   useEffect(() => {
@@ -213,7 +183,6 @@ export default function OnlineMatchPage() {
     setTimeout(() => {
       // router.push(`${FOOTBALL_STATS_URL}/match/start`);
       setInMatch(true);
-      setActiveTab("match");
       setMatchApprovalDialogOpen(false);
       setApprovalCountdown(30);
       setMatchStats({
@@ -282,50 +251,24 @@ export default function OnlineMatchPage() {
         subTitle="Play against other managers in real-time"
       />
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-4 mb-6">
-          <TabsTrigger value="find" disabled={inMatch}>
-            Find Opponents
-          </TabsTrigger>
-          <TabsTrigger value="match" disabled={!inMatch}>
-            Current Match
-          </TabsTrigger>
-          <TabsTrigger value="history" disabled={inMatch}>
-            Match History
-          </TabsTrigger>
-          <TabsTrigger value="leaderboard" disabled={inMatch}>
-            Leaderboard
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="find" className="space-y-4">
-          <FindOnlineMatch
-            viewTeamInfo={viewTeamInfo}
-            challengeUser={challengeUser}
-          />
-        </TabsContent>
-
-        <TabsContent value="match">
-          <LiveMatch
-            inMatch={inMatch}
-            opponent={opponent}
-            setForfeitDialogOpen={setForfeitDialogOpen}
-            setInMatch={setInMatch}
-            setActiveTab={setActiveTab}
-          />
-        </TabsContent>
-
-        <TabsContent value="history">
+      <div className="grid grid-cols-3 gap-3">
+        <FindOnlineMatch
+          viewTeamInfo={viewTeamInfo}
+          challengeUser={challengeUser}
+        />
+        <div className="flex flex-col gap-4">
+          <CommunityChat />
           <MatchHistory />
-        </TabsContent>
-
-        <TabsContent value="leaderboard">
-          <OnlineLeaderboard
-            viewTeamInfo={viewTeamInfo}
-            challengeUser={challengeUser}
-          />
-        </TabsContent>
-      </Tabs>
+          <Button>
+            <Swords className="h-4 w-4" />
+            Find Opponents
+          </Button>
+        </div>
+        <OnlineLeaderboard
+          viewTeamInfo={viewTeamInfo}
+          challengeUser={challengeUser}
+        />
+      </div>
 
       <WaitingOpponentDialog
         waitingForOpponent={waitingForOpponent}

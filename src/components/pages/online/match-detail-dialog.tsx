@@ -7,9 +7,9 @@ import React, {
   ReactPortal,
 } from "react";
 
-import { Star } from "lucide-react";
+import { Star, X } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import TeamFormBadges from "@/components/common/team-form-badges";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -38,7 +38,7 @@ const MatchDetailDialog = ({
       open={matchDetailDialogOpen}
       onOpenChange={setMatchDetailDialogOpen}
     >
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Match Details</DialogTitle>
           <DialogDescription>
@@ -57,21 +57,7 @@ const MatchDetailDialog = ({
                 <div className="text-3xl font-bold mb-2">
                   {selectedMatch.score}
                 </div>
-                <Badge
-                  variant={
-                    selectedMatch.result === "win"
-                      ? "default"
-                      : selectedMatch.result === "loss"
-                        ? "destructive"
-                        : "outline"
-                  }
-                >
-                  {selectedMatch.result === "win"
-                    ? "Victory"
-                    : selectedMatch.result === "loss"
-                      ? "Defeat"
-                      : "Draw"}
-                </Badge>
+                <TeamFormBadges forms={[selectedMatch.result]} />
               </div>
 
               <div className="text-center">
@@ -323,8 +309,11 @@ const MatchDetailDialog = ({
           </div>
         )}
 
-        <DialogFooter>
-          <Button onClick={() => setMatchDetailDialogOpen(false)}>Close</Button>
+        <DialogFooter className="flex !justify-center pt-4">
+          <Button onClick={() => setMatchDetailDialogOpen(false)}>
+            <X className="h-4 w-4" />
+            Close
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

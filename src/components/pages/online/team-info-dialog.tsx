@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Star, Swords, X } from "lucide-react";
+import { Star, Swords, UserMinus, UserPlus, X } from "lucide-react";
 
+import TeamFormBadges from "@/components/common/team-form-badges";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -85,23 +86,7 @@ const TeamInfoDialog = ({
 
               <div>
                 <h4 className="font-medium mb-1">Recent Form</h4>
-                <div className="flex space-x-1">
-                  {selectedTeam.teamInfo.recentForm.map((result, index) => (
-                    <Badge
-                      key={index}
-                      variant={
-                        result === "W"
-                          ? "default"
-                          : result === "L"
-                            ? "destructive"
-                            : "outline"
-                      }
-                      className="min-w-[24px] text-center"
-                    >
-                      {result}
-                    </Badge>
-                  ))}
-                </div>
+                <TeamFormBadges forms={selectedTeam.teamInfo.recentForm} />
               </div>
             </div>
 
@@ -148,11 +133,35 @@ const TeamInfoDialog = ({
           </div>
         )}
 
-        <DialogFooter>
-          <Button onClick={() => setTeamInfoDialogOpen(false)}>
+        <DialogFooter className="pt-4">
+          <Button
+            onClick={() => setTeamInfoDialogOpen(false)}
+            variant="outline"
+          >
             <X className="h-4 w-4" />
             Close
           </Button>
+          {selectedTeam?.isFriend ? (
+            <Button
+              onClick={() => {
+                // TODO: Remove friend functionality
+                console.log("Remove friend");
+              }}
+            >
+              <UserMinus className="h-4 w-4" />
+              Add Friend
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                // TODO: Add friend functionality
+                console.log("Add friend");
+              }}
+            >
+              <UserPlus className="h-4 w-4" />
+              Add Friend
+            </Button>
+          )}
           {selectedTeam?.status === "online" && (
             <Button
               onClick={() => {

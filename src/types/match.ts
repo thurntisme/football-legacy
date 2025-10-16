@@ -1,5 +1,7 @@
 import React from "react";
 
+import { TeamFormEnum } from "@/constants/league";
+
 export type OnlineManager = {
   id: string;
   name: string;
@@ -11,7 +13,7 @@ export type OnlineManager = {
     formation: string;
     avgRating: number;
     topPlayers: string[];
-    recentForm: string[];
+    recentForm: TeamFormEnum[];
     style: string;
     strengths: string[];
     weaknesses: string[];
@@ -19,6 +21,7 @@ export type OnlineManager = {
   wins?: number;
   draws?: number;
   losses?: number;
+  isFriend?: boolean;
 };
 
 export type MatchMessage = {
@@ -32,7 +35,7 @@ export type MatchDetail = {
   id: string;
   opponent: string;
   opponentTeam: string;
-  result: string; // 'win', 'loss', 'draw'
+  result: TeamFormEnum;
   score: string;
   date: string;
   details: {

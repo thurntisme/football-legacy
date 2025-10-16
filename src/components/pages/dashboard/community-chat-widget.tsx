@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { Send, Users } from "lucide-react";
+import Link from "next/link";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -15,10 +16,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { mockCommunityMessages } from "@/mock/chat";
 import { ChatMessage } from "@/types/chat";
 
-export default function CommunityChat() {
+type Props = {
+  showBtnChatAll?: boolean;
+};
+
+export default function CommunityChat({ showBtnChatAll = false }: Props) {
   const [messages, setMessages] = useState<ChatMessage[]>(
     mockCommunityMessages,
   );
@@ -104,12 +110,14 @@ export default function CommunityChat() {
             <Send className="h-4 w-4" />
           </Button>
         </div>
-        <a
-          href="/game/chat"
-          className="text-sm text-muted-foreground mt-2 block underline"
-        >
-          Chat All
-        </a>
+        {showBtnChatAll && (
+          <Link
+            href={`${FOOTBALL_STATS_URL}/game/chat`}
+            className="text-sm text-muted-foreground mt-2 block underline"
+          >
+            Chat Box
+          </Link>
+        )}
       </CardFooter>
     </Card>
   );

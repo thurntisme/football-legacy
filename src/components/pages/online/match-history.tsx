@@ -1,24 +1,28 @@
 import React, { useState } from "react";
 
-import { Eye } from "lucide-react";
+import { Eye, History } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import ContentWrapper from "@/components/common/content-wrapper";
+import TeamFormBadges from "@/components/common/team-form-badges";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { matchHistory } from "@/mock/football";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { internalApi } from "@/lib/api/internal";
 import { MatchDetail } from "@/types/match";
+import { useQuery } from "@tanstack/react-query";
 
 import MatchDetailDialog from "./match-detail-dialog";
 
 const MatchHistory = () => {
   const [matchDetailDialogOpen, setMatchDetailDialogOpen] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState<MatchDetail | null>(null);
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["online-history"],
+    queryFn: async () => {
+      const res = await internalApi.get("/online/history");
+      return res.data?.data || [];
+    },
+  });
 
   const viewMatchDetails = (match: MatchDetail) => {
     setSelectedMatch(match);
@@ -28,65 +32,48 @@ const MatchHistory = () => {
   return (
     <>
       <Card>
-        <CardHeader>
-          <CardTitle>Match History</CardTitle>
-          <CardDescription>Your recent online matches</CardDescription>
+        <CardHeader className="px-3 py-3 font-semibold flex flex-row items-center gap-2">
+          <History className="w-4 h-4" />
+          Last 3 matches
         </CardHeader>
-        <CardContent>
-          <div className="rounded-md border">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b bg-muted/50">
-                  <th className="p-3 text-left font-medium">Date</th>
-                  <th className="p-3 text-left font-medium">Opponent</th>
-                  <th className="p-3 text-center font-medium">Result</th>
-                  <th className="p-3 text-center font-medium">Score</th>
-                  <th className="p-3 text-center font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {matchHistory.map((match) => (
-                  <tr key={match.id} className="border-b">
-                    <td className="p-3">{match.date}</td>
-                    <td className="p-3">
+        <CardContent className="p-0">
+          <ContentWrapper
+            isLoading={isLoading}
+            error={error}
+            onRefetch={refetch}
+          >
+            {data.length
+              ? data.map((match: MatchDetail) => (
+                  <div
+                    key={match.id}
+                    className="border-t flex gap-2 items-center"
+                  >
+                    <div className="p-3 flex-1">
                       <div className="font-medium">{match.opponent}</div>
                       <div className="text-sm text-muted-foreground">
                         {match.opponentTeam}
                       </div>
-                    </td>
-                    <td className="p-3 text-center">
-                      <Badge
-                        variant={
-                          match.result === "win"
-                            ? "default"
-                            : match.result === "loss"
-                              ? "destructive"
-                              : "outline"
-                        }
-                      >
-                        {match.result === "win"
-                          ? "Win"
-                          : match.result === "loss"
-                            ? "Loss"
-                            : "Draw"}
-                      </Badge>
-                    </td>
-                    <td className="p-3 text-center">{match.score}</td>
-                    <td className="p-3 text-center">
+                    </div>
+                    <div className="flex flex-col py-2 gap-2 w-1/4">
+                      <div className="text-center ">
+                        <TeamFormBadges forms={[match.result]} />
+                      </div>
+                      <div className="text-center text-sm">{match.score}</div>
+                    </div>
+                    <div className="p-3 text-center">
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => viewMatchDetails(match)}
                       >
-                        <Eye className="h-4 w-4 mr-1" />
+                        <Eye className="h-4 w-4" />
                         Details
                       </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                  </div>
+                ))
+              : null}
+          </ContentWrapper>
         </CardContent>
       </Card>
       <MatchDetailDialog

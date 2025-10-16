@@ -1,14 +1,11 @@
 import { NextResponse } from "next/server";
 
 import { externalApi } from "@/lib/api/external";
-import { onlineUsers } from "@/mock/football";
 
 export async function GET() {
   try {
-    // const response = await externalApi.get('/online/user');
-    // return NextResponse.json(response);
-
-    return NextResponse.json(onlineUsers);
+    const response = await externalApi.get("/football/online/history");
+    return NextResponse.json(response);
   } catch (error) {
     console.error("Axios error:", error);
     return NextResponse.json(
