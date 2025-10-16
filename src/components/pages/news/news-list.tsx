@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Calendar, MessageSquare } from "lucide-react";
+import { Calendar, ChevronRight, MessageSquare } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -26,39 +26,49 @@ const NewsList = ({ allNews, setSelectedArticle }: Props) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
-          {allNews.map((news, index) => (
-            <div key={index} className="flex gap-4 pb-6 border-b last:border-0">
-              <img
-                src={news.image || "/placeholder.svg"}
-                alt={news.title}
-                className="w-24 h-24 object-cover rounded-md hidden md:block"
-              />
-              <div className="flex-1">
-                <h3 className="text-lg font-bold mb-2">{news.title}</h3>
-                <p className="text-muted-foreground mb-2">{news.excerpt}</p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center text-muted-foreground text-sm">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span>{news.time}</span>
+          {allNews.length ? (
+            allNews.map((news, index) => (
+              <div
+                key={index}
+                className="flex gap-4 pb-6 border-b last:border-0"
+              >
+                <img
+                  src={news.image || "/placeholder.svg"}
+                  alt={news.title}
+                  className="w-24 h-24 object-cover rounded-md hidden md:block"
+                />
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold mb-2">{news.title}</h3>
+                  <p className="text-muted-foreground text-sm mb-2">
+                    {news.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-muted-foreground text-sm">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      <span>{news.time}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center text-muted-foreground text-sm">
-                    <MessageSquare className="h-4 w-4 mr-1" />
-                    <span>{news.comments} comments</span>
-                  </div>
+                  <Button
+                    variant="link"
+                    className="p-0 h-auto mt-2"
+                    onClick={() => {
+                      const article = allNews.find(
+                        (item) => item.id === news.id,
+                      );
+                      if (article) setSelectedArticle(article);
+                    }}
+                  >
+                    Read more
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
                 </div>
-                <Button
-                  variant="link"
-                  className="p-0 h-auto mt-2"
-                  onClick={() => {
-                    const article = allNews.find((item) => item.id === news.id);
-                    if (article) setSelectedArticle(article);
-                  }}
-                >
-                  Read more
-                </Button>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-center text-muted-foreground">
+              No news available
+            </p>
+          )}
         </div>
       </CardContent>
     </Card>

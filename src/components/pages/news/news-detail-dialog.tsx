@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Calendar, MessageSquare, Star } from "lucide-react";
+import { Calendar, MessageSquare, Star, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -32,32 +33,14 @@ const NewsDetailDialog = ({ selectedArticle, setSelectedArticle }: Props) => {
                 <DialogTitle className="text-2xl">
                   {selectedArticle.title}
                 </DialogTitle>
-                <div className="flex space-x-1">
-                  {selectedArticle.tag && (
-                    <Badge
-                      variant={
-                        selectedArticle.tag === "Confirmed"
-                          ? "default"
-                          : selectedArticle.tag === "Rumor"
-                            ? "secondary"
-                            : "outline"
-                      }
-                    >
-                      {selectedArticle.tag}
-                    </Badge>
-                  )}
-                  <Badge variant="outline" className="mr-2">
-                    {selectedArticle.category}
-                  </Badge>
-                </div>
+                <Badge variant="outline" className="w-fit">
+                  {selectedArticle.category}
+                </Badge>
               </div>
               <DialogDescription>
                 <span className="flex items-center text-muted-foreground mt-2">
                   <Calendar className="h-4 w-4 mr-1" />
                   <span>{selectedArticle.time}</span>
-                  <span className="mx-2">•</span>
-                  <MessageSquare className="h-4 w-4 mr-1" />
-                  <span>{selectedArticle.comments} comments</span>
                 </span>
               </DialogDescription>
             </DialogHeader>
@@ -74,22 +57,19 @@ const NewsDetailDialog = ({ selectedArticle, setSelectedArticle }: Props) => {
             </div>
 
             <div
-              className="prose prose-sm md:prose-base max-w-none dark:prose-invert"
+              className="prose prose-sm md:prose-base max-w-none dark:prose-invert pb-4"
               dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
             />
 
-            <div className="mt-6 pt-4 border-t">
-              <h4 className="font-medium mb-2">Join the conversation</h4>
-              <div className="flex items-center gap-2">
-                <Button variant="outline">
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  Add Comment
-                </Button>
-                <Button variant="ghost" size="icon">
-                  <Star className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+            <DialogFooter className="flex !justify-center">
+              <Button
+                variant="outline"
+                onClick={() => setSelectedArticle(null)}
+              >
+                <X className="h-4 w-4" />
+                Close
+              </Button>
+            </DialogFooter>
           </>
         )}
       </DialogContent>

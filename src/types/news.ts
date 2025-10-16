@@ -1,12 +1,11 @@
+import { NewsCategoryEnum } from "@/constants/news";
+
 export type NewsArticle = {
   id: string;
-  category: string;
+  category: NewsCategoryEnum;
   title: string;
   excerpt: string;
   content: string;
   time: string;
-  comments: number;
   image: string;
-  badge?: string;
-  tag?: string;
 };
