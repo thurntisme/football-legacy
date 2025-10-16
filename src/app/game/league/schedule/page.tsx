@@ -10,8 +10,10 @@ import SeasonCalendar from "@/components/pages/league/season-calendar";
 import SeasonOverview from "@/components/pages/league/season-overview";
 import UpcomingFixtures from "@/components/pages/league/upcoming-fixtures";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ICalendarEvent, IMatch } from "@/types/common";
+import { internalApi } from "@/lib/api/internal";
 import { calendarEvents } from "@/mock/schedule";
+import { ICalendarEvent, IMatch } from "@/types/common";
+import { useQuery } from "@tanstack/react-query";
 
 export default function SchedulePage() {
   const [selectedMatch, setSelectedMatch] = useState<IMatch | null>(null);
@@ -21,6 +23,14 @@ export default function SchedulePage() {
     transfer: true,
     loan: true,
     other: true,
+  });
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["my-team-players"],
+    queryFn: async () => {
+      const res = await internalApi.get("/league/schedule");
+      return res.data?.data || [];
+    },
   });
 
   const toggleEventFilter = (type: keyof typeof eventFilters) => {
