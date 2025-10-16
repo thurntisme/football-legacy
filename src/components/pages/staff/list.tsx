@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -54,17 +53,17 @@ const StaffList = ({ onSelectHireTab }: props) => {
     isLoading,
     error,
     refetch,
-  } = useQuery<StaffMember[] | null>({
+  } = useQuery({
     queryKey: ["own-staff-list"],
     queryFn: async () => {
-      const { data } = await internalApi.get("/staff/own");
-      return data;
+      const res = await internalApi.get("/staff/own");
+      return res.data?.data || [];
     },
   });
 
   const filteredStaff = useMemo(() => {
     if (!staffList) return [];
-    return staffList.filter((staff) => {
+    return staffList.filter((staff: StaffMember) => {
       if (selectedCategory === StaffCategoryEnum.ALL) {
         return true;
       } else {
@@ -90,7 +89,7 @@ const StaffList = ({ onSelectHireTab }: props) => {
       />
       {filteredStaff && filteredStaff.length ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {filteredStaff.map((staff) => (
+          {filteredStaff.map((staff: StaffMember) => (
             <Card key={staff.id} className="overflow-hidden">
               <CardHeader className="pb-4">
                 <div className="flex justify-between items-start">

@@ -47,17 +47,17 @@ const HireStaff = () => {
     isLoading,
     error,
     refetch,
-  } = useQuery<StaffMember[] | null>({
+  } = useQuery({
     queryKey: ["available-staff-list"],
     queryFn: async () => {
-      const { data } = await internalApi.get("/staff/available");
-      return data;
+      const res = await internalApi.get("/staff/available");
+      return res.data?.data || [];
     },
   });
 
   const availableStaff = useMemo(() => {
     if (!staffList) return [];
-    return staffList.filter((staff) => {
+    return staffList.filter((staff: StaffMember) => {
       if (selectedCategory === StaffCategoryEnum.ALL) {
         return true;
       } else {
@@ -82,7 +82,7 @@ const HireStaff = () => {
         />
         {availableStaff.length ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {availableStaff.map((staff) => (
+            {availableStaff.map((staff: StaffMember) => (
               <Card key={staff.id} className="overflow-hidden">
                 <div className="flex flex-col md:flex-row">
                   <div className="p-4 flex-1">
