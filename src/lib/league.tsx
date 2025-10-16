@@ -30,22 +30,26 @@ export const getStandingZone = (zone: StandingZoneEnum) => {
   }
 };
 
-export const getTeamFormBadge = (form: TeamFormEnum, key = 9999) => {
+export const getTeamFormBadge = (
+  form: TeamFormEnum,
+  shortText = true,
+  key = 9999,
+) => {
   let className = "";
   let title = "";
 
   switch (form) {
     case TeamFormEnum.WIN:
       className = "bg-green-500";
-      title = TeamFormEnum.WIN;
+      title = shortText ? TeamFormEnum.WIN : "Win";
       break;
     case TeamFormEnum.DRAW:
       className = "bg-amber-500";
-      title = TeamFormEnum.DRAW;
+      title = shortText ? TeamFormEnum.DRAW : "Draw";
       break;
     case TeamFormEnum.LOSE:
       className = "bg-red-500";
-      title = TeamFormEnum.LOSE;
+      title = shortText ? TeamFormEnum.LOSE : "Lose";
       break;
 
     default:
@@ -54,7 +58,19 @@ export const getTeamFormBadge = (form: TeamFormEnum, key = 9999) => {
 
   return (
     <Badge className={className} key={key}>
-      {title}
+      {title} {key}
     </Badge>
   );
+};
+
+export const getStandingPosition = (position: number) => {
+  if (position === 1) {
+    return "1st";
+  } else if (position === 2) {
+    return "2nd";
+  } else if (position === 3) {
+    return "3rd";
+  } else {
+    return `${position}th`;
+  }
 };

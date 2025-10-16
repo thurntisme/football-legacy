@@ -3,95 +3,72 @@
 import type React from "react";
 import { useState } from "react";
 
+import { ListOrdered } from "lucide-react";
+import Link from "next/link";
+
+import ContentWrapper from "@/components/common/content-wrapper";
 import PageTitle from "@/components/common/page-title";
 import MatchReport from "@/components/pages/league/match-report";
 import RecentMatchResults from "@/components/pages/league/recent-match-results";
-import SeasonCalendar from "@/components/pages/league/season-calendar";
 import SeasonOverview from "@/components/pages/league/season-overview";
 import UpcomingFixtures from "@/components/pages/league/upcoming-fixtures";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { internalApi } from "@/lib/api/internal";
-import { calendarEvents } from "@/mock/schedule";
-import { ICalendarEvent, IMatch } from "@/types/common";
+import { IMatch } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 
 export default function SchedulePage() {
   const [selectedMatch, setSelectedMatch] = useState<IMatch | null>(null);
-  const [eventFilters, setEventFilters] = useState({
-    match: true,
-    contract: true,
-    transfer: true,
-    loan: true,
-    other: true,
-  });
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["my-team-players"],
+    queryKey: ["league-schedule"],
     queryFn: async () => {
       const res = await internalApi.get("/league/schedule");
       return res.data?.data || [];
     },
   });
 
-  const toggleEventFilter = (type: keyof typeof eventFilters) => {
-    setEventFilters({
-      ...eventFilters,
-      [type]: !eventFilters[type],
-    });
-  };
-
-  const filteredEvents = calendarEvents.filter(
-    (event) => eventFilters[event.type],
-  );
-
-  // Group events by month
-  const groupedEvents = filteredEvents.reduce(
-    (acc, event) => {
-      const month = event.date.split(",")[0]; // "Mar 15, 2025" -> "Mar 15"
-      if (!acc[month]) {
-        acc[month] = [];
-      }
-      acc[month].push(event);
-      return acc;
-    },
-    {} as Record<string, ICalendarEvent[]>,
-  );
-
   return (
     <>
-      <PageTitle title="League Schedule" />
+      <PageTitle title="League Schedule">
+        <Button variant="outline" asChild>
+          <Link href={`${FOOTBALL_STATS_URL}/game/league/standing`}>
+            <ListOrdered className="h-4 w-4" />
+            Standing
+          </Link>
+        </Button>
+      </PageTitle>
 
-      <SeasonOverview />
+      <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
+        <>
+          <SeasonOverview league={data?.league} />
 
-      <Tabs defaultValue="upcoming" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-          <TabsTrigger value="results">Results</TabsTrigger>
-          <TabsTrigger value="calendar">Calendar</TabsTrigger>
-        </TabsList>
+          <Tabs defaultValue="upcoming" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
+              <TabsTrigger value="results">Results</TabsTrigger>
+            </TabsList>
 
-        <TabsContent value="upcoming" className="space-y-6">
-          <UpcomingFixtures />
-        </TabsContent>
+            <TabsContent value="upcoming" className="space-y-6">
+              <UpcomingFixtures matches={data?.schedule?.upcoming || []} />
+            </TabsContent>
 
-        <TabsContent value="results" className="space-y-6">
-          <RecentMatchResults setSelectedMatch={setSelectedMatch} />
-        </TabsContent>
+            <TabsContent value="results" className="space-y-6">
+              <RecentMatchResults
+                matches={data?.schedule?.result || []}
+                setSelectedMatch={setSelectedMatch}
+              />
+            </TabsContent>
+          </Tabs>
 
-        <TabsContent value="calendar" className="space-y-6">
-          <SeasonCalendar
-            eventFilters={eventFilters}
-            toggleEventFilter={toggleEventFilter}
-            groupedEvents={groupedEvents}
-            setEventFilters={setEventFilters}
+          <MatchReport
+            selectedMatch={selectedMatch}
+            setSelectedMatch={setSelectedMatch}
           />
-        </TabsContent>
-      </Tabs>
-
-      <MatchReport
-        selectedMatch={selectedMatch}
-        setSelectedMatch={setSelectedMatch}
-      />
+        </>
+      </ContentWrapper>
     </>
   );
 }

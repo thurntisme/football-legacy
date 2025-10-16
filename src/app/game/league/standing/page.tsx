@@ -1,9 +1,12 @@
 "use client";
 
-import { BarChart, TrendingUp, Trophy } from "lucide-react";
+import { BarChart, CalendarDays, TrendingUp, Trophy } from "lucide-react";
+import Link from "next/link";
 
 import ContentWrapper from "@/components/common/content-wrapper";
 import PageTitle from "@/components/common/page-title";
+import TeamFormBadges from "@/components/common/team-form-badges";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -20,8 +23,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TeamFormEnum } from "@/constants/league";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { internalApi } from "@/lib/api/internal";
-import { getStandingZone, getTeamFormBadge } from "@/lib/league";
+import {
+  getStandingPosition,
+  getStandingZone,
+  getTeamFormBadge,
+} from "@/lib/league";
 import { Standing } from "@/types/league";
 import { useQuery } from "@tanstack/react-query";
 
@@ -36,7 +44,14 @@ export default function LeagueStandingsPage() {
 
   return (
     <>
-      <PageTitle title="League Standings" />
+      <PageTitle title="League Standings">
+        <Button variant="outline" asChild>
+          <Link href={`${FOOTBALL_STATS_URL}/game/league/schedule`}>
+            <CalendarDays className="h-4 w-4" />
+            Schedule
+          </Link>
+        </Button>
+      </PageTitle>
 
       <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
         <Card className="mb-6">
@@ -76,7 +91,10 @@ export default function LeagueStandingsPage() {
                 <div>
                   <p className="text-sm text-muted-foreground">Your Position</p>
                   <p className="text-xl font-bold">
-                    {data?.league?.user_team?.position || "N/A"} Place
+                    {data?.league?.user_team?.position
+                      ? getStandingPosition(data?.league?.user_team?.position)
+                      : "N/A"}{" "}
+                    Place
                   </p>
                   <p className="text-sm text-muted-foreground">
                     {data?.league?.user_team?.points || 0} points
@@ -157,11 +175,7 @@ export default function LeagueStandingsPage() {
                         {team.won * 3 + team.drawn}
                       </TableCell>
                       <TableCell>
-                        <div className="flex justify-center gap-1">
-                          {team.form.map((result: TeamFormEnum, i) => (
-                            <>{getTeamFormBadge(result, i)}</>
-                          ))}
-                        </div>
+                        <TeamFormBadges forms={team?.form} />
                       </TableCell>
                     </TableRow>
                   ))}
