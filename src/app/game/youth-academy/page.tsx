@@ -1,7 +1,7 @@
 import BtnStaffManagement from "@/components/common/btn-staff-management";
 import PageTitle from "@/components/common/page-title";
+import YouthCoaching from "@/components/pages/youth-academy/youtch-coaching";
 import YouthFacilities from "@/components/pages/youth-academy/youth-facilities";
-import YouthIntake from "@/components/pages/youth-academy/youth-intake";
 import YouthMatches from "@/components/pages/youth-academy/youth-matches";
 import YouthPlayers from "@/components/pages/youth-academy/youth-players";
 import YouthScouting from "@/components/pages/youth-academy/youth-scouting";
@@ -15,32 +15,22 @@ export default function YouthAcademyPage() {
       </PageTitle>
 
       <Tabs defaultValue="players">
-        <TabsList className="grid grid-cols-5 mb-6">
+        <TabsList className="grid grid-cols-3 mb-6">
           <TabsTrigger value="players">Youth Players</TabsTrigger>
-          <TabsTrigger value="scouting">Youth Scouting</TabsTrigger>
           <TabsTrigger value="facilities">Facilities</TabsTrigger>
-          <TabsTrigger value="matches">Youth Matches</TabsTrigger>
-          <TabsTrigger value="intake">Youth Intake</TabsTrigger>
+          <TabsTrigger value="coach">Coach</TabsTrigger>
         </TabsList>
 
         <TabsContent value="players">
           <YouthPlayers />
         </TabsContent>
 
-        <TabsContent value="scouting">
-          <YouthScouting />
-        </TabsContent>
-
         <TabsContent value="facilities">
           <YouthFacilities />
         </TabsContent>
 
-        <TabsContent value="matches">
-          <YouthMatches />
-        </TabsContent>
-
-        <TabsContent value="intake">
-          <YouthIntake />
+        <TabsContent value="coach">
+          <YouthCoaching />
         </TabsContent>
       </Tabs>
     </>
