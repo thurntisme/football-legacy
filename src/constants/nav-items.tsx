@@ -1,4 +1,5 @@
 import {
+  Binoculars,
   Building,
   CalendarDays,
   CreditCard,
@@ -12,7 +13,6 @@ import {
   MessageSquare,
   Newspaper,
   Package,
-  Search,
   Settings,
   Shirt,
   ShoppingCart,
@@ -90,7 +90,7 @@ export const navItems = [
   {
     href: "game/scouting",
     label: "Scouting",
-    icon: <Search className="h-4 w-4 mr-2" />,
+    icon: <Binoculars className="h-4 w-4 mr-2" />,
   },
   {
     href: "game/training",

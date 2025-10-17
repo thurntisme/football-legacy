@@ -12,7 +12,7 @@ export enum StaffCategoryEnum {
   ALL = "all",
   TACTICAL = "tactical",
   TECHNICAL = "technical",
-  FITNESS = "fitness",
+  TRAINING = "training",
   YOUTH = "youth",
   MEDICAL = "medical",
   SCOUTING = "scouting",
@@ -35,8 +35,8 @@ export const StaffCategories = [
     icon: Wrench,
   },
   {
-    slug: StaffCategoryEnum.FITNESS,
-    label: "Fitness",
+    slug: StaffCategoryEnum.TRAINING,
+    label: "Training",
     icon: Dumbbell,
   },
   {
