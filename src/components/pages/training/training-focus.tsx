@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 import {
   Brain,
@@ -12,18 +12,18 @@ import {
   User,
   UserPlus,
   Users,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -31,100 +31,100 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { toast } from '@/components/ui/use-toast';
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/components/ui/use-toast";
 
 // Mock player data
 const players = [
   {
-    id: '1',
-    name: 'Alex Johnson',
-    position: 'ST',
+    id: "1",
+    name: "Alex Johnson",
+    position: "ST",
     age: 24,
-    image: '/placeholder.svg?height=40&width=40',
+    image: "/placeholder.svg?height=40&width=40",
     attributes: {
       technical: 78,
       tactical: 72,
       physical: 85,
       mental: 76,
     },
-    focus: 'technical',
+    focus: "technical",
     development: 68,
     trainingIntensity: 75,
   },
   {
-    id: '2',
-    name: 'Marcus Silva',
-    position: 'CM',
+    id: "2",
+    name: "Marcus Silva",
+    position: "CM",
     age: 26,
-    image: '/placeholder.svg?height=40&width=40',
+    image: "/placeholder.svg?height=40&width=40",
     attributes: {
       technical: 82,
       tactical: 84,
       physical: 76,
       mental: 80,
     },
-    focus: 'tactical',
+    focus: "tactical",
     development: 75,
     trainingIntensity: 80,
   },
   {
-    id: '3',
-    name: 'James Wilson',
-    position: 'CB',
+    id: "3",
+    name: "James Wilson",
+    position: "CB",
     age: 29,
-    image: '/placeholder.svg?height=40&width=40',
+    image: "/placeholder.svg?height=40&width=40",
     attributes: {
       technical: 70,
       tactical: 83,
       physical: 88,
       mental: 79,
     },
-    focus: 'physical',
+    focus: "physical",
     development: 62,
     trainingIntensity: 70,
   },
   {
-    id: '4',
-    name: 'Kai Zhang',
-    position: 'LW',
+    id: "4",
+    name: "Kai Zhang",
+    position: "LW",
     age: 22,
-    image: '/placeholder.svg?height=40&width=40',
+    image: "/placeholder.svg?height=40&width=40",
     attributes: {
       technical: 85,
       tactical: 75,
       physical: 82,
       mental: 73,
     },
-    focus: 'mental',
+    focus: "mental",
     development: 80,
     trainingIntensity: 85,
   },
   {
-    id: '5',
-    name: 'Leo Martins',
-    position: 'GK',
+    id: "5",
+    name: "Leo Martins",
+    position: "GK",
     age: 31,
-    image: '/placeholder.svg?height=40&width=40',
+    image: "/placeholder.svg?height=40&width=40",
     attributes: {
       technical: 79,
       tactical: 80,
       physical: 77,
       mental: 85,
     },
-    focus: 'technical',
+    focus: "technical",
     development: 55,
     trainingIntensity: 65,
   },
@@ -133,37 +133,37 @@ const players = [
 // Team focus areas
 const teamFocusAreas = [
   {
-    id: 'possession',
-    name: 'Possession Play',
-    description: 'Focus on ball retention and circulation',
+    id: "possession",
+    name: "Possession Play",
+    description: "Focus on ball retention and circulation",
     currentLevel: 65,
     icon: <Footprints className="h-5 w-5" />,
   },
   {
-    id: 'pressing',
-    name: 'High Pressing',
-    description: 'Focus on winning the ball high up the pitch',
+    id: "pressing",
+    name: "High Pressing",
+    description: "Focus on winning the ball high up the pitch",
     currentLevel: 72,
     icon: <Dumbbell className="h-5 w-5" />,
   },
   {
-    id: 'counter_attack',
-    name: 'Counter Attacking',
-    description: 'Focus on quick transitions after winning possession',
+    id: "counter_attack",
+    name: "Counter Attacking",
+    description: "Focus on quick transitions after winning possession",
     currentLevel: 78,
     icon: <Target className="h-5 w-5" />,
   },
   {
-    id: 'set_pieces',
-    name: 'Set Pieces',
-    description: 'Focus on corners, free kicks and throw-ins',
+    id: "set_pieces",
+    name: "Set Pieces",
+    description: "Focus on corners, free kicks and throw-ins",
     currentLevel: 60,
     icon: <Brain className="h-5 w-5" />,
   },
   {
-    id: 'team_cohesion',
-    name: 'Team Cohesion',
-    description: 'Focus on team spirit and communication',
+    id: "team_cohesion",
+    name: "Team Cohesion",
+    description: "Focus on team spirit and communication",
     currentLevel: 68,
     icon: <Users className="h-5 w-5" />,
   },
@@ -172,103 +172,103 @@ const teamFocusAreas = [
 // Training focus options
 const focusOptions = [
   {
-    id: 'technical',
-    name: 'Technical',
+    id: "technical",
+    name: "Technical",
     icon: <Footprints className="h-4 w-4" />,
   },
-  { id: 'tactical', name: 'Tactical', icon: <Brain className="h-4 w-4" /> },
-  { id: 'physical', name: 'Physical', icon: <Dumbbell className="h-4 w-4" /> },
-  { id: 'mental', name: 'Mental', icon: <Target className="h-4 w-4" /> },
+  { id: "tactical", name: "Tactical", icon: <Brain className="h-4 w-4" /> },
+  { id: "physical", name: "Physical", icon: <Dumbbell className="h-4 w-4" /> },
+  { id: "mental", name: "Mental", icon: <Target className="h-4 w-4" /> },
 ];
 
 // Specific training drills
 const trainingDrills = {
   technical: [
     {
-      id: 'passing',
-      name: 'Passing Drills',
-      description: 'Improve short and long passing accuracy',
+      id: "passing",
+      name: "Passing Drills",
+      description: "Improve short and long passing accuracy",
     },
     {
-      id: 'shooting',
-      name: 'Shooting Practice',
-      description: 'Work on finishing and shot power',
+      id: "shooting",
+      name: "Shooting Practice",
+      description: "Work on finishing and shot power",
     },
     {
-      id: 'dribbling',
-      name: 'Dribbling Skills',
-      description: 'Enhance ball control and dribbling',
+      id: "dribbling",
+      name: "Dribbling Skills",
+      description: "Enhance ball control and dribbling",
     },
     {
-      id: 'first_touch',
-      name: 'First Touch',
-      description: 'Improve ball reception and control',
+      id: "first_touch",
+      name: "First Touch",
+      description: "Improve ball reception and control",
     },
   ],
   tactical: [
     {
-      id: 'positioning',
-      name: 'Positional Awareness',
-      description: 'Improve positioning and spatial awareness',
+      id: "positioning",
+      name: "Positional Awareness",
+      description: "Improve positioning and spatial awareness",
     },
     {
-      id: 'game_reading',
-      name: 'Game Reading',
-      description: 'Enhance ability to read the game and anticipate',
+      id: "game_reading",
+      name: "Game Reading",
+      description: "Enhance ability to read the game and anticipate",
     },
     {
-      id: 'defensive_shape',
-      name: 'Defensive Organization',
-      description: 'Work on defensive positioning and shape',
+      id: "defensive_shape",
+      name: "Defensive Organization",
+      description: "Work on defensive positioning and shape",
     },
     {
-      id: 'attacking_movement',
-      name: 'Attacking Movement',
-      description: 'Practice off-the-ball movement and runs',
+      id: "attacking_movement",
+      name: "Attacking Movement",
+      description: "Practice off-the-ball movement and runs",
     },
   ],
   physical: [
     {
-      id: 'strength',
-      name: 'Strength Training',
-      description: 'Build muscle strength and power',
+      id: "strength",
+      name: "Strength Training",
+      description: "Build muscle strength and power",
     },
     {
-      id: 'stamina',
-      name: 'Stamina Building',
-      description: 'Improve endurance and recovery',
+      id: "stamina",
+      name: "Stamina Building",
+      description: "Improve endurance and recovery",
     },
     {
-      id: 'speed',
-      name: 'Speed Training',
-      description: 'Enhance acceleration and top speed',
+      id: "speed",
+      name: "Speed Training",
+      description: "Enhance acceleration and top speed",
     },
     {
-      id: 'agility',
-      name: 'Agility Work',
-      description: 'Improve balance, coordination and agility',
+      id: "agility",
+      name: "Agility Work",
+      description: "Improve balance, coordination and agility",
     },
   ],
   mental: [
     {
-      id: 'concentration',
-      name: 'Concentration Drills',
-      description: 'Improve focus during matches',
+      id: "concentration",
+      name: "Concentration Drills",
+      description: "Improve focus during matches",
     },
     {
-      id: 'decision_making',
-      name: 'Decision Making',
-      description: 'Enhance in-game decision making',
+      id: "decision_making",
+      name: "Decision Making",
+      description: "Enhance in-game decision making",
     },
     {
-      id: 'leadership',
-      name: 'Leadership Training',
-      description: 'Develop leadership qualities',
+      id: "leadership",
+      name: "Leadership Training",
+      description: "Develop leadership qualities",
     },
     {
-      id: 'pressure_handling',
-      name: 'Pressure Situations',
-      description: 'Practice performing under pressure',
+      id: "pressure_handling",
+      name: "Pressure Situations",
+      description: "Practice performing under pressure",
     },
   ],
 };
@@ -276,11 +276,11 @@ const trainingDrills = {
 export default function TrainingFocus() {
   const [playersList, setPlayersList] = useState(players);
   const [teamFocus, setTeamFocus] = useState(teamFocusAreas);
-  const [activeTab, setActiveTab] = useState('individual');
+  const [activeTab, setActiveTab] = useState("individual");
   const [selectedPlayer, setSelectedPlayer] = useState<any>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [specificTrainingOpen, setSpecificTrainingOpen] = useState(false);
-  const [selectedDrill, setSelectedDrill] = useState<string>('');
+  const [selectedDrill, setSelectedDrill] = useState<string>("");
   const [drillIntensity, setDrillIntensity] = useState(70);
   const [drillDuration, setDrillDuration] = useState(45);
 
@@ -290,13 +290,13 @@ export default function TrainingFocus() {
 
     setPlayersList(
       playersList.map((player) =>
-        player.id === selectedPlayer.id ? selectedPlayer : player
-      )
+        player.id === selectedPlayer.id ? selectedPlayer : player,
+      ),
     );
 
     setDialogOpen(false);
     toast({
-      title: 'Training focus updated',
+      title: "Training focus updated",
       description: `${selectedPlayer.name}'s training focus has been updated.`,
     });
   };
@@ -305,8 +305,8 @@ export default function TrainingFocus() {
   const updateTeamFocusArea = (id: string, level: number) => {
     setTeamFocus(
       teamFocus.map((area) =>
-        area.id === id ? { ...area, currentLevel: level } : area
-      )
+        area.id === id ? { ...area, currentLevel: level } : area,
+      ),
     );
   };
 
@@ -314,7 +314,7 @@ export default function TrainingFocus() {
   const saveTeamFocus = () => {
     // Here you would typically save to a backend
     toast({
-      title: 'Team focus areas saved',
+      title: "Team focus areas saved",
       description: "Your team's training focus areas have been updated.",
     });
   };
@@ -322,7 +322,7 @@ export default function TrainingFocus() {
   // Open specific training dialog
   const openSpecificTraining = (player: any) => {
     setSelectedPlayer(player);
-    setSelectedDrill('');
+    setSelectedDrill("");
     setDrillIntensity(70);
     setDrillDuration(45);
     setSpecificTrainingOpen(true);
@@ -332,16 +332,16 @@ export default function TrainingFocus() {
   const saveSpecificTraining = () => {
     if (!selectedDrill) {
       toast({
-        title: 'Error',
-        description: 'Please select a training drill',
-        variant: 'destructive',
+        title: "Error",
+        description: "Please select a training drill",
+        variant: "destructive",
       });
       return;
     }
 
     // Here you would save the specific training to the backend
     toast({
-      title: 'Specific training assigned',
+      title: "Specific training assigned",
       description: `${selectedPlayer.name} will focus on ${
         trainingDrills[
           selectedPlayer.focus as keyof typeof trainingDrills
@@ -354,18 +354,18 @@ export default function TrainingFocus() {
 
   // Get attribute color based on value
   const getAttributeColor = (value: number) => {
-    if (value >= 85) return 'text-green-600';
-    if (value >= 75) return 'text-blue-600';
-    if (value >= 65) return 'text-yellow-600';
-    return 'text-red-600';
+    if (value >= 85) return "text-green-600";
+    if (value >= 75) return "text-blue-600";
+    if (value >= 65) return "text-yellow-600";
+    return "text-red-600";
   };
 
   // Get development progress color
   const getDevelopmentColor = (value: number) => {
-    if (value >= 80) return 'bg-green-600';
-    if (value >= 65) return 'bg-blue-600';
-    if (value >= 50) return 'bg-yellow-600';
-    return 'bg-red-600';
+    if (value >= 80) return "bg-green-600";
+    if (value >= 65) return "bg-blue-600";
+    if (value >= 50) return "bg-yellow-600";
+    return "bg-red-600";
   };
 
   return (
@@ -549,10 +549,10 @@ export default function TrainingFocus() {
                   <div className="pt-4 text-sm text-muted-foreground">
                     <p>
                       {selectedPlayer.trainingIntensity > 80
-                        ? '⚠️ High intensity training increases injury risk but accelerates development.'
+                        ? "⚠️ High intensity training increases injury risk but accelerates development."
                         : selectedPlayer.trainingIntensity < 50
-                          ? 'Low intensity training minimizes injury risk but slows development.'
-                          : 'Balanced training provides moderate development with manageable injury risk.'}
+                          ? "Low intensity training minimizes injury risk but slows development."
+                          : "Balanced training provides moderate development with manageable injury risk."}
                     </p>
                   </div>
                 </div>
@@ -656,10 +656,10 @@ export default function TrainingFocus() {
                   <div className="pt-2 text-sm text-muted-foreground">
                     <p>
                       {drillIntensity > 80
-                        ? '⚠️ High intensity specific training may cause fatigue for upcoming matches.'
+                        ? "⚠️ High intensity specific training may cause fatigue for upcoming matches."
                         : drillDuration > 60
-                          ? 'Longer sessions provide better skill development but may impact player freshness.'
-                          : 'This balanced training session will help improve skills without excessive fatigue.'}
+                          ? "Longer sessions provide better skill development but may impact player freshness."
+                          : "This balanced training session will help improve skills without excessive fatigue."}
                     </p>
                   </div>
                 </div>

@@ -1,7 +1,8 @@
+import { User, Users } from "lucide-react";
+
 import PageTitle from "@/components/common/page-title";
-import TrainingFocus from "@/components/pages/training/training-focus";
-import TrainingSchedule from "@/components/pages/training/training-schedule";
-import TrainingSessions from "@/components/pages/training/training-sessions";
+import PlayerTraining from "@/components/pages/training/player-training";
+import TeamTraining from "@/components/pages/training/team-training";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -15,23 +16,24 @@ export default function TrainingPage() {
 
       <Separator className="my-4" />
 
-      <Tabs defaultValue="schedule" className="w-full">
-        <TabsList className="grid w-full md:w-auto grid-cols-3 md:inline-flex">
-          <TabsTrigger value="schedule">Weekly Schedule</TabsTrigger>
-          <TabsTrigger value="sessions">Training Sessions</TabsTrigger>
-          <TabsTrigger value="focus">Training Focus</TabsTrigger>
+      <Tabs defaultValue="team" className="w-full">
+        <TabsList className="grid grid-cols-2 mb-4">
+          <TabsTrigger value="team">
+            <Users className="h-4 w-4 mr-2" />
+            Team
+          </TabsTrigger>
+          <TabsTrigger value="player">
+            <User className="h-4 w-4 mr-2" />
+            Player
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="schedule" className="space-y-4 mt-6">
-          <TrainingSchedule />
+        <TabsContent value="team">
+          <TeamTraining />
         </TabsContent>
 
-        <TabsContent value="sessions" className="space-y-4 mt-6">
-          <TrainingSessions />
-        </TabsContent>
-
-        <TabsContent value="focus" className="space-y-4 mt-6">
-          <TrainingFocus />
+        <TabsContent value="player">
+          <PlayerTraining />
         </TabsContent>
       </Tabs>
     </>
