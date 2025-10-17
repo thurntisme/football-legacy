@@ -37,3 +37,17 @@ export type ScoutingResult = {
   signChance: "high" | "medium" | "low";
   status: "pending" | "approached" | "signed" | "rejected";
 };
+
+// Facility type
+export type Facility = {
+  id: string;
+  name: string;
+  description: string;
+  level: number;
+  maxLevel: number;
+  benefits: string[];
+  upgradeCost: number;
+  upgradeTime: number; // in days
+  upgradeInProgress: boolean;
+  upgradeCompletionDate?: string;
+};
