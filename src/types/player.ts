@@ -213,6 +213,7 @@ export type YouthPlayer = {
   age: number;
   nationality: string;
   position: string;
+  playablePositions: string[];
   potential: number;
   currentAbility: number;
   personality: PlayerPersonality;

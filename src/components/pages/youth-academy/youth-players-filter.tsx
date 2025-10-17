@@ -1,40 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { Calendar, Filter, Plus, Search } from 'lucide-react';
+import { Calendar, Filter, Plus, Search } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
 type Props = {
   setGeneratePlayerDialogOpen: (open: boolean) => void;
 };
 
 const YouthPlayersFilter = ({ setGeneratePlayerDialogOpen }: Props) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [positionFilter, setPositionFilter] = useState('All');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [positionFilter, setPositionFilter] = useState("All");
 
   return (
     <div className="flex flex-col md:flex-row justify-between gap-4">
       <div className="flex items-center space-x-2">
-        <div className="relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-          <Input
-            type="text"
-            placeholder="Search players..."
-            className="pl-8 w-full md:w-64"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
         <div className="flex items-center space-x-2">
-          <Filter className="h-4 w-4 text-gray-500" />
           <Select value={positionFilter} onValueChange={setPositionFilter}>
             <SelectTrigger className="w-[130px]">
               <SelectValue placeholder="Position" />

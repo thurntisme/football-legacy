@@ -4,6 +4,7 @@ import {
   CreditCard,
   Dumbbell,
   FileSignature,
+  GraduationCap,
   HelpCircle,
   Home,
   Landmark,
@@ -82,6 +83,11 @@ export const navItems = [
     icon: <ShoppingCart className="h-4 w-4 mr-2" />,
   },
   {
+    href: "game/staff",
+    label: "Staff",
+    icon: <Users className="h-4 w-4 mr-2" />,
+  },
+  {
     href: "game/scouting",
     label: "Scouting",
     icon: <Search className="h-4 w-4 mr-2" />,
@@ -94,7 +100,7 @@ export const navItems = [
   {
     href: "game/youth-academy",
     label: "Youth Academy",
-    icon: <Users className="h-4 w-4 mr-2" />,
+    icon: <GraduationCap className="h-4 w-4 mr-2" />,
   },
   {
     href: "game/online",

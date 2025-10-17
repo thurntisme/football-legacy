@@ -1,3 +1,4 @@
+import BtnStaffManagement from "@/components/common/btn-staff-management";
 import PageTitle from "@/components/common/page-title";
 import YouthFacilities from "@/components/pages/youth-academy/youth-facilities";
 import YouthIntake from "@/components/pages/youth-academy/youth-intake";
@@ -10,11 +11,7 @@ export default function YouthAcademyPage() {
   return (
     <>
       <PageTitle title="Youth Academy">
-        <div className="flex items-center bg-amber-100 dark:bg-amber-950 px-3 py-1 rounded-md">
-          <span className="text-amber-800 dark:text-amber-300 font-medium text-sm">
-            Academy Budget: €2.5M/year
-          </span>
-        </div>
+        <BtnStaffManagement />
       </PageTitle>
 
       <Tabs defaultValue="players">
