@@ -16,6 +16,7 @@ import {
   Settings,
   Shirt,
   ShoppingCart,
+  Stethoscope,
   Trophy,
   Users,
   Users2Icon,
@@ -86,6 +87,11 @@ export const navItems = [
     href: "game/staff",
     label: "Staff",
     icon: <Users className="h-4 w-4 mr-2" />,
+  },
+  {
+    href: "game/medical",
+    label: "Medical",
+    icon: <Stethoscope className="h-4 w-4 mr-2" />,
   },
   {
     href: "game/scouting",
