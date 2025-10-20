@@ -2,10 +2,10 @@
 
 import React from "react";
 
-import { Rocket, Users } from "lucide-react";
-import Link from "next/link";
+import { Rocket } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+import BtnTeamManagement from "@/components/common/btn-team-management";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,10 +17,13 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
+import { Player } from "@/types/player";
 
-type Props = {};
+type Props = {
+  players: Player[];
+};
 
-const UpcomingMatchSelection = (props: Props) => {
+const UpcomingMatchSelection = ({ players }: Props) => {
   const router = useRouter();
 
   const onStart = () => {
@@ -30,18 +33,13 @@ const UpcomingMatchSelection = (props: Props) => {
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between items-center mb-6">
-        <div>
+        <div className="flex flex-col space-y-1">
           <CardTitle>Team Selection</CardTitle>
           <CardDescription className="mt-2">
             Select your starting lineup and substitutes
           </CardDescription>
         </div>
-        <Button asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/game/team`}>
-            <Users className="mr-2 h-4 w-4" />
-            Team Management
-          </Link>
-        </Button>
+        <BtnTeamManagement />
       </CardHeader>
       <CardContent>
         <div className="relative w-full h-[400px] bg-emerald-800 rounded-lg overflow-hidden mb-6">

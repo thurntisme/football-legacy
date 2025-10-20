@@ -10,15 +10,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getStandingPosition } from "@/lib/league";
 
-type Props = {};
+type Props = {
+  match: any;
+};
 
-const UpcomingMatchOverview = (props: Props) => {
+const UpcomingMatchOverview = ({ match }: Props) => {
+  if (!match) {
+    return null;
+  }
+
   return (
     <Card className="mb-6">
       <CardHeader className="pb-3">
         <CardTitle>Upcoming Match</CardTitle>
-        <CardDescription>Premier League - Matchday 24</CardDescription>
+        <CardDescription>{match.competition || "N/A"}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col md:flex-row items-center justify-between">
@@ -26,13 +33,13 @@ const UpcomingMatchOverview = (props: Props) => {
             <div className="flex items-center mb-2">
               <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">
-                Saturday, 22 Mar - 15:00
+                {match.date || "N/A"} {match.time || "N/A"}
               </span>
             </div>
             <div className="flex items-center">
               <MapPin className="h-4 w-4 mr-2 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">
-                United Arena (Home)
+                {match.stadium || "N/A"}
               </span>
             </div>
           </div>
@@ -40,13 +47,17 @@ const UpcomingMatchOverview = (props: Props) => {
           <div className="flex items-center justify-center">
             <div className="flex flex-col items-center w-[80px]">
               <img
-                src="/placeholder.svg?height=64&width=64"
-                alt="Your Team"
+                src={
+                  match.homeTeam.logo || "/placeholder.svg?height=64&width=64"
+                }
+                alt={match.homeTeam.name || "N/A"}
                 className="h-16 w-16 mb-2"
               />
-              <span className="font-semibold text-sm">Your Team</span>
+              <span className="font-semibold text-sm text-center">
+                {match.homeTeam.name || "N/A"}
+              </span>
               <div className="flex items-center mt-1">
-                <Badge>2nd</Badge>
+                <Badge>{getStandingPosition(match.homeTeam.position)}</Badge>
               </div>
             </div>
 
@@ -57,13 +68,17 @@ const UpcomingMatchOverview = (props: Props) => {
 
             <div className="flex flex-col items-center w-[80px]">
               <img
-                src="/placeholder.svg?height=64&width=64"
-                alt="City FC"
+                src={
+                  match.awayTeam.logo || "/placeholder.svg?height=64&width=64"
+                }
+                alt={match.awayTeam.name || "N/A"}
                 className="h-16 w-16 mb-2"
               />
-              <span className="font-semibold text-sm">City FC</span>
+              <span className="font-semibold text-sm text-center">
+                {match.awayTeam.name || "N/A"}
+              </span>
               <div className="flex items-center mt-1">
-                <Badge>3rd</Badge>
+                <Badge>{getStandingPosition(match.awayTeam.position)}</Badge>
               </div>
             </div>
           </div>
@@ -72,13 +87,13 @@ const UpcomingMatchOverview = (props: Props) => {
             <div className="text-sm text-muted-foreground mb-1">Match Odds</div>
             <div className="flex gap-2">
               <Badge variant="outline" className="font-bold">
-                Win: 2.10
+                Win: {match.odds.win}
               </Badge>
               <Badge variant="outline" className="font-bold">
-                Draw: 3.25
+                Draw: {match.odds.draw}
               </Badge>
               <Badge variant="outline" className="font-bold">
-                Loss: 3.50
+                Loss: {match.odds.lose}
               </Badge>
             </div>
           </div>
