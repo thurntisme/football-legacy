@@ -18,7 +18,6 @@ import { getFormationPositions } from "@/lib/formation";
 import { Position } from "@/types/formation";
 import { Player } from "@/types/player";
 
-import MySubstitutes from "./my-substitutes";
 import MyTeamFormationField from "./my-team-formation-field";
 import MyTeamFormationPlayer from "./my-team-formation-player";
 import MyTeamFormationSelector from "./my-team-formation-selector";

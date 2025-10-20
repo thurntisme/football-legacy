@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Calendar,
-  Flag,
-  Footprints,
-  Ruler,
-  Trophy,
-  Weight,
-} from "lucide-react";
+import { Calendar, Flag, Footprints, Ruler, Weight } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -46,7 +39,6 @@ export default function PlayerDetailDialog({
         </DialogHeader>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Player Info */}
           <div className="md:col-span-1">
             <div className="flex flex-col items-center space-y-4">
               <div className="relative">
@@ -270,7 +262,6 @@ export default function PlayerDetailDialog({
             </div>
           </div>
 
-          {/* Player Attributes */}
           <div className="md:col-span-2">
             <div className="grid grid-cols-1 gap-6">
               {playerAttributes.map((section) => (

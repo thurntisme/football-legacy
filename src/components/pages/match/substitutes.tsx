@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { ArrowLeftRight, ChevronLeft, ChevronRight, Info } from "lucide-react";
+import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,30 +9,29 @@ import { Player } from "@/types/player";
 
 type Props = {
   players: Player[];
-  selectedPlayer: Player | null;
-  setSelectedPlayer: (player: Player | null) => void;
-  viewDetailPlayer: (player: Player) => void;
-  swapSubPlayers: (player: Player) => void;
+  selectedPlayer?: Player | null;
+  onSelectPlayer?: (player: Player | null) => void;
+  onViewDetailPlayer?: (player: Player) => void;
 };
 
-const MySubstitutes = ({
+const PLAYER_PER_PAGE = 5;
+
+const Substitutes = ({
   players,
   selectedPlayer,
-  setSelectedPlayer,
-  viewDetailPlayer,
-  swapSubPlayers,
+  onSelectPlayer,
+  onViewDetailPlayer,
 }: Props) => {
   const [currentSubPage, setCurrentSubPage] = useState(0);
-  const substitutes = players.slice(11);
-  const subsPerPage = 5;
-  const totalSubPages = Math.ceil(substitutes.length / subsPerPage);
+  const substitutes = players?.length ? players.slice(11) : [];
+  const totalSubPages = Math.ceil(substitutes.length / PLAYER_PER_PAGE);
 
   const handleClickPlayer = (player: Player | null) => {
-    if (player) {
+    if (player && onSelectPlayer) {
       if (selectedPlayer && selectedPlayer.id === player.id) {
-        setSelectedPlayer(null);
+        onSelectPlayer(null);
       } else {
-        setSelectedPlayer(player);
+        onSelectPlayer(player);
       }
     }
   };
@@ -49,43 +48,52 @@ const MySubstitutes = ({
     }
   };
 
+  const onViewPlayer = (e: React.MouseEvent, player: Player) => {
+    e.stopPropagation();
+    if (onViewDetailPlayer) {
+      onViewDetailPlayer(player);
+    }
+  };
+
   return (
-    <div className="mt-6">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-medium">
-          Substitutes ({substitutes.length})
-        </h3>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={prevSubPage}
-            disabled={currentSubPage === 0}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <span className="text-sm">
-            {currentSubPage + 1} / {Math.max(1, totalSubPages)}
-          </span>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={nextSubPage}
-            disabled={
-              currentSubPage >= totalSubPages - 1 ||
-              substitutes.length <= subsPerPage
-            }
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
+    <div className="flex flex-col gap-4">
+      {substitutes.length > PLAYER_PER_PAGE ? (
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-lg font-medium">
+            Substitutes ({substitutes.length})
+          </h3>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={prevSubPage}
+              disabled={currentSubPage === 0}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <span className="text-sm">
+              {currentSubPage + 1} / {Math.max(1, totalSubPages)}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={nextSubPage}
+              disabled={
+                currentSubPage >= totalSubPages - 1 ||
+                substitutes.length <= PLAYER_PER_PAGE
+              }
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
-      </div>
+      ) : null}
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {substitutes
           .slice(
-            currentSubPage * subsPerPage,
-            (currentSubPage + 1) * subsPerPage,
+            currentSubPage * PLAYER_PER_PAGE,
+            (currentSubPage + 1) * PLAYER_PER_PAGE,
           )
           .map((player) => (
             <div
@@ -115,33 +123,18 @@ const MySubstitutes = ({
                 Form: {player.form}
               </div>
 
-              <div className="flex items-center gap-1 mt-1">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    viewDetailPlayer(player);
-                  }}
-                >
-                  <Info className="h-3 w-3" />
-                </Button>
-
-                {selectedPlayer && selectedPlayer.id !== player.id && (
+              {onViewDetailPlayer && (
+                <div className="flex items-center gap-1 mt-1">
                   <Button
                     variant="ghost"
                     size="icon"
                     className="h-6 w-6"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      swapSubPlayers(player);
-                    }}
+                    onClick={(e) => onViewPlayer(e, player)}
                   >
-                    <ArrowLeftRight className="h-3 w-3" />
+                    <Info className="h-3 w-3" />
                   </Button>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           ))}
       </div>
@@ -149,4 +142,4 @@ const MySubstitutes = ({
   );
 };
 
-export default MySubstitutes;
+export default Substitutes;

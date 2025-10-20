@@ -21,7 +21,7 @@ export default function MatchPreparePage() {
       <PageTitle title="Match Preparation" />
 
       <UpcomingMatchOverview match={data?.match} />
-      <UpcomingMatchSelection players={data?.players} />
+      <UpcomingMatchSelection team={data?.team} />
     </ContentWrapper>
   );
 }
