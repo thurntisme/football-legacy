@@ -31,11 +31,11 @@ export default function ShopItemList() {
     data: shopItems,
     isLoading,
     error,
-  } = useQuery<ShopItem[] | null>({
-    queryKey: ["item-list"],
+  } = useQuery({
+    queryKey: ["shop-item-list"],
     queryFn: async () => {
-      const { data } = await internalApi.get("/items");
-      return data;
+      const res = await internalApi.get("/item/shop");
+      return res.data?.data || [];
     },
   });
 
@@ -44,7 +44,9 @@ export default function ShopItemList() {
     if (selectedCategory === ItemCategoryEnum.ALL) {
       return shopItems;
     }
-    return shopItems.filter((item) => item.category === selectedCategory);
+    return shopItems.filter(
+      (item: ShopItem) => item.category === selectedCategory,
+    );
   }, [selectedCategory, shopItems]);
 
   const handleBuyItem = (item: ShopItem) => {
@@ -89,30 +91,34 @@ export default function ShopItemList() {
       <CardContent>
         <ContentWrapper isLoading={isLoading} error={error}>
           <div className="flex gap-4 mb-6 overflow-x-auto pb-2">
-            {ITEM_CATEGORIES.map(({ label, slug, icon }) => (
-              <Button
-                key={label}
-                variant={selectedCategory === slug ? "default" : "outline"}
-                className={`rounded-full${icon ? " flex items-center" : ""}`}
-                onClick={() => setSelectedCategory(slug)}
-              >
-                {icon}
-                {label}
-              </Button>
-            ))}
+            {filteredCategory.length
+              ? ITEM_CATEGORIES.map(({ label, slug, icon }) => (
+                  <Button
+                    key={label}
+                    variant={selectedCategory === slug ? "default" : "outline"}
+                    className={`rounded-full${icon ? " flex items-center" : ""}`}
+                    onClick={() => setSelectedCategory(slug)}
+                  >
+                    {icon}
+                    {label}
+                  </Button>
+                ))
+              : null}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {filteredCategory.map((item) => (
-              <ShopItemCard
-                key={item.slug}
-                item={item}
-                selectedItem={selectedItem}
-                setSelectedItem={setSelectedItem}
-                userCoin={USER_COINS}
-                handleBuyItem={handleBuyItem}
-              />
-            ))}
+            {filteredCategory.length
+              ? filteredCategory.map((item: ShopItem) => (
+                  <ShopItemCard
+                    key={item.slug}
+                    item={item}
+                    selectedItem={selectedItem}
+                    setSelectedItem={setSelectedItem}
+                    userCoin={USER_COINS}
+                    handleBuyItem={handleBuyItem}
+                  />
+                ))
+              : null}
           </div>
         </ContentWrapper>
       </CardContent>

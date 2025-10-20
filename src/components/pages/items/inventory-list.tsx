@@ -33,10 +33,10 @@ export default function InventoryList({ setTabsValue }: Props) {
     isLoading,
     error,
   } = useQuery<InventoryItem[] | null>({
-    queryKey: ["inventory-list"],
+    queryKey: ["inventory-item-list"],
     queryFn: async () => {
-      const { data } = await internalApi.get("/inventory");
-      return data;
+      const res = await internalApi.get("/item/inventory");
+      return res.data?.data || [];
     },
   });
 
