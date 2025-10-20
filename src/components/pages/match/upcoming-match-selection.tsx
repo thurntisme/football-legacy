@@ -1,11 +1,14 @@
 "use client";
 
+import FieldMarking from "../team/field-marking";
+
 import React from "react";
 
 import { Rocket } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import BtnTeamManagement from "@/components/common/btn-team-management";
+import Pitch from "@/components/common/pitch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,10 +23,13 @@ import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { Player } from "@/types/player";
 
 type Props = {
-  players: Player[];
+  team: {
+    formation: string;
+    players: Player[];
+  };
 };
 
-const UpcomingMatchSelection = ({ players }: Props) => {
+const UpcomingMatchSelection = ({ team }: Props) => {
   const router = useRouter();
 
   const onStart = () => {
@@ -42,46 +48,7 @@ const UpcomingMatchSelection = ({ players }: Props) => {
         <BtnTeamManagement />
       </CardHeader>
       <CardContent>
-        <div className="relative w-full h-[400px] bg-emerald-800 rounded-lg overflow-hidden mb-6">
-          {/* Field markings */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-[80%] h-[90%] border-2 border-white/50"></div>
-            <div className="absolute w-[40%] h-[20%] bottom-0 border-2 border-white/50 border-b-0"></div>
-            <div className="absolute w-[40%] h-[20%] top-0 border-2 border-white/50 border-t-0"></div>
-            <div className="absolute w-[15%] aspect-square rounded-full border-2 border-white/50"></div>
-            <div className="absolute w-1 h-1 bg-white rounded-full"></div>
-          </div>
-
-          {/* Sample players */}
-          {[
-            { id: "gk", x: 50, y: 90, name: "Miller", rating: 82 },
-            { id: "lb", x: 20, y: 70, name: "Wilson", rating: 78 },
-            { id: "cb1", x: 35, y: 70, name: "Garcia", rating: 81 },
-            { id: "cb2", x: 65, y: 70, name: "Brown", rating: 80 },
-            { id: "rb", x: 80, y: 70, name: "Lee", rating: 79 },
-            { id: "cdm", x: 50, y: 55, name: "Taylor", rating: 84 },
-            { id: "cm1", x: 30, y: 50, name: "Martinez", rating: 83 },
-            { id: "cm2", x: 70, y: 50, name: "Anderson", rating: 82 },
-            { id: "lw", x: 20, y: 30, name: "Johnson", rating: 85 },
-            { id: "st", x: 50, y: 25, name: "Williams", rating: 86 },
-            { id: "rw", x: 80, y: 30, name: "Davis", rating: 84 },
-          ].map((player) => (
-            <div
-              key={player.id}
-              className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform"
-              style={{ left: `${player.x}%`, top: `${player.y}%` }}
-            >
-              <div className="flex flex-col items-center">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-white text-black font-bold text-sm">
-                  {player.rating}
-                </div>
-                <div className="mt-1 px-2 py-0.5 bg-black/70 rounded text-white text-xs whitespace-nowrap">
-                  {player.name}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <Pitch formation={team?.formation} players={team?.players} />
 
         <Separator className="my-6" />
 
