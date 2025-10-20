@@ -24,8 +24,8 @@ import Substitutes from "./substitutes";
 
 type Props = {
   team: {
-    formation: string;
-    players: Player[];
+    home: any;
+    away: any;
   };
 };
 
@@ -59,17 +59,17 @@ const UpcomingMatchSelection = ({ team }: Props) => {
         </CardHeader>
         <CardContent>
           <Pitch
-            formation={team?.formation}
-            players={team?.players}
+            formations={[team?.home?.formation, team?.away?.formation]}
+            players={[team?.home?.players, team?.away?.players]}
             onSelectPlayer={handleSelectPlayer}
           />
 
           <Separator className="my-6" />
 
-          <Substitutes
+          {/* <Substitutes
             players={team?.players}
             onSelectPlayer={handleSelectPlayer}
-          />
+          /> */}
 
           <div className="flex justify-center mt-6">
             <Button onClick={onStart}>

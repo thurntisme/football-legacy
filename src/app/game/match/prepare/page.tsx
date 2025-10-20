@@ -20,7 +20,7 @@ export default function MatchPreparePage() {
     <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
       <PageTitle title="Match Preparation" />
 
-      <UpcomingMatchOverview match={data?.match} />
+      <UpcomingMatchOverview data={data} />
       <UpcomingMatchSelection team={data?.team} />
     </ContentWrapper>
   );

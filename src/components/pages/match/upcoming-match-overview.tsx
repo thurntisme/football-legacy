@@ -13,13 +13,14 @@ import {
 import { getStandingPosition } from "@/lib/league";
 
 type Props = {
-  match: any;
+  data: any;
 };
 
-const UpcomingMatchOverview = ({ match }: Props) => {
-  if (!match) {
+const UpcomingMatchOverview = ({ data }: Props) => {
+  if (!data) {
     return null;
   }
+  const { match, team } = data;
 
   return (
     <Card className="mb-6">
@@ -47,17 +48,15 @@ const UpcomingMatchOverview = ({ match }: Props) => {
           <div className="flex items-center justify-center">
             <div className="flex flex-col items-center w-[80px]">
               <img
-                src={
-                  match.homeTeam.logo || "/placeholder.svg?height=64&width=64"
-                }
-                alt={match.homeTeam.name || "N/A"}
+                src={team?.home?.logo || "/placeholder.svg?height=64&width=64"}
+                alt={team?.home?.name || "N/A"}
                 className="h-16 w-16 mb-2"
               />
               <span className="font-semibold text-sm text-center">
-                {match.homeTeam.name || "N/A"}
+                {team?.home?.name || "N/A"}
               </span>
               <div className="flex items-center mt-1">
-                <Badge>{getStandingPosition(match.homeTeam.position)}</Badge>
+                <Badge>{getStandingPosition(team?.home?.position)}</Badge>
               </div>
             </div>
 
@@ -68,17 +67,15 @@ const UpcomingMatchOverview = ({ match }: Props) => {
 
             <div className="flex flex-col items-center w-[80px]">
               <img
-                src={
-                  match.awayTeam.logo || "/placeholder.svg?height=64&width=64"
-                }
-                alt={match.awayTeam.name || "N/A"}
+                src={team?.away?.logo || "/placeholder.svg?height=64&width=64"}
+                alt={team?.away?.name || "N/A"}
                 className="h-16 w-16 mb-2"
               />
               <span className="font-semibold text-sm text-center">
-                {match.awayTeam.name || "N/A"}
+                {team?.away?.name || "N/A"}
               </span>
               <div className="flex items-center mt-1">
-                <Badge>{getStandingPosition(match.awayTeam.position)}</Badge>
+                <Badge>{getStandingPosition(team?.away?.position)}</Badge>
               </div>
             </div>
           </div>
