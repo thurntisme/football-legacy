@@ -58,18 +58,23 @@ const UpcomingMatchSelection = ({ team }: Props) => {
           <BtnTeamManagement />
         </CardHeader>
         <CardContent>
-          <Pitch
-            formations={[team?.home?.formation, team?.away?.formation]}
-            players={[team?.home?.players, team?.away?.players]}
-            onSelectPlayer={handleSelectPlayer}
-          />
+          <div className="flex gap-4">
+            <Substitutes
+              players={team?.home?.players}
+              onSelectPlayer={handleSelectPlayer}
+            />
+            <Pitch
+              formations={[team?.home?.formation, team?.away?.formation]}
+              players={[team?.home?.players, team?.away?.players]}
+              onSelectPlayer={handleSelectPlayer}
+            />
+            <Substitutes
+              players={team?.away?.players}
+              onSelectPlayer={handleSelectPlayer}
+            />
+          </div>
 
           <Separator className="my-6" />
-
-          {/* <Substitutes
-            players={team?.players}
-            onSelectPlayer={handleSelectPlayer}
-          /> */}
 
           <div className="flex justify-center mt-6">
             <Button onClick={onStart}>

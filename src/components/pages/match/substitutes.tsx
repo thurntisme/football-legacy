@@ -89,7 +89,7 @@ const Substitutes = ({
         </div>
       ) : null}
 
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="flex flex-col gap-3">
         {substitutes
           .slice(
             currentSubPage * PLAYER_PER_PAGE,
@@ -119,9 +119,9 @@ const Substitutes = ({
               <Badge variant="outline" className="mt-1">
                 {player.position}
               </Badge>
-              <div className="text-xs text-muted-foreground mt-1">
+              {/* <div className="text-xs text-muted-foreground mt-1">
                 Form: {player.form}
-              </div>
+              </div> */}
 
               {onViewDetailPlayer && (
                 <div className="flex items-center gap-1 mt-1">
