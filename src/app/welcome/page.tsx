@@ -45,7 +45,7 @@ export default function WelcomePage() {
   const availableSlots = 3 - teams.length;
 
   return (
-    <div className="container max-w-6xl mx-auto py-6">
+    <div className="container max-w-6xl mx-auto py-12">
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
           Welcome Manager

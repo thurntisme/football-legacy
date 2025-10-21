@@ -18,7 +18,6 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -33,19 +32,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { GUEST_USER } from "@/constants/guest-user";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
-import { getGuestData } from "@/lib/user";
 import { cn, convertNumberWithSeparator } from "@/lib/utils";
 
 export default function Footer() {
-  const pathname = usePathname();
   const [expanded, setExpanded] = useState(false);
-  const [notifications, setNotifications] = useState(3);
-  const [messages, setMessages] = useState(2);
-  const userData = getGuestData();
-
-  if (pathname === "/" || pathname?.startsWith("/auth/")) {
-    return null;
-  }
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-background border-t z-[30]">
@@ -162,9 +152,7 @@ export default function Footer() {
                 >
                   <MessageSquare className="h-4 w-4 mr-4" />
                   <span>Messages</span>
-                  {messages > 0 && (
-                    <Badge className="ml-auto">{messages}</Badge>
-                  )}
+                  <Badge className="ml-auto">2</Badge>
                 </Link>
               </Button>
               <Button
@@ -178,9 +166,7 @@ export default function Footer() {
                 >
                   <Bell className="h-4 w-4 mr-4" />
                   <span>Notifications</span>
-                  {notifications > 0 && (
-                    <Badge className="ml-auto">{notifications}</Badge>
-                  )}
+                  <Badge className="ml-auto">3</Badge>
                 </Link>
               </Button>
               <Button

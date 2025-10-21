@@ -26,11 +26,6 @@ export default function Navbar() {
   const isMobile = useIsMobile();
   const router = useRouter();
 
-  // Hide navbar on auth pages
-  if (pathname === "/" || pathname?.startsWith("/auth/")) {
-    return null;
-  }
-
   const handleLogout = async () => {
     router.push(`${FOOTBALL_STATS_URL}/auth/signin`);
   };

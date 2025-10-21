@@ -1,13 +1,14 @@
 "use client";
 
-import Footer from "./footer";
-import Navbar from "./navbar";
-import { Toaster } from "@/components/ui/toaster";
-
 import React from "react";
 
 import { usePathname } from "next/navigation";
+
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
+
+import Footer from "./footer";
+import Navbar from "./navbar";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -16,12 +17,10 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const pathname = usePathname();
 
-  // if (
-  //   pathname === FOOTBALL_PATH ||
-  //   pathname?.startsWith(`${FOOTBALL_PATH}/auth`)
-  // ) {
-  //   return <>{children}</>;
-  // }
+  const isBlank =
+    pathname === "/" ||
+    pathname?.startsWith("/auth/") ||
+    pathname?.startsWith("/welcome");
 
   return (
     <ThemeProvider
@@ -31,11 +30,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       disableTransitionOnChange
     >
       <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="container mx-auto px-4 pt-10 pb-[100px]">
+        {!isBlank && <Navbar />}
+        <main
+          className={!isBlank ? "container mx-auto px-4 pt-10 pb-[100px]" : ""}
+        >
           {children}
         </main>
-        <Footer />
+        {!isBlank && <Footer />}
       </div>
       <Toaster />
     </ThemeProvider>
