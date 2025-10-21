@@ -5,6 +5,7 @@ import FieldMarking from "../team/field-marking";
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 
+import PitchMarking from "@/components/common/pitch-marking";
 import { Badge } from "@/components/ui/badge";
 import { playerInMatch } from "@/mock/match-start";
 import { BallPosition, PlayerPosition } from "@/types/match";
@@ -285,12 +286,6 @@ export default function MatchVisualization({
 
   return (
     <div className="relative w-full h-full pt-12 rounded-lg ">
-      <canvas ref={canvasRef} className="w-full h-full absolute z-10" />
-
-      <div className="relative w-full h-full">
-        <FieldMarking />
-      </div>
-
       <div className="absolute top-2 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
         <Badge
           variant={possession === "home" ? "default" : "destructive"}
@@ -299,6 +294,11 @@ export default function MatchVisualization({
           {possession === "home" ? "Your Team" : "City FC"}
         </Badge>
         Possession
+      </div>
+
+      <div className="w-full h-fit">
+        <canvas ref={canvasRef} className="w-full h-full absolute z-10" />
+        <PitchMarking />
       </div>
 
       {lastEventType && (

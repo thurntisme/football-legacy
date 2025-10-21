@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { Play } from "lucide-react";
 
@@ -15,10 +15,12 @@ const MatchAction = ({ matchStarted, startMatch }: Props) => {
   const [homeApproved, setHomeApproved] = useState(false);
   const [awayApproved, setAwayApproved] = useState(false);
   const [waitingForApproval, setWaitingForApproval] = useState(false);
+  const matchRef = useRef<HTMLDivElement>(null);
 
   const requestMatchApproval = () => {
     setWaitingForApproval(true);
     setTimeout(() => {
+      matchRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       setHomeApproved(true);
       setTimeout(
         () => {
@@ -49,12 +51,14 @@ const MatchAction = ({ matchStarted, startMatch }: Props) => {
         </>
       )}
 
-      {waitingForApproval && (
-        <WaitingForApproval
-          homeApproved={homeApproved}
-          awayApproved={awayApproved}
-        />
-      )}
+      <div ref={matchRef}>
+        {waitingForApproval && (
+          <WaitingForApproval
+            homeApproved={homeApproved}
+            awayApproved={awayApproved}
+          />
+        )}
+      </div>
     </>
   );
 };

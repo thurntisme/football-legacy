@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { ArrowLeft, Calendar, MapPin } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, Save } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -23,12 +23,12 @@ import {
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
 import { internalApi } from "@/lib/api/internal";
+import { randomMatchEvent } from "@/lib/match";
 import { commentaryPhrases } from "@/mock/match-start";
 import {
   MatchProcessEvent,
   MatchProcessPsychological,
   MatchProcessScore,
-  MatchProcessStats,
 } from "@/types/match";
 import { useQuery } from "@tanstack/react-query";
 
@@ -41,7 +41,7 @@ const initialPsychologicalState: MatchProcessPsychological = {
 };
 const extraFirstHalfTime = Math.ceil(Math.random() * 10); // Extra time in the first half (in minutes)
 const extraSecondHalfTime = Math.ceil(Math.random() * 10); // Extra time in the second half (in minutes)
-const TACTICS = ["balanced", "offensive", "defensive", "possession", "counter"];
+const timerSpeed = 500;
 
 export default function MatchStartPage() {
   const router = useRouter();
@@ -52,7 +52,6 @@ export default function MatchStartPage() {
   const [matchEvents, setMatchEvents] = useState<MatchProcessEvent[]>([]);
   const [matchEnded, setMatchEnded] = useState(false);
   const [abortDialogOpen, setAbortDialogOpen] = useState(false);
-  const [matchSpeed, setMatchSpeed] = useState(1); // 1 = normal, 2 = fast, 0.5 = slow
   const [psychologicalState, setPsychologicalState] =
     useState<MatchProcessPsychological>(initialPsychologicalState);
 
@@ -71,7 +70,6 @@ export default function MatchStartPage() {
     setMatchStarted(true);
     addCommentary(0, "start");
 
-    const timerSpeed = 500 / matchSpeed;
     matchTimerRef.current = setInterval(() => {
       if (matchPaused) return;
       setCurrentMinute((prev) => updateCurrentMinute(prev));
@@ -86,6 +84,10 @@ export default function MatchStartPage() {
 
   const updateCurrentMinute = (minute: number) => {
     let newMinute = minute + 1;
+
+    if (Math.random() < 0.05) {
+      generateMatchEvent(newMinute);
+    }
 
     // Update psychological factors
     updatePsychologicalFactors(newMinute);
@@ -123,19 +125,6 @@ export default function MatchStartPage() {
       if (newMinute === 90 + extraSecondHalfTime) {
         onMatchCompleted(90 + extraSecondHalfTime);
       }
-    }
-
-    if (newMinute % 10 === 0 || Math.random() < 0.05) {
-      generateMatchEvent(newMinute);
-    } else if (Math.random() < 0.1) {
-      // Random commentary for atmosphere
-      const commentaryTypes: Array<keyof typeof commentaryPhrases> = [
-        "possession",
-        "attack",
-      ];
-      const randomType: keyof typeof commentaryPhrases =
-        commentaryTypes[Math.floor(Math.random() * commentaryTypes.length)];
-      addCommentary(newMinute, randomType);
     }
 
     return newMinute;
@@ -207,17 +196,6 @@ export default function MatchStartPage() {
         newState.pressure = Math.max(0, prev.pressure - 0.5);
       }
 
-      // Add psychological commentary occasionally
-      if (minute % 15 === 0 || (Math.random() < 0.05 && minute > 60)) {
-        if (newState.fatigue > 75) {
-          addCommentary(minute, "fatigue");
-        } else if (newState.confidence > 85) {
-          addCommentary(minute, "confidence");
-        } else if (newState.pressure > 85) {
-          addCommentary(minute, "pressure");
-        }
-      }
-
       return newState;
     });
   };
@@ -229,191 +207,11 @@ export default function MatchStartPage() {
       clearInterval(matchTimerRef.current);
     }
     setMatchEnded(true);
-    // Navigate to result page after a short delay
-    setTimeout(() => {
-      // router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
-      console.log("save the match");
-    }, 5000);
   };
 
   // Generate random match events
   const generateMatchEvent = (minute: number) => {
-    // Adjust event probabilities based on psychological state and tactics
-    const eventProbabilities = {
-      shot: 0.25,
-      goal: 0.1,
-      card: 0.1,
-      corner: 0.15,
-      save: 0.15,
-      foul: 0.15,
-      miss: 0.1,
-    };
-
-    // random tactic
-    const currentTactic = TACTICS[Math.floor(Math.random() * TACTICS.length)];
-
-    // Adjust based on current tactic
-    if (currentTactic === "attacking") {
-      eventProbabilities.shot += 0.1;
-      eventProbabilities.goal += 0.05;
-      eventProbabilities.corner += 0.05;
-    } else if (currentTactic === "defensive") {
-      eventProbabilities.shot -= 0.05;
-      eventProbabilities.goal -= 0.03;
-      eventProbabilities.save += 0.05;
-      eventProbabilities.foul += 0.03;
-    } else if (currentTactic === "possession") {
-      eventProbabilities.shot -= 0.03;
-      eventProbabilities.foul -= 0.05;
-      eventProbabilities.corner += 0.03;
-    } else if (currentTactic === "counter") {
-      eventProbabilities.shot += 0.05;
-      eventProbabilities.miss += 0.05;
-      eventProbabilities.goal += 0.02;
-    }
-
-    // Adjust based on confidence
-    if (psychologicalState.confidence > 80) {
-      eventProbabilities.goal += 0.03;
-      eventProbabilities.shot += 0.05;
-    } else if (psychologicalState.confidence < 40) {
-      eventProbabilities.miss += 0.05;
-      eventProbabilities.goal -= 0.03;
-    }
-
-    // Adjust based on pressure
-    if (psychologicalState.pressure > 80) {
-      eventProbabilities.foul += 0.05;
-      eventProbabilities.card += 0.03;
-      eventProbabilities.miss += 0.03;
-    }
-
-    // Adjust based on fatigue
-    if (psychologicalState.fatigue > 70) {
-      eventProbabilities.foul += 0.03;
-      eventProbabilities.miss += 0.05;
-      eventProbabilities.goal -= 0.03;
-    }
-
-    // Normalize probabilities
-    const totalProb = Object.values(eventProbabilities).reduce(
-      (sum, val) => sum + val,
-      0,
-    );
-    Object.keys(eventProbabilities).forEach((key) => {
-      eventProbabilities[key as keyof typeof eventProbabilities] /= totalProb;
-    });
-
-    // Select event based on adjusted probabilities
-    const random = Math.random();
-    let cumulativeProb = 0;
-    let selectedEventType = "";
-
-    for (const [type, prob] of Object.entries(eventProbabilities)) {
-      cumulativeProb += prob;
-      if (random <= cumulativeProb) {
-        selectedEventType = type;
-        break;
-      }
-    }
-
-    // Determine which team the event happens for
-    const homeTeamProbability =
-      0.5 +
-      (psychologicalState.confidence - 50) / 100 +
-      (currentTactic === "attacking"
-        ? 0.1
-        : currentTactic === "defensive"
-          ? -0.1
-          : 0);
-    const eventTeam: "home" | "away" =
-      Math.random() < homeTeamProbability ? "home" : "away";
-
-    // Create the event
-    const eventTypes = [
-      {
-        type: "shot",
-        text: "Shot on target by",
-        team: eventTeam,
-        commentary: "shot",
-      },
-      {
-        type: "goal",
-        text: "GOAL! Scored by",
-        team: eventTeam,
-        commentary: "goal",
-      },
-      {
-        type: "card",
-        text: "Yellow card shown to",
-        team: eventTeam,
-        commentary: "card",
-      },
-      {
-        type: "corner",
-        text: "Corner kick for",
-        team: eventTeam,
-        commentary: "corner",
-      },
-      {
-        type: "save",
-        text: "Great save by",
-        team: eventTeam === "home" ? "away" : "home",
-        commentary: "save",
-      },
-      {
-        type: "foul",
-        text: "Foul committed by",
-        team: eventTeam,
-        commentary: "foul",
-      },
-      {
-        type: "miss",
-        text: "Shot goes wide from",
-        team: eventTeam,
-        commentary: "miss",
-      },
-    ];
-
-    // Find the event object that matches the selected type
-    const event =
-      eventTypes.find((e) => e.type === selectedEventType) || eventTypes[0];
-
-    // Player names
-    const homePlayers = [
-      "Miller",
-      "Wilson",
-      "Garcia",
-      "Brown",
-      "Lee",
-      "Martinez",
-      "Taylor",
-      "Anderson",
-      "Johnson",
-      "Williams",
-      "Davis",
-    ];
-    const awayPlayers = [
-      "Smith",
-      "Jones",
-      "Thompson",
-      "White",
-      "Harris",
-      "Martin",
-      "Jackson",
-      "Clark",
-      "Lewis",
-      "Walker",
-      "Allen",
-    ];
-
-    const playerName =
-      event.team === "home"
-        ? homePlayers[Math.floor(Math.random() * homePlayers.length)]
-        : awayPlayers[Math.floor(Math.random() * awayPlayers.length)];
-
-    // Create event text
-    let eventText = `${event.text} ${playerName}`;
+    const event = randomMatchEvent(minute, data);
 
     // Update score for goals
     if (event.type === "goal") {
@@ -421,10 +219,6 @@ export default function MatchStartPage() {
         ...prev,
         [event.team]: prev[event.team as keyof typeof prev] + 1,
       }));
-
-      eventText += ` (${event.team === "home" ? score.home + 1 : score.home}-${
-        event.team === "away" ? score.away + 1 : score.away
-      })`;
 
       // Update psychological state after goal
       setPsychologicalState((prev) => {
@@ -528,7 +322,6 @@ export default function MatchStartPage() {
           clearInterval(matchTimerRef.current);
         }
       } else {
-        const timerSpeed = 500 / matchSpeed;
         matchTimerRef.current = setInterval(() => {
           setCurrentMinute((prev) => updateCurrentMinute(prev));
         }, timerSpeed);
@@ -539,6 +332,10 @@ export default function MatchStartPage() {
   const handleAbortOpenDialog = (open: boolean) => {
     setAbortDialogOpen(open);
     changeMatchPaused(open);
+  };
+
+  const saveMatch = () => {
+    router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
   };
 
   return (
@@ -567,7 +364,7 @@ export default function MatchStartPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center gap-4">
             <MatchTeamOverview
               matchStarted={matchStarted}
               score={score}
@@ -575,9 +372,7 @@ export default function MatchStartPage() {
               currentMinute={currentMinute}
               team={data?.team}
             />
-
             <MatchAction matchStarted={matchStarted} startMatch={startMatch} />
-
             <MatchProcess
               matchStarted={matchStarted}
               currentMinute={currentMinute}
@@ -589,6 +384,12 @@ export default function MatchStartPage() {
               matchEvents={matchEvents}
               psychologicalState={psychologicalState}
             />
+            {matchEnded ? (
+              <Button onClick={saveMatch}>
+                <Save className="h-4 w-4" />
+                Save Match
+              </Button>
+            ) : null}
           </div>
         </CardContent>
       </Card>
