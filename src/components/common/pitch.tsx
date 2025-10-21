@@ -13,6 +13,8 @@ type Props = {
   formations: string[];
   players: Player[][];
   selectedPlayer?: Player | null;
+  isShowName?: boolean;
+  isShowRating?: boolean;
   onSelectPlayer?: (player: Player | null) => void;
 };
 type Redirect = "left" | "right";
@@ -22,6 +24,8 @@ const Pitch = ({
   formations,
   players,
   selectedPlayer,
+  isShowName,
+  isShowRating,
   onSelectPlayer,
 }: Props) => {
   const [homePositions, setHomePositions] = useState<Position[]>([]);
@@ -69,7 +73,7 @@ const Pitch = ({
               {pos.player ? (
                 <div className="flex flex-col items-center relative pos-item w-full">
                   <div
-                    className={`w-[25%] max-w-[40px] player-dot aspect-square rounded-full flex items-center justify-center text-black font-bold text-sm relative ${
+                    className={`w-[25%] max-w-[40px] min-w-[20px] player-dot aspect-square rounded-full flex items-center justify-center text-black font-bold text-sm relative ${
                       pos.player.fitness < 80 ? "opacity-70" : ""
                     } ${
                       selectedPlayer &&
@@ -85,10 +89,14 @@ const Pitch = ({
                     }}
                     onClick={() => onClickPlayer(pos.player)}
                   >
-                    <span className="text-sm">{pos.player.rating}</span>
+                    <span className="text-[0.6rem] leading-[1]">
+                      {isShowRating ? pos.player.rating : ""}
+                    </span>
                   </div>
-                  <div className="flex flex-col items-center absolute -bottom-[65%] player-name pointer-events-none">
-                    <div className="px-2 py-0.5 bg-black/70 rounded text-white text-[10px] whitespace-nowrap">
+                  <div
+                    className={`flex flex-col items-center absolute -bottom-[75%] player-name pointer-events-none ${isShowName ? "opacity-100" : "opacity-0"}`}
+                  >
+                    <div className="px-2 py-0.5 bg-black/70 rounded text-white text-[10px] leading-[1.2] whitespace-nowrap">
                       {pos.player.name.split(" ").length > 1
                         ? pos.player.name.split(" ")[1]
                         : pos.player.name}
