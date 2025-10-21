@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar, MapPin } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import ContentWrapper from "@/components/common/content-wrapper";
 import PageTitle from "@/components/common/page-title";
 import AbortMatchDialog from "@/components/pages/match/abort-match-dialog";
 import MatchAction from "@/components/pages/match/match-action";
@@ -21,6 +22,7 @@ import {
 } from "@/components/ui/card";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
+import { internalApi } from "@/lib/api/internal";
 import { commentaryPhrases } from "@/mock/match-start";
 import {
   MatchProcessEvent,
@@ -28,6 +30,7 @@ import {
   MatchProcessScore,
   MatchProcessStats,
 } from "@/types/match";
+import { useQuery } from "@tanstack/react-query";
 
 const initialMatchScore: MatchProcessScore = { home: 0, away: 0 };
 const initialPsychologicalState: MatchProcessPsychological = {
@@ -36,25 +39,9 @@ const initialPsychologicalState: MatchProcessPsychological = {
   fatigue: 0,
   teamwork: 75,
 };
-const initialStat = {
-  possession: 50,
-  shots: 0,
-  shotsOnTarget: 0,
-  corners: 0,
-  fouls: 0,
-  yellowCards: 0,
-  passes: 0,
-  passAccuracy: 85,
-  tackles: 0,
-  interceptions: 0,
-  heatmap: Array(10).fill(Array(10).fill(0)),
-};
-const initialMatchStats: MatchProcessStats = {
-  home: initialStat,
-  away: initialStat,
-};
 const extraFirstHalfTime = Math.ceil(Math.random() * 10); // Extra time in the first half (in minutes)
 const extraSecondHalfTime = Math.ceil(Math.random() * 10); // Extra time in the second half (in minutes)
+const TACTICS = ["balanced", "offensive", "defensive", "possession", "counter"];
 
 export default function MatchStartPage() {
   const router = useRouter();
@@ -64,33 +51,99 @@ export default function MatchStartPage() {
   const [score, setScore] = useState<MatchProcessScore>(initialMatchScore);
   const [matchEvents, setMatchEvents] = useState<MatchProcessEvent[]>([]);
   const [matchEnded, setMatchEnded] = useState(false);
-  const [waitingForApproval, setWaitingForApproval] = useState(false);
-  const [homeApproved, setHomeApproved] = useState(false);
-  const [awayApproved, setAwayApproved] = useState(false);
   const [abortDialogOpen, setAbortDialogOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("match");
   const [matchSpeed, setMatchSpeed] = useState(1); // 1 = normal, 2 = fast, 0.5 = slow
-  const [activeTacticalTriggers, setActiveTacticalTriggers] = useState<
-    string[]
-  >([]);
-  const [currentTactic, setCurrentTactic] = useState("balanced");
   const [psychologicalState, setPsychologicalState] =
     useState<MatchProcessPsychological>(initialPsychologicalState);
-  const [matchStats, setMatchStats] =
-    useState<MatchProcessStats>(initialMatchStats);
 
-  // Commentary state
-  const [commentary, setCommentary] = useState("");
-  const [commentaryHistory, setCommentaryHistory] = useState<string[]>([]);
-  const [audioEnabled, setAudioEnabled] = useState(true);
-  const commentaryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null,
-  );
   const matchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isFirstHalf = useRef<boolean>(true);
 
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["upcoming-match"],
+    queryFn: async () => {
+      const res = await internalApi.get("/match/upcoming");
+      return res.data?.data || [];
+    },
+  });
+
+  const startMatch = () => {
+    setMatchStarted(true);
+    addCommentary(0, "start");
+
+    const timerSpeed = 500 / matchSpeed;
+    matchTimerRef.current = setInterval(() => {
+      if (matchPaused) return;
+      setCurrentMinute((prev) => updateCurrentMinute(prev));
+    }, timerSpeed);
+
+    return () => {
+      if (matchTimerRef.current) {
+        clearInterval(matchTimerRef.current);
+      }
+    };
+  };
+
+  const updateCurrentMinute = (minute: number) => {
+    let newMinute = minute + 1;
+
+    // Update psychological factors
+    updatePsychologicalFactors(newMinute);
+
+    // Generate random events and commentary
+    if (isFirstHalf.current) {
+      if (newMinute === 45) {
+        if (!extraFirstHalfTime) {
+          addCommentary(newMinute, "halfTime");
+        } else {
+          addCommentary(
+            newMinute,
+            "extraTime",
+            `Extra time is ${extraFirstHalfTime} minutes`,
+          );
+        }
+      }
+      if (newMinute === 45 + extraFirstHalfTime) {
+        addCommentary(newMinute, "halfTime");
+        isFirstHalf.current = false;
+        newMinute = 45;
+      }
+    } else {
+      if (newMinute === 90) {
+        if (!extraSecondHalfTime) {
+          onMatchCompleted(90);
+        } else {
+          addCommentary(
+            newMinute,
+            "extraTime",
+            `Extra time is ${extraSecondHalfTime} minutes`,
+          );
+        }
+      }
+      if (newMinute === 90 + extraSecondHalfTime) {
+        onMatchCompleted(90 + extraSecondHalfTime);
+      }
+    }
+
+    if (newMinute % 10 === 0 || Math.random() < 0.05) {
+      generateMatchEvent(newMinute);
+    } else if (Math.random() < 0.1) {
+      // Random commentary for atmosphere
+      const commentaryTypes: Array<keyof typeof commentaryPhrases> = [
+        "possession",
+        "attack",
+      ];
+      const randomType: keyof typeof commentaryPhrases =
+        commentaryTypes[Math.floor(Math.random() * commentaryTypes.length)];
+      addCommentary(newMinute, randomType);
+    }
+
+    return newMinute;
+  };
+
   // Add commentary
   const addCommentary = (
+    minute = 0,
     type: keyof typeof commentaryPhrases,
     message = "",
   ) => {
@@ -108,47 +161,15 @@ export default function MatchStartPage() {
       fullPhrase += ` ${message}`;
     }
 
-    setCommentary(fullPhrase);
-    setCommentaryHistory((prev) => [fullPhrase, ...prev.slice(0, 9)]);
-
-    // Clear commentary after a few seconds
-    if (commentaryTimeoutRef.current) {
-      clearTimeout(commentaryTimeoutRef.current);
-    }
-
-    commentaryTimeoutRef.current = setTimeout(() => {
-      setCommentary("");
-    }, 5000);
-  };
-
-  // Request match approval
-  const requestMatchApproval = () => {
-    setWaitingForApproval(true);
-
-    // Simulate home team (user) approval after 1 second
-    setTimeout(() => {
-      setHomeApproved(true);
-
-      // Simulate away team approval after 2-5 seconds
-      setTimeout(
-        () => {
-          setAwayApproved(true);
-
-          // Start match after both approvals
-          setTimeout(() => {
-            setWaitingForApproval(false);
-            startMatch();
-          }, 1000);
-        },
-        2000 + Math.random() * 3000,
-      );
-    }, 1000);
+    setMatchEvents((prev) => [
+      { type: "commentary", text: fullPhrase, minute },
+      ...prev,
+    ]);
   };
 
   // Abort match
   const abortMatch = () => {
     setAbortDialogOpen(false);
-    setWaitingForApproval(false);
 
     // Penalty for aborting
     toast({
@@ -189,11 +210,11 @@ export default function MatchStartPage() {
       // Add psychological commentary occasionally
       if (minute % 15 === 0 || (Math.random() < 0.05 && minute > 60)) {
         if (newState.fatigue > 75) {
-          addCommentary("fatigue");
+          addCommentary(minute, "fatigue");
         } else if (newState.confidence > 85) {
-          addCommentary("confidence");
+          addCommentary(minute, "confidence");
         } else if (newState.pressure > 85) {
-          addCommentary("pressure");
+          addCommentary(minute, "pressure");
         }
       }
 
@@ -201,288 +222,18 @@ export default function MatchStartPage() {
     });
   };
 
-  // Check and apply tactical triggers
-  const checkTacticalTriggers = () => {
-    // Check score-based triggers
-    if (
-      score.home < score.away - 1 &&
-      !activeTacticalTriggers.includes("losing-by-2")
-    ) {
-      setActiveTacticalTriggers((prev) => [...prev, "losing-by-2"]);
-      setCurrentTactic("attacking");
-      addCommentary("tactical");
-      toast({
-        title: "Tactical Change",
-        description:
-          "Switched to attacking mentality due to being behind by 2+ goals.",
-      });
-    } else if (
-      score.home > score.away + 1 &&
-      !activeTacticalTriggers.includes("winning-by-2")
-    ) {
-      setActiveTacticalTriggers((prev) => [...prev, "winning-by-2"]);
-      setCurrentTactic("defensive");
-      addCommentary("tactical");
-      toast({
-        title: "Tactical Change",
-        description: "Switched to defensive mentality to protect the lead.",
-      });
-    }
-
-    // Check time-based triggers
-    if (
-      currentMinute >= 75 &&
-      score.home === score.away &&
-      !activeTacticalTriggers.includes("last-15-mins-drawing")
-    ) {
-      setActiveTacticalTriggers((prev) => [...prev, "last-15-mins-drawing"]);
-      setCurrentTactic("attacking");
-      addCommentary("tactical");
-      toast({
-        title: "Tactical Change",
-        description:
-          "Pushing more players forward in the final minutes to find a winner.",
-      });
-    }
-
-    // Check fatigue-based triggers
-    if (
-      psychologicalState.fatigue > 70 &&
-      !activeTacticalTriggers.includes("player-tired")
-    ) {
-      setActiveTacticalTriggers((prev) => [...prev, "player-tired"]);
-      toast({
-        title: "Substitution Needed",
-        description: "Key players are showing signs of fatigue.",
-      });
-    }
-  };
-
-  // Update match statistics
-  const updateMatchStats = () => {
-    setMatchStats((prev) => {
-      const newStats = { ...prev };
-
-      // Update possession based on current tactic and psychological state
-      const possessionShift = Math.random() * 5 - 2.5; // Random shift between -2.5 and 2.5
-      const tacticBonus =
-        currentTactic === "possession"
-          ? 5
-          : currentTactic === "defensive"
-            ? -5
-            : 0;
-      const confidenceBonus = (psychologicalState.confidence - 50) / 10; // -5 to +5 based on confidence
-
-      newStats.home.possession = Math.max(
-        30,
-        Math.min(
-          70,
-          newStats.home.possession +
-            possessionShift +
-            tacticBonus +
-            confidenceBonus,
-        ),
-      );
-      newStats.away.possession = 100 - newStats.home.possession;
-
-      // Update passes
-      newStats.home.passes +=
-        Math.floor(newStats.home.possession / 10) +
-        Math.floor(Math.random() * 3);
-      newStats.away.passes +=
-        Math.floor(newStats.away.possession / 10) +
-        Math.floor(Math.random() * 3);
-
-      // Update pass accuracy based on pressure and fatigue
-      newStats.home.passAccuracy = Math.max(
-        70,
-        Math.min(
-          95,
-          85 -
-            psychologicalState.pressure / 20 -
-            psychologicalState.fatigue / 25,
-        ),
-      );
-      newStats.away.passAccuracy = Math.max(
-        70,
-        Math.min(95, 85 - Math.random() * 10),
-      );
-
-      // Update tackles and interceptions
-      if (Math.random() < 0.2) {
-        newStats.home.tackles += 1;
-      }
-      if (Math.random() < 0.2) {
-        newStats.away.tackles += 1;
-      }
-      if (Math.random() < 0.15) {
-        newStats.home.interceptions += 1;
-      }
-      if (Math.random() < 0.15) {
-        newStats.away.interceptions += 1;
-      }
-
-      return newStats;
-    });
-  };
-
-  // Match simulation logic
-  const startMatch = () => {
-    setMatchStarted(true);
-
-    // Initial commentary
-    addCommentary("start");
-
-    // Start the match timer
-    const timerSpeed = 500 / matchSpeed; // Adjust speed based on matchSpeed setting
-
-    matchTimerRef.current = setInterval(() => {
-      if (matchPaused) return;
-
-      setCurrentMinute((prev) => updateCurrentMinute(prev));
-    }, timerSpeed);
-
-    // Cleanup
-    return () => {
-      if (commentaryTimeoutRef.current) {
-        clearTimeout(commentaryTimeoutRef.current);
-      }
-      if (matchTimerRef.current) {
-        clearInterval(matchTimerRef.current);
-      }
-    };
-  };
-
-  const updateCurrentMinute = (minute: number) => {
-    let newMinute = minute + 1;
-
-    // Update psychological factors
-    updatePsychologicalFactors(newMinute);
-
-    // Check tactical triggers
-    checkTacticalTriggers();
-
-    // Update match statistics
-    updateMatchStats();
-
-    // Generate random events and commentary
-    if (isFirstHalf.current) {
-      if (newMinute === 45) {
-        if (!extraFirstHalfTime) {
-          addCommentary("halfTime");
-        } else {
-          addCommentary(
-            "extraTime",
-            `Extra time is ${extraFirstHalfTime} minutes`,
-          );
-        }
-      }
-      if (newMinute === 45 + extraFirstHalfTime) {
-        addCommentary("halfTime");
-        isFirstHalf.current = false;
-        newMinute = 45;
-      }
-    } else {
-      if (newMinute === 90) {
-        if (!extraSecondHalfTime) {
-          onMatchCompleted();
-        } else {
-          addCommentary(
-            "extraTime",
-            `Extra time is ${extraSecondHalfTime} minutes`,
-          );
-        }
-      }
-      if (newMinute === 90 + extraSecondHalfTime) {
-        onMatchCompleted();
-      }
-    }
-
-    if (newMinute % 10 === 0 || Math.random() < 0.05) {
-      generateMatchEvent(newMinute);
-    } else if (Math.random() < 0.1) {
-      // Random commentary for atmosphere
-      const commentaryTypes: Array<keyof typeof commentaryPhrases> = [
-        "possession",
-        "attack",
-      ];
-      const randomType: keyof typeof commentaryPhrases =
-        commentaryTypes[Math.floor(Math.random() * commentaryTypes.length)];
-      addCommentary(randomType);
-    }
-
-    return newMinute;
-  };
-
-  const onMatchCompleted = () => {
+  const onMatchCompleted = (minute: number) => {
     setMatchPaused(true);
-    addCommentary("fullTime");
+    addCommentary(minute, "fullTime");
+    if (matchTimerRef.current) {
+      clearInterval(matchTimerRef.current);
+    }
+    setMatchEnded(true);
     // Navigate to result page after a short delay
     setTimeout(() => {
       // router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
       console.log("save the match");
     }, 5000);
-  };
-  console.log("render");
-
-  // Update match speed
-  const updateMatchSpeed = (newSpeed: number) => {
-    setMatchSpeed(newSpeed);
-
-    // Restart the timer with the new speed
-    if (matchStarted && !matchEnded && matchTimerRef.current) {
-      clearInterval(matchTimerRef.current);
-
-      const timerSpeed = 500 / newSpeed;
-      matchTimerRef.current = setInterval(() => {
-        if (matchPaused) return;
-
-        setCurrentMinute((prev) => {
-          const newMinute = prev + 1;
-
-          // Same logic as in startMatch
-          updatePsychologicalFactors(newMinute);
-          checkTacticalTriggers();
-          updateMatchStats();
-
-          if (newMinute === 45) {
-            addCommentary("halfTime");
-          } else if (newMinute === 46) {
-            addCommentary("secondHalf");
-          } else if (newMinute >= 80) {
-            if (Math.random() < 0.1) addCommentary("lateGame");
-          }
-
-          if (newMinute % 10 === 0 || Math.random() < 0.05) {
-            generateMatchEvent(newMinute);
-          } else if (Math.random() < 0.1) {
-            const commentaryTypes: Array<keyof typeof commentaryPhrases> = [
-              "possession",
-              "attack",
-            ];
-            const randomType: keyof typeof commentaryPhrases =
-              commentaryTypes[
-                Math.floor(Math.random() * commentaryTypes.length)
-              ];
-            addCommentary(randomType);
-          }
-
-          if (newMinute >= 90) {
-            if (matchTimerRef.current) {
-              clearInterval(matchTimerRef.current);
-            }
-            setMatchEnded(true);
-            addCommentary("fullTime");
-
-            setTimeout(() => {
-              router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
-            }, 5000);
-          }
-
-          return newMinute;
-        });
-      }, timerSpeed);
-    }
   };
 
   // Generate random match events
@@ -497,6 +248,9 @@ export default function MatchStartPage() {
       foul: 0.15,
       miss: 0.1,
     };
+
+    // random tactic
+    const currentTactic = TACTICS[Math.floor(Math.random() * TACTICS.length)];
 
     // Adjust based on current tactic
     if (currentTactic === "attacking") {
@@ -661,27 +415,6 @@ export default function MatchStartPage() {
     // Create event text
     let eventText = `${event.text} ${playerName}`;
 
-    // Update match statistics based on event type
-    setMatchStats((prev) => {
-      const newStats = { ...prev };
-      const team = event.team as "home" | "away";
-
-      if (event.type === "shot") {
-        newStats[team].shots += 1;
-        newStats[team].shotsOnTarget += 1;
-      } else if (event.type === "miss") {
-        newStats[team].shots += 1;
-      } else if (event.type === "corner") {
-        newStats[team].corners += 1;
-      } else if (event.type === "foul") {
-        newStats[team].fouls += 1;
-      } else if (event.type === "card") {
-        newStats[team].yellowCards += 1;
-      }
-
-      return newStats;
-    });
-
     // Update score for goals
     if (event.type === "goal") {
       setScore((prev) => ({
@@ -709,14 +442,8 @@ export default function MatchStartPage() {
       });
     }
 
-    // Add event to list
-    setMatchEvents((prev) => [
-      { minute, text: eventText, type: event.type },
-      ...prev,
-    ]);
-
     // Add commentary for this event
-    addCommentary(event.commentary as keyof typeof commentaryPhrases);
+    addCommentary(minute, event.commentary as keyof typeof commentaryPhrases);
   };
 
   // Skip to end of match
@@ -781,21 +508,12 @@ export default function MatchStartPage() {
       setMatchEvents(events);
     }
 
-    // Final commentary
-    addCommentary("fullTime");
-
-    // Navigate to result page after a short delay
-    setTimeout(() => {
-      router.push(`${FOOTBALL_STATS_URL}/game/match/result`);
-    }, 3000);
+    onMatchCompleted(90);
   };
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (commentaryTimeoutRef.current) {
-        clearTimeout(commentaryTimeoutRef.current);
-      }
       if (matchTimerRef.current) {
         clearInterval(matchTimerRef.current);
       }
@@ -806,9 +524,6 @@ export default function MatchStartPage() {
     setMatchPaused(isPause);
     if (matchTimerRef.current) {
       if (isPause) {
-        if (commentaryTimeoutRef.current) {
-          clearTimeout(commentaryTimeoutRef.current);
-        }
         if (matchTimerRef.current) {
           clearInterval(matchTimerRef.current);
         }
@@ -827,7 +542,7 @@ export default function MatchStartPage() {
   };
 
   return (
-    <>
+    <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
       <PageTitle title="Match Day">
         <Button asChild variant="outline">
           <Link href={`${FOOTBALL_STATS_URL}/game/match/prepare`}>
@@ -839,12 +554,16 @@ export default function MatchStartPage() {
 
       <Card className="mb-6 py-8">
         <CardHeader className="pb-3 text-center space-y-3">
-          <CardTitle>Premier League - Matchday 24</CardTitle>
+          <CardTitle>
+            {data?.match?.competition || "N/A"} - Matchday 24
+          </CardTitle>
           <CardDescription className="flex items-center justify-center">
             <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
-            <span>Saturday, 22 Mar - 15:00</span>
+            <span>
+              {data?.match?.date || "N/A"} - {data?.match?.time || "N/A"}
+            </span>
             <MapPin className="h-4 w-4 ml-4 mr-2 text-muted-foreground" />
-            <span>United Arena (Home)</span>
+            <span>{data?.match?.stadium || "N/A"}</span>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -854,38 +573,22 @@ export default function MatchStartPage() {
               score={score}
               matchEnded={matchEnded}
               currentMinute={currentMinute}
+              team={data?.team}
             />
 
-            <MatchAction
+            <MatchAction matchStarted={matchStarted} startMatch={startMatch} />
+
+            <MatchProcess
               matchStarted={matchStarted}
-              waitingForApproval={waitingForApproval}
-              homeApproved={homeApproved}
-              awayApproved={awayApproved}
-              requestMatchApproval={requestMatchApproval}
+              currentMinute={currentMinute}
+              matchEnded={matchEnded}
+              matchPaused={matchPaused}
+              setMatchPaused={changeMatchPaused}
+              setAbortDialogOpen={handleAbortOpenDialog}
+              skipToEnd={skipToEnd}
+              matchEvents={matchEvents}
+              psychologicalState={psychologicalState}
             />
-
-            {matchStarted && (
-              <MatchProcess
-                currentMinute={currentMinute}
-                matchEnded={matchEnded}
-                matchPaused={matchPaused}
-                setMatchPaused={changeMatchPaused}
-                setAbortDialogOpen={handleAbortOpenDialog}
-                matchSpeed={matchSpeed}
-                updateMatchSpeed={updateMatchSpeed}
-                skipToEnd={skipToEnd}
-                audioEnabled={audioEnabled}
-                setAudioEnabled={setAudioEnabled}
-                showTacticalOverlay={false}
-                currentTactic={currentTactic}
-                score={score}
-                matchEvents={matchEvents}
-                psychologicalState={psychologicalState}
-                commentary={commentary}
-                commentaryHistory={commentaryHistory}
-                matchStats={matchStats}
-              />
-            )}
           </div>
         </CardContent>
       </Card>
@@ -895,6 +598,6 @@ export default function MatchStartPage() {
         setAbortDialogOpen={setAbortDialogOpen}
         abortMatch={abortMatch}
       />
-    </>
+    </ContentWrapper>
   );
 }

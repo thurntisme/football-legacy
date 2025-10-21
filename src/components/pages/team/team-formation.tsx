@@ -107,6 +107,8 @@ export default function TeamFormation({
               formations={[formation]}
               players={[players]}
               onSelectPlayer={setSelectedPlayer}
+              isShowName={false}
+              isShowRating={false}
             />
             <MyTeamFormationSelector
               currentFormation={currentFormation}

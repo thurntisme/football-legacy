@@ -1,28 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { BarChart3, Play, Users } from "lucide-react";
+import { Clock, Pause, Play, SkipForward, XCircle } from "lucide-react";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MatchStatics } from "@/types/match";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
-import MatchPlayers from "./match-players";
-import MatchStatistics from "./match-statistics";
-import MatchView from "./match-view";
+import MatchVisualization from "./match-visualization";
 
 export type Props = {
+  matchStarted: boolean;
   currentMinute: number;
   matchEnded: boolean;
   matchPaused: boolean;
   setMatchPaused: (option: boolean) => void;
   setAbortDialogOpen: (open: boolean) => void;
-  matchSpeed: number;
-  updateMatchSpeed: (newSpeed: number) => void;
   skipToEnd: () => void;
-  audioEnabled: boolean;
-  setAudioEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-  showTacticalOverlay: boolean;
-  currentTactic: string;
-  score: { home: number; away: number };
   matchEvents: { minute: number; type: string; text: string }[];
   psychologicalState: {
     confidence: number;
@@ -30,86 +23,104 @@ export type Props = {
     fatigue: number;
     teamwork: number;
   };
-  commentary: string;
-  commentaryHistory: string[];
-  matchStats: MatchStatics;
 };
 
 const MatchProcess = ({
+  matchStarted,
   currentMinute,
   matchEnded,
   matchPaused,
   setMatchPaused,
   setAbortDialogOpen,
-  matchSpeed,
-  updateMatchSpeed,
   skipToEnd,
-  audioEnabled,
-  setAudioEnabled,
-  currentTactic,
-  score,
   matchEvents,
   psychologicalState,
-  commentary,
-  commentaryHistory,
-  matchStats,
 }: Props) => {
-  const [activeTab, setActiveTab] = useState("match");
+  if (!matchStarted) {
+    return null;
+  }
 
   return (
-    <div className="w-full mt-4">
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-3 mb-4">
-          <TabsTrigger value="match">
-            <Play className="h-4 w-4 mr-2" />
-            Match
-          </TabsTrigger>
-          <TabsTrigger value="stats">
-            <BarChart3 className="h-4 w-4 mr-2" />
-            Stats
-          </TabsTrigger>
-          <TabsTrigger value="players">
-            <Users className="h-4 w-4 mr-2" />
-            Players
-          </TabsTrigger>
-        </TabsList>
+    <div className="w-full mt-4 border-t pt-6">
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center">
+          <Clock className="h-4 w-4 mr-2" />
+          <span className="font-medium">{currentMinute}' / 90'</span>
+        </div>
 
-        <TabsContent value="match" className="space-y-4">
-          <MatchView
-            currentMinute={currentMinute}
-            matchEnded={matchEnded}
-            matchPaused={matchPaused}
-            setMatchPaused={setMatchPaused}
-            setAbortDialogOpen={setAbortDialogOpen}
-            matchSpeed={matchSpeed}
-            updateMatchSpeed={updateMatchSpeed}
-            skipToEnd={skipToEnd}
-            audioEnabled={audioEnabled}
-            setAudioEnabled={setAudioEnabled}
-            showTacticalOverlay={false}
-            currentTactic={currentTactic}
-            score={score}
+        <div className="flex gap-2">
+          {!matchEnded && (
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setMatchPaused(!matchPaused)}
+              >
+                {matchPaused ? (
+                  <Play className="h-4 w-4" />
+                ) : (
+                  <Pause className="h-4 w-4" />
+                )}
+                {matchPaused ? "Resume" : "Pause"}
+              </Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => setAbortDialogOpen(true)}
+              >
+                <XCircle className="h-4 w-4" />
+                Abort Match
+              </Button>
+              <Button variant="outline" size="sm" onClick={skipToEnd}>
+                <SkipForward className="h-4 w-4" />
+                Skip
+              </Button>
+            </>
+          )}
+        </div>
+      </div>
+
+      <Progress value={(currentMinute / 90) * 100} className="h-2 mb-4" />
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 h-[540px]">
+        <div className="relative w-full overflow-hidden col-start-1 col-end-3">
+          <MatchVisualization
             matchEvents={matchEvents}
             psychologicalState={psychologicalState}
-            commentary={commentary}
-            commentaryHistory={commentaryHistory}
-            matchStats={matchStats}
           />
-        </TabsContent>
+        </div>
 
-        <TabsContent value="stats" className="space-y-4">
-          <MatchStatistics
-            homeTeam="Your Team"
-            awayTeam="City FC"
-            stats={matchStats}
-            currentMinute={currentMinute}
-          />
-        </TabsContent>
-
-        <TabsContent value="players" className="space-y-4">
-          <MatchPlayers psychologicalState={psychologicalState} />
-        </TabsContent>
-      </Tabs>
+        <div className="border rounded-md">
+          <div className="p-3 border-b bg-muted/50">
+            <h3 className="font-medium">Match Events</h3>
+          </div>
+          <div className="p-3 max-h-[480px] overflow-auto">
+            {matchEvents.length > 0 ? (
+              <div className="space-y-2">
+                {matchEvents.map((event, index) => (
+                  <div key={index} className="flex items-start">
+                    <Badge
+                      variant="outline"
+                      className="mr-2 mt-0.5 min-w-[32px] text-center"
+                    >
+                      {event.minute}'
+                    </Badge>
+                    <div
+                      className={`flex-1 ${event.type === "goal" ? "font-bold" : ""}`}
+                    >
+                      {event.text}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-4 text-muted-foreground">
+                No events yet. The match is just getting started.
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

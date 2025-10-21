@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Badge } from "@/components/ui/badge";
+import { getStandingPosition } from "@/lib/league";
 import { MatchScore } from "@/types/match";
 
 type Props = {
@@ -8,6 +9,10 @@ type Props = {
   score: MatchScore;
   matchEnded: boolean;
   currentMinute: Number;
+  team?: {
+    home: any;
+    away: any;
+  };
 };
 
 const MatchTeamOverview = ({
@@ -15,18 +20,21 @@ const MatchTeamOverview = ({
   score,
   matchEnded,
   currentMinute,
+  team,
 }: Props) => {
   return (
-    <div className="flex items-center justify-center w-full mb-10 mt-6">
+    <div className="flex items-center justify-center w-full py-6">
       <div className="flex flex-col items-center w-[80px]">
         <img
-          src="/placeholder.svg?height=80&width=80"
-          alt="Your Team"
+          src={team?.home?.logo || "/placeholder.svg?height=64&width=64"}
+          alt={team?.home?.name || "N/A"}
           className="h-20 w-20 mb-2"
         />
-        <span className="font-semibold text-sm">Your Team</span>
+        <span className="font-semibold text-sm text-center">
+          {team?.home?.name || "N/A"}
+        </span>
         <div className="flex items-center mt-1">
-          <Badge>2nd</Badge>
+          <Badge>{getStandingPosition(team?.home?.position)}</Badge>
         </div>
       </div>
 
@@ -50,13 +58,15 @@ const MatchTeamOverview = ({
 
       <div className="flex flex-col items-center w-[80px]">
         <img
-          src="/placeholder.svg?height=80&width=80"
-          alt="City FC"
+          src={team?.away?.logo || "/placeholder.svg?height=64&width=64"}
+          alt={team?.away?.name || "N/A"}
           className="h-20 w-20 mb-2"
         />
-        <span className="font-semibold text-sm">City FC</span>
+        <span className="font-semibold text-sm text-center">
+          {team?.away?.name || "N/A"}
+        </span>
         <div className="flex items-center mt-1">
-          <Badge>3rd</Badge>
+          <Badge>{getStandingPosition(team?.away?.position)}</Badge>
         </div>
       </div>
     </div>

@@ -27,9 +27,9 @@ export default function TeamPage() {
     <>
       <PageTitle title="Team Management">
         <Button variant="outline" asChild>
-          <Link href={`${FOOTBALL_STATS_URL}/game/match/start`}>
+          <Link href={`${FOOTBALL_STATS_URL}/game/match/prepare`}>
             <Rocket className="h-4 w-4" />
-            Start Match
+            Prepare Match
           </Link>
         </Button>
       </PageTitle>

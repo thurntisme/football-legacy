@@ -24,8 +24,8 @@ const Pitch = ({
   formations,
   players,
   selectedPlayer,
-  isShowName,
-  isShowRating,
+  isShowName = true,
+  isShowRating = true,
   onSelectPlayer,
 }: Props) => {
   const [homePositions, setHomePositions] = useState<Position[]>([]);
