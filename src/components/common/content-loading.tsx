@@ -22,7 +22,7 @@ const ContentLoading = () => {
 
   return (
     <Card className="w-full h-[70vh] flex items-center justify-center">
-      <CardContent className="flex flex-col items-center justify-center p-8 space-y-4 min-w-[500px] max-w-full">
+      <CardContent className="flex flex-col items-center justify-center p-4 space-y-4 w-[75%] max-w-[500px]">
         <Loader2 className={`h-12 w-12 animate-spin text-primary`} />
         <div className="text-center space-y-2">
           <h3 className="font-semibold text-lg">Football Manager</h3>

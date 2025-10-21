@@ -37,12 +37,8 @@ const MatchHistory = () => {
           Last 3 matches
         </CardHeader>
         <CardContent className="p-0">
-          <ContentWrapper
-            isLoading={isLoading}
-            error={error}
-            onRefetch={refetch}
-          >
-            {data.length
+          <ContentWrapper isLoading={true} error={error} onRefetch={refetch}>
+            {data?.length
               ? data.map((match: MatchDetail) => (
                   <div
                     key={match.id}
