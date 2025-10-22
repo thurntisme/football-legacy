@@ -6,12 +6,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
-import { getGuestData } from "@/lib/user";
 import { convertNumberWithSeparator } from "@/lib/utils";
 
 export default function FinancialSummaryCard() {
-  const guestUser = getGuestData();
-
   return (
     <Card>
       <CardContent className="p-4">
@@ -21,7 +18,7 @@ export default function FinancialSummaryCard() {
             <div>
               <p className="text-sm text-muted-foreground">Transfer Budget</p>
               <p className="text-2xl font-bold">
-                {convertNumberWithSeparator(guestUser.budget ?? 0)}
+                {convertNumberWithSeparator(0)}
               </p>
             </div>
           </div>
@@ -31,7 +28,7 @@ export default function FinancialSummaryCard() {
             <div>
               <p className="text-sm text-muted-foreground">Game Coins</p>
               <p className="text-2xl font-bold">
-                {convertNumberWithSeparator(guestUser.coin ?? 0)}
+                {convertNumberWithSeparator(0)}
               </p>
               <Button variant="link" className="h-auto p-0 text-xs" asChild>
                 <Link href={`${FOOTBALL_STATS_URL}/game/payment`}>

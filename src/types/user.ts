@@ -71,3 +71,23 @@ type UserMessage = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export enum TicketStatusEnum {
+  IN_PROGRESS = "in-progress",
+  RESOLVED = "resolved",
+  URGENT = "urgent",
+}
+export type SupportTicket = {
+  id: string;
+  title: string;
+  description: string;
+  status: TicketStatusEnum;
+  openedDate: string;
+  messages: Array<{
+    id: string;
+    author: string;
+    content: string;
+    timestamp: string;
+    isAdmin: boolean;
+  }>;
+};
