@@ -22,7 +22,7 @@ import {
 
 type Props = {};
 
-const TransferFunds = (props: Props) => {
+const TransferFundsPage = (props: Props) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <Card className="md:col-span-3">
@@ -285,4 +285,4 @@ const TransferFunds = (props: Props) => {
   );
 };
 
-export default TransferFunds;
+export default TransferFundsPage;

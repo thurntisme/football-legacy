@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { CreditCard, Gem, Gift, Info, Zap } from 'lucide-react';
+import { CreditCard, Gem, Gift, Info, Zap } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,11 +11,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 
 type Props = {};
 
-const BuyCoins = (props: Props) => {
+const CoinsPage = (props: Props) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <Card className="md:col-span-3">
@@ -241,4 +241,4 @@ const BuyCoins = (props: Props) => {
   );
 };
 
-export default BuyCoins;
+export default CoinsPage;
