@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { PaginationDynamic } from "@/components/ui/pagination";
 import { getTicketStatusColor, getTicketStatusIcon } from "@/lib/user";
 import { allTickets } from "@/mock/support-tickets";
 import { SupportTicket } from "@/types/user";
@@ -40,6 +39,11 @@ const SupportTickets = (props: Props) => {
   const openTicketDetails = (ticket: SupportTicket) => {
     setSelectedTicket(ticket);
     setDetailsOpen(true);
+  };
+
+  const onPageChange = (page: number) => {
+    console.log("Page changed to: ", page);
+    setCurrentPage(page);
   };
 
   return (
@@ -93,33 +97,11 @@ const SupportTickets = (props: Props) => {
           </div>
         </CardContent>
         <CardFooter>
-          <div className="flex items-center justify-between w-full">
-            <span className="text-sm text-muted-foreground">
-              Page {currentPage} of {totalPages}
-            </span>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="h-4 w-4" />
-                Previous
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  setCurrentPage(Math.min(totalPages, currentPage + 1))
-                }
-                disabled={currentPage === totalPages}
-              >
-                Next
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+          <PaginationDynamic
+            totalPages={totalPages}
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+          />
         </CardFooter>
       </Card>
       <TicketDetailsDialog
