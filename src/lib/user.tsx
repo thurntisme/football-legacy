@@ -59,3 +59,20 @@ export const getTicketStatusIcon = (status: string) => {
       return null;
   }
 };
+
+export const getFeedbackRewardIcon = (type: string) => {
+  switch (type) {
+    case "coins":
+      return "🪙";
+    case "pack":
+      return "📦";
+    case "player-card":
+      return "🎴";
+    case "item":
+      return "⭐";
+    case "premium-pass":
+      return "👑";
+    default:
+      return "🎁";
+  }
+};

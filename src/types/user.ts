@@ -91,3 +91,30 @@ export type SupportTicket = {
     isAdmin: boolean;
   }>;
 };
+
+export type FeedbackReward = {
+  id: string;
+  type: "coins" | "pack" | "player-card" | "item" | "premium-pass";
+  name: string;
+  description: string;
+  value: number | string;
+  imageUrl?: string;
+  expiresAt?: string;
+  redeemUrl?: string;
+  claimed: boolean;
+  claimedAt?: string;
+};
+
+export type FeedbackResponse = {
+  id: string;
+  feedbackType: string;
+  category: string;
+  feedbackText: string;
+  userEmail: string;
+  submittedDate: string;
+  status: "pending" | "acknowledged" | "resolved";
+  developerResponse: string;
+  respondedDate?: string;
+  respondedBy?: string;
+  reward?: Reward;
+};

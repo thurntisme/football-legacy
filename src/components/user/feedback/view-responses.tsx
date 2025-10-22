@@ -1,37 +1,54 @@
-import React from 'react';
+"use client";
 
-import { MessageSquare } from 'lucide-react';
+import React, { useState } from "react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { FeedbackResponses } from "@/mock/feedback-responses";
+import { FeedbackResponse, FeedbackReward } from "@/types/user";
+
+import ResponseDetailDialog from "./response-detail-dialog";
+import ResponseList from "./response-list";
+import RewardDetailDialog from "./reward-detail-dialog";
 
 type Props = {};
 
 const ViewResponses = (props: Props) => {
+  const [responses, setResponses] =
+    useState<FeedbackResponse[]>(FeedbackResponses);
+  const [selectedReward, setSelectedReward] = useState<FeedbackReward | null>(
+    null,
+  );
+  const [selectedResponse, setSelectedResponse] =
+    useState<FeedbackResponse | null>(null);
+
+  const handleDeleteResponse = (responseId: string) => {
+    console.log("Deleting response with ID:", responseId);
+  };
+
+  const handleClaimReward = () => {
+    console.log("Claiming reward:");
+  };
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Developer Responses</CardTitle>
-        <CardDescription>
-          View responses to your previous feedback submissions.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="text-center py-8">
-          <MessageSquare className="mx-auto h-12 w-12 text-muted-foreground opacity-50" />
-          <h3 className="mt-4 text-lg font-medium">No responses yet</h3>
-          <p className="mt-2 text-sm text-muted-foreground">
-            When our team responds to your feedback, you'll see their messages
-            here.
-          </p>
-        </div>
-      </CardContent>
-    </Card>
+    <>
+      <ResponseList
+        responses={responses}
+        setSelectedReward={setSelectedReward}
+        setSelectedResponse={setSelectedResponse}
+        handleDeleteResponse={handleDeleteResponse}
+      />
+
+      <ResponseDetailDialog
+        selectedResponse={selectedResponse}
+        setSelectedResponse={setSelectedResponse}
+        handleDeleteResponse={handleDeleteResponse}
+      />
+
+      <RewardDetailDialog
+        handleClaimReward={handleClaimReward}
+        selectedReward={selectedReward}
+        setSelectedReward={setSelectedReward}
+      />
+    </>
   );
 };
 

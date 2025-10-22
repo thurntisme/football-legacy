@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+"use client";
 
-import { Send, ThumbsUp } from 'lucide-react';
+import React, { useState } from "react";
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { Send, ThumbsUp } from "lucide-react";
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,27 +13,27 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 type Props = {};
 
 const GiveFeedback = (props: Props) => {
-  const [category, setCategory] = useState('');
-  const [satisfaction, setSatisfaction] = useState('satisfied');
-  const [feedbackText, setFeedbackText] = useState('');
-  const [email, setEmail] = useState('');
-  const [feedbackType, setFeedbackType] = useState('suggestion');
+  const [category, setCategory] = useState("");
+  const [satisfaction, setSatisfaction] = useState("satisfied");
+  const [feedbackText, setFeedbackText] = useState("");
+  const [email, setEmail] = useState("");
+  const [feedbackType, setFeedbackType] = useState("suggestion");
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -49,9 +51,9 @@ const GiveFeedback = (props: Props) => {
     // Reset form after 3 seconds
     setTimeout(() => {
       setSubmitted(false);
-      setFeedbackText('');
-      setEmail('');
-      setCategory('');
+      setFeedbackText("");
+      setEmail("");
+      setCategory("");
     }, 3000);
   };
 
