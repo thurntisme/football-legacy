@@ -54,3 +54,9 @@ export const SERVERS = [
     players: 9230,
   },
 ];
+
+export enum SubscriptionPlanEnum {
+  FREE = "free",
+  PREMIUM = "premium",
+  PRO = "pro",
+}

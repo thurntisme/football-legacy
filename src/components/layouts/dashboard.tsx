@@ -1,5 +1,7 @@
 "use client";
 
+import { AdProvider } from "../advertisements/ad-provider";
+
 import React from "react";
 
 import { usePathname } from "next/navigation";
@@ -29,15 +31,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       enableSystem
       disableTransitionOnChange
     >
-      <div className="min-h-screen flex flex-col">
-        {!isBlank && <Navbar />}
-        <main
-          className={!isBlank ? "container mx-auto px-4 pt-10 pb-[100px]" : ""}
-        >
-          {children}
-        </main>
-        {!isBlank && <Footer />}
-      </div>
+      <AdProvider isShowAd={!isBlank}>
+        <div className="min-h-screen flex flex-col">
+          {!isBlank && <Navbar />}
+          <main
+            className={
+              !isBlank ? "container mx-auto px-4 pt-10 pb-[100px]" : ""
+            }
+          >
+            {children}
+          </main>
+          {!isBlank && <Footer />}
+        </div>
+      </AdProvider>
       <Toaster />
     </ThemeProvider>
   );
