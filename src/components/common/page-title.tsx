@@ -29,7 +29,7 @@ const PageTitle = ({
         {children && children}
         {showBtnDashboard && (
           <Button asChild>
-            <Link href={`${FOOTBALL_STATS_URL}/game/dashboard`}>
+            <Link href={`${FOOTBALL_STATS_URL}/dashboard`}>
               <ArrowLeft className="h-4 w-4" />
               Back to Dashboard
             </Link>

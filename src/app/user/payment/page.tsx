@@ -1,3 +1,5 @@
+import BtnClubFunds from "@/components/common/btn-buy-club-funds";
+import BtnBuyCoins from "@/components/common/btn-buy-coins";
 import PageTitle from "@/components/common/page-title";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PaymentMethods from "@/components/user/payment/payment-methods";
@@ -6,7 +8,13 @@ import Subscriptions from "@/components/user/payment/subscriptions";
 export default function PaymentPage() {
   return (
     <>
-      <PageTitle title="Payment & Subscriptions" />
+      <PageTitle
+        title="Payment & Subscriptions"
+        subTitle="Manage your purchases, subscriptions, and payment preferences for your club account."
+      >
+        <BtnBuyCoins />
+        <BtnClubFunds />
+      </PageTitle>
 
       <Tabs defaultValue="subscriptions" className="space-y-6">
         <TabsList className="grid w-full grid-cols-1 md:grid-cols-2">
