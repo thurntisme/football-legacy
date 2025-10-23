@@ -1,19 +1,25 @@
-import {
-  ArrowRight,
-  Check,
-  Shield,
-  Star,
-  TrendingUp,
-  Trophy,
-  Users,
-  Zap,
-} from "lucide-react";
+import { ArrowRight, Check, Trophy } from "lucide-react";
 import Link from "next/link";
 
+import StarBox from "@/components/common/star-box";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { FOOTBALL_STATS_URL } from "@/constants/site";
+import {
+  Features,
+  FooterLinks,
+  GameScreenshotUrl,
+  NavLinks,
+  Screenshots,
+  Testimonials,
+} from "@/constants/landing";
+import {
+  APP_DESCRIPTION,
+  APP_NAME,
+  FOOTBALL_STATS_URL,
+} from "@/constants/site";
+import { SubscriptionPlans } from "@/constants/user";
+import { formatCurrency } from "@/lib/finance";
 
 export default function LandingPage() {
   return (
@@ -26,34 +32,19 @@ export default function LandingPage() {
               className="flex items-center space-x-2"
             >
               <Trophy className="mr-2 h-6 w-6" />
-              <span className="text-xl font-bold">Football Manager</span>
+              <span className="text-xl font-bold">{APP_NAME}</span>
             </Link>
           </div>
           <nav className="hidden md:flex items-center gap-6">
-            <Link
-              href="#features"
-              className="text-sm font-medium hover:underline underline-offset-4"
-            >
-              Features
-            </Link>
-            <Link
-              href="#screenshots"
-              className="text-sm font-medium hover:underline underline-offset-4"
-            >
-              Screenshots
-            </Link>
-            <Link
-              href="#testimonials"
-              className="text-sm font-medium hover:underline underline-offset-4"
-            >
-              Testimonials
-            </Link>
-            <Link
-              href="#pricing"
-              className="text-sm font-medium hover:underline underline-offset-4"
-            >
-              Pricing
-            </Link>
+            {NavLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium hover:underline underline-offset-4"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
           <div className="flex items-center gap-2">
             <Button variant="outline" asChild>
@@ -85,11 +76,14 @@ export default function LandingPage() {
                 <Button size="lg" asChild>
                   <Link href={`${FOOTBALL_STATS_URL}/auth/signup`}>
                     Start Your Career
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link href="#features">Learn More</Link>
+                  <Link href="#features">
+                    Learn More
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
                 </Button>
               </div>
               <div className="flex items-center gap-2 text-sm">
@@ -103,7 +97,9 @@ export default function LandingPage() {
               <img
                 alt="Football Manager Game Screenshot"
                 className="aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-                src="/placeholder.svg?height=550&width=800"
+                src={
+                  GameScreenshotUrl || "/placeholder.svg?height=550&width=800"
+                }
               />
             </div>
           </div>
@@ -125,88 +121,22 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="border-none shadow-lg">
-              <CardContent className="pt-6">
-                <div className="rounded-full w-12 h-12 flex items-center justify-center bg-primary/10 text-primary mb-4">
-                  <Users className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Team Management</h3>
-                <p className="text-muted-foreground">
-                  Build your dream team with an extensive database of real
-                  players. Manage tactics, formations, and player roles to
-                  create a winning strategy.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg">
-              <CardContent className="pt-6">
-                <div className="rounded-full w-12 h-12 flex items-center justify-center bg-primary/10 text-primary mb-4">
-                  <TrendingUp className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Transfer Market</h3>
-                <p className="text-muted-foreground">
-                  Scout talents, negotiate contracts, and make strategic
-                  signings to strengthen your squad. Compete with AI managers
-                  for the best players.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg">
-              <CardContent className="pt-6">
-                <div className="rounded-full w-12 h-12 flex items-center justify-center bg-primary/10 text-primary mb-4">
-                  <Zap className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Match Simulation</h3>
-                <p className="text-muted-foreground">
-                  Experience realistic match simulations with dynamic events and
-                  tactical adaptations. Make real-time decisions to influence
-                  the outcome.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg">
-              <CardContent className="pt-6">
-                <div className="rounded-full w-12 h-12 flex items-center justify-center bg-primary/10 text-primary mb-4">
-                  <Star className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Player Development</h3>
-                <p className="text-muted-foreground">
-                  Nurture young talents and watch them grow into superstars.
-                  Customize training regimes and monitor player progress.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg">
-              <CardContent className="pt-6">
-                <div className="rounded-full w-12 h-12 flex items-center justify-center bg-primary/10 text-primary mb-4">
-                  <Trophy className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Competitions</h3>
-                <p className="text-muted-foreground">
-                  Compete in domestic leagues, cups, and international
-                  tournaments. Build a legacy by winning trophies and breaking
-                  records.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg">
-              <CardContent className="pt-6">
-                <div className="rounded-full w-12 h-12 flex items-center justify-center bg-primary/10 text-primary mb-4">
-                  <Shield className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Club Management</h3>
-                <p className="text-muted-foreground">
-                  Handle club finances, stadium improvements, and staff
-                  recruitment. Balance short-term success with long-term
-                  sustainability.
-                </p>
-              </CardContent>
-            </Card>
+            {Features.map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <Card key={feature.title} className="border-none shadow-lg">
+                  <CardContent className="pt-6">
+                    <div className="rounded-full w-12 h-12 flex items-center justify-center bg-primary/10 text-primary mb-4">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+                    <p className="text-muted-foreground">
+                      {feature.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -225,36 +155,23 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <img
-              src="/placeholder.svg?height=300&width=500"
-              alt="Match Day"
-              className="rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 w-full h-64 object-cover"
-            />
-            <img
-              src="/placeholder.svg?height=300&width=500"
-              alt="Team Management"
-              className="rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 w-full h-64 object-cover"
-            />
-            <img
-              src="/placeholder.svg?height=300&width=500"
-              alt="Transfer Market"
-              className="rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 w-full h-64 object-cover"
-            />
-            <img
-              src="/placeholder.svg?height=300&width=500"
-              alt="Player Profile"
-              className="rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 w-full h-64 object-cover"
-            />
-            <img
-              src="/placeholder.svg?height=300&width=500"
-              alt="Tactics Board"
-              className="rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 w-full h-64 object-cover"
-            />
-            <img
-              src="/placeholder.svg?height=300&width=500"
-              alt="League Table"
-              className="rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 w-full h-64 object-cover"
-            />
+            {Screenshots.map((item, index) => (
+              <figure
+                key={index}
+                className="relative rounded-xl overflow-hidden shadow-md hover:shadow-2xl group transition-all duration-300 cursor-pointer"
+              >
+                <img
+                  src={item.src || "/placeholder.svg?height=300&width=500"}
+                  alt={item.title}
+                  className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300"
+                />
+                <figcaption className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <span className="text-white text-lg font-semibold">
+                    {item.title}
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>
@@ -276,85 +193,25 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="border-none shadow-lg">
-              <CardContent className="pt-6">
-                <div className="flex items-center mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                      key={star}
-                      className="h-5 w-5 text-yellow-500 fill-yellow-500"
-                    />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-4">
-                  "The most realistic football management sim I've ever played.
-                  The depth of tactics and player development is incredible."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 mr-3"></div>
-                  <div>
-                    <p className="font-medium">Michael Johnson</p>
-                    <p className="text-sm text-muted-foreground">
-                      Playing since 2022
-                    </p>
+            {Testimonials.map((testimonial) => (
+              <Card key={testimonial.name} className="border-none shadow-lg">
+                <CardContent className="pt-6">
+                  <StarBox length={testimonial.star} />
+                  <p className="text-muted-foreground mb-4">
+                    "{testimonial.comment}"
+                  </p>
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full bg-primary/20 mr-3"></div>
+                    <div>
+                      <p className="font-medium">{testimonial.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Playing since {testimonial.year}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg">
-              <CardContent className="pt-6">
-                <div className="flex items-center mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                      key={star}
-                      className="h-5 w-5 text-yellow-500 fill-yellow-500"
-                    />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-4">
-                  "I love how the game balances accessibility with depth. Easy
-                  to pick up but with enough complexity to keep me engaged for
-                  months."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 mr-3"></div>
-                  <div>
-                    <p className="font-medium">Sarah Williams</p>
-                    <p className="text-sm text-muted-foreground">
-                      Playing since 2023
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg">
-              <CardContent className="pt-6">
-                <div className="flex items-center mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                      key={star}
-                      className="h-5 w-5 text-yellow-500 fill-yellow-500"
-                    />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-4">
-                  "The transfer market and negotiations feel so realistic. I've
-                  spent hours building my perfect team and watching them
-                  develop."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 mr-3"></div>
-                  <div>
-                    <p className="font-medium">David Rodriguez</p>
-                    <p className="text-sm text-muted-foreground">
-                      Playing since 2021
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -372,117 +229,44 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="border-none shadow-lg">
-              <CardContent className="pt-6">
-                <h3 className="text-xl font-bold mb-2">Free Plan</h3>
-                <div className="text-3xl font-bold mb-4">
-                  £0{" "}
-                  <span className="text-sm font-normal text-muted-foreground">
-                    /month
-                  </span>
-                </div>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>Basic team management</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>Standard match simulation</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>Limited transfer market access</span>
-                  </li>
-                </ul>
-                <Button variant="outline" className="w-full" asChild>
-                  <Link href={`${FOOTBALL_STATS_URL}/auth/signup`}>
-                    Get Started
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="border-primary shadow-lg relative">
-              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-medium">
-                Most Popular
-              </div>
-              <CardContent className="pt-6">
-                <h3 className="text-xl font-bold mb-2">Pro Plan</h3>
-                <div className="text-3xl font-bold mb-4">
-                  £9.99{" "}
-                  <span className="text-sm font-normal text-muted-foreground">
-                    /month
-                  </span>
-                </div>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>All Free Plan features</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>Advanced match tactics</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>Full transfer market access</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>Detailed player statistics</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>500 coins monthly</span>
-                  </li>
-                </ul>
-                <Button className="w-full" asChild>
-                  <Link href={`${FOOTBALL_STATS_URL}/auth/signup`}>
-                    Subscribe Now
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg">
-              <CardContent className="pt-6">
-                <h3 className="text-xl font-bold mb-2">Elite Plan</h3>
-                <div className="text-3xl font-bold mb-4">
-                  £19.99{" "}
-                  <span className="text-sm font-normal text-muted-foreground">
-                    /month
-                  </span>
-                </div>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>All Pro Plan features</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>Elite player generation</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>Advanced scouting network</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>Exclusive player items</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
-                    <span>1500 coins monthly</span>
-                  </li>
-                </ul>
-                <Button variant="outline" className="w-full" asChild>
-                  <Link href={`${FOOTBALL_STATS_URL}/auth/signup`}>
-                    Subscribe Now
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
+            {SubscriptionPlans.map((plan) => (
+              <Card
+                key={plan.slug}
+                className={`shadow-lg ${plan.isPopular ? "border-primary relative" : "border-none"}`}
+              >
+                {plan.isPopular && (
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-medium">
+                    Most Popular
+                  </div>
+                )}
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
+                  <div className="text-3xl font-bold mb-4">
+                    {formatCurrency(plan.price)}{" "}
+                    <span className="text-sm font-normal text-muted-foreground">
+                      /month
+                    </span>
+                  </div>
+                  <ul className="space-y-2 mb-6">
+                    {plan.features.map((feature: string) => (
+                      <li className="flex items-start" key={feature}>
+                        <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button
+                    variant={plan.isPopular ? "default" : "outline"}
+                    className="w-full"
+                    asChild
+                  >
+                    <Link href={`${FOOTBALL_STATS_URL}/auth/signup`}>
+                      Get Started
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -505,11 +289,14 @@ export default function LandingPage() {
               <Button size="lg" asChild>
                 <Link href={`${FOOTBALL_STATS_URL}/auth/signup`}>
                   Create Free Account
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href={`${FOOTBALL_STATS_URL}/auth/signin`}>Sign In</Link>
+                <Link href={`${FOOTBALL_STATS_URL}/auth/signin`}>
+                  Sign In
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </Button>
             </div>
           </div>
@@ -521,123 +308,26 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-lg font-bold mb-4">Football Manager</h3>
-              <p className="text-muted-foreground">
-                The ultimate football management simulation game. Build your
-                legacy today.
-              </p>
+              <h3 className="text-lg font-bold mb-4">{APP_NAME}</h3>
+              <p className="text-muted-foreground">{APP_DESCRIPTION}</p>
             </div>
-            <div>
-              <h3 className="text-lg font-bold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href={`${FOOTBALL_STATS_URL}/auth/signup`}
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    Sign Up
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={`${FOOTBALL_STATS_URL}/auth/signin`}
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    Sign In
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    Features
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    Pricing
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-bold mb-4">Support</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    Help Center
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    Community
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    Contact Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    FAQ
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-bold mb-4">Legal</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    Cookie Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary"
-                  >
-                    GDPR
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            {FooterLinks.map((section) => (
+              <div key={section.title}>
+                <h3 className="text-lg font-bold mb-4">{section.title}</h3>
+                <ul className="space-y-2">
+                  {section.links.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        className="text-muted-foreground hover:text-primary"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
           <div className="border-t mt-12 pt-8 text-center text-muted-foreground">
             <p>© 2025 Football Manager. All rights reserved.</p>
