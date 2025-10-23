@@ -1,8 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { GUEST_USER } from "@/constants/guest-user";
-import { uuidv4 } from "@/lib/utils";
+import { GUEST_USER, createGuestToken } from "@/constants/guest-user";
 
 export async function POST(req: Request) {
   try {
@@ -23,10 +22,7 @@ export async function POST(req: Request) {
       );
     }
 
-    cookies().set("token", uuidv4(), {
-      httpOnly: true,
-      maxAge: 60 * 60, // 1 hour
-    });
+    cookies().set("token", createGuestToken());
 
     return NextResponse.json({
       message: "Login successful",

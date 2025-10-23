@@ -39,7 +39,7 @@ export default function Navbar() {
           description: "You have been logged out successfully.",
         });
 
-        router.push(`${FOOTBALL_STATS_URL}/auth/signin`);
+        window.location.reload();
       }
     } catch (error) {
       toast({
@@ -236,7 +236,7 @@ export default function Navbar() {
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <ConfirmDialog title="Confirm Logout" onConfirm={handleLogout}>
-                  <span className="flex items-center cursor-pointer px-2 py-1.5">
+                  <span className="flex items-center cursor-pointer px-2 py-1.5 text-sm">
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Log out</span>
                   </span>
