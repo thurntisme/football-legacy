@@ -6,7 +6,7 @@ const team = {
 export const GUEST_USER = {
   id: "u123",
   email: "example@football.com",
-  password: "password123",
+  password: "wT$$s8pGJHNVd6c9PrKg",
   fullname: "Alex John",
   budget: 2500000,
   coin: 100,

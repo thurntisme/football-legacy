@@ -1,6 +1,8 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { GUEST_USER } from "@/constants/guest-user";
+import { uuidv4 } from "@/lib/utils";
 
 export async function POST(req: Request) {
   try {
@@ -9,19 +11,23 @@ export async function POST(req: Request) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { error: "Email and password are required.", success: false },
+        { message: "Email and password are required.", success: false },
         { status: 400 },
       );
     }
 
-    // if (email !== guestUser.email || password !== guestUser.password) {
-    //   return NextResponse.json(
-    //     { error: 'Invalid credentials.', success: false },
-    //     { status: 401 }
-    //   );
-    // }
+    if (email !== GUEST_USER.email || password !== GUEST_USER.password) {
+      return NextResponse.json(
+        { message: "Invalid credentials.", success: false },
+        { status: 401 },
+      );
+    }
 
-    // Success
+    cookies().set("token", uuidv4(), {
+      httpOnly: true,
+      maxAge: 60 * 60, // 1 hour
+    });
+
     return NextResponse.json({
       message: "Login successful",
       user: GUEST_USER,
@@ -29,7 +35,7 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: "Something went wrong." },
+      { message: "Something went wrong.", success: false },
       { status: 500 },
     );
   }

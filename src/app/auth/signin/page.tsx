@@ -3,6 +3,7 @@
 import React from "react";
 import { useState } from "react";
 
+import { AxiosError } from "axios";
 import { AlertCircle, Github, Lock, Mail, Trophy, Twitter } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -22,17 +23,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GUEST_USER } from "@/constants/guest-user";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
-
-// import { internalApi } from "@/lib/api/internal";
-// import { storeGuestData } from "@/lib/user";
+import { internalApi } from "@/lib/api/internal";
 
 export default function SignInPage() {
   const router = useRouter();
-  const [email, setEmail] = useState(GUEST_USER.email);
-  const [password, setPassword] = useState(GUEST_USER.password);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,33 +41,31 @@ export default function SignInPage() {
 
     // Simulate API call
     try {
-      //   // For demo purposes, let's check if email and password are provided
-      //   if (!email || !password) {
-      //     throw new Error("Please enter both email and password");
-      //   }
+      if (!email || !password) {
+        setError("Please enter both email and password");
+      }
 
-      //   const res = await internalApi.post("/auth/login", {
-      //     email,
-      //     password,
-      //   });
+      const res = await internalApi.post("/auth/login", {
+        email,
+        password,
+      });
 
-      //   if (res.data.success) {
-      //     storeGuestData(res.data.user);
+      if (res.data.success) {
+        toast({
+          title: "Sign in successful",
+          description: "Welcome back to Football Manager!",
+        });
 
-      //     // Success - in a real app, this would store auth tokens, etc.
-      //     toast({
-      //       title: "Sign in successful",
-      //       description: "Welcome back to Football Manager!",
-      //     });
-
-      //     // Redirect to dashboard
-      //     router.push(`${FOOTBALL_STATS_URL}/dashboard`);
-      //   }
-      router.push(`${FOOTBALL_STATS_URL}/dashboard`);
+        router.push(`${FOOTBALL_STATS_URL}/welcome`);
+      }
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An error occurred during sign in",
-      );
+      if (err instanceof AxiosError) {
+        setError(err.response?.data?.message || "Axios error occurred");
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred during sign in");
+      }
     } finally {
       setIsLoading(false);
     }
