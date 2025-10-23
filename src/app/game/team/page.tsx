@@ -22,10 +22,9 @@ export default function TeamPage() {
       return res.data?.data || [];
     },
   });
-  console.log(data?.players.slice(0, 2));
 
   return (
-    <>
+    <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
       <PageTitle title="Team Management">
         <Button variant="outline" asChild>
           <Link href={`${FOOTBALL_STATS_URL}/game/match/prepare`}>
@@ -35,39 +34,34 @@ export default function TeamPage() {
         </Button>
       </PageTitle>
 
-      <ContentWrapper isLoading={isLoading} error={error} onRefetch={refetch}>
-        <Tabs defaultValue="formation" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="formation" className="flex items-center">
-              <LayoutGrid className="mr-2 h-4 w-4" />
-              Formation
-            </TabsTrigger>
-            <TabsTrigger value="players" className="flex items-center">
-              <Users className="mr-2 h-4 w-4" />
-              Players
-            </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center">
-              <BarChart className="mr-2 h-4 w-4" />
-              Team Analytics
-            </TabsTrigger>
-          </TabsList>
+      <Tabs defaultValue="formation" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="formation" className="flex items-center">
+            <LayoutGrid className="mr-2 h-4 w-4" />
+            Formation
+          </TabsTrigger>
+          <TabsTrigger value="players" className="flex items-center">
+            <Users className="mr-2 h-4 w-4" />
+            Players
+          </TabsTrigger>
+          <TabsTrigger value="analytics" className="flex items-center">
+            <BarChart className="mr-2 h-4 w-4" />
+            Team Analytics
+          </TabsTrigger>
+        </TabsList>
 
-          <TabsContent value="formation" className="space-y-6">
-            <TeamFormation
-              formation={data?.formation}
-              players={data?.players}
-            />
-          </TabsContent>
+        <TabsContent value="formation" className="space-y-6">
+          <TeamFormation formation={data?.formation} players={data?.players} />
+        </TabsContent>
 
-          <TabsContent value="players" className="space-y-6">
-            <TeamPlayers players={data?.players} />
-          </TabsContent>
+        <TabsContent value="players" className="space-y-6">
+          <TeamPlayers players={data?.players} />
+        </TabsContent>
 
-          <TabsContent value="analytics" className="space-y-6">
-            <TeamAnalytics />
-          </TabsContent>
-        </Tabs>
-      </ContentWrapper>
-    </>
+        <TabsContent value="analytics" className="space-y-6">
+          <TeamAnalytics />
+        </TabsContent>
+      </Tabs>
+    </ContentWrapper>
   );
 }
