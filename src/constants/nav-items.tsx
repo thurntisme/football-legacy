@@ -27,101 +27,101 @@ export const navItems = [
   {
     href: "dashboard",
     label: "Dashboard",
-    icon: <Home className="h-4 w-4 mr-2" />,
+    icon: Home,
   },
   {
     href: "game/team",
     label: "Team",
-    icon: <Users className="h-4 w-4 mr-2" />,
+    icon: Users,
     children: [
       {
         href: "",
         label: "Roster",
-        icon: <Users2Icon className="h-4 w-4 mr-2" />,
+        icon: Users2Icon,
       },
       {
         href: "contract",
         label: "Contract",
-        icon: <FileSignature className="h-4 w-4 mr-2" />,
+        icon: FileSignature,
       },
       {
         href: "shirt-number",
         label: "Shirt Number",
-        icon: <Shirt className="h-4 w-4 mr-2" />,
+        icon: Shirt,
       },
     ],
   },
   {
     href: "game/club",
     label: "Club",
-    icon: <Building className="h-4 w-4 mr-2" />,
+    icon: Building,
   },
   {
     href: "game/stadium",
     label: "Stadium",
-    icon: <Landmark className="h-4 w-4 mr-2" />,
+    icon: Landmark,
   },
   {
     href: "game/league",
     label: "League",
-    icon: <Trophy className="h-4 w-4 mr-2" />,
+    icon: Trophy,
     children: [
       {
         href: "schedule",
         label: "Schedule",
-        icon: <CalendarDays className="h-4 w-4 mr-2" />,
+        icon: CalendarDays,
       },
       {
         href: "standing",
         label: "Standing",
-        icon: <ListOrdered className="h-4 w-4 mr-2" />,
+        icon: ListOrdered,
       },
     ],
   },
   {
     href: "game/market",
     label: "Market",
-    icon: <ShoppingCart className="h-4 w-4 mr-2" />,
+    icon: ShoppingCart,
   },
   {
     href: "game/staff",
     label: "Staff",
-    icon: <Users className="h-4 w-4 mr-2" />,
+    icon: Users,
   },
   {
     href: "game/medical",
     label: "Medical",
-    icon: <Stethoscope className="h-4 w-4 mr-2" />,
+    icon: Stethoscope,
   },
   {
     href: "game/scouting",
     label: "Scouting",
-    icon: <Binoculars className="h-4 w-4 mr-2" />,
+    icon: Binoculars,
   },
   {
     href: "game/training",
     label: "Training",
-    icon: <Dumbbell className="h-4 w-4 mr-2" />,
+    icon: Dumbbell,
   },
   {
     href: "game/youth-academy",
     label: "Youth Academy",
-    icon: <GraduationCap className="h-4 w-4 mr-2" />,
+    icon: GraduationCap,
   },
   {
     href: "game/online",
     label: "Online",
-    icon: <Wifi className="h-4 w-4 mr-2" />,
+    icon: Wifi,
   },
   {
     href: "game/news",
     label: "News",
-    icon: <Newspaper className="h-4 w-4 mr-2" />,
+    icon: Newspaper,
   },
   {
     href: "game/items",
     label: "Items",
-    icon: <Package className="h-4 w-4 mr-2" />,
+    icon: Package,
   },
 ];
 
@@ -129,21 +129,21 @@ export const userItems = [
   {
     href: "user/settings",
     label: "Settings",
-    icon: <Settings className="h-4 w-4 mr-2" />,
+    icon: Settings,
   },
   {
     href: "user/payment",
     label: "Payment",
-    icon: <CreditCard className="h-4 w-4 mr-2" />,
+    icon: CreditCard,
   },
   {
     href: "user/support",
     label: "Ticket Support",
-    icon: <HelpCircle className="h-4 w-4 mr-2" />,
+    icon: HelpCircle,
   },
   {
     href: "user/feedback",
     label: "Feedback",
-    icon: <MessageSquare className="h-4 w-4 mr-2" />,
+    icon: MessageSquare,
   },
 ];
