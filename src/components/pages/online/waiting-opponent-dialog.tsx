@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { X } from 'lucide-react';
+import { X } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,8 +10,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+} from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 type Props = {
   waitingForOpponent: boolean;
@@ -64,7 +64,7 @@ const WaitingOpponentDialog = ({
                 alt={challengedUser?.name}
               />
               <AvatarFallback>
-                {challengedUser?.name?.substring(0, 2) || 'OP'}
+                {challengedUser?.name?.substring(0, 2) || "OP"}
               </AvatarFallback>
             </Avatar>
           </div>

@@ -1,18 +1,18 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 type ExtendedAxiosInstance = AxiosInstance & {
   use: (
-    middleware: (config: AxiosRequestConfig) => AxiosRequestConfig
+    middleware: (config: AxiosRequestConfig) => AxiosRequestConfig,
   ) => ExtendedAxiosInstance;
 };
 
 const defaultHeaders = {
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
+  "Content-Type": "application/json",
+  Accept: "application/json",
 };
 
 export function createInternalApiClient(
-  config: AxiosRequestConfig = {}
+  config: AxiosRequestConfig = {},
 ): ExtendedAxiosInstance {
   const mergedConfig: AxiosRequestConfig = {
     ...config,

@@ -1,33 +1,33 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import { Save, Shield, Volume2 } from 'lucide-react';
+import { Save, Shield, Volume2 } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
-import { Slider } from '@/components/ui/slider';
-import { Switch } from '@/components/ui/switch';
-import { toast } from '@/hooks/use-toast';
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { toast } from "@/hooks/use-toast";
 
 export default function GameSettings() {
   const [gameSettings, setGameSettings] = useState({
-    difficulty: 'normal',
+    difficulty: "normal",
     matchSpeed: 50,
     autoSave: true,
     darkMode: false,
@@ -78,8 +78,8 @@ export default function GameSettings() {
 
   const handleSaveSettings = () => {
     toast({
-      title: 'Game Settings Updated',
-      description: 'Your game settings have been saved successfully.',
+      title: "Game Settings Updated",
+      description: "Your game settings have been saved successfully.",
     });
   };
 
@@ -191,7 +191,7 @@ export default function GameSettings() {
               <Switch
                 id="sound-enabled"
                 checked={gameSettings.sound.enabled}
-                onCheckedChange={() => handleToggleSound('enabled')}
+                onCheckedChange={() => handleToggleSound("enabled")}
               />
             </div>
 
@@ -222,7 +222,7 @@ export default function GameSettings() {
               <Switch
                 id="sound-effects"
                 checked={gameSettings.sound.effects}
-                onCheckedChange={() => handleToggleSound('effects')}
+                onCheckedChange={() => handleToggleSound("effects")}
                 disabled={!gameSettings.sound.enabled}
               />
             </div>
@@ -237,7 +237,7 @@ export default function GameSettings() {
               <Switch
                 id="sound-music"
                 checked={gameSettings.sound.music}
-                onCheckedChange={() => handleToggleSound('music')}
+                onCheckedChange={() => handleToggleSound("music")}
                 disabled={!gameSettings.sound.enabled}
               />
             </div>
@@ -261,7 +261,7 @@ export default function GameSettings() {
               <Switch
                 id="auto-rotate"
                 checked={gameSettings.gameplay.autoRotate}
-                onCheckedChange={() => handleToggleGameplay('autoRotate')}
+                onCheckedChange={() => handleToggleGameplay("autoRotate")}
               />
             </div>
 
@@ -275,7 +275,7 @@ export default function GameSettings() {
               <Switch
                 id="auto-substitute"
                 checked={gameSettings.gameplay.autoSubstitute}
-                onCheckedChange={() => handleToggleGameplay('autoSubstitute')}
+                onCheckedChange={() => handleToggleGameplay("autoSubstitute")}
               />
             </div>
 
@@ -290,7 +290,7 @@ export default function GameSettings() {
                 id="realistic-injuries"
                 checked={gameSettings.gameplay.realisticInjuries}
                 onCheckedChange={() =>
-                  handleToggleGameplay('realisticInjuries')
+                  handleToggleGameplay("realisticInjuries")
                 }
               />
             </div>
@@ -306,7 +306,7 @@ export default function GameSettings() {
                 id="transfer-negotiations"
                 checked={gameSettings.gameplay.transferNegotiations}
                 onCheckedChange={() =>
-                  handleToggleGameplay('transferNegotiations')
+                  handleToggleGameplay("transferNegotiations")
                 }
               />
             </div>

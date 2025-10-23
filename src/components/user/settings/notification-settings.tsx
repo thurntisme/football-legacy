@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import { Save } from 'lucide-react';
+import { Save } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { Switch } from '@/components/ui/switch';
-import { toast } from '@/hooks/use-toast';
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { toast } from "@/hooks/use-toast";
 
 export default function NotificationSettings() {
   const [notifications, setNotifications] = useState({
@@ -57,8 +57,8 @@ export default function NotificationSettings() {
 
   const handleSaveNotifications = () => {
     toast({
-      title: 'Notification Settings Updated',
-      description: 'Your notification preferences have been saved.',
+      title: "Notification Settings Updated",
+      description: "Your notification preferences have been saved.",
     });
   };
 
@@ -85,7 +85,7 @@ export default function NotificationSettings() {
                 <Switch
                   id="email-matches"
                   checked={notifications.email.matches}
-                  onCheckedChange={() => handleToggleEmail('matches')}
+                  onCheckedChange={() => handleToggleEmail("matches")}
                 />
               </div>
 
@@ -99,7 +99,7 @@ export default function NotificationSettings() {
                 <Switch
                   id="email-transfers"
                   checked={notifications.email.transfers}
-                  onCheckedChange={() => handleToggleEmail('transfers')}
+                  onCheckedChange={() => handleToggleEmail("transfers")}
                 />
               </div>
 
@@ -113,7 +113,7 @@ export default function NotificationSettings() {
                 <Switch
                   id="email-news"
                   checked={notifications.email.news}
-                  onCheckedChange={() => handleToggleEmail('news')}
+                  onCheckedChange={() => handleToggleEmail("news")}
                 />
               </div>
 
@@ -127,7 +127,7 @@ export default function NotificationSettings() {
                 <Switch
                   id="email-injuries"
                   checked={notifications.email.injuries}
-                  onCheckedChange={() => handleToggleEmail('injuries')}
+                  onCheckedChange={() => handleToggleEmail("injuries")}
                 />
               </div>
             </div>
@@ -148,7 +148,7 @@ export default function NotificationSettings() {
                 <Switch
                   id="ingame-matches"
                   checked={notifications.inGame.matches}
-                  onCheckedChange={() => handleToggleInGame('matches')}
+                  onCheckedChange={() => handleToggleInGame("matches")}
                 />
               </div>
 
@@ -162,7 +162,7 @@ export default function NotificationSettings() {
                 <Switch
                   id="ingame-transfers"
                   checked={notifications.inGame.transfers}
-                  onCheckedChange={() => handleToggleInGame('transfers')}
+                  onCheckedChange={() => handleToggleInGame("transfers")}
                 />
               </div>
 
@@ -176,7 +176,7 @@ export default function NotificationSettings() {
                 <Switch
                   id="ingame-news"
                   checked={notifications.inGame.news}
-                  onCheckedChange={() => handleToggleInGame('news')}
+                  onCheckedChange={() => handleToggleInGame("news")}
                 />
               </div>
 
@@ -190,7 +190,7 @@ export default function NotificationSettings() {
                 <Switch
                   id="ingame-injuries"
                   checked={notifications.inGame.injuries}
-                  onCheckedChange={() => handleToggleInGame('injuries')}
+                  onCheckedChange={() => handleToggleInGame("injuries")}
                 />
               </div>
 
@@ -204,7 +204,7 @@ export default function NotificationSettings() {
                 <Switch
                   id="ingame-training"
                   checked={notifications.inGame.training}
-                  onCheckedChange={() => handleToggleInGame('training')}
+                  onCheckedChange={() => handleToggleInGame("training")}
                 />
               </div>
 
@@ -218,7 +218,7 @@ export default function NotificationSettings() {
                 <Switch
                   id="ingame-finances"
                   checked={notifications.inGame.finances}
-                  onCheckedChange={() => handleToggleInGame('finances')}
+                  onCheckedChange={() => handleToggleInGame("finances")}
                 />
               </div>
             </div>

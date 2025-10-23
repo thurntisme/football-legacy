@@ -1,14 +1,16 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import React from "react";
+
 import {
-  Star,
+  AlertCircle,
+  CheckCircle,
   Goal,
   Sparkles,
-  CheckCircle,
+  Star,
   XCircle,
-  AlertCircle,
 } from "lucide-react";
-import React from "react";
+
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IMatch } from "@/types/common";
 
 type Props = {

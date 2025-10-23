@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { ArrowLeft, CheckCircle, Mail, RefreshCw } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { ArrowLeft, CheckCircle, Mail, RefreshCw } from "lucide-react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -14,13 +14,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { toast } from '@/hooks/use-toast';
+} from "@/components/ui/card";
+import { toast } from "@/hooks/use-toast";
 
 export default function VerifyEmailPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams?.get('email') || '';
+  const email = searchParams?.get("email") || "";
 
   const [isResending, setIsResending] = useState(false);
   const [countdown, setCountdown] = useState(60);
@@ -48,8 +48,8 @@ export default function VerifyEmailPage() {
       setCountdown(60);
 
       toast({
-        title: 'Verification email resent!',
-        description: 'Please check your inbox for the verification link.',
+        title: "Verification email resent!",
+        description: "Please check your inbox for the verification link.",
       });
     }, 1500);
   };
@@ -60,12 +60,12 @@ export default function VerifyEmailPage() {
 
     setTimeout(() => {
       toast({
-        title: 'Email verified successfully!',
-        description: 'Your account is now active.',
+        title: "Email verified successfully!",
+        description: "Your account is now active.",
       });
 
       setTimeout(() => {
-        router.push('/');
+        router.push("/");
       }, 1500);
     }, 1000);
   };
@@ -109,7 +109,7 @@ export default function VerifyEmailPage() {
                   </div>
                   <CardTitle>Verify Your Email</CardTitle>
                   <CardDescription>
-                    We've sent a verification link to{' '}
+                    We've sent a verification link to{" "}
                     <span className="font-medium">{email}</span>
                   </CardDescription>
                 </>

@@ -1,35 +1,35 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import { Save, Upload } from 'lucide-react';
+import { Save, Upload } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { toast } from '@/hooks/use-toast';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "@/hooks/use-toast";
 
 export default function ProfileSettings() {
   const [profile, setProfile] = useState({
-    username: 'FootballManager2024',
-    email: 'user@example.com',
-    displayName: 'Alex Manager',
-    avatar: '/placeholder.svg?height=100&width=100',
+    username: "FootballManager2024",
+    email: "user@example.com",
+    displayName: "Alex Manager",
+    avatar: "/placeholder.svg?height=100&width=100",
   });
 
   const handleSaveProfile = () => {
     toast({
-      title: 'Profile Updated',
-      description: 'Your profile settings have been saved successfully.',
+      title: "Profile Updated",
+      description: "Your profile settings have been saved successfully.",
     });
   };
 

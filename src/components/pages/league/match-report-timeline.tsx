@@ -1,8 +1,9 @@
-import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
+
+import { Card, CardContent } from "@/components/ui/card";
+import { matchEvents } from "@/mock/match-report";
 import { IMatch } from "@/types/common";
 import { MatchEvent } from "@/types/match";
-import { matchEvents } from "@/mock/match-report";
 
 type Props = {
   selectedMatch: IMatch;

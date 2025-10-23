@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
+import { MatchProcessEvent } from "@/types/match";
 
 type Props = {};
 

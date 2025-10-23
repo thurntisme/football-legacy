@@ -116,5 +116,5 @@ export type FeedbackResponse = {
   developerResponse: string;
   respondedDate?: string;
   respondedBy?: string;
-  reward?: Reward;
+  reward?: FeedbackReward;
 };

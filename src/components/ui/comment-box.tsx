@@ -1,16 +1,16 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 interface Comment {
   id: string;
@@ -32,8 +32,8 @@ export function CommentBox({
   className,
   ...props
 }: CommentBoxProps) {
-  const [newComment, setNewComment] = React.useState('');
-  const [name, setName] = React.useState('');
+  const [newComment, setNewComment] = React.useState("");
+  const [name, setName] = React.useState("");
   const [allComments, setAllComments] = React.useState<Comment[]>(comments);
 
   const handleAddComment = () => {
@@ -45,9 +45,9 @@ export function CommentBox({
         name: name.trim(),
         initials: name
           .trim()
-          .split(' ')
+          .split(" ")
           .map((n) => n[0])
-          .join('')
+          .join("")
           .toUpperCase(),
       },
       date: new Date().toLocaleDateString(),
@@ -55,14 +55,14 @@ export function CommentBox({
     };
 
     setAllComments((prev) => [comment, ...prev]);
-    setNewComment('');
-    setName('');
+    setNewComment("");
+    setName("");
   };
 
-  const isFormValid = name.trim() !== '' && newComment.trim() !== '';
+  const isFormValid = name.trim() !== "" && newComment.trim() !== "";
 
   return (
-    <div className={cn('space-y-6', className)} {...props}>
+    <div className={cn("space-y-6", className)} {...props}>
       <Card>
         <CardHeader className="px-5 pb-3">
           <h3 className="text-lg font-medium">Add a comment</h3>

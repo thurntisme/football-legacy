@@ -1,5 +1,6 @@
+import { AlertCircle, DollarSign, FileText, Trophy, Users } from "lucide-react";
+
 import { ICalendarEvent } from "@/types/common";
-import { Trophy, FileText, DollarSign, Users, AlertCircle } from "lucide-react";
 
 export const calendarEvents: ICalendarEvent[] = [
   // March 2025

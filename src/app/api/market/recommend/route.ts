@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-import { externalApi } from '@/lib/api/external';
-import { recommendPlayers } from '@/mock/football';
+import { externalApi } from "@/lib/api/external";
+import { recommendPlayers } from "@/mock/football";
 
 export async function GET() {
   try {
@@ -10,10 +10,10 @@ export async function GET() {
 
     return NextResponse.json(recommendPlayers);
   } catch (error) {
-    console.error('Axios error:', error);
+    console.error("Axios error:", error);
     return NextResponse.json(
-      { error: 'Something went wrong' },
-      { status: 500 }
+      { error: "Something went wrong" },
+      { status: 500 },
     );
   }
 }

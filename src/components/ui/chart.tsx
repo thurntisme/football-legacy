@@ -1,4 +1,4 @@
-import React, { JSXElementConstructor, ReactElement } from 'react';
+import React, { JSXElementConstructor, ReactElement } from "react";
 
 import {
   BarChart as RechartsBarChart,
@@ -6,7 +6,7 @@ import {
   PieChart as RechartsPieChart,
   Tooltip as RechartsTooltip,
   ResponsiveContainer,
-} from 'recharts';
+} from "recharts";
 
 interface ChartContainerProps {
   data: any[];
@@ -54,7 +54,7 @@ export const ChartTooltipContent: React.FC<ChartTooltipContentProps> = ({
           className="text-sm"
           style={{ color: entry.color }}
         >
-          {`${entry.name}: ${entry.value}${valueSuffix || ''}`}
+          {`${entry.name}: ${entry.value}${valueSuffix || ""}`}
         </p>
       ))}
     </div>

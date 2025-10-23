@@ -7,13 +7,13 @@ import {
   Trophy,
   Users,
   Zap,
-} from 'lucide-react';
-import Link from 'next/link';
+} from "lucide-react";
+import Link from "next/link";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 
 export default function LandingPage() {
   return (
@@ -376,7 +376,7 @@ export default function LandingPage() {
               <CardContent className="pt-6">
                 <h3 className="text-xl font-bold mb-2">Free Plan</h3>
                 <div className="text-3xl font-bold mb-4">
-                  £0{' '}
+                  £0{" "}
                   <span className="text-sm font-normal text-muted-foreground">
                     /month
                   </span>
@@ -410,7 +410,7 @@ export default function LandingPage() {
               <CardContent className="pt-6">
                 <h3 className="text-xl font-bold mb-2">Pro Plan</h3>
                 <div className="text-3xl font-bold mb-4">
-                  £9.99{' '}
+                  £9.99{" "}
                   <span className="text-sm font-normal text-muted-foreground">
                     /month
                   </span>
@@ -449,7 +449,7 @@ export default function LandingPage() {
               <CardContent className="pt-6">
                 <h3 className="text-xl font-bold mb-2">Elite Plan</h3>
                 <div className="text-3xl font-bold mb-4">
-                  £19.99{' '}
+                  £19.99{" "}
                   <span className="text-sm font-normal text-muted-foreground">
                     /month
                   </span>

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 
-import { Badge } from '@/components/ui/badge';
-import { Player } from '@/types/football/player';
+import { Badge } from "@/components/ui/badge";
+import { Player } from "@/types/football/player";
 
 interface PlayerStatisticsProps {
   players: Player[];
@@ -21,7 +21,7 @@ export default function PlayerStatistics({ players }: PlayerStatisticsProps) {
               <span>Normal Players</span>
             </div>
             <span className="font-medium">
-              {players.filter((p) => p.type === 'normal').length}
+              {players.filter((p) => p.type === "normal").length}
             </span>
           </div>
           <div className="flex justify-between items-center">
@@ -30,7 +30,7 @@ export default function PlayerStatistics({ players }: PlayerStatisticsProps) {
               <span>Rising Stars</span>
             </div>
             <span className="font-medium">
-              {players.filter((p) => p.type === 'rising').length}
+              {players.filter((p) => p.type === "rising").length}
             </span>
           </div>
           <div className="flex justify-between items-center">
@@ -39,7 +39,7 @@ export default function PlayerStatistics({ players }: PlayerStatisticsProps) {
               <span>Young Talents</span>
             </div>
             <span className="font-medium">
-              {players.filter((p) => p.type === 'young').length}
+              {players.filter((p) => p.type === "young").length}
             </span>
           </div>
           <div className="flex justify-between items-center">
@@ -48,7 +48,7 @@ export default function PlayerStatistics({ players }: PlayerStatisticsProps) {
               <span>Legends</span>
             </div>
             <span className="font-medium">
-              {players.filter((p) => p.type === 'legend').length}
+              {players.filter((p) => p.type === "legend").length}
             </span>
           </div>
         </div>

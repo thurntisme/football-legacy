@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Trash2 } from 'lucide-react';
+import { Trash2 } from "lucide-react";
 
 import {
   AlertDialog,
@@ -12,8 +12,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   title?: string;
@@ -21,9 +21,9 @@ type Props = {
   action: () => void;
 };
 
-const DEFAULT_TITLE = 'Delete Item';
+const DEFAULT_TITLE = "Delete Item";
 const DEFAULT_MESSAGE =
-  'Are you sure you want to delete this item? This action cannot be undone.';
+  "Are you sure you want to delete this item? This action cannot be undone.";
 
 const ConfirmDeleteBtn = ({ title, message, action }: Props) => {
   return (

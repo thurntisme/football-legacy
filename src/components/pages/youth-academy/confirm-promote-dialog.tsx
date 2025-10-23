@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   AlertDialog,
@@ -9,8 +9,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { YouthPlayer } from '@/types/football/player';
+} from "@/components/ui/alert-dialog";
+import { YouthPlayer } from "@/types/football/player";
 
 type Props = {
   confirmPromoteDialogOpen: boolean;
@@ -35,7 +35,7 @@ const ConfirmPromoteDialog = ({
           <AlertDialogTitle>Promote to First Team</AlertDialogTitle>
           <AlertDialogDescription>
             {playerToAction &&
-              `Are you sure you want to promote ${playerToAction?.name || 'Player'} to your first team?`}
+              `Are you sure you want to promote ${playerToAction?.name || "Player"} to your first team?`}
             {playerToAction && playerToAction.promotionReadiness < 70 && (
               <div className="mt-2 p-2 bg-amber-50 border border-amber-200 text-amber-800 rounded-md">
                 <p className="text-sm font-medium">

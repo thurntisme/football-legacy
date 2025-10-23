@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   Card,
   CardContent,
@@ -5,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import React from "react";
 
 const StaffOverview = () => {
   return (

@@ -1,12 +1,13 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
-import { IMatch } from "@/types/common";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   teamALineup,
   teamASubs,
   teamBLineup,
   teamBSubs,
 } from "@/mock/match-report";
+import { IMatch } from "@/types/common";
 
 type Props = {
   selectedMatch: IMatch;

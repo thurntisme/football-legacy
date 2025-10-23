@@ -1,5 +1,6 @@
-import { GUEST_USER } from "@/constants/guest-user";
 import { NextResponse } from "next/server";
+
+import { GUEST_USER } from "@/constants/guest-user";
 
 export async function POST(req: Request) {
   try {

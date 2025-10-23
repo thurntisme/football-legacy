@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import { AlertTriangle, Check, X } from 'lucide-react';
+import { AlertTriangle, Check, X } from "lucide-react";
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,8 +12,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+} from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 type Props = {
   matchApprovalDialogOpen: boolean;
@@ -93,7 +93,7 @@ const MatchApprovalDialog = ({
               <Avatar className="h-16 w-16 mb-2">
                 <AvatarImage src={opponent?.avatar} alt={opponent?.team} />
                 <AvatarFallback>
-                  {opponent?.team?.substring(0, 2) || 'OP'}
+                  {opponent?.team?.substring(0, 2) || "OP"}
                 </AvatarFallback>
               </Avatar>
               <div className="font-medium">{opponent?.team}</div>
@@ -135,10 +135,10 @@ const MatchApprovalDialog = ({
           <Button
             onClick={approveMatch}
             disabled={userApproved}
-            className={userApproved ? 'bg-green-500 hover:bg-green-600' : ''}
+            className={userApproved ? "bg-green-500 hover:bg-green-600" : ""}
           >
             <Check className="h-4 w-4 mr-2" />
-            {userApproved ? 'Approved' : 'Approve Match'}
+            {userApproved ? "Approved" : "Approve Match"}
           </Button>
         </DialogFooter>
       </DialogContent>

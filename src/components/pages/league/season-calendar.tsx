@@ -11,8 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ICalendarEvent } from "@/types/common";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ICalendarEvent } from "@/types/common";
 
 type Props = {
   eventFilters: {

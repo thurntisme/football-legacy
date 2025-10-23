@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { IMatch } from "@/types/common";
-import MatchReportSummary from "./match-report-summary";
-import MatchReportStats from "./match-report-stats";
+
 import MatchReportLineup from "./match-report-lineup";
+import MatchReportStats from "./match-report-stats";
+import MatchReportSummary from "./match-report-summary";
 import MatchReportTimeline from "./match-report-timeline";
 
 type Props = {

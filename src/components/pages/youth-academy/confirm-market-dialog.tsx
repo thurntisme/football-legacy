@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   AlertDialog,
@@ -9,8 +9,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { YouthPlayer } from '@/types/football/player';
+} from "@/components/ui/alert-dialog";
+import { YouthPlayer } from "@/types/football/player";
 
 type Props = {
   confirmMarketDialogOpen: boolean;
@@ -35,7 +35,7 @@ const ConfirmMarketDialog = ({
           <AlertDialogTitle>Place on Transfer Market</AlertDialogTitle>
           <AlertDialogDescription>
             {playerToAction &&
-              `Are you sure you want to place ${playerToAction?.name || 'Player'} on the transfer market?`}
+              `Are you sure you want to place ${playerToAction?.name || "Player"} on the transfer market?`}
             {playerToAction && (
               <div className="mt-2 p-2 bg-green-50 border border-green-200 text-green-800 rounded-md">
                 <p className="text-sm font-medium">Estimated Market Value:</p>

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 import {
   AlertTriangle,
@@ -10,10 +10,10 @@ import {
   Sparkles,
   Star,
   Users,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -21,7 +21,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -29,10 +29,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { toast } from '@/hooks/use-toast';
+} from "@/components/ui/dialog";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/hooks/use-toast";
 
 // Youth player type
 type YouthPlayer = {
@@ -49,15 +49,15 @@ type YouthPlayer = {
     physical: number;
   };
   promoted: boolean;
-  status: 'new' | 'developing' | 'ready';
+  status: "new" | "developing" | "ready";
 };
 
 // Intake event type
 type IntakeEvent = {
   id: number;
   date: string;
-  status: 'upcoming' | 'in_progress' | 'completed';
-  quality: 'poor' | 'average' | 'good' | 'excellent';
+  status: "upcoming" | "in_progress" | "completed";
+  quality: "poor" | "average" | "good" | "excellent";
   players: YouthPlayer[];
   description: string;
 };
@@ -67,99 +67,99 @@ export default function YouthIntake() {
   const [intakeEvents, setIntakeEvents] = useState<IntakeEvent[]>([
     {
       id: 1,
-      date: '2025-03-15',
-      status: 'completed',
-      quality: 'good',
-      description: 'Annual youth intake with several promising talents.',
+      date: "2025-03-15",
+      status: "completed",
+      quality: "good",
+      description: "Annual youth intake with several promising talents.",
       players: [
         {
           id: 1,
-          name: 'James Wilson',
+          name: "James Wilson",
           age: 16,
-          position: 'ST',
-          nationality: 'England',
+          position: "ST",
+          nationality: "England",
           potential: 78,
-          personality: 'Determined',
+          personality: "Determined",
           attributes: {
             technical: 65,
             mental: 62,
             physical: 60,
           },
           promoted: false,
-          status: 'new',
+          status: "new",
         },
         {
           id: 2,
-          name: 'Carlos Mendes',
+          name: "Carlos Mendes",
           age: 15,
-          position: 'CAM',
-          nationality: 'Portugal',
+          position: "CAM",
+          nationality: "Portugal",
           potential: 82,
-          personality: 'Professional',
+          personality: "Professional",
           attributes: {
             technical: 70,
             mental: 65,
             physical: 58,
           },
           promoted: false,
-          status: 'new',
+          status: "new",
         },
         {
           id: 3,
-          name: 'Liam Thompson',
+          name: "Liam Thompson",
           age: 16,
-          position: 'CB',
-          nationality: 'England',
+          position: "CB",
+          nationality: "England",
           potential: 75,
-          personality: 'Ambitious',
+          personality: "Ambitious",
           attributes: {
             technical: 62,
             mental: 68,
             physical: 72,
           },
           promoted: false,
-          status: 'new',
+          status: "new",
         },
         {
           id: 4,
-          name: 'Kai Zhang',
+          name: "Kai Zhang",
           age: 15,
-          position: 'RW',
-          nationality: 'China',
+          position: "RW",
+          nationality: "China",
           potential: 80,
-          personality: 'Determined',
+          personality: "Determined",
           attributes: {
             technical: 68,
             mental: 64,
             physical: 63,
           },
           promoted: false,
-          status: 'new',
+          status: "new",
         },
         {
           id: 5,
-          name: 'Samuel Osei',
+          name: "Samuel Osei",
           age: 16,
-          position: 'CDM',
-          nationality: 'Ghana',
+          position: "CDM",
+          nationality: "Ghana",
           potential: 77,
-          personality: 'Resolute',
+          personality: "Resolute",
           attributes: {
             technical: 64,
             mental: 70,
             physical: 68,
           },
           promoted: false,
-          status: 'new',
+          status: "new",
         },
       ],
     },
     {
       id: 2,
-      date: '2026-03-15',
-      status: 'upcoming',
-      quality: 'average',
-      description: 'Annual youth intake scheduled for next season.',
+      date: "2026-03-15",
+      status: "upcoming",
+      quality: "average",
+      description: "Annual youth intake scheduled for next season.",
       players: [],
     },
   ]);
@@ -167,11 +167,11 @@ export default function YouthIntake() {
   const [selectedEvent, setSelectedEvent] = useState<IntakeEvent | null>(null);
   const [intakeDialogOpen, setIntakeDialogOpen] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState<YouthPlayer | null>(
-    null
+    null,
   );
   const [playerDialogOpen, setPlayerDialogOpen] = useState(false);
   const [isPromoting, setIsPromoting] = useState(false);
-  const [activeTab, setActiveTab] = useState('upcoming');
+  const [activeTab, setActiveTab] = useState("upcoming");
   const [showIntakePreview, setShowIntakePreview] = useState(false);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [previewQuality, setPreviewQuality] = useState<string | null>(null);
@@ -198,7 +198,7 @@ export default function YouthIntake() {
       const updatedEvents = intakeEvents.map((event) => {
         if (event.id === selectedEvent?.id) {
           const updatedPlayers = event.players.map((p) =>
-            p.id === player.id ? { ...p, promoted: true } : p
+            p.id === player.id ? { ...p, promoted: true } : p,
           );
           return { ...event, players: updatedPlayers };
         }
@@ -210,7 +210,7 @@ export default function YouthIntake() {
       setPlayerDialogOpen(false);
 
       toast({
-        title: 'Player Promoted',
+        title: "Player Promoted",
         description: `${player.name} has been promoted to the senior team.`,
       });
     }, 1500);
@@ -223,7 +223,7 @@ export default function YouthIntake() {
     // Simulate loading time
     setTimeout(() => {
       // Randomly determine preview quality
-      const qualities = ['poor', 'average', 'good', 'excellent'];
+      const qualities = ["poor", "average", "good", "excellent"];
       const randomQuality =
         qualities[Math.floor(Math.random() * qualities.length)];
 
@@ -236,13 +236,13 @@ export default function YouthIntake() {
   // Get quality badge
   const getQualityBadge = (quality: string) => {
     switch (quality) {
-      case 'excellent':
+      case "excellent":
         return <Badge className="bg-green-500">Excellent</Badge>;
-      case 'good':
+      case "good":
         return <Badge className="bg-blue-500">Good</Badge>;
-      case 'average':
+      case "average":
         return <Badge className="bg-amber-500">Average</Badge>;
-      case 'poor':
+      case "poor":
         return <Badge className="bg-red-500">Poor</Badge>;
       default:
         return <Badge variant="outline">Unknown</Badge>;
@@ -252,11 +252,11 @@ export default function YouthIntake() {
   // Get status badge
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'completed':
+      case "completed":
         return <Badge className="bg-green-500">Completed</Badge>;
-      case 'in_progress':
+      case "in_progress":
         return <Badge className="bg-blue-500">In Progress</Badge>;
-      case 'upcoming':
+      case "upcoming":
         return <Badge className="bg-amber-500">Upcoming</Badge>;
       default:
         return <Badge variant="outline">Unknown</Badge>;
@@ -266,11 +266,11 @@ export default function YouthIntake() {
   // Get player status badge
   const getPlayerStatusBadge = (status: string) => {
     switch (status) {
-      case 'new':
+      case "new":
         return <Badge className="bg-blue-500">New</Badge>;
-      case 'developing':
+      case "developing":
         return <Badge className="bg-amber-500">Developing</Badge>;
-      case 'ready':
+      case "ready":
         return <Badge className="bg-green-500">Ready</Badge>;
       default:
         return <Badge variant="outline">Unknown</Badge>;
@@ -279,10 +279,10 @@ export default function YouthIntake() {
 
   // Filter events based on active tab
   const filteredEvents = intakeEvents.filter((event) => {
-    if (activeTab === 'upcoming') {
-      return event.status === 'upcoming' || event.status === 'in_progress';
-    } else if (activeTab === 'completed') {
-      return event.status === 'completed';
+    if (activeTab === "upcoming") {
+      return event.status === "upcoming" || event.status === "in_progress";
+    } else if (activeTab === "completed") {
+      return event.status === "completed";
     }
     return true;
   });
@@ -290,9 +290,9 @@ export default function YouthIntake() {
   // Calculate days until next intake
   const getDaysUntilNextIntake = () => {
     const upcomingEvent = intakeEvents.find(
-      (event) => event.status === 'upcoming'
+      (event) => event.status === "upcoming",
     );
-    if (!upcomingEvent) return 'Unknown';
+    if (!upcomingEvent) return "Unknown";
 
     const eventDate = new Date(upcomingEvent.date);
     const today = new Date();
@@ -313,11 +313,11 @@ export default function YouthIntake() {
           <TabsList>
             <TabsTrigger value="upcoming">
               Upcoming Intakes (
-              {intakeEvents.filter((e) => e.status !== 'completed').length})
+              {intakeEvents.filter((e) => e.status !== "completed").length})
             </TabsTrigger>
             <TabsTrigger value="completed">
               Past Intakes (
-              {intakeEvents.filter((e) => e.status === 'completed').length})
+              {intakeEvents.filter((e) => e.status === "completed").length})
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -328,9 +328,9 @@ export default function YouthIntake() {
           <Card
             key={event.id}
             className={
-              event.status === 'completed'
-                ? 'border-green-500/50'
-                : 'border-amber-500/50'
+              event.status === "completed"
+                ? "border-green-500/50"
+                : "border-amber-500/50"
             }
           >
             <CardHeader className="pb-2">
@@ -341,7 +341,7 @@ export default function YouthIntake() {
                 </CardTitle>
                 <div className="flex gap-2">
                   {getStatusBadge(event.status)}
-                  {event.status === 'completed' &&
+                  {event.status === "completed" &&
                     getQualityBadge(event.quality)}
                 </div>
               </div>
@@ -363,10 +363,10 @@ export default function YouthIntake() {
                       Status
                     </div>
                     <div className="font-medium capitalize">
-                      {event.status.replace('_', ' ')}
+                      {event.status.replace("_", " ")}
                     </div>
                   </div>
-                  {event.status === 'completed' && (
+                  {event.status === "completed" && (
                     <>
                       <div>
                         <div className="text-sm text-muted-foreground mb-1">
@@ -388,7 +388,7 @@ export default function YouthIntake() {
                   )}
                 </div>
 
-                {event.status === 'upcoming' && (
+                {event.status === "upcoming" && (
                   <div className="p-3 bg-amber-50 border border-amber-200 rounded-md">
                     <div className="flex items-start">
                       <Calendar className="h-5 w-5 text-amber-600 mr-2 mt-0.5" />
@@ -397,7 +397,7 @@ export default function YouthIntake() {
                           Upcoming Youth Intake
                         </h4>
                         <p className="text-sm text-amber-700">
-                          Your next youth intake is scheduled in{' '}
+                          Your next youth intake is scheduled in{" "}
                           {getDaysUntilNextIntake()} days. You can request a
                           preview from your Head of Youth Development.
                         </p>
@@ -408,7 +408,7 @@ export default function YouthIntake() {
               </div>
             </CardContent>
             <CardFooter>
-              {event.status === 'completed' ? (
+              {event.status === "completed" ? (
                 <Button
                   className="w-full"
                   onClick={() => handleViewIntake(event)}
@@ -441,19 +441,19 @@ export default function YouthIntake() {
             <>
               <DialogHeader>
                 <DialogTitle>
-                  {selectedEvent.status === 'completed'
+                  {selectedEvent.status === "completed"
                     ? `Youth Intake ${new Date(selectedEvent.date).getFullYear()}`
                     : `Upcoming Youth Intake (${new Date(selectedEvent.date).toLocaleDateString()})`}
                 </DialogTitle>
                 <DialogDescription>
-                  {selectedEvent.status === 'completed'
+                  {selectedEvent.status === "completed"
                     ? `Youth players who joined your academy in ${new Date(selectedEvent.date).getFullYear()}`
-                    : 'Preview of your upcoming youth intake'}
+                    : "Preview of your upcoming youth intake"}
                 </DialogDescription>
               </DialogHeader>
 
               <div className="py-4">
-                {selectedEvent.status === 'completed' ? (
+                {selectedEvent.status === "completed" ? (
                   <div className="grid grid-cols-1 gap-4">
                     {selectedEvent.players.map((player) => (
                       <Card key={player.id} className="overflow-hidden">
@@ -472,7 +472,7 @@ export default function YouthIntake() {
                             </div>
                           </div>
                           <CardDescription>
-                            {player.age} years • {player.position} •{' '}
+                            {player.age} years • {player.position} •{" "}
                             {player.nationality} • {player.personality}
                           </CardDescription>
                         </CardHeader>
@@ -488,7 +488,7 @@ export default function YouthIntake() {
                                   .map((_, i) => (
                                     <Star
                                       key={i}
-                                      className={`h-4 w-4 ${i < Math.round(player.potential / 20) ? 'fill-amber-400 text-amber-400' : 'text-muted'}`}
+                                      className={`h-4 w-4 ${i < Math.round(player.potential / 20) ? "fill-amber-400 text-amber-400" : "text-muted"}`}
                                     />
                                   ))}
                               </div>
@@ -590,11 +590,11 @@ export default function YouthIntake() {
                             </h3>
                             <div className="flex items-center mb-4">
                               <span className="mr-2">Expected Quality:</span>
-                              {getQualityBadge(previewQuality || 'unknown')}
+                              {getQualityBadge(previewQuality || "unknown")}
                             </div>
 
                             <div className="space-y-4">
-                              {previewQuality === 'excellent' && (
+                              {previewQuality === "excellent" && (
                                 <p>
                                   Your Head of Youth Development is extremely
                                   excited about this year's intake. There appear
@@ -606,7 +606,7 @@ export default function YouthIntake() {
                                 </p>
                               )}
 
-                              {previewQuality === 'good' && (
+                              {previewQuality === "good" && (
                                 <p>
                                   Your Head of Youth Development is optimistic
                                   about this year's intake. There are a few
@@ -617,7 +617,7 @@ export default function YouthIntake() {
                                 </p>
                               )}
 
-                              {previewQuality === 'average' && (
+                              {previewQuality === "average" && (
                                 <p>
                                   Your Head of Youth Development reports that
                                   this year's intake looks fairly standard.
@@ -628,7 +628,7 @@ export default function YouthIntake() {
                                 </p>
                               )}
 
-                              {previewQuality === 'poor' && (
+                              {previewQuality === "poor" && (
                                 <p>
                                   Your Head of Youth Development is disappointed
                                   with this year's prospects. The quality
@@ -723,7 +723,7 @@ export default function YouthIntake() {
                         .map((_, i) => (
                           <Star
                             key={i}
-                            className={`h-4 w-4 ${i < Math.round(selectedPlayer.potential / 20) ? 'fill-amber-400 text-amber-400' : 'text-muted'}`}
+                            className={`h-4 w-4 ${i < Math.round(selectedPlayer.potential / 20) ? "fill-amber-400 text-amber-400" : "text-muted"}`}
                           />
                         ))}
                     </div>
@@ -832,14 +832,14 @@ export default function YouthIntake() {
                       Next Youth Intake
                     </h4>
                     <p className="text-sm text-blue-700">
-                      Your next youth intake is scheduled for{' '}
-                      {intakeEvents.find((e) => e.status === 'upcoming')?.date
+                      Your next youth intake is scheduled for{" "}
+                      {intakeEvents.find((e) => e.status === "upcoming")?.date
                         ? new Date(
                             intakeEvents.find(
-                              (e) => e.status === 'upcoming'
-                            )!.date
+                              (e) => e.status === "upcoming",
+                            )!.date,
                           ).toLocaleDateString()
-                        : 'Unknown'}
+                        : "Unknown"}
                       . ({getDaysUntilNextIntake()} days remaining)
                     </p>
                   </div>

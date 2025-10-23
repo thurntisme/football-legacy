@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { AlertTriangle, DollarSign } from 'lucide-react';
+import { AlertTriangle, DollarSign } from "lucide-react";
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
 type Props = {
   forfeitDialogOpen: boolean;

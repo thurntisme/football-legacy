@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import type React from 'react';
-import { useState } from 'react';
+import type React from "react";
+import { useState } from "react";
 
-import { ArrowLeft, Mail } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { ArrowLeft, Mail } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,32 +15,32 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { toast } from '@/hooks/use-toast';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/hooks/use-toast";
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email) {
-      setError('Email is required');
+      setError("Email is required");
       return;
     }
 
     if (!/\S+@\S+\.\S+/.test(email)) {
-      setError('Email is invalid');
+      setError("Email is invalid");
       return;
     }
 
-    setError('');
+    setError("");
     setIsLoading(true);
 
     // Simulate API call
@@ -49,8 +49,8 @@ export default function ForgotPasswordPage() {
       setIsSubmitted(true);
 
       toast({
-        title: 'Reset link sent!',
-        description: 'Please check your email for password reset instructions.',
+        title: "Reset link sent!",
+        description: "Please check your email for password reset instructions.",
       });
     }, 1500);
   };
@@ -114,11 +114,11 @@ export default function ForgotPasswordPage() {
                           placeholder="name@example.com"
                           type="email"
                           autoComplete="email"
-                          className={`pl-10 ${error ? 'border-red-500' : ''}`}
+                          className={`pl-10 ${error ? "border-red-500" : ""}`}
                           value={email}
                           onChange={(e) => {
                             setEmail(e.target.value);
-                            if (error) setError('');
+                            if (error) setError("");
                           }}
                         />
                       </div>
@@ -155,7 +155,7 @@ export default function ForgotPasswordPage() {
                           Sending reset link...
                         </>
                       ) : (
-                        'Send Reset Link'
+                        "Send Reset Link"
                       )}
                     </Button>
                   </div>
@@ -173,7 +173,7 @@ export default function ForgotPasswordPage() {
                 </Button>
               ) : (
                 <p className="text-center text-sm text-muted-foreground">
-                  Remember your password?{' '}
+                  Remember your password?{" "}
                   <Link
                     href="/auth/signin"
                     className="text-primary hover:underline"

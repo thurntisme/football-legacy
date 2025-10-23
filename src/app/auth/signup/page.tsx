@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useState } from 'react';
+import React from "react";
+import { useState } from "react";
 
 import {
   AlertCircle,
@@ -11,12 +11,12 @@ import {
   Trophy,
   Twitter,
   User,
-} from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -24,21 +24,21 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FOOTBALL_STATS_URL } from '@/constants/site';
-import { toast } from '@/hooks/use-toast';
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
+import { toast } from "@/hooks/use-toast";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -55,28 +55,28 @@ export default function SignUpPage() {
 
       // Basic validation
       if (!name || !email || !password) {
-        throw new Error('Please fill in all required fields');
+        throw new Error("Please fill in all required fields");
       }
 
       if (password !== confirmPassword) {
-        throw new Error('Passwords do not match');
+        throw new Error("Passwords do not match");
       }
 
       if (!acceptTerms) {
-        throw new Error('You must accept the terms and conditions');
+        throw new Error("You must accept the terms and conditions");
       }
 
       // Success - in a real app, this would create a user account
       toast({
-        title: 'Account created successfully',
-        description: 'Please check your email to verify your account',
+        title: "Account created successfully",
+        description: "Please check your email to verify your account",
       });
 
       // Redirect to verification page
-      router.push('/auth/verify-email?email=' + encodeURIComponent(email));
+      router.push("/auth/verify-email?email=" + encodeURIComponent(email));
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : 'An error occurred during sign up'
+        err instanceof Error ? err.message : "An error occurred during sign up",
       );
     } finally {
       setIsLoading(false);
@@ -216,14 +216,14 @@ export default function SignUpPage() {
                         }
                       />
                       <Label htmlFor="terms" className="text-sm">
-                        I agree to the{' '}
+                        I agree to the{" "}
                         <Link
                           href="/terms"
                           className="text-primary hover:underline"
                         >
                           Terms of Service
-                        </Link>{' '}
-                        and{' '}
+                        </Link>{" "}
+                        and{" "}
                         <Link
                           href="/privacy"
                           className="text-primary hover:underline"
@@ -237,13 +237,13 @@ export default function SignUpPage() {
                       className="w-full"
                       disabled={isLoading}
                     >
-                      {isLoading ? 'Creating account...' : 'Create Account'}
+                      {isLoading ? "Creating account..." : "Create Account"}
                     </Button>
                   </form>
                 </CardContent>
                 <CardFooter className="flex flex-col">
                   <p className="mt-2 text-xs text-center text-muted-foreground">
-                    Already have an account?{' '}
+                    Already have an account?{" "}
                     <Link
                       href={`${FOOTBALL_STATS_URL}/auth/signin`}
                       className="text-primary hover:underline"
@@ -269,8 +269,8 @@ export default function SignUpPage() {
                     className="w-full"
                     onClick={() =>
                       toast({
-                        title: 'Coming soon',
-                        description: 'This feature is not yet implemented',
+                        title: "Coming soon",
+                        description: "This feature is not yet implemented",
                       })
                     }
                   >
@@ -282,8 +282,8 @@ export default function SignUpPage() {
                     className="w-full"
                     onClick={() =>
                       toast({
-                        title: 'Coming soon',
-                        description: 'This feature is not yet implemented',
+                        title: "Coming soon",
+                        description: "This feature is not yet implemented",
                       })
                     }
                   >
@@ -292,14 +292,14 @@ export default function SignUpPage() {
                   </Button>
                   <Separator className="my-4" />
                   <div className="text-center text-sm text-muted-foreground">
-                    By signing up, you agree to our{' '}
+                    By signing up, you agree to our{" "}
                     <Link
                       href="/terms"
                       className="underline underline-offset-4 hover:text-primary"
                     >
                       Terms of Service
-                    </Link>{' '}
-                    and{' '}
+                    </Link>{" "}
+                    and{" "}
                     <Link
                       href="/privacy"
                       className="underline underline-offset-4 hover:text-primary"
@@ -311,7 +311,7 @@ export default function SignUpPage() {
                 </CardContent>
                 <CardFooter className="flex flex-col">
                   <p className="mt-2 text-xs text-center text-muted-foreground">
-                    Already have an account?{' '}
+                    Already have an account?{" "}
                     <Link
                       href="/auth/signin"
                       className="text-primary hover:underline"

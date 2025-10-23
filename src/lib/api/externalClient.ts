@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestHeaders } from 'axios';
+import axios, { AxiosInstance, AxiosRequestHeaders } from "axios";
 
 type CreateApiClientOptions = {
   baseURL: string;
@@ -6,13 +6,13 @@ type CreateApiClientOptions = {
 };
 
 const defaultHeaders = {
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
+  "Content-Type": "application/json",
+  Accept: "application/json",
 };
 
 function getAuthToken(): string | null {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    return window.localStorage.getItem('token');
+  if (typeof window !== "undefined" && window.localStorage) {
+    return window.localStorage.getItem("token");
   }
   return null;
 }
@@ -40,7 +40,7 @@ export function createExternalApiClient({
     (error) => {
       // Handle request error
       return Promise.reject(error);
-    }
+    },
   );
 
   // Add a response interceptor
@@ -53,16 +53,16 @@ export function createExternalApiClient({
       // Handle response error
       if (error.response) {
         // Server responded with a status other than 2xx
-        console.error('API Error:', error.response.data);
+        console.error("API Error:", error.response.data);
       } else if (error.request) {
         // No response received
-        console.error('No response received:', error.request);
+        console.error("No response received:", error.request);
       } else {
         // Error setting up the request
-        console.error('Request setup error:', error.message);
+        console.error("Request setup error:", error.message);
       }
       return Promise.reject(error);
-    }
+    },
   );
 
   return instance;
