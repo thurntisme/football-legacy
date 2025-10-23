@@ -65,7 +65,7 @@ const FormationPlayerTable = ({
               className={`btn-sm cursor-pointer ${
                 selectedPlayer?.id === player.id
                   ? "bg-blue-500 hover:bg-blue-400 text-white"
-                  : `${getRatingColor(player.rating)}-300 hover:${getRatingColor(player.rating)}-200`
+                  : `${getRatingColor(player.rating)}`
               }`}
               onClick={() => player.id && onClickPlayer(player)}
             >

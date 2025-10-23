@@ -27,19 +27,19 @@ const TeamPlayers = ({ players }: Props) => {
         >
           <Button variant="outline" asChild>
             <Link href={`${FOOTBALL_STATS_URL}/game/team/contract`}>
-              <FileSignature className="mr-2 h-4 w-4" />
+              <FileSignature className="h-4 w-4" />
               Contract
             </Link>
           </Button>
           <Button variant="outline" asChild>
             <Link href={`${FOOTBALL_STATS_URL}/game/team/shirt-number`}>
-              <Shirt className="mr-2 h-4 w-4" />
+              <Shirt className="h-4 w-4" />
               Shirt Number
             </Link>
           </Button>
           <Button variant="outline" asChild>
             <Link href={`${FOOTBALL_STATS_URL}/game/club`}>
-              <ArrowLeftRight className="mr-2 h-4 w-4" />
+              <ArrowLeftRight className="h-4 w-4" />
               Club Management
             </Link>
           </Button>
