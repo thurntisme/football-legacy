@@ -1,11 +1,13 @@
 import { LoadingBar } from "@/components/common/loading-bar";
+import { APP_NAME } from "@/constants/site";
 
 export default function Loading() {
+  const title = `Loading ${APP_NAME} game`;
   return (
     <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-[60vh]">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <h2 className="text-2xl font-bold">Loading Football Manager</h2>
+          <h2 className="text-2xl font-bold">{title}</h2>
           <p className="text-muted-foreground mt-2">
             Please wait while we load your game data
           </p>
@@ -13,7 +15,7 @@ export default function Loading() {
 
         <LoadingBar
           indeterminate
-          label="Loading game data..."
+          label={title}
           color="default"
           size="md"
           duration={3000}

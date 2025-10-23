@@ -3,10 +3,10 @@
 import type React from "react";
 import { useState } from "react";
 
-import { ArrowLeft, Mail } from "lucide-react";
+import { ArrowLeft, Loader2, Mail } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
+import Logo from "@/components/common/logo";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,10 +18,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
 
 export default function ForgotPasswordPage() {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -58,25 +58,17 @@ export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen flex flex-col bg-muted/30">
       <div className="container max-w-screen-xl mx-auto px-4 py-8 flex justify-between items-center">
-        <Link
-          href="/landing"
-          className="flex items-center gap-2 text-xl font-bold"
-        >
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
-            FM
-          </div>
-          Football Manager
-        </Link>
+        <Logo />
         <Button variant="ghost" asChild>
-          <Link href="/auth/signin">
-            <ArrowLeft className="mr-2 h-4 w-4" />
+          <Link href={`${FOOTBALL_STATS_URL}/auth/signin`}>
+            <ArrowLeft className="h-4 w-4" />
             Back to Sign In
           </Link>
         </Button>
       </div>
 
       <div className="flex-1 flex items-center justify-center p-4">
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-lg">
           <Card>
             <CardHeader>
               <CardTitle>Reset Password</CardTitle>
@@ -130,33 +122,10 @@ export default function ForgotPasswordPage() {
                       className="w-full"
                       disabled={isLoading}
                     >
-                      {isLoading ? (
-                        <>
-                          <svg
-                            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                          Sending reset link...
-                        </>
-                      ) : (
-                        "Send Reset Link"
+                      {isLoading && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
                       )}
+                      Send Reset Link
                     </Button>
                   </div>
                 </form>
@@ -175,7 +144,7 @@ export default function ForgotPasswordPage() {
                 <p className="text-center text-sm text-muted-foreground">
                   Remember your password?{" "}
                   <Link
-                    href="/auth/signin"
+                    href={`${FOOTBALL_STATS_URL}/auth/signin`}
                     className="text-primary hover:underline"
                   >
                     Back to sign in

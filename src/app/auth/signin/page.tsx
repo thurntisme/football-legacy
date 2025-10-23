@@ -4,10 +4,18 @@ import React from "react";
 import { useState } from "react";
 
 import { AxiosError } from "axios";
-import { AlertCircle, Github, Lock, Mail, Trophy, Twitter } from "lucide-react";
+import {
+  AlertCircle,
+  Github,
+  Loader2,
+  Lock,
+  Mail,
+  Twitter,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import LeftBanner from "@/components/pages/auth/left-banner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -73,34 +81,7 @@ export default function SignInPage() {
 
   return (
     <div className="container relative flex min-h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
-        <div className="absolute inset-0 bg-zinc-900">
-          <img
-            src="/placeholder.svg?height=1080&width=1920"
-            alt="Authentication background"
-            className="h-full w-full object-cover opacity-20"
-          />
-        </div>
-        <div className="relative z-20 flex items-center text-lg font-medium">
-          <Link
-            href={FOOTBALL_STATS_URL}
-            className="flex items-center space-x-2"
-          >
-            <Trophy className="mr-2 h-6 w-6" />
-            Football Manager
-          </Link>
-        </div>
-        <div className="relative z-20 mt-auto">
-          <blockquote className="space-y-2">
-            <p className="text-lg">
-              "Football Manager has completely transformed how I experience the
-              beautiful game. The depth of tactical options and player
-              development is unmatched."
-            </p>
-            <footer className="text-sm">Alex Thompson</footer>
-          </blockquote>
-        </div>
-      </div>
+      <LeftBanner />
       <div className="lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
@@ -184,7 +165,10 @@ export default function SignInPage() {
                       className="w-full"
                       disabled={isLoading}
                     >
-                      {isLoading ? "Signing in..." : "Sign In"}
+                      {isLoading && (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      )}
+                      Sign In
                     </Button>
                   </form>
                 </CardContent>
