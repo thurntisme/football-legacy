@@ -74,7 +74,7 @@ export const staffList: StaffMember[] = [
   {
     id: 4,
     name: "Antonio Pintus",
-    role: StaffCategoryEnum.FITNESS,
+    role: StaffCategoryEnum.MEDICAL,
     specialty: "Stamina & Conditioning",
     nationality: "Italy",
     age: 60,
@@ -212,7 +212,7 @@ export const staffList: StaffMember[] = [
   {
     id: 10,
     name: "Francisco De Miguel Moreno",
-    role: StaffCategoryEnum.FITNESS,
+    role: StaffCategoryEnum.MEDICAL,
     specialty: "Explosiveness & Recovery",
     nationality: "Spain",
     age: 49,

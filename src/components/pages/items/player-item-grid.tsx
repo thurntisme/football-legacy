@@ -5,8 +5,6 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { PlayerItem } from "@/types/item";
 
-import GeneratePlayerDialog from "./generate-player-dialog";
-
 interface PlayerItemGridProps {
   playerItems: PlayerItem[];
 }
@@ -67,11 +65,6 @@ export default function PlayerItemGrid({ playerItems }: PlayerItemGridProps) {
           </div>
         ))}
       </div>
-      <GeneratePlayerDialog
-        selectedPlayerItem={selectedPlayerItem}
-        onClose={onClose}
-        onConfirm={onConfirm}
-      />
     </>
   );
 }

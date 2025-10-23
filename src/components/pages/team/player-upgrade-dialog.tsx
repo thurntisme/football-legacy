@@ -43,9 +43,8 @@ const PlayerUpgradeDialog = ({
     setIsUpgrading(true);
     // 60% chance of success for level 1, 40% for level 2, 20% for level 3+
     let successChance = 0.6;
-    if (selectedPlayer.attributes.level === 2) successChance = 0.4;
-    if (selectedPlayer.attributes.level && selectedPlayer.attributes.level >= 3)
-      successChance = 0.2;
+    if (selectedPlayer.level === 2) successChance = 0.4;
+    if (selectedPlayer.level && selectedPlayer.level >= 3) successChance = 0.2;
     const success = Math.random() < successChance;
     setUpgradeSuccess(success);
     setShowUpgradeResult(true);
@@ -67,7 +66,7 @@ const PlayerUpgradeDialog = ({
         toast({
           title: "Upgrade Successful!",
           description: `${selectedPlayer.name} has been upgraded to level ${
-            (selectedPlayer.attributes.level || 1) + 1
+            (selectedPlayer.level || 1) + 1
           }!`,
         });
       } else {
@@ -114,7 +113,7 @@ const PlayerUpgradeDialog = ({
               <h3 className="font-bold text-lg">Upgrade Successful!</h3>
               <p>
                 {selectedPlayer?.name} has been upgraded to level{" "}
-                {(selectedPlayer?.attributes.level || 1) + 1}!
+                {(selectedPlayer?.level || 1) + 1}!
               </p>
             </>
           ) : (
@@ -134,18 +133,18 @@ const PlayerUpgradeDialog = ({
             <div className="flex items-center justify-center gap-2 mb-2">
               <Progress
                 value={
-                  selectedPlayer?.attributes.level === 1
+                  selectedPlayer?.level === 1
                     ? 60
-                    : selectedPlayer?.attributes.level === 2
+                    : selectedPlayer?.level === 2
                       ? 40
                       : 20
                 }
                 className="h-2 w-40"
               />
               <span className="text-sm font-medium">
-                {selectedPlayer?.attributes.level === 1
+                {selectedPlayer?.level === 1
                   ? "60%"
-                  : selectedPlayer?.attributes.level === 2
+                  : selectedPlayer?.level === 2
                     ? "40%"
                     : "20%"}
               </span>
@@ -176,8 +175,8 @@ const PlayerUpgradeDialog = ({
           <DialogDescription>
             {selectedPlayer &&
               `Attempt to upgrade ${selectedPlayer.name} from level ${
-                selectedPlayer.attributes.level || 1
-              } to ${(selectedPlayer.attributes.level || 1) + 1}`}
+                selectedPlayer.level || 1
+              } to ${(selectedPlayer.level || 1) + 1}`}
           </DialogDescription>
         </DialogHeader>
         <div className="py-4 space-y-4">
@@ -186,23 +185,23 @@ const PlayerUpgradeDialog = ({
               <div className="text-center">
                 <div
                   className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center font-bold text-xl ${
-                    selectedPlayer.attributes.level === 1
+                    selectedPlayer.level === 1
                       ? "bg-blue-100 text-blue-800"
-                      : selectedPlayer.attributes.level === 2
+                      : selectedPlayer.level === 2
                         ? "bg-purple-100 text-purple-800"
-                        : selectedPlayer.attributes.level === 3
+                        : selectedPlayer.level === 3
                           ? "bg-amber-100 text-amber-800"
                           : "bg-red-100 text-red-800"
                   }`}
                 >
-                  {selectedPlayer.attributes.level || 1}
+                  {selectedPlayer.level || 1}
                 </div>
                 <p className="mt-2 font-medium">Current</p>
               </div>
               <ArrowRight className="h-8 w-8 text-muted-foreground" />
               <div className="text-center">
                 <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center font-bold text-xl bg-green-100 text-green-800">
-                  {(selectedPlayer.attributes.level || 1) + 1}
+                  {(selectedPlayer.level || 1) + 1}
                 </div>
                 <p className="mt-2 font-medium">Next</p>
               </div>

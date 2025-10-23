@@ -22,6 +22,7 @@ export default function TeamPage() {
       return res.data?.data || [];
     },
   });
+  console.log(data?.players.slice(0, 2));
 
   return (
     <>

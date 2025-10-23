@@ -34,7 +34,8 @@ export default function PlayerRolesDialog({
   const [roles, setRoles] = useState<PlayerRole[]>(playerRoles);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   // Handle role assignment
-  const assignPlayerToRole = (roleId: string, playerId: string) => {
+  const assignPlayerToRole = (roleId: string, playerId: string | undefined) => {
+    if (playerId === undefined) return;
     setRoles((prevRoles) =>
       prevRoles.map((role) =>
         role.id === roleId ? { ...role, assignedPlayerId: playerId } : role,

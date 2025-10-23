@@ -10,7 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { YouthPlayer } from "@/types/football/player";
+import { YouthPlayer } from "@/types/player";
 
 type Props = {
   confirmLoanDialogOpen: boolean;

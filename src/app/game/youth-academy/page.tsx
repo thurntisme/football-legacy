@@ -2,9 +2,7 @@ import BtnStaffManagement from "@/components/common/btn-staff-management";
 import PageTitle from "@/components/common/page-title";
 import YouthCoaching from "@/components/pages/youth-academy/youtch-coaching";
 import YouthFacilities from "@/components/pages/youth-academy/youth-facilities";
-import YouthMatches from "@/components/pages/youth-academy/youth-matches";
 import YouthPlayers from "@/components/pages/youth-academy/youth-players";
-import YouthScouting from "@/components/pages/youth-academy/youth-scouting";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function YouthAcademyPage() {

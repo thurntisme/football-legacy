@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Eye, Gift, MessageSquare, Trash2 } from "lucide-react";
 
@@ -12,20 +12,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getTicketStatusColor } from "@/lib/user";
-import { FeedbackResponse } from "@/types/user";
+import { FeedbackResponse, FeedbackReward } from "@/types/user";
 
 type Props = {
   responses: FeedbackResponse[];
-  setSelectedReward: (reward: FeedbackResponse["reward"]) => void;
   setSelectedResponse: (response: FeedbackResponse) => void;
   handleDeleteResponse: (id: string) => void;
+  setSelectedReward: React.Dispatch<
+    React.SetStateAction<FeedbackReward | null>
+  >;
 };
 
 const ResponseList = ({
   responses,
-  setSelectedReward,
   setSelectedResponse,
   handleDeleteResponse,
+  setSelectedReward,
 }: Props) => {
   return (
     <Card>
@@ -109,7 +111,9 @@ const ResponseList = ({
                           ? "bg-green-50 hover:bg-green-100 text-green-900 border-green-200"
                           : "bg-amber-50 hover:bg-amber-100 text-amber-900 border-amber-200"
                       }`}
-                      onClick={() => setSelectedReward(response.reward)}
+                      onClick={() =>
+                        response.reward && setSelectedReward(response.reward)
+                      }
                     >
                       <Gift className="h-4 w-4" />
                       {response.reward.claimed ? "View Reward" : "View Reward"}

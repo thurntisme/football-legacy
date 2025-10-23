@@ -54,7 +54,7 @@ const ScoutingResultDialog = ({
               <div className="grid grid-cols-1 gap-4">
                 {selectedMission.results &&
                 selectedMission.results.length > 0 ? (
-                  selectedMission.results.map((result) => (
+                  selectedMission.results.map((result: any) => (
                     <Card key={result.id} className="overflow-hidden">
                       <CardHeader className="pb-2">
                         <div className="flex justify-between">

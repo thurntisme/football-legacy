@@ -2,7 +2,7 @@ import { ClubItemEnum, PlayerItemEnum, TeamItemEnum } from "@/constants/items";
 import { PlayerEditionEnum } from "@/constants/player";
 import { InventoryItem } from "@/types/item";
 
-export const inventoryItems: InventoryItem[] = [
+export const inventoryItems: any[] = [
   {
     slug: PlayerItemEnum.FITNESS_ENHANCER,
     remaining_quantity: 1,

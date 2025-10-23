@@ -26,10 +26,10 @@ const MyListedPlayers = ({ list, onRemoveFromList }: Props) => {
                     <div className="flex items-center">
                       <h3 className="font-bold">{player.name}</h3>
                     </div>
-                    <div className="flex items-center mt-1">
+                    <div className="flex items-center mt-1 gap-2">
                       <Badge className="mr-1">{player.position}</Badge>
                       <span className="text-sm text-muted-foreground">
-                        {player.age} • {player.nationality}
+                        {player.birthday} • {player.nationality}
                       </span>
                     </div>
                   </div>

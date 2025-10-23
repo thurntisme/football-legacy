@@ -4,7 +4,6 @@ import {
   Calendar,
   Flag,
   Footprints,
-  Info,
   Ruler,
   ShoppingCart,
   Target,
@@ -29,6 +28,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/finance";
+import { getPlayerAge } from "@/lib/player";
 import { Player } from "@/types/player";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 
@@ -53,8 +53,9 @@ const MarketPlayerDetailDialog = ({
 }: Props) => {
   const generatePurchaseReasons = (player: Player) => {
     const reasons = [];
+    const playerAge = getPlayerAge(player.birthday);
 
-    if (player.age < 24) {
+    if (playerAge < 24) {
       reasons.push(
         "Young player with high potential for growth and development",
       );
@@ -83,7 +84,7 @@ const MarketPlayerDetailDialog = ({
       reasons.push("Excellent value for money compared to similar players");
     }
 
-    if (player.age >= 26 && player.age <= 29) {
+    if (playerAge >= 26 && playerAge <= 29) {
       reasons.push("In prime playing years with peak performance expected");
     }
 
@@ -160,7 +161,7 @@ const MarketPlayerDetailDialog = ({
                 <div className="space-y-6">
                   <div className="flex justify-center">
                     <img
-                      src={selectedPlayer.avatar || "/placeholder.svg"}
+                      src={selectedPlayer.avatarUrl || "/placeholder.svg"}
                       alt={selectedPlayer.name}
                       className="w-32 h-32 rounded-full border-4 border-primary/20"
                     />
@@ -194,7 +195,7 @@ const MarketPlayerDetailDialog = ({
                       </div>
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
-                        <span>{selectedPlayer.age} yrs</span>
+                        <span>{getPlayerAge(selectedPlayer.birthday)} yrs</span>
                       </div>
                       <div className="flex items-center">
                         <Footprints className="h-4 w-4 mr-2 text-muted-foreground" />
@@ -214,7 +215,10 @@ const MarketPlayerDetailDialog = ({
                       </div>
                       <div className="flex items-center">
                         <Trophy className="h-4 w-4 mr-2 text-muted-foreground" />
-                        <span>{selectedPlayer.internationalCaps} caps</span>
+                        <span>
+                          {selectedPlayer.nationalTeam?.internationalCaps || 0}{" "}
+                          caps
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -242,10 +246,9 @@ const MarketPlayerDetailDialog = ({
                             Morale:
                           </span>
                           <span
-                            className={`font-medium ${selectedPlayer.morale === "high" ? "text-green-500" : selectedPlayer.morale === "low" ? "text-red-500" : ""}`}
+                            className={`font-medium capitalize ${selectedPlayer.morale === "high" ? "text-green-500" : selectedPlayer.morale === "low" ? "text-red-500" : ""}`}
                           >
-                            {selectedPlayer.morale.charAt(0).toUpperCase() +
-                              selectedPlayer.morale.slice(1)}
+                            {selectedPlayer.morale}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
@@ -413,16 +416,6 @@ const MarketPlayerDetailDialog = ({
           )}
         </AlertDialogContent>
       </AlertDialog>
-      {/* <ConfirmPurchasePlayerDialog
-        isPossibleToPurchase={isPossibleToPurchase}
-        player={player}
-        userBudget={userBudget}
-        purchasePlayer={purchasePlayer}
-      >
-        <Button size="icon" className="w-8 h-8">
-          <ShoppingCart className="h-4 w-4" />
-        </Button>
-      </ConfirmPurchasePlayerDialog> */}
     </>
   );
 };

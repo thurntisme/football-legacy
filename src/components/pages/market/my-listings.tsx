@@ -26,37 +26,27 @@ export default function MyListings() {
   const [dialogAction, setDialogAction] = useState<"remove" | "edit">("remove");
 
   const {
-    data: playerData,
+    data: players,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["market-players"],
+    queryKey: ["my-market-players"],
     queryFn: async () => {
       const res = await internalApi.get("/market/list");
-      return res.data;
+      return res.data?.data || [];
     },
   });
 
-  // Sample player data
-  const [players, setPlayers] = useState<Player[]>(
-    playerData.map((player: Player) => {
-      const status: Array<
-        "listed" | "transfer-listed" | "loan-listed" | "not-listed"
-      > = ["listed", "transfer-listed", "loan-listed", "not-listed"];
-      const randomStatus = status[Math.floor(Math.random() * status.length)];
-      return {
-        ...player,
-        transferStatus: player.transferStatus || randomStatus,
-      };
-    }),
-  );
-
-  const transferListedPlayers = players.filter(
-    (player) => player.transferStatus === "transfer-listed",
-  );
-  const loanListedPlayers = players.filter(
-    (player) => player.transferStatus === "loan-listed",
-  );
+  const transferListedPlayers = players
+    ? players.filter(
+        (player: Player) => player.transferStatus === "transfer-listed",
+      )
+    : [];
+  const loanListedPlayers = players
+    ? players.filter(
+        (player: Player) => player.transferStatus === "loan-listed",
+      )
+    : [];
 
   const handleRemoveFromList = (player: Player) => {
     setSelectedPlayer(player);
@@ -66,13 +56,6 @@ export default function MyListings() {
 
   const confirmRemoveFromList = () => {
     if (selectedPlayer) {
-      setPlayers(
-        players.map((p) =>
-          p.id === selectedPlayer.id
-            ? { ...p, transferStatus: "not-listed" }
-            : p,
-        ),
-      );
       toast({
         title: "Player removed from listings",
         description: `${selectedPlayer.name} has been removed from your listings.`,
