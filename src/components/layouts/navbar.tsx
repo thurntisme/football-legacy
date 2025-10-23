@@ -1,5 +1,6 @@
 "use client";
 
+import ConfirmDialog from "../common/confirm-dialog";
 import { ThemeToggle } from "../common/theme-toggle";
 
 import { LogOut, Menu, Trophy } from "lucide-react";
@@ -20,6 +21,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { navItems, userItems } from "@/constants/nav-items";
 import { FOOTBALL_PATH, FOOTBALL_STATS_URL } from "@/constants/site";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { toast } from "@/hooks/use-toast";
+import { internalApi } from "@/lib/api/internal";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -27,7 +30,23 @@ export default function Navbar() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    router.push(`${FOOTBALL_STATS_URL}/auth/signin`);
+    try {
+      const res = await internalApi.post("/auth/logout");
+
+      if (res.data.success) {
+        toast({
+          title: "Success",
+          description: "You have been logged out successfully.",
+        });
+
+        router.push(`${FOOTBALL_STATS_URL}/auth/signin`);
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again later.",
+      });
+    }
   };
 
   return (
@@ -216,13 +235,12 @@ export default function Navbar() {
               ))}
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <span
-                  className="flex items-center cursor-pointer"
-                  onClick={handleLogout}
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </span>
+                <ConfirmDialog title="Confirm Logout" onConfirm={handleLogout}>
+                  <span className="flex items-center cursor-pointer px-2 py-1.5">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </span>
+                </ConfirmDialog>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
