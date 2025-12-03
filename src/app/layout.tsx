@@ -5,6 +5,8 @@ import { Inter } from "next/font/google";
 import "@/app/custom.css";
 import "@/app/globals.css";
 import Layout from "@/components/layouts/dashboard";
+import { AuthInitializer } from "@/components/providers/AuthInitializer";
+import { ReduxProvider } from "@/components/providers/ReduxProvider";
 import { APP_DESCRIPTION, APP_NAME } from "@/constants/site";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,7 +28,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <Layout>{children}</Layout>
+        <ReduxProvider>
+          <AuthInitializer>
+            <Layout>{children}</Layout>
+          </AuthInitializer>
+        </ReduxProvider>
       </body>
     </html>
   );

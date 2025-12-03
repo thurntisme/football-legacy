@@ -24,9 +24,12 @@ export async function POST(req: Request) {
 
     cookies().set("token", createGuestToken());
 
+    // Return user data without password
+    const { password: _, ...userWithoutPassword } = GUEST_USER;
+
     return NextResponse.json({
       message: "Login successful",
-      user: GUEST_USER,
+      user: userWithoutPassword,
       success: true,
     });
   } catch (error) {
