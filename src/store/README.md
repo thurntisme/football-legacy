@@ -57,12 +57,13 @@ const { user, isAuthenticated, isLoading, error } = useAppSelector(
 );
 ```
 
-### 4. Use Auth Hook
+### 4. Use Auth Hook (Shorthand)
 
 ```tsx
 import { useAuth } from "@/hooks/useAuth";
 
-const { user, isAuthenticated, isLoading } = useAuth();
+// Shorthand for useAppSelector((state) => state.auth)
+const { user, isAuthenticated, isLoading, error } = useAuth();
 ```
 
 ## Components

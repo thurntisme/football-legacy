@@ -20,7 +20,7 @@ Redux authentication has been successfully implemented in your Next.js app.
    - `AuthInitializer` - Auto-checks authentication on app load
 
 4. **Hooks** (`src/hooks/`)
-   - `useAuth` - Custom hook to access auth state and auto-check authentication
+   - `useAuth` - Shorthand hook to access auth state from Redux
 
 5. **API Routes** (Updated)
    - `POST /api/auth/login` - Login endpoint (returns user without password)
