@@ -18,8 +18,7 @@ export function AuthInitializer({ children }: { children: React.ReactNode }) {
       // Skip auth check on public pages
       const isPublicPage =
         pathname === "/" ||
-        pathname?.startsWith("/auth/") ||
-        pathname?.startsWith("/welcome");
+        pathname?.startsWith("/auth/");
 
       if (isPublicPage) {
         setIsChecking(false);

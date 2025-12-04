@@ -3,7 +3,6 @@
 import React from "react";
 import { useState } from "react";
 
-
 import {
   AlertCircle,
   Github,
@@ -33,7 +32,6 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
-import { api } from "@/lib/api";
 import { internalApi } from "@/lib/api/internal";
 
 export default function SignInPage() {
@@ -66,7 +64,8 @@ export default function SignInPage() {
           description: "Welcome back to Football Manager!",
         });
 
-        router.push(`${FOOTBALL_STATS_URL}/welcome`);
+        // Redirect to dashboard or welcome page
+        router.push("/welcome");
       } else {
         setError(res.data.message || "Sign in failed");
       }

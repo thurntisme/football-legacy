@@ -16,13 +16,16 @@ export async function POST(req: Request) {
     }
 
     // Call external API for authentication
-    const { data, ok, status } = await externalApi.post<{
-      token?: string;
-      user: any;
-      message?: string;
+    const { data, status } = await externalApi.post<{
+      message: string;
+      success: boolean;
+      data: {
+        token?: string;
+        user: any;
+      }
     }>("login", { email, password });
 
-    if (!ok) {
+    if (!data.success) {
       return NextResponse.json(
         { message: data.message || "Invalid credentials.", success: false },
         { status },
@@ -30,8 +33,8 @@ export async function POST(req: Request) {
     }
 
     // Set token from external API response
-    if (data.token) {
-      cookies().set("token", data.token, {
+    if (data.data.token) {
+      cookies().set("token", data.data.token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
@@ -41,7 +44,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       message: data.message || "Login successful",
-      user: data.user,
+      user: data.data.user,
       success: true,
     });
   } catch (error) {

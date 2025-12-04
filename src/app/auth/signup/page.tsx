@@ -25,10 +25,11 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
+import { internalApi } from "@/lib/api/internal";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const [name, setName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -41,36 +42,56 @@ export default function SignUpPage() {
     setIsLoading(true);
     setError(null);
 
-    // Simulate API call
     try {
-      // In a real app, this would be an API call to register
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Basic validation
-      if (!name || !email || !password) {
-        throw new Error("Please fill in all required fields");
+      // Client-side validation
+      if (!fullName || !email || !password) {
+        setError("Please fill in all required fields");
+        setIsLoading(false);
+        return;
       }
 
       if (password !== confirmPassword) {
-        throw new Error("Passwords do not match");
+        setError("Passwords do not match");
+        setIsLoading(false);
+        return;
+      }
+
+      if (password.length < 8) {
+        setError("Password must be at least 8 characters long");
+        setIsLoading(false);
+        return;
       }
 
       if (!acceptTerms) {
-        throw new Error("You must accept the terms and conditions");
+        setError("You must accept the terms and conditions");
+        setIsLoading(false);
+        return;
       }
 
-      // Success - in a real app, this would create a user account
-      toast({
-        title: "Account created successfully",
-        description: "Please check your email to verify your account",
+      // Call register API
+      const res = await internalApi.post("/api/auth/register", {
+        full_name: fullName,
+        email,
+        password,
       });
 
-      // Redirect to verification page
-      router.push("/auth/verify-email?email=" + encodeURIComponent(email));
+      if (res.data.success) {
+        toast({
+          title: "Account created successfully",
+          description: "Welcome to Football Manager!",
+        });
+
+        // Redirect to welcome page or dashboard
+        router.push("/welcome");
+      } else {
+        setError(res.data.message || "Registration failed");
+      }
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An error occurred during sign up",
-      );
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An error occurred during sign up");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -114,16 +135,16 @@ export default function SignUpPage() {
 
                   <form onSubmit={handleSignUp} className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Full Name</Label>
+                      <Label htmlFor="full_name">Full Name</Label>
                       <div className="relative">
                         <User className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
-                          id="name"
+                          id="full_name"
                           type="text"
                           placeholder="John Doe"
                           className="pl-8"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
                           required
                         />
                       </div>
