@@ -31,6 +31,24 @@ Redux authentication has been successfully implemented in your Next.js app.
    - Redux Provider added
    - AuthInitializer automatically checks authentication on app load
 
+## Environment Setup
+
+Before using the authentication, set up your environment variables:
+
+1. Copy the example file:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. Update `.env.local`:
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:3000
+   ```
+
+3. Restart the dev server if it's running
+
+See `ENV_SETUP.md` for detailed configuration options.
+
 ## Quick Start
 
 ### Using the Login Form

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
 
+import { apiClient } from "@/lib/api/api";
 import { User } from "@/types/user";
 
 interface AuthState {
@@ -25,12 +25,15 @@ export const login = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      const response = await axios.post("/api/auth/login", credentials);
-      return response.data;
+      const response = await apiClient.post("/api/auth/login", credentials);
+      if (!response.ok) {
+        const error = await response.json();
+        return rejectWithValue(error.message || "Login failed");
+      }
+      const data = await response.json();
+      return data;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Login failed",
-      );
+      return rejectWithValue(error.message || "Login failed");
     }
   },
 );
@@ -39,12 +42,14 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      await axios.post("/api/auth/logout");
+      const response = await apiClient.post("/api/auth/logout");
+      if (!response.ok) {
+        const error = await response.json();
+        return rejectWithValue(error.message || "Logout failed");
+      }
       return null;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Logout failed",
-      );
+      return rejectWithValue(error.message || "Logout failed");
     }
   },
 );

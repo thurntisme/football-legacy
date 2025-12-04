@@ -3,7 +3,7 @@
 import React from "react";
 import { useState } from "react";
 
-import { AxiosError } from "axios";
+
 import {
   AlertCircle,
   Github,
@@ -33,6 +33,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
+import { api } from "@/lib/api";
 import { internalApi } from "@/lib/api/internal";
 
 export default function SignInPage() {
@@ -47,13 +48,14 @@ export default function SignInPage() {
     setIsLoading(true);
     setError(null);
 
-    // Simulate API call
     try {
       if (!email || !password) {
         setError("Please enter both email and password");
+        setIsLoading(false);
+        return;
       }
 
-      const res = await internalApi.post("/auth/login", {
+      const res = await internalApi.post("/api/auth/login", {
         email,
         password,
       });
@@ -65,11 +67,11 @@ export default function SignInPage() {
         });
 
         router.push(`${FOOTBALL_STATS_URL}/welcome`);
+      } else {
+        setError(res.data.message || "Sign in failed");
       }
     } catch (err) {
-      if (err instanceof AxiosError) {
-        setError(err.response?.data?.message || "Axios error occurred");
-      } else if (err instanceof Error) {
+      if (err instanceof Error) {
         setError(err.message);
       } else {
         setError("An unknown error occurred during sign in");

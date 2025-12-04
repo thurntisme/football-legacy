@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { GUEST_USER, createGuestToken } from "@/constants/guest-user";
+import { externalApi } from "@/lib/api/externalApi";
 
 export async function POST(req: Request) {
   try {
@@ -15,24 +15,37 @@ export async function POST(req: Request) {
       );
     }
 
-    if (email !== GUEST_USER.email || password !== GUEST_USER.password) {
+    // Call external API for authentication
+    const { data, ok, status } = await externalApi.post<{
+      token?: string;
+      user: any;
+      message?: string;
+    }>("login", { email, password });
+
+    if (!ok) {
       return NextResponse.json(
-        { message: "Invalid credentials.", success: false },
-        { status: 401 },
+        { message: data.message || "Invalid credentials.", success: false },
+        { status },
       );
     }
 
-    cookies().set("token", createGuestToken());
-
-    // Return user data without password
-    const { password: _, ...userWithoutPassword } = GUEST_USER;
+    // Set token from external API response
+    if (data.token) {
+      cookies().set("token", data.token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24, // 24 hours
+      });
+    }
 
     return NextResponse.json({
-      message: "Login successful",
-      user: userWithoutPassword,
+      message: data.message || "Login successful",
+      user: data.user,
       success: true,
     });
   } catch (error) {
+    console.error("Login error:", error);
     return NextResponse.json(
       { message: "Something went wrong.", success: false },
       { status: 500 },

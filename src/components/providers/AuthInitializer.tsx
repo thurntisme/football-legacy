@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { apiClient } from "@/lib/api/api";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setUser } from "@/store/slices/authSlice";
 
@@ -32,7 +33,7 @@ export function AuthInitializer({ children }: { children: React.ReactNode }) {
       }
 
       try {
-        const response = await fetch("/api/auth/me");
+        const response = await apiClient.get("/api/auth/me");
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.user) {

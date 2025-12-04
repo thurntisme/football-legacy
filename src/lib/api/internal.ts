@@ -1,6 +1,10 @@
-import { createInternalApiClient } from "./internalClient";
+// Internal API client (alias for backward compatibility)
+// This file provides the 'internalApi' export that many components are using
 
-export const internalApi = createInternalApiClient({
-  baseURL:
-    process.env.NEXT_INTERNAL_API_BASE_URL || "http://localhost:3000/api",
-});
+import { apiClient, getInternalApiUrl, INTERNAL_API_URL } from "./api";
+
+// Export as internalApi for backward compatibility
+export const internalApi = apiClient;
+
+// Re-export other utilities
+export { getInternalApiUrl, INTERNAL_API_URL };
