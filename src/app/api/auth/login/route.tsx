@@ -44,7 +44,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       message: data.message || "Login successful",
-      user: data.data.user,
       success: true,
     });
   } catch (error) {

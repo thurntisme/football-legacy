@@ -81,8 +81,8 @@ export default function SignUpPage() {
           description: "Welcome to Football Manager!",
         });
 
-        // Redirect to welcome page or dashboard
-        router.push("/welcome");
+        // Redirect to signin page
+        router.push("/auth/signin");
       } else {
         setError(res.data.message || "Registration failed");
       }
