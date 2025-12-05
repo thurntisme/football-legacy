@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import AvailableSlots from "@/components/pages/welcome/available-slots";
 import QuickTips from "@/components/pages/welcome/quick-tips";
 import ServerInfo from "@/components/pages/welcome/server-info";
 import TeamGrid from "@/components/pages/welcome/team-grid";
+import { apiClient } from "@/lib/api/api";
 
 interface Team {
   id: string;
@@ -16,6 +17,15 @@ interface Team {
   createdDate: string;
   level: number;
   squadValue: number;
+}
+
+interface Server {
+  id: string;
+  name: string;
+  region: string;
+  status: string;
+  players?: number;
+  [key: string]: any;
 }
 
 export default function WelcomePage() {
@@ -41,6 +51,31 @@ export default function WelcomePage() {
       squadValue: 5000000,
     },
   ]);
+  const [servers, setServers] = useState<Server[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchServers = async () => {
+      try {
+        setLoading(true);
+        const response = await apiClient.get("/api/servers");
+        
+        if (response.data.success) {
+          setServers(response.data.servers || []);
+        } else {
+          setError(response.data.message || "Failed to load servers");
+        }
+      } catch (err) {
+        console.error("Error fetching servers:", err);
+        setError("Failed to load servers");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServers();
+  }, []);
 
   const availableSlots = 3 - teams.length;
 
@@ -66,7 +101,7 @@ export default function WelcomePage() {
         setTeams={setTeams}
       />
 
-      <ServerInfo />
+      <ServerInfo servers={servers} loading={loading} error={error} />
 
       <QuickTips />
     </div>

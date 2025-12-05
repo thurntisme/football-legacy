@@ -37,21 +37,21 @@ export const SERVERS = [
     name: "EU-1",
     region: "Europe",
     status: "Optimal",
-    players: 15420,
+    capacity: 15420,
   },
   {
     id: "us-1",
     name: "US-1",
     region: "North America",
     status: "Good",
-    players: 12850,
+    capacity: 12850,
   },
   {
     id: "asia-1",
     name: "ASIA-1",
     region: "Asia",
     status: "Good",
-    players: 9230,
+    capacity: 9230,
   },
 ];
 
