@@ -14,12 +14,15 @@ export async function GET() {
       );
     }
 
-    // Call external API to get user data
-    // Note: externalApi automatically includes the token from cookies
+    // Call external API to get user data with token in Authorization header
     const { data, ok, status } = await externalApi.get<{
       user?: any;
       [key: string]: any;
-    }>("auth/me");
+    }>("me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!ok) {
       return NextResponse.json(
@@ -29,8 +32,9 @@ export async function GET() {
     }
 
     return NextResponse.json({
-      user: data.user || data,
-      success: true,
+      user: data ? {...data.data} : {},
+      success: data.success || true,
+      message: "User fetched successfully.",
     });
   } catch (error) {
     console.error("Get user error:", error);

@@ -26,12 +26,11 @@ export const login = createAsyncThunk(
   ) => {
     try {
       const response = await apiClient.post("/api/auth/login", credentials);
-      if (!response.ok) {
-        const error = await response.json();
-        return rejectWithValue(error.message || "Login failed");
+      // Axios returns data directly in response.data
+      if (!response.data.success) {
+        return rejectWithValue(response.data.message || "Login failed");
       }
-      const data = await response.json();
-      return data;
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message || "Login failed");
     }
@@ -43,9 +42,9 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await apiClient.post("/api/auth/logout");
-      if (!response.ok) {
-        const error = await response.json();
-        return rejectWithValue(error.message || "Logout failed");
+      // Axios returns data directly in response.data
+      if (!response.data.success) {
+        return rejectWithValue(response.data.message || "Logout failed");
       }
       return null;
     } catch (error: any) {

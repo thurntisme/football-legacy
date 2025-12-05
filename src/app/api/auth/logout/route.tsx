@@ -10,8 +10,11 @@ export async function POST(req: Request) {
     // Call external API to invalidate token (if your backend supports it)
     if (token) {
       try {
-        // externalApi automatically includes the token from cookies
-        await externalApi.post("auth/logout");
+        await externalApi.post("auth/logout", undefined, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       } catch (error) {
         // Continue even if external logout fails
         console.error("External logout error:", error);

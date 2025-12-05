@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 // Internal API configuration (Next.js API routes)
 export const INTERNAL_API_URL =
@@ -10,7 +10,7 @@ const internalAxios = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // Include cookies
+  withCredentials: true, // Include cookies - they will be sent automatically
 });
 
 // Helper function to build internal API endpoint URLs

@@ -33,13 +33,9 @@ export function AuthInitializer({ children }: { children: React.ReactNode }) {
 
       try {
         const response = await apiClient.get("/api/auth/me");
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.user) {
-            dispatch(setUser(data.user));
-          } else {
-            dispatch(setUser(null));
-          }
+        // Axios returns data directly in response.data
+        if (response.data.success && response.data.user) {
+          dispatch(setUser(response.data.user));
         } else {
           dispatch(setUser(null));
         }

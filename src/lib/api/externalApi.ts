@@ -6,14 +6,6 @@ export const EXTERNAL_API_URL =
 
 export const API_GATEWAY_KEY = process.env.NEXT_PUBLIC_API_GATEWAY_KEY || "";
 
-// Get auth token from cookies (client-side)
-function getAuthToken(): string | null {
-  if (typeof document === "undefined") return null;
-  const cookies = document.cookie.split(";");
-  const tokenCookie = cookies.find((c) => c.trim().startsWith("token="));
-  return tokenCookie ? tokenCookie.split("=")[1] : null;
-}
-
 // Create axios instance for external API
 const externalAxios = axios.create({
   baseURL: EXTERNAL_API_URL,
@@ -23,18 +15,12 @@ const externalAxios = axios.create({
   withCredentials: true,
 });
 
-// Request interceptor to add auth token and API key
+// Request interceptor to add API key
 externalAxios.interceptors.request.use(
   (config) => {
     // Add API Gateway key if available
     if (API_GATEWAY_KEY) {
       config.headers["X-API-Key"] = API_GATEWAY_KEY;
-    }
-
-    // Add auth token if available
-    const token = getAuthToken();
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
     }
 
     return config;
@@ -208,15 +194,6 @@ export class ExternalApiClient {
           : {}),
       },
       withCredentials: true,
-    });
-
-    // Add token interceptor
-    this.axios.interceptors.request.use((config) => {
-      const token = getAuthToken();
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
-      }
-      return config;
     });
   }
 
