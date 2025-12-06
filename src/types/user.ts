@@ -5,6 +5,7 @@ export type User = {
   password: string;
   avatar: string;
   plan: string;
+  plan_features?: string[];
   createdAt: Date;
   updatedAt: Date;
 
