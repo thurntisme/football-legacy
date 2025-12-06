@@ -7,73 +7,57 @@ import QuickTips from "@/components/pages/welcome/quick-tips";
 import ServerInfo from "@/components/pages/welcome/server-info";
 import TeamGrid from "@/components/pages/welcome/team-grid";
 import { apiClient } from "@/lib/api/api";
+import { Club, Server } from "@/types/club";
 
-interface Team {
-  id: string;
-  name: string;
-  server: string;
-  region: string;
-  squadSize: number;
-  createdDate: string;
-  level: number;
-  squadValue: number;
-}
-
-interface Server {
-  id: string;
-  name: string;
-  region: string;
-  status: string;
-  players?: number;
-  [key: string]: any;
-}
 
 export default function WelcomePage() {
-  const [teams, setTeams] = useState<Team[]>([
-    {
-      id: "1",
-      name: "Manchester City",
-      server: "EU-1",
-      region: "Europe",
-      squadSize: 25,
-      createdDate: "2024-01-15",
-      level: 12,
-      squadValue: 8000000,
-    },
-    {
-      id: "2",
-      name: "Liverpool FC",
-      server: "EU-1",
-      region: "Europe",
-      squadSize: 23,
-      createdDate: "2024-02-10",
-      level: 10,
-      squadValue: 5000000,
-    },
-  ]);
+  const [teams, setTeams] = useState<Club[]>([]);
   const [servers, setServers] = useState<Server[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loadingTeams, setLoadingTeams] = useState(true);
+  const [loadingServers, setLoadingServers] = useState(true);
+  const [teamsError, setTeamsError] = useState<string | null>(null);
+  const [serversError, setServersError] = useState<string | null>(null);
+
+  const fetchClubs = async () => {
+    try {
+      setLoadingTeams(true);
+      setTeamsError(null);
+      const clubsResponse = await apiClient.get("/api/clubs");
+      
+      if (clubsResponse.data.success) {
+        setTeams(clubsResponse.data.clubs || []);
+      } else {
+        setTeamsError(clubsResponse.data.message || "Failed to load clubs");
+      }
+    } catch (err) {
+      console.error("Error fetching clubs:", err);
+      setTeamsError("Failed to load clubs");
+    } finally {
+      setLoadingTeams(false);
+    }
+  };
+
+  const fetchServers = async () => {
+    try {
+      setLoadingServers(true);
+      setServersError(null);
+      const serversResponse = await apiClient.get("/api/servers");
+      
+      if (serversResponse.data.success) {
+        setServers(serversResponse.data.servers || []);
+      } else {
+        setServersError(serversResponse.data.message || "Failed to load servers");
+      }
+    } catch (err) {
+      console.error("Error fetching servers:", err);
+      setServersError("Failed to load servers");
+    } finally {
+      setLoadingServers(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchServers = async () => {
-      try {
-        setLoading(true);
-        const response = await apiClient.get("/api/servers");
-        
-        if (response.data.success) {
-          setServers(response.data.servers || []);
-        } else {
-          setError(response.data.message || "Failed to load servers");
-        }
-      } catch (err) {
-        console.error("Error fetching servers:", err);
-        setError("Failed to load servers");
-      } finally {
-        setLoading(false);
-      }
-    };
-
+    fetchClubs();
     fetchServers();
   }, []);
 
@@ -98,10 +82,13 @@ export default function WelcomePage() {
       <TeamGrid
         teams={teams}
         availableSlots={availableSlots}
-        setTeams={setTeams}
+        loading={loadingTeams}
+        error={teamsError}
+        servers={servers}
+        onRefreshTeams={fetchClubs}
       />
 
-      <ServerInfo servers={servers} loading={loading} error={error} />
+      <ServerInfo servers={servers} loading={loadingServers} error={serversError} />
 
       <QuickTips />
     </div>

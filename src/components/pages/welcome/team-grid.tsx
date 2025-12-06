@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Plus } from "lucide-react";
+import { Plus, Loader2, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -28,29 +28,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SERVERS } from "@/constants/common";
-import { FOOTBALL_STATS_URL } from "@/constants/site";
 import { toast } from "@/hooks/use-toast";
-import { formatCurrency } from "@/lib/finance";
-
-interface Team {
-  id: string;
-  name: string;
-  server: string;
-  region: string;
-  squadSize: number;
-  createdDate: string;
-  level: number;
-  squadValue: number;
-}
+import { apiClient } from "@/lib/api/api";
+import { Club, Server } from "@/types/club";
 
 type Props = {
-  teams: Team[];
+  teams: Club[];
   availableSlots: number;
-  setTeams: React.Dispatch<React.SetStateAction<Team[]>>;
+  loading?: boolean;
+  error?: string | null;
+  servers?: Server[];
+  onRefreshTeams?: () => Promise<void>;
 };
 
-const TeamGrid = ({ teams, availableSlots, setTeams }: Props) => {
+const TeamGrid = ({ teams, availableSlots, loading, error, servers = [], onRefreshTeams }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
   const [newTeamServer, setNewTeamServer] = useState("");
@@ -78,42 +69,107 @@ const TeamGrid = ({ teams, availableSlots, setTeams }: Props) => {
 
     setIsCreating(true);
 
-    setTimeout(() => {
-      const newTeam: Team = {
-        id: String(teams.length + 1),
+    try {
+      const response = await apiClient.post("/api/clubs", {
+        server_id: newTeamServer,
         name: newTeamName,
-        server: newTeamServer,
-        region:
-          SERVERS.find((s) => s.id === newTeamServer)?.region || "Unknown",
-        squadSize: 0,
-        createdDate: new Date().toISOString().split("T")[0],
-        level: 1,
-        squadValue: 0,
-      };
-
-      setTeams([...teams, newTeam]);
-      setNewTeamName("");
-      setNewTeamServer("");
-      setIsCreating(false);
-      setDialogOpen(false);
-
-      toast({
-        title: "Success!",
-        description: `Team "${newTeamName}" created successfully!`,
       });
-    }, 1500);
+
+      if (response.data.success) {
+        // Reset form
+        setNewTeamName("");
+        setNewTeamServer("");
+        setDialogOpen(false);
+
+        toast({
+          title: "Success!",
+          description: response.data.message || `Team "${newTeamName}" created successfully!`,
+        });
+
+        // Refresh the clubs list from API
+        if (onRefreshTeams) {
+          await onRefreshTeams();
+        }
+      } else {
+        toast({
+          title: "Error",
+          description: response.data.message || "Failed to create team",
+          variant: "destructive",
+        });
+      }
+    } catch (err: any) {
+      console.error("Error creating team:", err);
+      toast({
+        title: "Error",
+        description: err.response?.data?.message || "Failed to create team",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCreating(false);
+    }
   };
 
-  const handleSelectTeam = (teamId: string) => {
-    router.push(`${FOOTBALL_STATS_URL}/dashboard`);
+  const [switchingTeamId, setSwitchingTeamId] = useState<string | null>(null);
+
+  const handleSelectTeam = async (teamId: string) => {
+    setSwitchingTeamId(teamId);
+
+    try {
+      const response = await apiClient.post(`/api/clubs/${teamId}/switch`);
+
+      if (response.data.success) {
+        toast({
+          title: "Success!",
+          description: response.data.message || "Club switched successfully",
+        });
+
+        // Redirect to dashboard
+        router.push("/dashboard");
+      } else {
+        toast({
+          title: "Error",
+          description: response.data.message || "Failed to switch club",
+          variant: "destructive",
+        });
+        setSwitchingTeamId(null);
+      }
+    } catch (err: any) {
+      console.error("Error switching club:", err);
+      toast({
+        title: "Error",
+        description: err.response?.data?.message || "Failed to switch club",
+        variant: "destructive",
+      });
+      setSwitchingTeamId(null);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12 mb-12">
+        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <span className="ml-2 text-gray-600">Loading teams...</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center py-12 mb-12 text-red-600">
+        <AlertCircle className="h-5 w-5 mr-2" />
+        <span>{error}</span>
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
       {teams.map((team) => (
         <Card
           key={team.id}
-          className="bg-white border-gray-200 hover:border-gray-400 hover:shadow-lg transition-all cursor-pointer group"
+          className={`bg-white border-gray-200 hover:border-gray-400 hover:shadow-lg transition-all cursor-pointer group ${
+            switchingTeamId === team.id ? "opacity-50 pointer-events-none" : ""
+          }`}
           onClick={() => handleSelectTeam(team.id)}
         >
           <CardHeader>
@@ -121,7 +177,7 @@ const TeamGrid = ({ teams, availableSlots, setTeams }: Props) => {
               {team.name}
             </CardTitle>
             <CardDescription className="text-gray-600">
-              {team.region}
+              {team.budget}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -129,7 +185,7 @@ const TeamGrid = ({ teams, availableSlots, setTeams }: Props) => {
               <div>
                 <p className="text-xs text-gray-500">Server</p>
                 <p className="text-sm font-semibold text-gray-900">
-                  {team.server}
+                  {team.server.name}
                 </p>
               </div>
               <div>
@@ -138,7 +194,7 @@ const TeamGrid = ({ teams, availableSlots, setTeams }: Props) => {
                   {team.level}
                 </p>
               </div>
-              <div>
+              {/* <div>
                 <p className="text-xs text-gray-500">Squad Size</p>
                 <p className="text-sm font-semibold text-gray-900">
                   {team.squadSize}
@@ -149,10 +205,20 @@ const TeamGrid = ({ teams, availableSlots, setTeams }: Props) => {
                 <p className="text-sm font-semibold text-gray-900">
                   {formatCurrency(team.squadValue)}
                 </p>
-              </div>
+              </div> */}
             </div>
-            <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white">
-              Enter Dashboard
+            <Button 
+              className="w-full bg-gray-900 hover:bg-gray-800 text-white"
+              disabled={switchingTeamId === team.id}
+            >
+              {switchingTeamId === team.id ? (
+                <>
+                  <Loader2 className="animate-spin -ml-1 mr-2 h-4 w-4" />
+                  Switching...
+                </>
+              ) : (
+                "Enter Dashboard"
+              )}
             </Button>
           </CardContent>
         </Card>
@@ -203,48 +269,54 @@ const TeamGrid = ({ teams, availableSlots, setTeams }: Props) => {
                     <SelectValue placeholder="Select a server" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border-gray-200">
-                    {SERVERS.map((server) => (
-                      <SelectItem
-                        key={server.id}
-                        value={server.id}
-                        className="text-gray-900"
-                      >
-                        <div className="flex items-center gap-2">
-                          <span>{server.name}</span>
-                          <span className="text-xs text-gray-500">
-                            ({server.region})
-                          </span>
-                        </div>
-                      </SelectItem>
-                    ))}
+                    {servers.length > 0 ? (
+                      servers.map((server) => (
+                        <SelectItem
+                          key={server.id}
+                          value={server.id}
+                          className="text-gray-900"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span>{server.name}</span>
+                            <span className="text-xs text-gray-500">
+                              ({server.region})
+                            </span>
+                          </div>
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <div className="p-2 text-sm text-gray-500">
+                        Loading servers...
+                      </div>
+                    )}
                   </SelectContent>
                 </Select>
               </div>
 
-              {newTeamServer && (
+              {newTeamServer && servers.length > 0 && (
                 <Card className="bg-gray-50 border-gray-200">
                   <CardContent className="pt-4">
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-gray-600">Status:</span>
                         <span className="text-green-600 font-semibold">
-                          {SERVERS.find((s) => s.id === newTeamServer)?.status}
+                          {servers.find((s) => s.id === newTeamServer)?.status}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">Region:</span>
                         <span className="text-gray-900">
-                          {SERVERS.find((s) => s.id === newTeamServer)?.region}
+                          {servers.find((s) => s.id === newTeamServer)?.region}
                         </span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Active Players:</span>
-                        <span className="text-gray-900">
-                          {SERVERS.find(
-                            (s) => s.id === newTeamServer,
-                          )?.players.toLocaleString()}
-                        </span>
-                      </div>
+                      {servers.find((s) => s.id === newTeamServer)?.capacity && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Capacity:</span>
+                          <span className="text-gray-900">
+                            {servers.find((s) => s.id === newTeamServer)?.capacity?.toLocaleString()}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>

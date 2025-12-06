@@ -1,5 +1,25 @@
 import React from "react";
 
+export interface Club {
+  id: string;
+  name: string;
+  server: Server;
+  squadSize: number;
+  createdDate: string;
+  level: number;
+  squadValue: number;
+  budget: number;
+}
+
+export interface Server {
+  id: string;
+  name: string;
+  region: string;
+  status: string;
+  capacity?: number;
+  [key: string]: any;
+}
+
 export type HistoricalEvent = {
   id: number;
   year: number;
