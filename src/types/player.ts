@@ -87,28 +87,28 @@ type PlayerAttributes = {
 
   // 🎯 Technical Skills
   dribbling: number; // Ball control while moving
-  ballControl: number; // First touch and control of the ball
+  ball_control: number; // First touch and control of the ball
   crossing: number; // Accuracy and power of crosses
   shooting: number; // General shooting accuracy and power
-  longShots: number; // Shooting ability from long distance
+  long_shots: number; // Shooting ability from long distance
   reactions: number; // Response time to situations (second ball, rebounds)
   heading: number; // Accuracy and power of headers
   tackling: number; // Ability to win the ball through tackles
   defending: number; // Overall defensive awareness and positioning
   finishing: number; // Accuracy in front of goal
-  shortPassing: number; // Accuracy in short passes
-  longPassing: number; // Accuracy and vision in long passes
-  powerShots: number; // Power and technique in powerful shots
-  setPieces: number; // Ability to take free kicks, corners, and penalties
+  short_passing: number; // Accuracy in short passes
+  long_passing: number; // Accuracy and vision in long passes
+  power_shots: number; // Power and technique in powerful shots
+  set_pieces: number; // Ability to take free kicks, corners, and penalties
 
   // 🧠 Mental Attributes
   vision: number; // Ability to see and execute creative passes
   positioning: number; // Off-the-ball movement / defensive positioning
   anticipation: number; // Ability to predict opponent’s actions
-  decisionMaking: number; // Choosing the right option under pressure
+  decision_making: number; // Choosing the right option under pressure
   composure: number; // Calmness and control under pressure
   concentration: number; // Focus throughout the match
-  workRate: number; // Effort level, both offensively and defensively
+  work_rate: number; // Effort level, both offensively and defensively
   leadership: number; // Influence and command on the pitch
   flair: number; // Creativity and willingness to attempt unique plays
   creativity: number; // Ability to create chances from nothing
@@ -118,9 +118,9 @@ type PlayerAttributes = {
   diving: number; // Ability to dive and save shots
   handling: number; // Securely catching the ball, avoiding rebounds
   kicking: number; // Accuracy and distance of goal kicks
-  positioningGK: number; // Positioning when facing shots
-  oneOnOne: number; // Ability to stop attackers in 1v1 situations
-  commandOfArea: number; // Control of the penalty area (coming for crosses, directing defense)
+  positioning_gk: number; // Positioning when facing shots
+  one_on_one: number; // Ability to stop attackers in 1v1 situations
+  command_of_area: number; // Control of the penalty area (coming for crosses, directing defense)
 };
 
 export type Player = {

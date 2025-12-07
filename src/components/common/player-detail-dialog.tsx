@@ -29,6 +29,7 @@ export default function PlayerDetailDialog({
   onOpenChange,
 }: PlayerDetailDialogProps) {
   if (!player) return null;
+  console.log(player)
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -250,9 +251,9 @@ export default function PlayerDetailDialog({
                     <div className="text-sm text-muted-foreground">Assists</div>
                     <div className="text-2xl font-bold">
                       {player.position &&
-                      ["CAM", "CM", "LW", "RW", "RM", "LM"].includes(
-                        player.position,
-                      )
+                        ["CAM", "CM", "LW", "RW", "RM", "LM"].includes(
+                          player.position,
+                        )
                         ? Math.floor(Math.random() * 8) + 1
                         : Math.floor(Math.random() * 3)}
                     </div>
@@ -275,7 +276,7 @@ export default function PlayerDetailDialog({
                           <span className="text-sm font-medium">
                             {player.attributes &&
                               player.attributes[
-                                attr.key as keyof typeof player.attributes
+                              attr.key as keyof typeof player.attributes
                               ]}
                           </span>
                         </div>

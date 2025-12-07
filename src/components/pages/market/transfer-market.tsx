@@ -38,8 +38,8 @@ export default function TransferMarket() {
   } = useQuery({
     queryKey: ["market-players"],
     queryFn: async () => {
-      const res = await internalApi.get("/market/list");
-      return res.data?.data || [];
+      const res = await internalApi.get("/api/market/list");
+      return res.data?.players || [];
     },
   });
 
@@ -131,7 +131,7 @@ export default function TransferMarket() {
               {marketPlayers && marketPlayers.length > 0 ? (
                 marketPlayers.map((player: Player) => (
                   <MarketPlayer
-                    key={player.id}
+                    key={player.uuid}
                     player={player}
                     favorites={favorites}
                     selectedPlayer={selectedPlayer}
