@@ -1,7 +1,6 @@
 "use client";
 
 import PageTitle from "@/components/common/page-title";
-import LoanMarket from "@/components/pages/market/loan-market";
 import MyListings from "@/components/pages/market/my-listings";
 import TransferMarket from "@/components/pages/market/transfer-market";
 import TransferOverview from "@/components/pages/market/transfer-overview";
@@ -15,18 +14,13 @@ export default function MarketPage() {
       <TransferOverview />
 
       <Tabs defaultValue="browse" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="browse">Browse Market</TabsTrigger>
-          <TabsTrigger value="loan-market">Loan Market</TabsTrigger>
           <TabsTrigger value="my-listings">My Listings</TabsTrigger>
         </TabsList>
 
         <TabsContent value="browse">
           <TransferMarket />
-        </TabsContent>
-
-        <TabsContent value="loan-market">
-          <LoanMarket />
         </TabsContent>
 
         <TabsContent value="my-listings">

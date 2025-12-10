@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
       page?: number;
       limit?: number;
       [key: string]: any;
-    }>(`transfer/players?${queryParams.toString()}`, {
+    }>(`transfer/bid-players?${queryParams.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
