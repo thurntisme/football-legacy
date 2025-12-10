@@ -32,20 +32,20 @@ export default function MyListings() {
   } = useQuery({
     queryKey: ["my-market-players"],
     queryFn: async () => {
-      const res = await internalApi.get("/market/list");
-      return res.data?.data || [];
+      const res = await internalApi.get("/api/market/my-list");
+      return res.data?.players || res.data?.data || [];
     },
   });
 
   const transferListedPlayers = players
     ? players.filter(
-        (player: Player) => player.transferStatus === "transfer-listed",
-      )
+      (player: Player) => player.transferStatus === "transfer-listed",
+    )
     : [];
   const loanListedPlayers = players
     ? players.filter(
-        (player: Player) => player.transferStatus === "loan-listed",
-      )
+      (player: Player) => player.transferStatus === "loan-listed",
+    )
     : [];
 
   const handleRemoveFromList = (player: Player) => {
@@ -89,7 +89,7 @@ export default function MyListings() {
             <TabsContent value="transfer-listed">
               <MyListedPlayers
                 onRemoveFromList={handleRemoveFromList}
-                list={transferListedPlayers}
+                list={players || []}
               />
             </TabsContent>
 
