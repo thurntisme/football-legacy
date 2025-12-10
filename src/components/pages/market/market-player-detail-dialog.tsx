@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Calendar,
@@ -6,12 +6,12 @@ import {
   Footprints,
   Ruler,
   ShoppingCart,
-  Target,
   TrendingUp,
   Trophy,
   Users,
   Weight,
   X,
+  Loader2,
 } from "lucide-react";
 
 import {
@@ -27,12 +27,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/hooks/use-toast";
+import { apiClient } from "@/lib/api/api";
 import { formatCurrency } from "@/lib/finance";
 import { getPlayerAge } from "@/lib/player";
 import { Player } from "@/types/player";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 
-import ConfirmPurchasePlayerDialog from "./confirm-purchase-player-dialog";
+
 
 type Props = {
   player: Player;
@@ -51,50 +56,132 @@ const MarketPlayerDetailDialog = ({
   onSelectPlayer,
   purchasePlayer,
 }: Props) => {
-  const generatePurchaseReasons = (player: Player) => {
-    const reasons = [];
-    const playerAge = getPlayerAge(player.birthday);
+  const [bidAmount, setBidAmount] = useState<string>("0");
+  const [weeklyWage, setWeeklyWage] = useState<string>("0");
+  const [notes, setNotes] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bidWarning, setBidWarning] = useState("");
+  const [wageWarning, setWageWarning] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
-    if (playerAge < 24) {
-      reasons.push(
-        "Young player with high potential for growth and development",
-      );
+  useEffect(() => {
+    if (selectedPlayer) {
+      setBidAmount(selectedPlayer.marketValue.toString());
+      setWeeklyWage(selectedPlayer.salary.toString());
+    }
+  }, [selectedPlayer]);
+
+  const handleBidAmountChange = (value: string) => {
+    setBidAmount(value);
+    if (!selectedPlayer) return;
+
+    const bidAmountNum = parseFloat(value);
+    if (!isNaN(bidAmountNum) && bidAmountNum > 0) {
+      if (bidAmountNum < selectedPlayer.marketValue) {
+        setBidWarning(
+          `⚠️ Your bid is below market value (${formatCurrency(selectedPlayer.marketValue)}). This may be rejected.`
+        );
+      } else {
+        setBidWarning("");
+      }
+    } else {
+      setBidWarning("");
+    }
+  };
+
+  const handleWageChange = (value: string) => {
+    setWeeklyWage(value);
+    if (!selectedPlayer) return;
+
+    const weeklyWageNum = parseFloat(value);
+    if (!isNaN(weeklyWageNum) && weeklyWageNum > 0) {
+      if (weeklyWageNum < selectedPlayer.salary) {
+        setWageWarning(
+          `⚠️ Your offer is below current salary (${formatCurrency(selectedPlayer.salary)}). Player may reject.`
+        );
+      } else {
+        setWageWarning("");
+      }
+    } else {
+      setWageWarning("");
+    }
+  };
+
+  const handlePlaceBid = async () => {
+    if (!selectedPlayer) return;
+
+    if (!bidAmount || !weeklyWage) {
+      toast({
+        title: "Error",
+        description: "Please enter bid amount and weekly wage offer",
+        variant: "destructive",
+      });
+      return;
     }
 
-    if (player.rating >= 82) {
-      reasons.push(
-        "World-class ability that can immediately improve your squad",
-      );
+    const bidAmountNum = parseFloat(bidAmount);
+    const weeklyWageNum = parseFloat(weeklyWage);
+
+    if (isNaN(bidAmountNum) || bidAmountNum <= 0) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid bid amount",
+        variant: "destructive",
+      });
+      return;
     }
 
-    if (player.position === "ST" || player.position === "CF") {
-      reasons.push(
-        "Proven goalscorer who can provide consistent attacking threat",
-      );
-    } else if (player.position === "CAM" || player.position === "CM") {
-      reasons.push("Creative midfielder who can control the tempo of matches");
-    } else if (player.position === "CB") {
-      reasons.push("Solid defensive presence to strengthen your backline");
-    } else if (player.position === "GK") {
-      reasons.push("Reliable goalkeeper with excellent shot-stopping ability");
+    if (isNaN(weeklyWageNum) || weeklyWageNum <= 0) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid weekly wage offer",
+        variant: "destructive",
+      });
+      return;
     }
 
-    const marketValueRatio = player.marketValue / (player.rating * 500000);
-    if (marketValueRatio < 0.8) {
-      reasons.push("Excellent value for money compared to similar players");
+    setIsSubmitting(true);
+
+    try {
+      console.log(selectedPlayer)
+      const response = await apiClient.post("api/transfer/bids", {
+        player_instance_uuid: selectedPlayer.uuid,
+        club_id: selectedPlayer.clubId || 1,
+        bid_amount: bidAmountNum,
+        weekly_wage_offer: weeklyWageNum,
+        ...(notes && { notes }),
+      });
+
+      if (response.data.success) {
+        toast({
+          title: "Success!",
+          description: response.data.message || "Bid placed successfully",
+        });
+
+        // Reset form
+        setBidAmount("");
+        setWeeklyWage("");
+        setNotes("");
+
+        // Close the dialog
+        setIsOpen(false);
+      } else {
+        toast({
+          title: "Error",
+          description: response.data.message || "Failed to place bid",
+          variant: "destructive",
+        });
+      }
+    } catch (err: any) {
+      console.error("Error placing bid:", err);
+      toast({
+        title: "Error",
+        description: err.response?.data?.message || "Failed to place bid",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    if (playerAge >= 26 && playerAge <= 29) {
-      reasons.push("In prime playing years with peak performance expected");
-    }
-
-    reasons.push("Low injury history and excellent fitness record");
-
-    if (player.rating >= 80) {
-      reasons.push("Strong marketing potential to increase club revenue");
-    }
-
-    return reasons.slice(0, 4);
   };
 
   const CLUBS = [
@@ -135,11 +222,14 @@ const MarketPlayerDetailDialog = ({
   };
   return (
     <>
-      <AlertDialog>
+      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogTrigger asChild>
           <Button
             size="icon"
-            onClick={() => onSelectPlayer(player)}
+            onClick={() => {
+              onSelectPlayer(player);
+              setIsOpen(true);
+            }}
             className="w-8 h-8"
           >
             <ShoppingCart className="h-4 w-4" />
@@ -159,180 +249,6 @@ const MarketPlayerDetailDialog = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Left Column: Player Summary Info */}
                 <div className="space-y-6">
-                  <div className="flex justify-center">
-                    <img
-                      src={selectedPlayer.avatarUrl || "/placeholder.svg"}
-                      alt={selectedPlayer.name}
-                      className="w-32 h-32 rounded-full border-4 border-primary/20"
-                    />
-                  </div>
-                  <div className="text-center flex flex-col space-y-2">
-                    <h2 className="text-2xl font-bold">
-                      {selectedPlayer.name}
-                    </h2>
-                    <div className="text-center">
-                      <div className="flex flex-wrap justify-center gap-1 mt-1">
-                        {selectedPlayer.playablePositions.map((pos) => (
-                          <Badge
-                            key={pos}
-                            variant="outline"
-                            className={
-                              pos === selectedPlayer.position
-                                ? "border-primary"
-                                : ""
-                            }
-                          >
-                            {pos}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 md:w-[80%] mx-auto">
-                      <div className="flex items-center">
-                        <Flag className="h-4 w-4 mr-2 text-muted-foreground" />
-                        <span>{selectedPlayer.nationality}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
-                        <span>{getPlayerAge(selectedPlayer.birthday)} yrs</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Footprints className="h-4 w-4 mr-2 text-muted-foreground" />
-                        <span>
-                          {selectedPlayer.foot.charAt(0).toUpperCase() +
-                            selectedPlayer.foot.slice(1)}{" "}
-                          foot
-                        </span>
-                      </div>
-                      <div className="flex items-center">
-                        <Ruler className="h-4 w-4 mr-2 text-muted-foreground" />
-                        <span>{selectedPlayer.height} cm</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Weight className="h-4 w-4 mr-2 text-muted-foreground" />
-                        <span>{selectedPlayer.weight} kg</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Trophy className="h-4 w-4 mr-2 text-muted-foreground" />
-                        <span>
-                          {selectedPlayer.nationalTeam?.internationalCaps || 0}{" "}
-                          caps
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <Card className="w-full ">
-                    <CardContent className="p-4">
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">
-                            Personality:
-                          </span>
-                          <span className="font-medium">
-                            {selectedPlayer.personality}
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">
-                            Preferred Role:
-                          </span>
-                          <span className="font-medium">
-                            {selectedPlayer.preferredRole}
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">
-                            Morale:
-                          </span>
-                          <span
-                            className={`font-medium capitalize ${selectedPlayer.morale === "high" ? "text-green-500" : selectedPlayer.morale === "low" ? "text-red-500" : ""}`}
-                          >
-                            {selectedPlayer.morale}
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">
-                            Injury Prone:
-                          </span>
-                          <span
-                            className={`font-medium ${selectedPlayer.injuryProne ? "text-red-500" : "text-green-500"}`}
-                          >
-                            {selectedPlayer.injuryProne ? "Yes" : "No"}
-                          </span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-2 mb-4">
-                        <Target className="h-5 w-5 text-green-600" />
-                        <h3 className="font-semibold text-lg">
-                          Why Purchase This Player?
-                        </h3>
-                      </div>
-                      <ul className="space-y-3">
-                        {generatePurchaseReasons(selectedPlayer).map(
-                          (reason, index) => (
-                            <li key={index} className="flex items-start gap-2">
-                              <div className="w-1.5 h-1.5 rounded-full bg-green-600 mt-2 flex-shrink-0" />
-                              <span className="text-sm">{reason}</span>
-                            </li>
-                          ),
-                        )}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                {/* Right Column: Market Info */}
-                <div className="space-y-6">
-                  <Card className="bg-primary/5">
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-2 mb-4">
-                        <TrendingUp className="h-5 w-5 text-primary" />
-                        <h3 className="font-semibold text-lg">Market Value</h3>
-                      </div>
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-center">
-                          <span className="text-muted-foreground">
-                            Transfer Fee:
-                          </span>
-                          <span className="text-2xl font-bold text-primary">
-                            {formatCurrency(selectedPlayer.marketValue)}
-                          </span>
-                        </div>
-                        <Separator />
-                        <div className="flex justify-between items-center">
-                          <span className="text-muted-foreground">
-                            Weekly Salary:
-                          </span>
-                          <span className="font-semibold">
-                            {formatCurrency(selectedPlayer.salary)}
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-muted-foreground">
-                            Contract Length:
-                          </span>
-                          <span className="font-semibold">
-                            {Math.floor(Math.random() * 3) + 3} years
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-muted-foreground">
-                            Agent Fee:
-                          </span>
-                          <span className="font-semibold">
-                            {formatCurrency(selectedPlayer.salary)}
-                          </span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
                   <Card>
                     <CardContent className="p-4">
                       <div className="flex items-center gap-2 mb-4">
@@ -391,6 +307,136 @@ const MarketPlayerDetailDialog = ({
                       </div>
                     </CardContent>
                   </Card>
+
+                </div>
+
+                {/* Right Column: Market Info */}
+                <div className="space-y-6">
+
+                  <Card className="bg-primary/5">
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2 mb-4">
+                        <TrendingUp className="h-5 w-5 text-primary" />
+                        <h3 className="font-semibold text-lg">Market Value</h3>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-center">
+                          <span className="text-muted-foreground">
+                            Transfer Fee:
+                          </span>
+                          <span className="text-2xl font-bold text-primary">
+                            {formatCurrency(selectedPlayer.marketValue)}
+                          </span>
+                        </div>
+                        <Separator />
+                        <div className="flex justify-between items-center">
+                          <span className="text-muted-foreground">
+                            Weekly Salary:
+                          </span>
+                          <span className="font-semibold">
+                            {formatCurrency(selectedPlayer.salary)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-muted-foreground">
+                            Contract Length:
+                          </span>
+                          <span className="font-semibold">
+                            {Math.floor(Math.random() * 3) + 3} years
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-muted-foreground">
+                            Agent Fee:
+                          </span>
+                          <span className="font-semibold">
+                            {formatCurrency(selectedPlayer.salary)}
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-blue-50 dark:bg-blue-950/20">
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2 mb-4">
+                        <ShoppingCart className="h-5 w-5 text-blue-600" />
+                        <h3 className="font-semibold text-lg">Place Your Bid</h3>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="bid-amount">Bid Amount</Label>
+                          <Input
+                            id="bid-amount"
+                            type="number"
+                            placeholder="Enter bid amount"
+                            value={bidAmount}
+                            onChange={(e) => handleBidAmountChange(e.target.value)}
+                            disabled={isSubmitting}
+                          />
+                          <p className="text-xs text-muted-foreground">
+                            Market Value: {formatCurrency(selectedPlayer.marketValue)}
+                          </p>
+                          {bidWarning && (
+                            <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">
+                              {bidWarning}
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="weekly-wage">Weekly Wage Offer</Label>
+                          <Input
+                            id="weekly-wage"
+                            type="number"
+                            placeholder="Enter weekly wage offer"
+                            value={weeklyWage}
+                            onChange={(e) => handleWageChange(e.target.value)}
+                            disabled={isSubmitting}
+                          />
+                          <p className="text-xs text-muted-foreground">
+                            Current Salary: {formatCurrency(selectedPlayer.salary)}
+                          </p>
+                          {wageWarning && (
+                            <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">
+                              {wageWarning}
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="notes">Notes (Optional)</Label>
+                          <Textarea
+                            id="notes"
+                            placeholder="Add any notes about this bid..."
+                            value={notes}
+                            onChange={(e) => setNotes(e.target.value)}
+                            disabled={isSubmitting}
+                            rows={3}
+                          />
+                        </div>
+
+                        <Button
+                          onClick={handlePlaceBid}
+                          disabled={isSubmitting}
+                          className="w-full"
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <Loader2 className="animate-spin -ml-1 mr-2 h-4 w-4" />
+                              Placing Bid...
+                            </>
+                          ) : (
+                            <>
+                              <ShoppingCart className="h-4 w-4 mr-2" />
+                              Confirm Purchase
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
               </div>
               <AlertDialogFooter>
@@ -398,19 +444,6 @@ const MarketPlayerDetailDialog = ({
                   <X className="h-4 w-4" />
                   Close
                 </AlertDialogCancel>
-                {isPossibleToPurchase && (
-                  <ConfirmPurchasePlayerDialog
-                    isPossibleToPurchase={isPossibleToPurchase}
-                    player={player}
-                    userBudget={userBudget}
-                    purchasePlayer={purchasePlayer}
-                  >
-                    <Button size="icon" className="w-fit h-10 px-4 py-2">
-                      <ShoppingCart className="h-4 w-4" />
-                      Confirm Purchase
-                    </Button>
-                  </ConfirmPurchasePlayerDialog>
-                )}
               </AlertDialogFooter>
             </>
           )}
